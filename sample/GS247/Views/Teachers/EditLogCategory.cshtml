@@ -1,0 +1,48 @@
+﻿@model GS247.Models.Teachers.LogCategory
+
+@{
+    ViewBag.Title = "EditTeachersLogCategory";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("Year_Name").value == '') return false;
+        return true;
+    }
+</script>
+
+<div class="cont_right formWrapper">
+    <h1>Create New Academic Year Setup</h1>
+    <div class="top-hed-btn-right">
+        <a class="a_tag-btn" href="@Url.Action("ManageLogCategory","Teachers")"><span>Back</span></a>
+    </div>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertLogCategory", "Teachers", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        @Html.HiddenFor(Model => Model.Id)
+                        <td><label for="EmployeeCategories_name" class="required">Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Name, new { id = "Year_Name", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                </table>
+
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Create" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

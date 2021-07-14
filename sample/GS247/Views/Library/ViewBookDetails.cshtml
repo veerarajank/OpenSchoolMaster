@@ -1,0 +1,105 @@
+﻿@model IEnumerable<GS247.Models.Library.ViewBorrowedBooks>
+
+@{
+    ViewBag.Title = "ViewBookDetails";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script type="text/javascript">
+    function GetBookDetails() {
+        document.borrowForm.submit();
+    }
+</script>
+
+<div class="cont_right formWrapper">
+    <h1>View Book Details</h1>
+    
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background: none;">
+                    @using (Html.BeginForm("ViewBookDetails", "Library", FormMethod.Get, new { id = "borrowForm", name = "borrowForm" }))
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="ViewBorrow_subject">Subject</label></td>
+                                <td>
+                                    @Html.DropDownList("ddlSubjects", ViewBag.SubNames as IEnumerable<SelectListItem>, "--Select--", new { @class = "select2-arrow" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="ViewBorrow_booktitle" class="required">Book<span class="required"> * </span></label></td>
+                                <td>
+                                    @Html.DropDownList("ddlBookTitles", ViewBag.BookTitles as IEnumerable<SelectListItem>, "--Select--", new { @class = "select2-arrow", @onchange = "GetBookDetails()" })
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+    <style>
+        .sem-view-block th, td {
+            border: none;
+        }
+    </style>
+    <h1>Borrowed Book Details</h1>
+    <div id="searchbook-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="SearchBooks-grid_c0">Student Name</th>
+                    <th id="SearchBooks-grid_c1">Book Name</th>
+                    <th id="SearchBooks-grid_c2">ISBN</th>
+                    <th id="SearchBooks-grid_c3">Author</th>
+                    <th id="SearchBooks-grid_c4">Edition</th>
+                    <th id="SearchBooks-grid_c5">Publisher</th>
+                    <th id="SearchBooks-grid_c6">Copies Available</th>
+                    <th id="SearchBooks-grid_c6">Total Copies</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="odd">
+                        <td>@Html.DisplayFor(modelItem => item.StudentName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ISBN)</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AuthorName)
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Edition)</td>
+                        <td>  @Html.DisplayFor(modelItem => item.Publisher)</td>
+                        <td>  @Html.DisplayFor(modelItem => item.CopiesAvailable)</td>
+                        <td>  @Html.DisplayFor(modelItem => item.Copy)</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+
+
+

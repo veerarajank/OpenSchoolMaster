@@ -1,0 +1,404 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+<div class="cont_right">
+    <h1>Sale Report</h1>
+    <!-- DROP DOWNS -->
+    <div class="formCon">
+        <div class="formConInner">
+            <table width="90%" border="0" cellspacing="0" cellpadding="0" class="s_search">
+                <tbody>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><strong>Select Mode</strong></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <select style="width:177px;" onchange="getmode()" id="mode_id" name="mode_id">
+                                <option value="">Select Mode</option>
+                                <option value="1" selected="selected">Overall</option>
+                                <option value="2">Yearly</option>
+                                <option value="3">Monthly</option>
+                                <option value="4">Daily</option>
+                            </select>
+                        </td>
+                    </tr>
+
+
+                    <tr id="filler" style=" display:none ">
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+
+                    <!-- ROW TO SELECT YEAR -->
+                    <tr id="year" style=" display:none ">
+                        <td>&nbsp;</td>
+                        <td><strong>Select Year</strong></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <select style="width:177px;" id="year_value" onchange="getyearreport()" name="year">
+                                <option value="">Select Year</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                                <option value="2014">2014</option>
+                                <option value="2013">2013</option>
+                                <option value="2012">2012</option>
+                                <option value="2011">2011</option>
+                                <option value="2010">2010</option>
+                                <option value="2009">2009</option>
+                                <option value="2008">2008</option>
+                                <option value="2007">2007</option>
+                                <option value="2006">2006</option>
+                                <option value="2005">2005</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <!-- END ROW TO SELECT YEAR -->
+                    <!-- ROW TO SELECT MONTH -->
+                    <tr id="month" style=" display:none ">
+                        <td>&nbsp;</td>
+                        <td><strong>Select Month</strong></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <select id="monthId" style="width:177px;" onchange="getmonthreport()">
+                                <option value="">Select Month</option>
+                                <option value="1">Jan</option>
+                                <option value="2">Feb</option>
+                                <option value="3">Mar</option>
+                                <option value="4">Apr</option>
+                                <option value="5">May</option>
+                                <option value="6">Jun</option>
+                                <option value="7">Jul</option>
+                                <option value="8">Aug</option>
+                                <option value="9">Sep</option>
+                                <option value="10">Oct</option>
+                                <option value="11">Nov</option>
+                                <option value="12">Dec</option>
+                            </select>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <select style="width:177px;" id="yearId" onchange="getmonthyearreport()" name="year">
+                                <option value="">Select Year</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020" selected="selected">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                                <option value="2014">2014</option>
+                                <option value="2013">2013</option>
+                                <option value="2012">2012</option>
+                                <option value="2011">2011</option>
+                                <option value="2010">2010</option>
+                                <option value="2009">2009</option>
+                                <option value="2008">2008</option>
+                                <option value="2007">2007</option>
+                                <option value="2006">2006</option>
+                                <option value="2005">2005</option>
+                            </select>
+
+                        </td>
+                    </tr>
+                    <!-- END ROW TO SELECT MONTH -->
+                    <tr id="daily" style=" display:none ">
+                        <td>&nbsp;</td>
+                        <td><strong>Select Date </strong></td>
+                        <td>&nbsp;</td>
+                        <td><input id="dobtxt" readonly="readonly" onchange="js:getdailyreport()" name="daily" type="text">                                  </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div> <!-- END div class="formConInner" -->
+    </div><!--  END div class="formCon" -->
+    <!-- END DROP DOWNS -->
+    <!-- REPORT SECTION -->
+    <!-- REPORT SECTION -->
+    <h3>
+        Sale Report
+    </h3>
+    <!-- Overall PDF -->
+    <div class="pdf-box">
+        <div class="box-two">
+            <a target="_blank" class="pdf_but" href="#">Generate PDF</a>
+        </div>
+        <div class="box-one">
+        </div>
+    </div>
+
+    <!-- END Overall PDF -->
+    <!-- Overall Report Table -->
+    <div class="pdtab_Con">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="SaleReportListGrid">
+            <tbody></tbody>
+        </table>
+        <br />
+        <div class="pagecon">
+            <div class="">
+                <div align="center" id="pageNation">
+                </div> <!-- END div class="pagecon" 2 -->
+                <div class="clear"></div>
+            </div>
+        </div>
+        <input type="hidden" name="CurrentPageIndex" id="CurrentPageIndex" />
+    </div>
+    <!-- END Overall Report Table -->
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+    j(function () {
+        j("#dobtxt").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });       
+    });
+
+    $(".manage-sale_ico").attr('active', '1').closest('li').addClass('list_active');
+</script>
+
+<script language="javascript">
+
+    function updatemode() // Function to get the dependent dropdown after selecting department
+    {
+        var dep_id = document.getElementById('dep_id').value;
+        if (dep_id != '') {
+            window.location = 'index.php?r=report/default/employeeattendance&dep=' + dep_id;
+        }
+        else {
+            window.location = 'index.php?r=report/default/employeeattendance';
+        }
+    }
+
+    function getmode() {
+        var mode_id = document.getElementById('mode_id').value;
+        if (mode_id == 1) // Overall
+        {
+            GetSaleList();
+        }
+        else if (mode_id == 2) // Yearly
+        {
+            document.getElementById("filler").style.display = "table-row";
+            document.getElementById("year").style.display = "table-row";
+            document.getElementById("month").style.display = "none";
+            document.getElementById("daily").style.display = "none";
+
+        }
+        else if (mode_id == 3) // Monthly
+        {
+            document.getElementById("filler").style.display = "table-row";
+            document.getElementById("year").style.display = "none";
+            document.getElementById("month").style.display = "table-row";
+            document.getElementById("daily").style.display = "none";
+        }
+        else if (mode_id == 4) // Individual
+        {
+            document.getElementById("filler").style.display = "table-row";
+            document.getElementById("year").style.display = "none";
+            document.getElementById("month").style.display = "none";
+            document.getElementById("daily").style.display = "table-row";
+        }
+        else {
+            document.getElementById("daily").style.display = "none";
+            document.getElementById("filler").style.display = "none";
+            document.getElementById("year").style.display = "none";
+            document.getElementById("month").style.display = "none";
+        }
+
+    }
+
+    function getyearreport() // Function to get yearly report
+    {
+        GetSaleList();
+    }
+
+    function getmonthreport() // Function to get monthly report
+    {
+        GetSaleList();
+    }
+
+    function getdailyreport() // Function to get monthly report
+    {
+        GetSaleList();
+    }
+
+    function getmonthyearreport()
+    {
+        GetSaleList();
+    }
+
+    $(document).ready(function () {
+        $('#CurrentPageIndex').val(1);
+        $('#mode_id').val(1)
+        GetSaleList();
+    });
+
+    function GetSaleList() {
+
+        var SearchSaleReportS = new Object();
+        SearchSaleReportS.Mode = $('#mode_id').val();
+        if (SearchSaleReportS.Mode == "3")
+            SearchSaleReportS.Year = $('#yearId').val()
+        else
+            SearchSaleReportS.Year = $('#year_value').val();
+        SearchSaleReportS.Month = $('#monthId').val();
+        SearchSaleReportS.Date = $('#dobtxt').val();
+        SearchSaleReportS.CurrentPage = $('#CurrentPageIndex').val();
+
+        var d = { SearchSaleReportS: SearchSaleReportS };
+
+        $.ajax({
+            type: "POST",
+            url: "/Purchase/SaleReportList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableClearValue();
+
+                $.each(result, function (index, PurchaseSaleDetailsList) {
+                    var j = 1;
+                    for (var i = 0; i < PurchaseSaleDetailsList.length; i++) {
+                        $("#SaleReportListGrid").append(
+                    "<tr>"
+                        + "<td>" + j + "</td>"
+                   + "<td>" + PurchaseSaleDetailsList[i].SchoolCO.StudentName + "</td>"
+                         + "<td>" + PurchaseSaleDetailsList[i].SchoolCO.Name + "</td>"
+                    + "<td>" + PurchaseSaleDetailsList[i].Quantity + "</td>"
+                         + "<td>" + PurchaseSaleDetailsList[i].SchoolCO.FareAmount + "</td>"
+                    + "<td>" + PurchaseSaleDetailsList[i].SchoolCO.TransactionDateStr + "</td>"
+                        + "</tr>");
+                        j++;
+                    }
+                });
+                pagenationApply(result.TotalPages);
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    }
+
+    function tableClearValue() {
+        var Table = document.getElementById("SaleReportListGrid");
+        Table.innerHTML = "";
+        $("#SaleReportListGrid").append(
+                        "<tr class=\"tablebx_topbg\">"
+                        + "<td>Sl No</td><td width=\"25%\">Purchased by</td><td>Item name</td><td>Quantity</td><td>Amount</td><td>Purchased Date</td>"
+                        + "</tr>");
+    };
+
+    function pageclicktest(ele) {
+        $("#CurrentPageIndex").val(ele.value);        
+        GetSaleList();
+    };
+
+    function pageclickNext(ele) {
+        var nextPage = parseInt($("#CurrentPageIndex").val()) + 1;
+        $("#CurrentPageIndex").val(nextPage);
+        GetSaleList();
+    };
+
+    function pageclickPrevious(ele) {
+        var prevPage = parseInt($("#CurrentPageIndex").val()) - 1;
+        $("#CurrentPageIndex").val(prevPage);
+        GetSaleList();
+    };
+
+    function pagenationApply(PageCount) {
+
+        var Table = document.getElementById("pageNation");
+        Table.innerHTML = "";
+        var currentPageIndex = $('#CurrentPageIndex').val();
+        var pageCutLow = (parseInt(currentPageIndex)) - parseInt(1);
+        var pageCutHigh = parseInt(1) + (parseInt(currentPageIndex));
+
+        var value = "<div class=\"\">";
+
+        if (parseInt(currentPageIndex) > 1) {
+            value += "<input type=\"submit\" onclick=\"pageclickPrevious(this);\" value=\"Previous\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white;\"/>";
+        }
+
+        if (parseInt(PageCount) < 6) {
+            for (var i = 1; i <= parseInt(PageCount) ; i++) {
+                if (i != parseInt(currentPageIndex)) {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+            }
+        }
+        else {
+            if (parseInt(currentPageIndex) > 2) {
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"1\" />";
+
+                if (parseInt(currentPageIndex) > 3) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\" />";
+                }
+            }
+            if (parseInt(currentPageIndex) == 1) {
+                pageCutHigh += 2;
+            }
+            else if (parseInt(currentPageIndex) == 2) {
+                pageCutHigh += 1;
+            }
+
+            if (parseInt(currentPageIndex) == parseInt(PageCount)) {
+                pageCutLow -= 2;
+            }
+            else if (parseInt(currentPageIndex) == parseInt(PageCount) - 1) {
+                pageCutLow -= 1;
+            }
+
+            for (var i = pageCutLow; i <= pageCutHigh; i++) {
+                if (i == 0) {
+                    i += 1;
+                }
+                if (i > parseInt(PageCount)) {
+                    continue;
+                }
+
+                if (parseInt(currentPageIndex) == i) {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount) - 1) {
+                if (parseInt(currentPageIndex) < parseInt(PageCount) - 2) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\"/>";
+                }
+
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + parseInt(PageCount) + "\" />";
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount)) {
+                value += "<input type=\"submit\" onclick=\"pageclickNext(this);\" value=\"Next\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white\" />";
+            }
+
+        }
+
+        value += "</div>";
+
+        $("#pageNation").append(value);
+
+    };
+</script>

@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+
+<div class="cont_right formWrapper">
+    <h1>Material Requests</h1>
+
+    <div class="a_feed_cntnr" id="a_feed_cntnr">
+
+        @foreach (var item in ViewBag.RequestMaterialDetails)
+        {
+            <div class="individual_feed">
+                <div class="a_feed_online">
+                    <div class="a_feed_innercntnt">
+                        <div class="a_feed_inner_arrow"></div>
+                        <div class="onln-adm-list">
+                            <div class="onln-adm-name">
+                                <h1>
+                                    <strong>
+                                        Item Name : @item.SchoolCO.Name
+                                    </strong>
+                                </h1>
+                            </div>
+                            <div class="onln-adm-date"></div>
+                        </div>
+                        <div class="onln-adm-list">
+                            <div class="onln-adm-table">
+                                <table class="reg_bx" width="300" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="30%"><p>Type</p></td>
+                                        <td width="10">:</td>
+                                        <td>@item.SchoolCO.TransactionTypeName</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%"><p>Requested By</p></td>
+                                        <td width="10">:</td>
+                                        <td>@item.SchoolCO.StudentName</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%"><p>Department</p></td>
+                                        <td>:</td>
+                                        <td>@item.SchoolCO.RelationName</td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Quantity</p></td>
+                                        <td>:</td>
+                                        <td>@item.Quantity</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            @if (item.StatusFlag == 0)
+                            {
+                                <div class="onln-adm-table-icon">
+                                    <div class="online_time onln-adm-stus">
+                                        <div class="online_time">
+                                            <div class="online_status"><div class="tag_pending">Pending</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="online_but onln-adm-stus">
+                                        <ul class="tt-wrapper">
+                                            <li>
+                                                <a class="tt-approved" href="javascript:StatusUpdate(@item.MaterialId,1);"  id=" yt0"><span>Approve</span></a>
+                                                <a class="tt-disapproved" href="javascript:StatusUpdate(@item.MaterialId,3);" id=" yt1"><span>Reject</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>                            
+                            }
+                            else if (item.StatusFlag == 1)
+                            {
+                                <div class="onln-adm-table-icon">
+                                    <div class="online_time onln-adm-stus">
+                                        <div class="online_time">
+                                            <div class="online_status"><div class="tag_approved">Approved</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="online_but onln-adm-stus">
+                                        <ul class="tt-wrapper">
+                                            <li>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                            else if (item.StatusFlag == 3)
+                            {
+                                <div class="onln-adm-table-icon">
+                                    <div class="online_time onln-adm-stus">
+                                        <div class="online_time">
+                                            <div class="online_status"><div class="tag_disapproved">Rejected</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="online_but onln-adm-stus">
+                                        <ul class="tt-wrapper">
+                                            <li>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+
+                    </div> <!-- END div class="a_feed_innercntnt" -->
+                </div> <!-- END div class="a_feed_online" -->
+            </div>
+        }
+
+
+
+      
+
+        <div class="pagecon">
+        </div>
+    </div>
+    </div>
+
+    <script type="text/javascript">
+        $(".purcs-reqst_ico").attr('active', '1').closest('li').addClass('list_active');
+
+        function StatusUpdate(MaterialId, StatusFlag) {
+            var msg = "Are you sure you want to approve this order?";
+            if (StatusFlag == 3)
+                msg = "Are you sure you want to reject this order?";
+
+            if (confirm(msg)) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/MaterialStatusUpdate",
+                    data: '{MaterialId: ' + MaterialId + ',StatusFlag:' + StatusFlag + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        location.reload(true);
+                    }
+                });
+            }
+        };
+    </script>

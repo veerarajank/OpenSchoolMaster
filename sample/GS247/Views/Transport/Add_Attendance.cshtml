@@ -1,0 +1,104 @@
+﻿
+@{
+    
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div>
+        <h1>@ViewBag.Title</h1>
+        <div class="form">
+            <div class="formCon">
+                <div class="formConInner">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    <a href="/Transport/Vehicle_Attendance" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+
+                    <div>
+                        <table width="90%" border="0" cellspacing="0" cellpadding="0" class="s_search">
+                            <tr>
+                                <th style="text-align:center;">Route<span class="required">*</span></th>
+                                <th style="text-align:center;">Driver<span class="required">*</span></th>
+                            </tr>
+                            <tr>
+                                <th>@Html.DropDownList("route", (IEnumerable<SelectListItem>)ViewBag.Routes, "-Select Route-",new { required="required"})</th>
+                                <th>@Html.DropDownList("driver", (IEnumerable<SelectListItem>)ViewBag.Drivers, "-Select Driver-", new { required = "required" })</th>
+                            </tr>
+                        </table>
+                        </div>
+<div>
+  
+                        <div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <br />
+                                <br />
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="myTable">
+
+                                    <tr style="background-color:aliceblue;">
+                                        <th colspan="2" style="text-align:center;">Morning Session</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:center;">
+
+                                            <a href="#" onclick="GetStations(0,0)"> <img src="../gridview/Entry.png" alt="Start" width="42%" height="50%" /></a>
+                                        </th>
+                                        <th style="text-align:center;">
+
+                                            <a href="#" onclick="GetStations(0,1)"> <img src="../gridview/Exit.png" alt="Exit" width="37%" height="45%" /></a>
+                                        </th>
+                                    </tr>
+                                    <tr style="background-color:aliceblue;">
+                                        <th colspan="2" style="text-align:center;">Evening Session</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:center;">
+
+                                            <a href="#" onclick="GetStations(1,0)"> <img src="../gridview/Entry.png" alt="Start" width="42%" height="50%" /></a>
+                                        </th>
+                                        <th style="text-align:center;">
+
+                                            <a href="#" onclick="GetStations(1,1)"> <img src="../gridview/Exit.png" alt="Exit" width="37%" height="45%" /></a>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- form -->
+        @if (TempData["Attendance"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("Attendance").ToString()");
+            </script>
+        }
+    </div>
+    
+<script type="text/javascript">
+    function GetStations(flag,a) {
+       debugger
+        var session = "Morning";
+        if (flag == 1) session = "Evening";
+        
+        var act = 0;
+        if (a == 1) act = 1;
+        var route = $("#route").val();
+        var driver = $("#driver").val();
+
+        if (route == '') alert("Select Route");
+        else if (driver == '') alert("Select Driver");
+        else {
+            window.location.href = "/Transport/GetStations?session=" + session + "&&route=" + route + "&&driver=" + driver+"&&act="+act;
+            //$.post('GetStations', { route: route, driver: driver, action: action, session: session },
+            //    function (data) {
+            //        alert(data);
+            //    });
+        }
+    };
+</script>

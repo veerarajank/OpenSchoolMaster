@@ -1,0 +1,77 @@
+﻿@model GS247.Models.TransportStudentRouteLink
+@{
+
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div>
+    <h1>@ViewBag.Title</h1>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    <a href="/Transport/Allotment_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                    @using (Html.BeginForm("Update_Student_Allotment", "Transport", FormMethod.Post))
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+                            <tr>
+                                <th>Student</th>
+                                <td>@Model.StudentDetail.FirstName @Model.StudentDetail.MiddleName @Model.StudentDetail.LastName @Model.StudentDetail.RollNumber</td>
+                            </tr>
+                            <tr>
+                                <th>Route Name</th>
+                                <td>@Html.DropDownListFor(m => m.RouteId, (IEnumerable<SelectListItem>)ViewBag.Routes, "-Select Route-", new { @class = "form-control" })</td>
+                            </tr>
+                            <tr>
+                                <th>Stop Name</th>
+                                <td>@Html.DropDownListFor(m => m.StopId, (IEnumerable<SelectListItem>)ViewBag.Stops, "-Select Stop-", new { @class = "form-control" })</td>
+                            </tr>
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                                <td>
+                                    @Html.HiddenFor(m => m.StudentId)
+                                    <input class="formbut" type="submit" value="Submit" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+    @if (TempData["Allotment"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("Allotment").ToString()");
+        </script>
+    }
+</div>
+
+<script type="text/javascript">
+    $("#RouteId").on("change", function () {
+        debugger
+        var routeId = $(this).val();
+        $.ajax
+            ({
+                url: '/Transport/GetStopNames',
+                type: 'Get',
+                data: { 'routeId': routeId },
+                success: function (data) {
+                    $("#StopId").html("");
+                    $.each(data, function (i, result) {
+                        $("#StopId").append('<option value="' + result.Value + '">' +
+                            result.Text + '</option>');
+                    });
+                },
+                error: function () {
+                    alert("Something went wrong..")
+                },
+            });
+    });
+</script>

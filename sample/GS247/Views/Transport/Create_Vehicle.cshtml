@@ -1,0 +1,85 @@
+﻿@model GS247.Models.TransportVehicle
+@{
+    
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div>
+
+        <h1>@ViewBag.Title</h1>
+        <div class="form">
+            <div class="formCon">
+                <div class="formConInner">
+                    <div style="background:none;">
+                        <p>Fields with<span class="required"> * </span> are required.</p>
+                        <a href="/Transport/Vehicle_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                        @using (Html.BeginForm())
+                        {
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table" style="font-size:small;">
+                                <tr>
+                                    <th><label for="VehicleNo" class="required">Vehicle No<span class="required">*</span></label></th>
+                                    <th><label for="VehicleCode" class="required">Vehicle Code<span class="required">*</span></label></th>
+                                    <th><label for="NoOfSeats" class="required">No of Seats<span class="required">*</span></label></th>
+                                </tr>
+                                <tr>
+                                    <td>@Html.TextBoxFor(m => m.VehicleNo, new { required = "required" }) </td>
+                                    <td>@Html.TextBoxFor(m => m.VehicleCode, new { required = "required" }) </td>
+                                    <td>@Html.TextBoxFor(m => m.NoOfSeats, new { required = "required" }) </td>
+                                </tr>
+                                <tr>
+                                    <th><label for="MaximumCapacity" class="required">Maximum Capacity<span class="required">*</span></label></th>
+                                    <th><label for="VehicleType" class="required">Vehicle Type</label></th>
+                                    <th><label for="MaximumCapacity" class="required">Address</label></th>
+                                </tr>
+                                <tr>
+                                    <td>@Html.TextBoxFor(m => m.MaximumCapacity, new { required = "required" }) </td>
+                                    <td>@Html.TextBoxFor(m => m.VehicleType) </td>
+                                    <td>@Html.TextBoxFor(m => m.Address)</td>
+                                </tr>
+                                <tr>
+                                    <th><label for="City" class="required">City</label></th>
+                                    <th><label for="State" class="required">State</label></th>
+                                    <th><label for="Phone" class="required">Phone</label></th>
+                                </tr>
+                                <tr>
+                                    <td>@Html.TextBoxFor(m => m.City) </td>
+                                    <td>@Html.TextBoxFor(m => m.State) </td>
+                                    <td>@Html.TextBoxFor(m => m.Phone) </td>
+                                </tr>
+                                <tr>
+                                    <th><label for="Insurance" class="required">Insurance<span class="required">*</span></label></th>
+                                    <th><label for="TaxRemitted" class="required">Tax Remitted</label></th>
+                                    <th><label for="Permit" class="required">Permit</label></th>
+                                </tr>
+                                <tr>
+                                    <td>@Html.TextBoxFor(m => m.Insurance, new { required = "required" }) </td>
+                                    <td>@Html.TextBoxFor(m => m.TaxRemitted) </td>
+                                    <td>@Html.TextBoxFor(m => m.Permit) </td>
+                                </tr>
+                                <tr>
+                                    <td height="10px">&nbsp;</td>
+                                    <td style="text-align:center">
+                                        @Html.HiddenFor(m => m.Id)
+                                        <input class="formbut" type="submit" value="Submit" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- form -->
+        @if (TempData["Vehicle"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("Vehicle").ToString()");
+            </script>
+        }
+    </div>
+    
+

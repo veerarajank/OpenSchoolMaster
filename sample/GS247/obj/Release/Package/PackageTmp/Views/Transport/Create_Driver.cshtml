@@ -1,0 +1,72 @@
+﻿@model GS247.Models.TransportDriver
+@{
+
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div>
+
+    <h1>@ViewBag.Title</h1>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    <a href="/Transport/Driver_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                    @using (Html.BeginForm())
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table" style="font-size:small;">
+                            <tr>
+                                <th><label for="FirstName" class="required">First Name<span class="required">*</span></label></th>
+                                <th><label for="LastName" class="required">Last Name<span class="required">*</span></label></th>
+                                <th><label for="DOB" class="required">DOB<span class="required">*</span></label></th>
+                            </tr>
+                            <tr>
+                                <td>@Html.TextBoxFor(m => m.FirstName, new { required = "required" }) </td>
+                                <td>@Html.TextBoxFor(m => m.LastName, new { required = "required" }) </td>
+                                <td>@Html.TextBoxFor(m => m.DOB, new { required = "required", @type = "date" }) </td>
+                            </tr>
+                            <tr>
+                                <th><label for="Phone" class="required">Phone<span class="required">*</span></label></th>
+                                <th><label for="LicenseNo" class="required">License No<span class="required">*</span></label></th>
+                                <th><label for="ExpiryDate" class="required">Expiry Date<span class="required">*</span></label></th>
+                            </tr>
+                            <tr>
+                                <td>@Html.TextBoxFor(m => m.Phone, new { required = "required" }) </td>
+                                <td>@Html.TextBoxFor(m => m.LicenseNo, new { required = "required" }) </td>
+                                <td>@Html.TextBoxFor(m => m.ExpiryDate, new { required = "required",@type = "date"}) </td>
+                            </tr>
+                            <tr>
+                                <th><label>Address</label></th>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">@Html.TextAreaFor(m => m.Address) </td>
+                            </tr>
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                                <td style="text-align:center">
+                                    @Html.HiddenFor(m => m.Id)
+                                    <input class="formbut" type="submit" value="Submit" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+    @if (TempData["Driver"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("Driver").ToString()");
+        </script>
+    }
+</div>
+

@@ -1,0 +1,80 @@
+﻿@model GS247.Models.Settings.ExamFormat
+
+@{
+    ViewBag.Title = "ManageTimeTableFormat";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function toggle(id) {
+        if (id == 1) {
+            document.getElementById("row1").style.display = "";
+            document.getElementById("row2").style.display = "";
+            document.getElementById("row3").style.display = "";
+        }
+        else {
+            document.getElementById("row1").style.display = "none";
+            document.getElementById("row2").style.display = "none";
+            document.getElementById("row3").style.display = "none";
+        }
+
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Manage Time Table Format</h1>
+    <div class="formCon">
+
+        <div class="formConInner">
+            <h3>Select Exam Format</h3>
+            @using (Html.BeginForm("UpdateTimeTable", "Settings", FormMethod.Post))
+            {
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    @Html.RadioButtonFor(Model => Model.IsLevel, 1, new { onclick = "toggle(1);" })
+                    <span>School Level</span>
+                </td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr style="display:none;" id="row1">
+                <td>
+                    @Html.RadioButtonFor(Model => Model.IsFormat, 1)
+                    <span>Fixed Class Timings (Class Timings will be similar for all the weekdays)</span>
+                </td>
+            </tr>
+            <tr style="display:none;" id="row3">
+               <td>
+                @Html.RadioButtonFor(Model => Model.IsFormat, 2)
+                <span>Flexible Class Timings (Can set different Class Timings for different weekdays)</span>
+                </td>
+            </tr>
+            <tr style="display:none;" id="row2"><td>&nbsp;</td></tr>
+            <tr>
+                <td>
+                    @Html.RadioButtonFor(Model => Model.IsLevel, 2,new { onclick = "toggle(0);" })
+                    <span>Course Level</span>
+                </td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td>
+                    @Html.RadioButtonFor(Model => Model.IsLevel, 3, new { onclick = "toggle(0);" })
+                    <span>Batch Level</span>
+                </td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+
+        </table>
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Apply" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>
+

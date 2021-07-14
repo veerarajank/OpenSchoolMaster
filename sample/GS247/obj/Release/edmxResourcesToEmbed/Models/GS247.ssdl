@@ -1,0 +1,2145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GS247.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="batch">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="StartDate" Type="varchar" MaxLength="15" />
+    <Property Name="EndDate" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.BatchCourseLink' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="BatchCourseLink">
+    <Key>
+      <PropertyRef Name="CourseId" />
+      <PropertyRef Name="BatchId" />
+    </Key>
+    <Property Name="CourseId" Type="int" Nullable="false" />
+    <Property Name="BatchId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BatchLink">
+    <Key>
+      <PropertyRef Name="BatchId" />
+    </Key>
+    <Property Name="BatchId" Type="int" Nullable="false" />
+    <Property Name="TeacherId" Type="int" />
+    <Property Name="CourseId" Type="int" />
+    <Property Name="SemesterId" Type="int" />
+    <Property Name="TimeTableId" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.BatchSubjectsLink' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="BatchSubjectsLink">
+    <Key>
+      <PropertyRef Name="SubjectsId" />
+      <PropertyRef Name="BatchId" />
+    </Key>
+    <Property Name="SubjectsId" Type="int" Nullable="false" />
+    <Property Name="BatchId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CBSEExamSettings">
+    <Key>
+      <PropertyRef Name="CBSEExamSettingId" />
+    </Key>
+    <Property Name="CBSEExamSettingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="FA1Weightage" Type="varchar" MaxLength="100" />
+    <Property Name="FA2Weightage" Type="varchar" MaxLength="100" />
+    <Property Name="SA1Weightage" Type="varchar" MaxLength="100" />
+    <Property Name="SA2Weightage" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="countries">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="country_code" Type="varchar" MaxLength="2" />
+    <Property Name="country_name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Courses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="IsEnable" Type="bit" />
+    <Property Name="ExamFormat" Type="int" />
+  </EntityType>
+  <EntityType Name="CoursesSubjectsLink">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseId" Type="int" />
+    <Property Name="SubjectId" Type="int" />
+  </EntityType>
+  <EntityType Name="Currency">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.EventsDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="EventsDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="LastModifiedDateTime" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EventName" Type="nvarchar" MaxLength="500" />
+    <Property Name="EventDescription" Type="nvarchar(max)" />
+    <Property Name="EventFromDate" Type="datetime" />
+    <Property Name="EventToDate" Type="datetime" />
+    <Property Name="EventFromTime" Type="time" Precision="7" />
+    <Property Name="EventToTime" Type="time" Precision="7" />
+    <Property Name="CreatedDateTime" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="500" />
+    <Property Name="ModifiedDateTime" Type="datetime" />
+    <Property Name="ModifiedBy" Type="varchar" MaxLength="500" />
+    <Property Name="LastModifiedDateTime" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.EventTypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="EventTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EventType" Type="varchar" MaxLength="100" />
+    <Property Name="ColorCode" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="ExamCommonTypeCourse">
+    <Key>
+      <PropertyRef Name="ExamCommonTypeCourseId" />
+    </Key>
+    <Property Name="ExamCommonTypeCourseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExamId" Type="int" />
+    <Property Name="CourseId" Type="varchar" MaxLength="50" />
+    <Property Name="BatchId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ExamFormat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ExamGradeLevel">
+    <Key>
+      <PropertyRef Name="ExamGradeLevelId" />
+    </Key>
+    <Property Name="ExamGradeLevelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="Score" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Examination">
+    <Key>
+      <PropertyRef Name="ExamId" />
+    </Key>
+    <Property Name="ExamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExamType" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="CourseId" Type="int" />
+    <Property Name="BatchId" Type="int" />
+    <Property Name="StartTime" Type="datetime" />
+    <Property Name="EndTime" Type="datetime" />
+    <Property Name="Duration" Type="int" />
+    <Property Name="MultiChoiceLimitCount" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="Ststus" Type="int" />
+  </EntityType>
+  <EntityType Name="ExamQuestionPaper">
+    <Key>
+      <PropertyRef Name="ExamQuestionId" />
+    </Key>
+    <Property Name="ExamQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExamId" Type="int" />
+    <Property Name="QuestionName" Type="varchar" MaxLength="50" />
+    <Property Name="QuestionType" Type="int" />
+    <Property Name="Answer" Type="varchar" MaxLength="5000" />
+    <Property Name="Mark" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ExamQuestionTypeValue">
+    <Key>
+      <PropertyRef Name="ExamQuestionTypeValueId" />
+    </Key>
+    <Property Name="ExamQuestionTypeValueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExamQuestionId" Type="int" />
+    <Property Name="ExamId" Type="int" />
+    <Property Name="QuestionType" Type="int" />
+    <Property Name="Value" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Fee">
+    <Key>
+      <PropertyRef Name="FeeID" />
+    </Key>
+    <Property Name="FeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="50" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="InvoiceStatusFlag" Type="int" />
+    <Property Name="PaymentTypeFlag" Type="int" />
+  </EntityType>
+  <EntityType Name="FeeAccess">
+    <Key>
+      <PropertyRef Name="FeeAccessID" />
+    </Key>
+    <Property Name="FeeAccessID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FeeParticularID" Type="int" />
+    <Property Name="Type" Type="int" />
+    <Property Name="AdmissionNumbers" Type="varchar" MaxLength="500" />
+    <Property Name="CourseID" Type="int" />
+    <Property Name="BatchID" Type="int" />
+    <Property Name="CategoryID" Type="int" />
+    <Property Name="Amount" Type="varchar" MaxLength="10" />
+    <Property Name="FeeID" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FeeParticular">
+    <Key>
+      <PropertyRef Name="FeeParticularID" />
+    </Key>
+    <Property Name="FeeParticularID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="50" />
+    <Property Name="Tax" Type="int" />
+    <Property Name="Discount" Type="varchar" MaxLength="10" />
+    <Property Name="Type" Type="int" />
+    <Property Name="FeeID" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FeesConfiguration">
+    <Key>
+      <PropertyRef Name="FeesConfigurationID" />
+    </Key>
+    <Property Name="FeesConfigurationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TaxFlag" Type="int" Nullable="false" />
+    <Property Name="DiscountFlag" Type="int" Nullable="false" />
+    <Property Name="InvoiceDiscountShow" Type="int" Nullable="false" />
+    <Property Name="InvoiceTemplate" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FeeSubRecurringCustomDetails">
+    <Key>
+      <PropertyRef Name="FeeSubscriptionCustomID" />
+    </Key>
+    <Property Name="FeeSubscriptionCustomID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FeeSubscriptionID" Type="int" />
+    <Property Name="DueDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FeeSubscription">
+    <Key>
+      <PropertyRef Name="FeeSubscriptionID" />
+    </Key>
+    <Property Name="FeeSubscriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FeeID" Type="int" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="NumberOfSubscription" Type="int" />
+    <Property Name="SubscriptionType" Type="int" />
+    <Property Name="RecurringInterval" Type="int" />
+    <Property Name="DayOfMonth" Type="int" />
+    <Property Name="DayOfWeek" Type="int" />
+    <Property Name="DueDate1" Type="datetime" />
+    <Property Name="DueDate2" Type="datetime" />
+    <Property Name="DueDate3" Type="datetime" />
+    <Property Name="DueDate4" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="DueDate5" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FileUpload">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" />
+    <Property Name="CategoryName" Type="nvarchar(max)" />
+    <Property Name="Placeholder" Type="nvarchar(max)" />
+    <Property Name="Course" Type="nvarchar(max)" />
+    <Property Name="Batch" Type="nvarchar(max)" />
+    <Property Name="FilePath" Type="nvarchar(max)" />
+    <Property Name="FileType" Type="nvarchar" MaxLength="50" />
+    <Property Name="UploadedBy" Type="nvarchar(max)" />
+    <Property Name="UploadedOn" Type="date" />
+  </EntityType>
+  <EntityType Name="GatewaySettings">
+    <Key>
+      <PropertyRef Name="GatewaySettingsID" />
+    </Key>
+    <Property Name="GatewaySettingsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="APIUserName" Type="varchar" MaxLength="50" />
+    <Property Name="APIPassword" Type="varchar" MaxLength="50" />
+    <Property Name="APISignature" Type="varchar" MaxLength="50" />
+    <Property Name="Currency" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.GeneratePaySlip' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="GeneratePaySlip">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" />
+    <Property Name="SalaryDate" Type="datetime" />
+    <Property Name="BasicPay" Type="varchar" MaxLength="150" />
+    <Property Name="Incentive" Type="varchar" MaxLength="150" />
+    <Property Name="OverTime" Type="varchar" MaxLength="150" />
+    <Property Name="Hike" Type="varchar" MaxLength="150" />
+    <Property Name="EarnTotal" Type="varchar" MaxLength="150" />
+    <Property Name="TDS" Type="varchar" MaxLength="150" />
+    <Property Name="LossofPay" Type="varchar" MaxLength="150" />
+    <Property Name="Loan" Type="varchar" MaxLength="150" />
+    <Property Name="FestivalBonus" Type="varchar" MaxLength="150" />
+    <Property Name="ESI" Type="varchar" MaxLength="150" />
+    <Property Name="EPF" Type="varchar" MaxLength="150" />
+    <Property Name="Total Deduction" Type="varchar" MaxLength="150" />
+    <Property Name="Net Salary" Type="varchar" MaxLength="150" />
+    <Property Name="Note" Type="varchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="GenerateSequenceMaster">
+    <Key>
+      <PropertyRef Name="SequenceId" />
+    </Key>
+    <Property Name="SequenceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="TableName" Type="varchar" MaxLength="100" />
+    <Property Name="ColumnName" Type="varchar" MaxLength="50" />
+    <Property Name="MaxGenerateId" Type="varchar" MaxLength="5000" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="GuardianDetails">
+    <Key>
+      <PropertyRef Name="GuardianDetailsId" />
+    </Key>
+    <Property Name="GuardianDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Relation" Type="int" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="Education" Type="varchar" MaxLength="50" />
+    <Property Name="Occupation" Type="varchar" MaxLength="50" />
+    <Property Name="Income" Type="varchar" MaxLength="50" />
+    <Property Name="AddressLine1" Type="varchar" MaxLength="500" />
+    <Property Name="AddressLine2" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="PinCode" Type="varchar" MaxLength="50" />
+    <Property Name="MobilePhone" Type="varchar" MaxLength="50" />
+    <Property Name="OfficePhone1" Type="varchar" MaxLength="50" />
+    <Property Name="OfficePhone2" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Country" Type="int" />
+    <Property Name="ParentUserFlag" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="DeleteFlag" Type="int" />
+  </EntityType>
+  <EntityType Name="HostelDetails">
+    <Key>
+      <PropertyRef Name="HostelDetailsId" />
+    </Key>
+    <Property Name="HostelDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="3000" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HostelFloorDetails">
+    <Key>
+      <PropertyRef Name="HostelFloorId" />
+    </Key>
+    <Property Name="HostelFloorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HostelDetailsId" Type="int" />
+    <Property Name="FloorNo" Type="int" />
+    <Property Name="NumberOfRooms" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HostelMessDetails">
+    <Key>
+      <PropertyRef Name="HostelMessId" />
+    </Key>
+    <Property Name="HostelMessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FoodPreference" Type="varchar" MaxLength="100" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HostelRoomBedDetails">
+    <Key>
+      <PropertyRef Name="HostelRoomBedId" />
+    </Key>
+    <Property Name="HostelRoomBedId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HostelRoomId" Type="int" />
+    <Property Name="BedName" Type="varchar" MaxLength="50" />
+    <Property Name="AllocateFlag" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HostelRoomDetails">
+    <Key>
+      <PropertyRef Name="HostelRoomId" />
+    </Key>
+    <Property Name="HostelRoomId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HostelDetailsId" Type="int" />
+    <Property Name="HostelFloorId" Type="int" />
+    <Property Name="RoomNo" Type="varchar" MaxLength="50" />
+    <Property Name="NumberOfBeds" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="LibraryAuthors">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AuthorName" Type="varchar" MaxLength="100" />
+    <Property Name="Desk" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="LibraryBooks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ISBN" Type="varchar" MaxLength="100" />
+    <Property Name="Title" Type="varchar" MaxLength="100" />
+    <Property Name="SubjectId" Type="int" />
+    <Property Name="CategoryId" Type="int" />
+    <Property Name="AuthorId" Type="int" />
+    <Property Name="Edition" Type="varchar" MaxLength="100" />
+    <Property Name="Publisher" Type="varchar" MaxLength="100" />
+    <Property Name="Copy" Type="varchar" MaxLength="100" />
+    <Property Name="BookPosition" Type="varchar" MaxLength="100" />
+    <Property Name="ShelfNo" Type="varchar" MaxLength="100" />
+    <Property Name="CopiesAvailable" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="LibraryBooksIssue">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentId" Type="int" />
+    <Property Name="SubjectId" Type="int" />
+    <Property Name="BookId" Type="int" />
+    <Property Name="IssueDate" Type="varchar" MaxLength="20" />
+    <Property Name="DueDate" Type="varchar" MaxLength="20" />
+    <Property Name="isReturned" Type="int" />
+    <Property Name="ReturnDate" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="LibraryCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.MailBox' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="MailBox">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="LastModified" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FromMailId" Type="nvarchar(max)" />
+    <Property Name="ToMailIds" Type="nvarchar(max)" />
+    <Property Name="CCMailIds" Type="nvarchar(max)" />
+    <Property Name="BCCMailIds" Type="nvarchar(max)" />
+    <Property Name="MailBody" Type="nvarchar(max)" />
+    <Property Name="Attachments" Type="nvarchar(max)" />
+    <Property Name="Status" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedDateTime" Type="datetime" />
+    <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
+    <Property Name="ModifiedDateTime" Type="datetime" />
+    <Property Name="LastModified" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MatchField">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HeadingName" Type="nvarchar" MaxLength="100" />
+    <Property Name="FieldName" Type="nvarchar" MaxLength="100" />
+    <Property Name="PrimaryField" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.NewsFeed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="NewsFeed">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="LastModifiedDateTime" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NewsTopic" Type="nvarchar(max)" />
+    <Property Name="NewsDescription" Type="nvarchar(max)" />
+    <Property Name="CreatedDateTime" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="500" />
+    <Property Name="ModifiedDateTime" Type="datetime" />
+    <Property Name="ModifiedBy" Type="varchar" MaxLength="500" />
+    <Property Name="LastModifiedDateTime" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaymentType">
+    <Key>
+      <PropertyRef Name="PaymentTypeID" />
+    </Key>
+    <Property Name="PaymentTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="StatusFlag" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PurchaseApplyOrder">
+    <Key>
+      <PropertyRef Name="ApplyOrderId" />
+    </Key>
+    <Property Name="ApplyOrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderItemId" Type="int" />
+    <Property Name="StatusFlag" Type="int" />
+    <Property Name="VerifiedFlag" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PurchaseItems">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="ItemName" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PurchaseItemsStockDetails">
+    <Key>
+      <PropertyRef Name="StockDetailsId" />
+    </Key>
+    <Property Name="StockDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderItemId" Type="int" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="VendorDetailId" Type="int" />
+    <Property Name="ItemAvailable" Type="int" />
+    <Property Name="SaleItemQuantity" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PurchaseOrderItems">
+    <Key>
+      <PropertyRef Name="OrderItemId" />
+    </Key>
+    <Property Name="OrderItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VendorDetailId" Type="int" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="StatusFlag" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PurchaseProductDetails">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VendorDetailId" Type="int" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Description" Type="varchar" MaxLength="5000" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PurchaseSaleDetails">
+    <Key>
+      <PropertyRef Name="SaleDetailsId" />
+    </Key>
+    <Property Name="SaleDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="PurchaserType" Type="int" />
+    <Property Name="BatchId" Type="int" />
+    <Property Name="PurchasedBy" Type="int" />
+    <Property Name="StatsuFlag" Type="int" />
+    <Property Name="ReturnDate" Type="datetime" />
+    <Property Name="ReturnReason" Type="varchar" MaxLength="500" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PurchaseVendorDetails">
+    <Key>
+      <PropertyRef Name="VendorDetailId" />
+    </Key>
+    <Property Name="VendorDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="AddressLine1" Type="varchar" MaxLength="500" />
+    <Property Name="AddressLine2" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
+    <Property Name="OfficeNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="CurrencyType" Type="int" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="500" />
+    <Property Name="VATNumber" Type="varchar" MaxLength="50" />
+    <Property Name="CSTNumber" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="country" Type="int" />
+  </EntityType>
+  <EntityType Name="RequestMaterialDetails">
+    <Key>
+      <PropertyRef Name="MaterialId" />
+    </Key>
+    <Property Name="MaterialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestType" Type="int" />
+    <Property Name="ReferenceId" Type="int" />
+    <Property Name="ItemId" Type="int" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="DepartementId" Type="int" />
+    <Property Name="IssueDate" Type="datetime" />
+    <Property Name="StatusFlag" Type="int" />
+    <Property Name="TeacherApprovedFlag" Type="int" />
+    <Property Name="ApprovedBy" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="semester">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="1000" />
+    <Property Name="StartDate" Type="varchar" MaxLength="20" />
+    <Property Name="EndDate" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsAttendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsAttendance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentType" Type="int" />
+    <Property Name="DayWiseStudentType" Type="int" />
+    <Property Name="TeacherType" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsCommonClassTimings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsCommonClassTimings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="StartTime" Type="varchar" MaxLength="20" />
+    <Property Name="EndTime" Type="varchar" MaxLength="20" />
+    <Property Name="IsBreak" Type="int" />
+    <Property Name="IsAllBatch" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsDashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsDashboard">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="BlockOrder" Type="int" />
+    <Property Name="IsEnable" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsDefaultGrading' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsDefaultGrading">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="MinScore" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsDefaultWeekdays' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsDefaultWeekdays">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WeekDay" Type="varchar" MaxLength="20" />
+    <Property Name="IsEnable" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsDocumentType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsDocumentType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocumentName" Type="varchar" MaxLength="100" />
+    <Property Name="IsMandatory" Type="int" />
+    <Property Name="IsRequired" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsExamFormat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsExamFormat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsLevel" Type="int" />
+    <Property Name="SchoolLevelType" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsFeatures' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsFeatures">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsAchievements" Type="int" />
+    <Property Name="IsComplaints" Type="int" />
+  </EntityType>
+  <EntityType Name="SettingsModel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ModelName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsNotification' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsNotification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="IsSMS" Type="int" />
+    <Property Name="IsEmail" Type="int" />
+    <Property Name="IsMessage" Type="int" />
+    <Property Name="IsStudent" Type="int" />
+    <Property Name="IsGuardian" Type="int" />
+    <Property Name="IsTeacher" Type="int" />
+  </EntityType>
+  <EntityType Name="SettingsOnlineRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AcademicYearId" Type="int" />
+    <Property Name="AllowOnlineAdmission" Type="int" />
+    <Property Name="ShowLink" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsSchoolSetup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsSchoolSetup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="RegistrationId" Type="varchar" MaxLength="100" />
+    <Property Name="FoundedOn" Type="varchar" MaxLength="20" />
+    <Property Name="Curriculum" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="1000" />
+    <Property Name="Pincode" Type="varchar" MaxLength="10" />
+    <Property Name="Phone" Type="varchar" MaxLength="20" />
+    <Property Name="AlternatePhone" Type="varchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Fax" Type="varchar" MaxLength="50" />
+    <Property Name="PrincipalName" Type="varchar" MaxLength="50" />
+    <Property Name="PrincipalEmail" Type="varchar" MaxLength="50" />
+    <Property Name="PrincipalPhone" Type="varchar" MaxLength="20" />
+    <Property Name="PrincipalMobile" Type="varchar" MaxLength="20" />
+    <Property Name="CurrentAcademicYear" Type="int" />
+    <Property Name="FinanceYearStart" Type="varchar" MaxLength="20" />
+    <Property Name="FinanceYearEnd" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsSMSCounter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsSMSCounter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SMSDate" Type="varchar" MaxLength="20" />
+    <Property Name="DayWiseCount" Type="bigint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsSMSGateway' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsSMSGateway">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="URL" Type="varchar" MaxLength="1000" />
+    <Property Name="Method" Type="int" />
+    <Property Name="ResponseFormat" Type="varchar" MaxLength="1000" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsSMSGatewayParameters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsSMSGatewayParameters">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="ParameterName" Type="varchar" MaxLength="100" />
+    <Property Name="ParameterValue" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsSMTP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsSMTP">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Host" Type="varchar" MaxLength="100" />
+    <Property Name="UserName" Type="varchar" MaxLength="100" />
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="Port" Type="varchar" MaxLength="10" />
+    <Property Name="ConnectionSecurity" Type="int" />
+    <Property Name="EnableSMTP" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.SettingsTimeTableFormat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SettingsTimeTableFormat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsLevel" Type="int" />
+    <Property Name="IsLevelType" Type="int" />
+  </EntityType>
+  <EntityType Name="SettingsUserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.Staff_Attendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Staff_Attendance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Staff_Number" Type="int" />
+    <Property Name="Staff_Name" Type="varchar" MaxLength="100" />
+    <Property Name="Attendance_Date" Type="datetime" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="StaffContactDetails">
+    <Key>
+      <PropertyRef Name="ContactId" />
+    </Key>
+    <Property Name="ContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StaffSysId" Type="int" />
+    <Property Name="AddressTypeName1" Type="varchar" MaxLength="50" />
+    <Property Name="AddressLine1" Type="varchar" MaxLength="500" />
+    <Property Name="AddressLine2" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="int" />
+    <Property Name="Country" Type="int" />
+    <Property Name="PinCode" Type="varchar" MaxLength="50" />
+    <Property Name="AddressTypeName2" Type="varchar" MaxLength="50" />
+    <Property Name="OfficrAddressLine1" Type="varchar" MaxLength="500" />
+    <Property Name="OfficeAddressLine2" Type="varchar" MaxLength="500" />
+    <Property Name="OfficeCity" Type="varchar" MaxLength="50" />
+    <Property Name="OfficeState" Type="int" />
+    <Property Name="OfficeCountry" Type="int" />
+    <Property Name="OfficePinCode" Type="varchar" MaxLength="50" />
+    <Property Name="AddressTypeName3" Type="varchar" MaxLength="50" />
+    <Property Name="OfficePhone1" Type="varchar" MaxLength="50" />
+    <Property Name="OfficePhone2" Type="varchar" MaxLength="50" />
+    <Property Name="HomePhone" Type="varchar" MaxLength="50" />
+    <Property Name="MobilePhone" Type="varchar" MaxLength="50" />
+    <Property Name="Fax" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.StaffDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="StaffDetails">
+    <Key>
+      <PropertyRef Name="TeacherId" />
+    </Key>
+    <Property Name="TeacherId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TeacherNumber" Type="bigint" />
+    <Property Name="JoiningDate" Type="varchar" MaxLength="20" />
+    <Property Name="FirstName" Type="varchar" MaxLength="100" />
+    <Property Name="MiddleName" Type="varchar" MaxLength="100" />
+    <Property Name="LastName" Type="varchar" MaxLength="100" />
+    <Property Name="Gender" Type="varchar" MaxLength="100" />
+    <Property Name="DateOfBirth" Type="varchar" MaxLength="20" />
+    <Property Name="DepartmentId" Type="varchar" MaxLength="50" />
+    <Property Name="CategoryId" Type="int" />
+    <Property Name="PositionId" Type="int" />
+    <Property Name="GradeId" Type="int" />
+    <Property Name="JobTitle" Type="varchar" MaxLength="100" />
+    <Property Name="Qualification" Type="varchar" MaxLength="100" />
+    <Property Name="TotalExpYears" Type="varchar" MaxLength="50" />
+    <Property Name="TotalExpMonths" Type="varchar" MaxLength="50" />
+    <Property Name="ExperienceDetails" Type="varchar" MaxLength="1000" />
+    <Property Name="MaritalStatus" Type="int" />
+    <Property Name="ChildrenCount" Type="int" />
+    <Property Name="FatherName" Type="varchar" MaxLength="100" />
+    <Property Name="MotherName" Type="varchar" MaxLength="100" />
+    <Property Name="SpouseName" Type="varchar" MaxLength="100" />
+    <Property Name="BloodGroup" Type="int" />
+    <Property Name="Nationality" Type="int" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="PhotoPath" Type="varchar" MaxLength="100" />
+    <Property Name="HomeAddressLine1" Type="varchar" MaxLength="1000" />
+    <Property Name="HomeAddressLine2" Type="varchar" MaxLength="1000" />
+    <Property Name="HomeCity" Type="varchar" MaxLength="100" />
+    <Property Name="HomeState" Type="varchar" MaxLength="100" />
+    <Property Name="HomeCountry" Type="varchar" MaxLength="100" />
+    <Property Name="HomePinCode" Type="varchar" MaxLength="100" />
+    <Property Name="OfficeAddressLine1" Type="varchar" MaxLength="100" />
+    <Property Name="OfficeAddressLine2" Type="varchar" MaxLength="100" />
+    <Property Name="OfficeCity" Type="varchar" MaxLength="100" />
+    <Property Name="OfficeState" Type="varchar" MaxLength="100" />
+    <Property Name="OfficeCountry" Type="varchar" MaxLength="100" />
+    <Property Name="OfficePinCode" Type="varchar" MaxLength="100" />
+    <Property Name="OficePhone1" Type="varchar" MaxLength="20" />
+    <Property Name="OfficePhone2" Type="varchar" MaxLength="20" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="20" />
+    <Property Name="HomePhone" Type="varchar" MaxLength="20" />
+    <Property Name="Fax" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="StaffLeaveType">
+    <Key>
+      <PropertyRef Name="StaffLeaveTypeId" />
+    </Key>
+    <Property Name="StaffLeaveTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LeaveTypeName" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="500" />
+    <Property Name="CategoryId" Type="int" />
+    <Property Name="Gender" Type="int" />
+    <Property Name="Count" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StaffLogCategory">
+    <Key>
+      <PropertyRef Name="StaffLogCategoryID" />
+    </Key>
+    <Property Name="StaffLogCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StaffSalaryDetails">
+    <Key>
+      <PropertyRef Name="StaffSalaryId" />
+    </Key>
+    <Property Name="StaffSalaryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StaffId" Type="int" />
+    <Property Name="BasicPay" Type="varchar" MaxLength="50" />
+    <Property Name="EPF" Type="varchar" MaxLength="50" />
+    <Property Name="ESI" Type="varchar" MaxLength="50" />
+    <Property Name="TDSValue" Type="varchar" MaxLength="50" />
+    <Property Name="BankName" Type="varchar" MaxLength="50" />
+    <Property Name="BankAccountNo" Type="varchar" MaxLength="50" />
+    <Property Name="IFSCCode" Type="varchar" MaxLength="50" />
+    <Property Name="PassportNo" Type="varchar" MaxLength="50" />
+    <Property Name="PassportExpiryDate" Type="varchar" MaxLength="20" />
+    <Property Name="PANCardNo" Type="varchar" MaxLength="50" />
+    <Property Name="AadhaarNo" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.Student_Attendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Student_Attendance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Student_Number" Type="int" />
+    <Property Name="Student_Name" Type="varchar" MaxLength="100" />
+    <Property Name="Attendance_Date" Type="datetime" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="StudentAchievements">
+    <Key>
+      <PropertyRef Name="AchievementID" />
+    </Key>
+    <Property Name="AchievementID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="5000" />
+    <Property Name="DocumentName" Type="varchar" MaxLength="50" />
+    <Property Name="FileName" Type="varchar" MaxLength="50" />
+    <Property Name="Data" Type="nvarchar(max)" />
+    <Property Name="FilePathName" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentCategory">
+    <Key>
+      <PropertyRef Name="StudentCategoryID" />
+    </Key>
+    <Property Name="StudentCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentDetails">
+    <Key>
+      <PropertyRef Name="StudentDetailsId" />
+    </Key>
+    <Property Name="StudentDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdmissionNo" Type="varchar" MaxLength="50" />
+    <Property Name="AdmissionDate" Type="datetime" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+    <Property Name="StudentId" Type="varchar" MaxLength="50" />
+    <Property Name="Batch" Type="int" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="Gender" Type="int" />
+    <Property Name="Blood" Type="int" />
+    <Property Name="BirthPlace" Type="varchar" MaxLength="50" />
+    <Property Name="Language" Type="varchar" MaxLength="50" />
+    <Property Name="Nationality" Type="int" />
+    <Property Name="Religion" Type="varchar" MaxLength="50" />
+    <Property Name="StudentCategory" Type="int" />
+    <Property Name="PromitionalFlag" Type="int" />
+    <Property Name="AddressLine1" Type="varchar" MaxLength="500" />
+    <Property Name="AddressLine2" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="PinCode" Type="varchar" MaxLength="50" />
+    <Property Name="PhoneNumber1" Type="varchar" MaxLength="50" />
+    <Property Name="PhoneNumber2" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="FileName" Type="varchar" MaxLength="50" />
+    <Property Name="Data" Type="nvarchar(max)" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="Country" Type="int" />
+    <Property Name="DeleteFlag" Type="int" />
+    <Property Name="RollNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Semester" Type="varchar" MaxLength="50" />
+    <Property Name="AcademicYear" Type="varchar" MaxLength="50" />
+    <Property Name="AcademicStatus" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="OnlineStatus" Type="int" />
+    <Property Name="OnlineApplicationStatus" Type="int" />
+  </EntityType>
+  <EntityType Name="StudentDocuments">
+    <Key>
+      <PropertyRef Name="StudentDocumentsId" />
+    </Key>
+    <Property Name="StudentDocumentsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="DocumentTypeId" Type="int" />
+    <Property Name="FileName" Type="varchar" MaxLength="100" />
+    <Property Name="Data" Type="nvarchar(max)" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentExamAnswerDetails">
+    <Key>
+      <PropertyRef Name="StudentExamAnswerDetailsId" />
+    </Key>
+    <Property Name="StudentExamAnswerDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentExamDetailsId" Type="int" />
+    <Property Name="ExamQuestionId" Type="int" />
+    <Property Name="Answer" Type="varchar" MaxLength="5000" />
+    <Property Name="AnswerCorrectOrWrong" Type="int" />
+    <Property Name="Mark" Type="varchar" MaxLength="25" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentExamDetails">
+    <Key>
+      <PropertyRef Name="StudentExamDetailsId" />
+    </Key>
+    <Property Name="StudentExamDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExamId" Type="int" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="StartTime" Type="datetime" />
+    <Property Name="EndTime" Type="datetime" />
+    <Property Name="LoginId" Type="varchar" MaxLength="50" />
+    <Property Name="TotalMark" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentFeesInvoice">
+    <Key>
+      <PropertyRef Name="InvoiceID" />
+    </Key>
+    <Property Name="InvoiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="FeeId" Type="int" />
+    <Property Name="InvoiceAmount" Type="varchar" MaxLength="50" />
+    <Property Name="PaidStatusFlag" Type="int" />
+    <Property Name="DueDate" Type="datetime" />
+    <Property Name="PaymentDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="FeeAccessID" Type="int" />
+    <Property Name="FeeParticularID" Type="int" />
+    <Property Name="CancelFlag" Type="int" />
+    <Property Name="CourseId" Type="int" />
+    <Property Name="BatchId" Type="int" />
+    <Property Name="TotalAmount" Type="varchar" MaxLength="50" />
+    <Property Name="DiscountAmount" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="StudentFieldSettings">
+    <Key>
+      <PropertyRef Name="StudentFieldSettingID" />
+    </Key>
+    <Property Name="StudentFieldSettingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="50" />
+    <Property Name="Required" Type="int" />
+    <Property Name="FieldTypeFlag" Type="int" />
+    <Property Name="CheckAllFlag" Type="int" />
+    <Property Name="AdminStudentRegistrationFormFlag" Type="int" />
+    <Property Name="OnlineAdmissionFormFlag" Type="int" />
+    <Property Name="ParentPortalFlag" Type="int" />
+    <Property Name="StudentProfileFlag" Type="int" />
+    <Property Name="StudentProfilePDFFlag" Type="int" />
+    <Property Name="StudentPortalFlag" Type="int" />
+    <Property Name="TeacherPortalFlag" Type="int" />
+    <Property Name="TabSelection" Type="int" />
+    <Property Name="TabSubSelection" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="StatusFlag" Type="int" />
+    <Property Name="OrderNumber" Type="int" />
+    <Property Name="ColumnMapping" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="StudentHostelFeesMailNotification">
+    <Key>
+      <PropertyRef Name="MailNotificationId" />
+    </Key>
+    <Property Name="MailNotificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentRoomDetailsId" Type="int" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="SendDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentHostelFeesPaidDetails">
+    <Key>
+      <PropertyRef Name="StudentPaidDetailsId" />
+    </Key>
+    <Property Name="StudentPaidDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentRoomDetailsId" Type="int" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="PaidStatusFlag" Type="int" />
+    <Property Name="FeeId" Type="int" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="PaidDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentHostelRoomChangelNotification">
+    <Key>
+      <PropertyRef Name="RoomChangeNotificationId" />
+    </Key>
+    <Property Name="RoomChangeNotificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="SendDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="HostelDetailsId" Type="int" />
+    <Property Name="HostelFloorId" Type="int" />
+    <Property Name="HostelRoomBedId" Type="int" />
+    <Property Name="StatusFlag" Type="int" />
+  </EntityType>
+  <EntityType Name="StudentInstutionDetails">
+    <Key>
+      <PropertyRef Name="InstutionDetailsId" />
+    </Key>
+    <Property Name="InstutionDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="Instution" Type="varchar" MaxLength="100" />
+    <Property Name="Course" Type="varchar" MaxLength="100" />
+    <Property Name="Year" Type="int" />
+    <Property Name="TotalMark" Type="varchar" MaxLength="10" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentInvoicePayments">
+    <Key>
+      <PropertyRef Name="InvoicePaymentID" />
+    </Key>
+    <Property Name="InvoicePaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceId" Type="int" />
+    <Property Name="FeeId" Type="int" />
+    <Property Name="FeeParticularID" Type="int" />
+    <Property Name="FeeAccessID" Type="int" />
+    <Property Name="InvoicePaymentAmount" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentInvoiceTransaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceId" Type="int" />
+    <Property Name="TransactionDate" Type="datetime" />
+    <Property Name="TransactionType" Type="int" />
+    <Property Name="TransactionNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="500" />
+    <Property Name="InvoicePaymentAmount" Type="varchar" MaxLength="50" />
+    <Property Name="StatusFlag" Type="int" />
+    <Property Name="proof" Type="nvarchar(max)" />
+    <Property Name="FileName" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentLeaveType">
+    <Key>
+      <PropertyRef Name="StudentLeaveTypeID" />
+    </Key>
+    <Property Name="StudentLeaveTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Code" Type="varchar" MaxLength="50" />
+    <Property Name="Label" Type="varchar" MaxLength="50" />
+    <Property Name="ColorCode" Type="varchar" MaxLength="50" />
+    <Property Name="StatusFlag" Type="int" />
+    <Property Name="AttendanceFlag" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentLog">
+    <Key>
+      <PropertyRef Name="StudentLogID" />
+    </Key>
+    <Property Name="StudentLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="StudentLogCategoryID" Type="int" />
+    <Property Name="Description" Type="varchar" MaxLength="5000" />
+    <Property Name="NotificationToStudent" Type="int" />
+    <Property Name="NotificationToParent" Type="int" />
+    <Property Name="VisibleToStudents" Type="int" />
+    <Property Name="VisibleToParents" Type="int" />
+    <Property Name="VisibleToTeachers" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentLogCategory">
+    <Key>
+      <PropertyRef Name="StudentLogCategoryID" />
+    </Key>
+    <Property Name="StudentLogCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="AllowStatusFlag" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="StudentRoomDetails">
+    <Key>
+      <PropertyRef Name="StudentRoomDetailsId" />
+    </Key>
+    <Property Name="StudentRoomDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HostelDetailsId" Type="int" />
+    <Property Name="HostelFloorId" Type="int" />
+    <Property Name="StudentDetailsId" Type="int" />
+    <Property Name="HostelMessId" Type="int" />
+    <Property Name="Description" Type="varchar" MaxLength="100" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="HostelRoomId" Type="int" />
+    <Property Name="RoomNo" Type="varchar" MaxLength="500" />
+    <Property Name="HostelRoomBedId" Type="int" />
+    <Property Name="BedName" Type="varchar" MaxLength="50" />
+    <Property Name="AdmissionDate" Type="datetime" />
+    <Property Name="VacateDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="VacateFlag" Type="int" />
+    <Property Name="PaidStatusFlag" Type="int" />
+    <Property Name="StatusFlag" Type="int" />
+  </EntityType>
+  <EntityType Name="StudentSearchFilter">
+    <Key>
+      <PropertyRef Name="SearchFilterdId" />
+    </Key>
+    <Property Name="SearchFilterdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="SearchFilterdName" Type="varchar" MaxLength="50" />
+    <Property Name="FileldName" Type="varchar" MaxLength="50" />
+    <Property Name="SearchValue" Type="varchar" MaxLength="50" />
+    <Property Name="OptionValue" Type="varchar" MaxLength="50" />
+    <Property Name="userId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Subjects">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="FirstSub" Type="varchar" MaxLength="100" />
+    <Property Name="SecondSub" Type="varchar" MaxLength="100" />
+    <Property Name="Weekly" Type="int" />
+  </EntityType>
+  <EntityType Name="Tax">
+    <Key>
+      <PropertyRef Name="TaxID" />
+    </Key>
+    <Property Name="TaxID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TaxName" Type="varchar" MaxLength="50" />
+    <Property Name="Value" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="StatusFlag" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.tbl_timetable_defaultweekday' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_timetable_defaultweekday">
+    <Key>
+      <PropertyRef Name="refid" />
+    </Key>
+    <Property Name="refid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="is_sunday" Type="int" />
+    <Property Name="is_monday" Type="int" />
+    <Property Name="is_tuesday" Type="int" />
+    <Property Name="is_wednesday" Type="int" />
+    <Property Name="is_thursday" Type="int" />
+    <Property Name="is_friday" Type="int" />
+    <Property Name="is_saturday" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.TeacherLogCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TeacherLogCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="TeachersManageCategories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Prefix" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TeachersManageDepartments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="100" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="TeachersManageGrades">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="Priority" Type="varchar" MaxLength="10" />
+    <Property Name="Status" Type="varchar" MaxLength="10" />
+    <Property Name="MaxHoursDay" Type="int" />
+    <Property Name="MaxHoursWeek" Type="int" />
+  </EntityType>
+  <EntityType Name="TeachersManagePositions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.TeachersPositionCategoryLink' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TeachersPositionCategoryLink">
+    <Key>
+      <PropertyRef Name="PositionId" />
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="PositionId" Type="int" Nullable="false" />
+    <Property Name="CategoryId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.TeacherSubjectAssociation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TeacherSubjectAssociation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseId" Type="int" />
+    <Property Name="BatchId" Type="int" />
+    <Property Name="SubjectId" Type="int" />
+    <Property Name="TeacherId" Type="int" />
+    <Property Name="DepartmentId" Type="int" />
+  </EntityType>
+  <EntityType Name="TransportAttendanceByRoute">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RouteId" Type="int" />
+    <Property Name="DriverId" Type="int" />
+    <Property Name="AttendanceDate" Type="date" />
+    <Property Name="morngStartTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="MorngEndTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="EvngStartTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="EvngEndTime" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TransportBusLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VehicleId" Type="int" />
+    <Property Name="ReadingStart" Type="varchar" MaxLength="50" />
+    <Property Name="ReadingEnd" Type="varchar" MaxLength="50" />
+    <Property Name="FuelConsumed" Type="float" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="EntryDate" Type="date" />
+  </EntityType>
+  <EntityType Name="TransportDevices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeviceID" Type="varchar" MaxLength="50" />
+    <Property Name="AddedBy" Type="varchar" MaxLength="50" />
+    <Property Name="Route" Type="varchar" MaxLength="50" />
+    <Property Name="AssignedBy" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="TransportDrivers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="1000" />
+    <Property Name="Phone" Type="varchar" MaxLength="20" />
+    <Property Name="DOB" Type="varchar" MaxLength="20" />
+    <Property Name="LicenseNo" Type="varchar" MaxLength="50" />
+    <Property Name="ExpiryDate" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="TransportDriverVehicleLink">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DriverId" Type="int" />
+    <Property Name="VehicleId" Type="int" />
+  </EntityType>
+  <EntityType Name="TransportRoutes">
+    <Key>
+      <PropertyRef Name="RouteId" />
+    </Key>
+    <Property Name="RouteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RouteName" Type="varchar" MaxLength="50" />
+    <Property Name="NoOfStops" Type="int" />
+    <Property Name="NoOfStudents" Type="int" />
+    <Property Name="VehicleCode" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TransportStops">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RouteName" Type="nvarchar(max)" />
+    <Property Name="StopName" Type="varchar" MaxLength="100" />
+    <Property Name="Fare" Type="float" />
+    <Property Name="MonArrival" Type="varchar" MaxLength="20" />
+    <Property Name="EveArrival" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="TransportStudentAttendanceLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentDetailId" Type="int" />
+    <Property Name="RouteId" Type="int" />
+    <Property Name="AttendanceDate" Type="date" />
+    <Property Name="StopId" Type="int" />
+    <Property Name="MorngStartTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="MorngEndTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="EvngStartTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="EvngEndTime" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TransportStudentRouteLink">
+    <Key>
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="StudentId" Type="int" Nullable="false" />
+    <Property Name="RouteId" Type="int" Nullable="false" />
+    <Property Name="StopId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TransportVehicles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VehicleNo" Type="varchar" MaxLength="20" />
+    <Property Name="VehicleCode" Type="varchar" MaxLength="50" />
+    <Property Name="NoOfSeats" Type="int" />
+    <Property Name="MaximumCapacity" Type="int" />
+    <Property Name="VehicleType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="1000" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="Phone" Type="varchar" MaxLength="20" />
+    <Property Name="Insurance" Type="varchar" MaxLength="50" />
+    <Property Name="TaxRemitted" Type="varchar" MaxLength="50" />
+    <Property Name="Permit" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'GS247.dbo.Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="100" />
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="100" />
+    <Property Name="SuperUser" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="100" />
+    <Property Name="LastName" Type="varchar" MaxLength="100" />
+    <Property Name="LastVisit" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Years">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="StartsOn" Type="varchar" MaxLength="20" />
+    <Property Name="EndsOn" Type="varchar" MaxLength="20" />
+    <Property Name="Description" Type="varchar" MaxLength="1000" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <Association Name="FK_TransportBusLog_TransportVehicles">
+    <End Role="TransportVehicles" Type="Self.TransportVehicles" Multiplicity="0..1" />
+    <End Role="TransportBusLog" Type="Self.TransportBusLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TransportVehicles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TransportBusLog">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TransportStudentRouteLink_StudentDetails">
+    <End Role="StudentDetails" Type="Self.StudentDetails" Multiplicity="1" />
+    <End Role="TransportStudentRouteLink" Type="Self.TransportStudentRouteLink" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="StudentDetails">
+        <PropertyRef Name="StudentDetailsId" />
+      </Principal>
+      <Dependent Role="TransportStudentRouteLink">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StudentDetails_TransportStudentAttendanceLog">
+    <End Role="StudentDetails" Type="Self.StudentDetails" Multiplicity="0..1" />
+    <End Role="TransportStudentAttendanceLog" Type="Self.TransportStudentAttendanceLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StudentDetails">
+        <PropertyRef Name="StudentDetailsId" />
+      </Principal>
+      <Dependent Role="TransportStudentAttendanceLog">
+        <PropertyRef Name="StudentDetailId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GS247StoreContainer">
+    <EntitySet Name="batch" EntityType="Self.batch" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BatchLink" EntityType="Self.BatchLink" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CBSEExamSettings" EntityType="Self.CBSEExamSettings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="countries" EntityType="Self.countries" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CoursesSubjectsLink" EntityType="Self.CoursesSubjectsLink" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamCommonTypeCourse" EntityType="Self.ExamCommonTypeCourse" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamFormat" EntityType="Self.ExamFormat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamGradeLevel" EntityType="Self.ExamGradeLevel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Examination" EntityType="Self.Examination" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamQuestionPaper" EntityType="Self.ExamQuestionPaper" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamQuestionTypeValue" EntityType="Self.ExamQuestionTypeValue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Fee" EntityType="Self.Fee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeeAccess" EntityType="Self.FeeAccess" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeeParticular" EntityType="Self.FeeParticular" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeesConfiguration" EntityType="Self.FeesConfiguration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeeSubRecurringCustomDetails" EntityType="Self.FeeSubRecurringCustomDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeeSubscription" EntityType="Self.FeeSubscription" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileUpload" EntityType="Self.FileUpload" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GatewaySettings" EntityType="Self.GatewaySettings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GenerateSequenceMaster" EntityType="Self.GenerateSequenceMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GuardianDetails" EntityType="Self.GuardianDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HostelDetails" EntityType="Self.HostelDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HostelFloorDetails" EntityType="Self.HostelFloorDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HostelMessDetails" EntityType="Self.HostelMessDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HostelRoomBedDetails" EntityType="Self.HostelRoomBedDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HostelRoomDetails" EntityType="Self.HostelRoomDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LibraryAuthors" EntityType="Self.LibraryAuthors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LibraryBooks" EntityType="Self.LibraryBooks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LibraryBooksIssue" EntityType="Self.LibraryBooksIssue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LibraryCategory" EntityType="Self.LibraryCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MatchField" EntityType="Self.MatchField" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseApplyOrder" EntityType="Self.PurchaseApplyOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseItems" EntityType="Self.PurchaseItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseItemsStockDetails" EntityType="Self.PurchaseItemsStockDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseOrderItems" EntityType="Self.PurchaseOrderItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseProductDetails" EntityType="Self.PurchaseProductDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseSaleDetails" EntityType="Self.PurchaseSaleDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseVendorDetails" EntityType="Self.PurchaseVendorDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequestMaterialDetails" EntityType="Self.RequestMaterialDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="semester" EntityType="Self.semester" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SettingsModel" EntityType="Self.SettingsModel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SettingsOnlineRegistration" EntityType="Self.SettingsOnlineRegistration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SettingsUserRole" EntityType="Self.SettingsUserRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StaffContactDetails" EntityType="Self.StaffContactDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StaffLeaveType" EntityType="Self.StaffLeaveType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StaffLogCategory" EntityType="Self.StaffLogCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StaffSalaryDetails" EntityType="Self.StaffSalaryDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentAchievements" EntityType="Self.StudentAchievements" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentCategory" EntityType="Self.StudentCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentDetails" EntityType="Self.StudentDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentDocuments" EntityType="Self.StudentDocuments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentExamAnswerDetails" EntityType="Self.StudentExamAnswerDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentExamDetails" EntityType="Self.StudentExamDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentFeesInvoice" EntityType="Self.StudentFeesInvoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentFieldSettings" EntityType="Self.StudentFieldSettings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentHostelFeesMailNotification" EntityType="Self.StudentHostelFeesMailNotification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentHostelFeesPaidDetails" EntityType="Self.StudentHostelFeesPaidDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentHostelRoomChangelNotification" EntityType="Self.StudentHostelRoomChangelNotification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentInstutionDetails" EntityType="Self.StudentInstutionDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentInvoicePayments" EntityType="Self.StudentInvoicePayments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentInvoiceTransaction" EntityType="Self.StudentInvoiceTransaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentLeaveType" EntityType="Self.StudentLeaveType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentLog" EntityType="Self.StudentLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentLogCategory" EntityType="Self.StudentLogCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentRoomDetails" EntityType="Self.StudentRoomDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentSearchFilter" EntityType="Self.StudentSearchFilter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tax" EntityType="Self.Tax" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeachersManageCategories" EntityType="Self.TeachersManageCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeachersManageDepartments" EntityType="Self.TeachersManageDepartments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeachersManageGrades" EntityType="Self.TeachersManageGrades" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeachersManagePositions" EntityType="Self.TeachersManagePositions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportAttendanceByRoute" EntityType="Self.TransportAttendanceByRoute" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportBusLog" EntityType="Self.TransportBusLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportDevices" EntityType="Self.TransportDevices" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportDrivers" EntityType="Self.TransportDrivers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportDriverVehicleLink" EntityType="Self.TransportDriverVehicleLink" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportRoutes" EntityType="Self.TransportRoutes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportStops" EntityType="Self.TransportStops" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportStudentAttendanceLog" EntityType="Self.TransportStudentAttendanceLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportStudentRouteLink" EntityType="Self.TransportStudentRouteLink" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportVehicles" EntityType="Self.TransportVehicles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Years" EntityType="Self.Years" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BatchCourseLink" EntityType="Self.BatchCourseLink" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [BatchCourseLink].[CourseId] AS [CourseId], 
+    [BatchCourseLink].[BatchId] AS [BatchId]
+    FROM [dbo].[BatchCourseLink] AS [BatchCourseLink]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="BatchSubjectsLink" EntityType="Self.BatchSubjectsLink" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [BatchSubjectsLink].[SubjectsId] AS [SubjectsId], 
+    [BatchSubjectsLink].[BatchId] AS [BatchId]
+    FROM [dbo].[BatchSubjectsLink] AS [BatchSubjectsLink]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="EventsDetails" EntityType="Self.EventsDetails" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [EventsDetails].[Id] AS [Id], 
+    [EventsDetails].[EventName] AS [EventName], 
+    [EventsDetails].[EventDescription] AS [EventDescription], 
+    [EventsDetails].[EventFromDate] AS [EventFromDate], 
+    [EventsDetails].[EventToDate] AS [EventToDate], 
+    [EventsDetails].[EventFromTime] AS [EventFromTime], 
+    [EventsDetails].[EventToTime] AS [EventToTime], 
+    [EventsDetails].[CreatedDateTime] AS [CreatedDateTime], 
+    [EventsDetails].[CreatedBy] AS [CreatedBy], 
+    [EventsDetails].[ModifiedDateTime] AS [ModifiedDateTime], 
+    [EventsDetails].[ModifiedBy] AS [ModifiedBy], 
+    [EventsDetails].[LastModifiedDateTime] AS [LastModifiedDateTime]
+    FROM [dbo].[EventsDetails] AS [EventsDetails]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="EventTypes" EntityType="Self.EventTypes" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [EventTypes].[Id] AS [Id], 
+    [EventTypes].[EventType] AS [EventType], 
+    [EventTypes].[ColorCode] AS [ColorCode]
+    FROM [dbo].[EventTypes] AS [EventTypes]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="GeneratePaySlip" EntityType="Self.GeneratePaySlip" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [GeneratePaySlip].[Id] AS [Id], 
+    [GeneratePaySlip].[EmpNo] AS [EmpNo], 
+    [GeneratePaySlip].[SalaryDate] AS [SalaryDate], 
+    [GeneratePaySlip].[BasicPay] AS [BasicPay], 
+    [GeneratePaySlip].[Incentive] AS [Incentive], 
+    [GeneratePaySlip].[OverTime] AS [OverTime], 
+    [GeneratePaySlip].[Hike] AS [Hike], 
+    [GeneratePaySlip].[EarnTotal] AS [EarnTotal], 
+    [GeneratePaySlip].[TDS] AS [TDS], 
+    [GeneratePaySlip].[LossofPay] AS [LossofPay], 
+    [GeneratePaySlip].[Loan] AS [Loan], 
+    [GeneratePaySlip].[FestivalBonus] AS [FestivalBonus], 
+    [GeneratePaySlip].[ESI] AS [ESI], 
+    [GeneratePaySlip].[EPF] AS [EPF], 
+    [GeneratePaySlip].[Total Deduction] AS [Total Deduction], 
+    [GeneratePaySlip].[Net Salary] AS [Net Salary], 
+    [GeneratePaySlip].[Note] AS [Note]
+    FROM [dbo].[GeneratePaySlip] AS [GeneratePaySlip]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="MailBox" EntityType="Self.MailBox" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [MailBox].[Id] AS [Id], 
+    [MailBox].[FromMailId] AS [FromMailId], 
+    [MailBox].[ToMailIds] AS [ToMailIds], 
+    [MailBox].[CCMailIds] AS [CCMailIds], 
+    [MailBox].[BCCMailIds] AS [BCCMailIds], 
+    [MailBox].[MailBody] AS [MailBody], 
+    [MailBox].[Attachments] AS [Attachments], 
+    [MailBox].[Status] AS [Status], 
+    [MailBox].[CreatedBy] AS [CreatedBy], 
+    [MailBox].[CreatedDateTime] AS [CreatedDateTime], 
+    [MailBox].[ModifiedBy] AS [ModifiedBy], 
+    [MailBox].[ModifiedDateTime] AS [ModifiedDateTime], 
+    [MailBox].[LastModified] AS [LastModified]
+    FROM [dbo].[MailBox] AS [MailBox]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="NewsFeed" EntityType="Self.NewsFeed" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [NewsFeed].[Id] AS [Id], 
+    [NewsFeed].[NewsTopic] AS [NewsTopic], 
+    [NewsFeed].[NewsDescription] AS [NewsDescription], 
+    [NewsFeed].[CreatedDateTime] AS [CreatedDateTime], 
+    [NewsFeed].[CreatedBy] AS [CreatedBy], 
+    [NewsFeed].[ModifiedDateTime] AS [ModifiedDateTime], 
+    [NewsFeed].[ModifiedBy] AS [ModifiedBy], 
+    [NewsFeed].[LastModifiedDateTime] AS [LastModifiedDateTime]
+    FROM [dbo].[NewsFeed] AS [NewsFeed]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsAttendance" EntityType="Self.SettingsAttendance" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsAttendance].[Id] AS [Id], 
+    [SettingsAttendance].[StudentType] AS [StudentType], 
+    [SettingsAttendance].[DayWiseStudentType] AS [DayWiseStudentType], 
+    [SettingsAttendance].[TeacherType] AS [TeacherType]
+    FROM [dbo].[SettingsAttendance] AS [SettingsAttendance]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsCommonClassTimings" EntityType="Self.SettingsCommonClassTimings" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsCommonClassTimings].[Id] AS [Id], 
+    [SettingsCommonClassTimings].[Name] AS [Name], 
+    [SettingsCommonClassTimings].[StartTime] AS [StartTime], 
+    [SettingsCommonClassTimings].[EndTime] AS [EndTime], 
+    [SettingsCommonClassTimings].[IsBreak] AS [IsBreak], 
+    [SettingsCommonClassTimings].[IsAllBatch] AS [IsAllBatch]
+    FROM [dbo].[SettingsCommonClassTimings] AS [SettingsCommonClassTimings]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsDashboard" EntityType="Self.SettingsDashboard" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsDashboard].[Id] AS [Id], 
+    [SettingsDashboard].[Name] AS [Name], 
+    [SettingsDashboard].[BlockOrder] AS [BlockOrder], 
+    [SettingsDashboard].[IsEnable] AS [IsEnable]
+    FROM [dbo].[SettingsDashboard] AS [SettingsDashboard]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsDefaultGrading" EntityType="Self.SettingsDefaultGrading" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsDefaultGrading].[Id] AS [Id], 
+    [SettingsDefaultGrading].[Name] AS [Name], 
+    [SettingsDefaultGrading].[MinScore] AS [MinScore]
+    FROM [dbo].[SettingsDefaultGrading] AS [SettingsDefaultGrading]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsDefaultWeekdays" EntityType="Self.SettingsDefaultWeekdays" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsDefaultWeekdays].[Id] AS [Id], 
+    [SettingsDefaultWeekdays].[WeekDay] AS [WeekDay], 
+    [SettingsDefaultWeekdays].[IsEnable] AS [IsEnable]
+    FROM [dbo].[SettingsDefaultWeekdays] AS [SettingsDefaultWeekdays]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsDocumentType" EntityType="Self.SettingsDocumentType" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsDocumentType].[Id] AS [Id], 
+    [SettingsDocumentType].[DocumentName] AS [DocumentName], 
+    [SettingsDocumentType].[IsMandatory] AS [IsMandatory], 
+    [SettingsDocumentType].[IsRequired] AS [IsRequired]
+    FROM [dbo].[SettingsDocumentType] AS [SettingsDocumentType]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsExamFormat" EntityType="Self.SettingsExamFormat" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsExamFormat].[Id] AS [Id], 
+    [SettingsExamFormat].[IsLevel] AS [IsLevel], 
+    [SettingsExamFormat].[SchoolLevelType] AS [SchoolLevelType]
+    FROM [dbo].[SettingsExamFormat] AS [SettingsExamFormat]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsFeatures" EntityType="Self.SettingsFeatures" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsFeatures].[Id] AS [Id], 
+    [SettingsFeatures].[IsAchievements] AS [IsAchievements], 
+    [SettingsFeatures].[IsComplaints] AS [IsComplaints]
+    FROM [dbo].[SettingsFeatures] AS [SettingsFeatures]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsNotification" EntityType="Self.SettingsNotification" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsNotification].[Id] AS [Id], 
+    [SettingsNotification].[Name] AS [Name], 
+    [SettingsNotification].[IsSMS] AS [IsSMS], 
+    [SettingsNotification].[IsEmail] AS [IsEmail], 
+    [SettingsNotification].[IsMessage] AS [IsMessage], 
+    [SettingsNotification].[IsStudent] AS [IsStudent], 
+    [SettingsNotification].[IsGuardian] AS [IsGuardian], 
+    [SettingsNotification].[IsTeacher] AS [IsTeacher]
+    FROM [dbo].[SettingsNotification] AS [SettingsNotification]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsSchoolSetup" EntityType="Self.SettingsSchoolSetup" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsSchoolSetup].[Id] AS [Id], 
+    [SettingsSchoolSetup].[Name] AS [Name], 
+    [SettingsSchoolSetup].[RegistrationId] AS [RegistrationId], 
+    [SettingsSchoolSetup].[FoundedOn] AS [FoundedOn], 
+    [SettingsSchoolSetup].[Curriculum] AS [Curriculum], 
+    [SettingsSchoolSetup].[Address] AS [Address], 
+    [SettingsSchoolSetup].[Pincode] AS [Pincode], 
+    [SettingsSchoolSetup].[Phone] AS [Phone], 
+    [SettingsSchoolSetup].[AlternatePhone] AS [AlternatePhone], 
+    [SettingsSchoolSetup].[Email] AS [Email], 
+    [SettingsSchoolSetup].[Fax] AS [Fax], 
+    [SettingsSchoolSetup].[PrincipalName] AS [PrincipalName], 
+    [SettingsSchoolSetup].[PrincipalEmail] AS [PrincipalEmail], 
+    [SettingsSchoolSetup].[PrincipalPhone] AS [PrincipalPhone], 
+    [SettingsSchoolSetup].[PrincipalMobile] AS [PrincipalMobile], 
+    [SettingsSchoolSetup].[CurrentAcademicYear] AS [CurrentAcademicYear], 
+    [SettingsSchoolSetup].[FinanceYearStart] AS [FinanceYearStart], 
+    [SettingsSchoolSetup].[FinanceYearEnd] AS [FinanceYearEnd]
+    FROM [dbo].[SettingsSchoolSetup] AS [SettingsSchoolSetup]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsSMSCounter" EntityType="Self.SettingsSMSCounter" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsSMSCounter].[Id] AS [Id], 
+    [SettingsSMSCounter].[SMSDate] AS [SMSDate], 
+    [SettingsSMSCounter].[DayWiseCount] AS [DayWiseCount]
+    FROM [dbo].[SettingsSMSCounter] AS [SettingsSMSCounter]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsSMSGateway" EntityType="Self.SettingsSMSGateway" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsSMSGateway].[Id] AS [Id], 
+    [SettingsSMSGateway].[Name] AS [Name], 
+    [SettingsSMSGateway].[URL] AS [URL], 
+    [SettingsSMSGateway].[Method] AS [Method], 
+    [SettingsSMSGateway].[ResponseFormat] AS [ResponseFormat]
+    FROM [dbo].[SettingsSMSGateway] AS [SettingsSMSGateway]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsSMSGatewayParameters" EntityType="Self.SettingsSMSGatewayParameters" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsSMSGatewayParameters].[Id] AS [Id], 
+    [SettingsSMSGatewayParameters].[ParentId] AS [ParentId], 
+    [SettingsSMSGatewayParameters].[ParameterName] AS [ParameterName], 
+    [SettingsSMSGatewayParameters].[ParameterValue] AS [ParameterValue]
+    FROM [dbo].[SettingsSMSGatewayParameters] AS [SettingsSMSGatewayParameters]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsSMTP" EntityType="Self.SettingsSMTP" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsSMTP].[Id] AS [Id], 
+    [SettingsSMTP].[Host] AS [Host], 
+    [SettingsSMTP].[UserName] AS [UserName], 
+    [SettingsSMTP].[Password] AS [Password], 
+    [SettingsSMTP].[Port] AS [Port], 
+    [SettingsSMTP].[ConnectionSecurity] AS [ConnectionSecurity], 
+    [SettingsSMTP].[EnableSMTP] AS [EnableSMTP]
+    FROM [dbo].[SettingsSMTP] AS [SettingsSMTP]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SettingsTimeTableFormat" EntityType="Self.SettingsTimeTableFormat" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SettingsTimeTableFormat].[Id] AS [Id], 
+    [SettingsTimeTableFormat].[IsLevel] AS [IsLevel], 
+    [SettingsTimeTableFormat].[IsLevelType] AS [IsLevelType]
+    FROM [dbo].[SettingsTimeTableFormat] AS [SettingsTimeTableFormat]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Staff_Attendance" EntityType="Self.Staff_Attendance" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Staff_Attendance].[Id] AS [Id], 
+    [Staff_Attendance].[Staff_Number] AS [Staff_Number], 
+    [Staff_Attendance].[Staff_Name] AS [Staff_Name], 
+    [Staff_Attendance].[Attendance_Date] AS [Attendance_Date], 
+    [Staff_Attendance].[Status] AS [Status]
+    FROM [dbo].[Staff_Attendance] AS [Staff_Attendance]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="StaffDetails" EntityType="Self.StaffDetails" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [StaffDetails].[TeacherId] AS [TeacherId], 
+    [StaffDetails].[TeacherNumber] AS [TeacherNumber], 
+    [StaffDetails].[JoiningDate] AS [JoiningDate], 
+    [StaffDetails].[FirstName] AS [FirstName], 
+    [StaffDetails].[MiddleName] AS [MiddleName], 
+    [StaffDetails].[LastName] AS [LastName], 
+    [StaffDetails].[Gender] AS [Gender], 
+    [StaffDetails].[DateOfBirth] AS [DateOfBirth], 
+    [StaffDetails].[DepartmentId] AS [DepartmentId], 
+    [StaffDetails].[CategoryId] AS [CategoryId], 
+    [StaffDetails].[PositionId] AS [PositionId], 
+    [StaffDetails].[GradeId] AS [GradeId], 
+    [StaffDetails].[JobTitle] AS [JobTitle], 
+    [StaffDetails].[Qualification] AS [Qualification], 
+    [StaffDetails].[TotalExpYears] AS [TotalExpYears], 
+    [StaffDetails].[TotalExpMonths] AS [TotalExpMonths], 
+    [StaffDetails].[ExperienceDetails] AS [ExperienceDetails], 
+    [StaffDetails].[MaritalStatus] AS [MaritalStatus], 
+    [StaffDetails].[ChildrenCount] AS [ChildrenCount], 
+    [StaffDetails].[FatherName] AS [FatherName], 
+    [StaffDetails].[MotherName] AS [MotherName], 
+    [StaffDetails].[SpouseName] AS [SpouseName], 
+    [StaffDetails].[BloodGroup] AS [BloodGroup], 
+    [StaffDetails].[Nationality] AS [Nationality], 
+    [StaffDetails].[Email] AS [Email], 
+    [StaffDetails].[PhotoPath] AS [PhotoPath], 
+    [StaffDetails].[HomeAddressLine1] AS [HomeAddressLine1], 
+    [StaffDetails].[HomeAddressLine2] AS [HomeAddressLine2], 
+    [StaffDetails].[HomeCity] AS [HomeCity], 
+    [StaffDetails].[HomeState] AS [HomeState], 
+    [StaffDetails].[HomeCountry] AS [HomeCountry], 
+    [StaffDetails].[HomePinCode] AS [HomePinCode], 
+    [StaffDetails].[OfficeAddressLine1] AS [OfficeAddressLine1], 
+    [StaffDetails].[OfficeAddressLine2] AS [OfficeAddressLine2], 
+    [StaffDetails].[OfficeCity] AS [OfficeCity], 
+    [StaffDetails].[OfficeState] AS [OfficeState], 
+    [StaffDetails].[OfficeCountry] AS [OfficeCountry], 
+    [StaffDetails].[OfficePinCode] AS [OfficePinCode], 
+    [StaffDetails].[OficePhone1] AS [OficePhone1], 
+    [StaffDetails].[OfficePhone2] AS [OfficePhone2], 
+    [StaffDetails].[MobileNumber] AS [MobileNumber], 
+    [StaffDetails].[HomePhone] AS [HomePhone], 
+    [StaffDetails].[Fax] AS [Fax]
+    FROM [dbo].[StaffDetails] AS [StaffDetails]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Student_Attendance" EntityType="Self.Student_Attendance" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Student_Attendance].[Id] AS [Id], 
+    [Student_Attendance].[Student_Number] AS [Student_Number], 
+    [Student_Attendance].[Student_Name] AS [Student_Name], 
+    [Student_Attendance].[Attendance_Date] AS [Attendance_Date], 
+    [Student_Attendance].[Status] AS [Status]
+    FROM [dbo].[Student_Attendance] AS [Student_Attendance]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_timetable_defaultweekday" EntityType="Self.tbl_timetable_defaultweekday" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_timetable_defaultweekday].[refid] AS [refid], 
+    [tbl_timetable_defaultweekday].[is_sunday] AS [is_sunday], 
+    [tbl_timetable_defaultweekday].[is_monday] AS [is_monday], 
+    [tbl_timetable_defaultweekday].[is_tuesday] AS [is_tuesday], 
+    [tbl_timetable_defaultweekday].[is_wednesday] AS [is_wednesday], 
+    [tbl_timetable_defaultweekday].[is_thursday] AS [is_thursday], 
+    [tbl_timetable_defaultweekday].[is_friday] AS [is_friday], 
+    [tbl_timetable_defaultweekday].[is_saturday] AS [is_saturday]
+    FROM [dbo].[tbl_timetable_defaultweekday] AS [tbl_timetable_defaultweekday]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TeacherLogCategory" EntityType="Self.TeacherLogCategory" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TeacherLogCategory].[Id] AS [Id], 
+    [TeacherLogCategory].[Name] AS [Name]
+    FROM [dbo].[TeacherLogCategory] AS [TeacherLogCategory]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TeachersPositionCategoryLink" EntityType="Self.TeachersPositionCategoryLink" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TeachersPositionCategoryLink].[PositionId] AS [PositionId], 
+    [TeachersPositionCategoryLink].[CategoryId] AS [CategoryId]
+    FROM [dbo].[TeachersPositionCategoryLink] AS [TeachersPositionCategoryLink]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TeacherSubjectAssociation" EntityType="Self.TeacherSubjectAssociation" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TeacherSubjectAssociation].[Id] AS [Id], 
+    [TeacherSubjectAssociation].[CourseId] AS [CourseId], 
+    [TeacherSubjectAssociation].[BatchId] AS [BatchId], 
+    [TeacherSubjectAssociation].[SubjectId] AS [SubjectId], 
+    [TeacherSubjectAssociation].[TeacherId] AS [TeacherId], 
+    [TeacherSubjectAssociation].[DepartmentId] AS [DepartmentId]
+    FROM [dbo].[TeacherSubjectAssociation] AS [TeacherSubjectAssociation]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Users" EntityType="Self.Users" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Users].[Id] AS [Id], 
+    [Users].[UserName] AS [UserName], 
+    [Users].[Password] AS [Password], 
+    [Users].[Email] AS [Email], 
+    [Users].[MobileNumber] AS [MobileNumber], 
+    [Users].[SuperUser] AS [SuperUser], 
+    [Users].[Status] AS [Status], 
+    [Users].[FirstName] AS [FirstName], 
+    [Users].[LastName] AS [LastName], 
+    [Users].[LastVisit] AS [LastVisit]
+    FROM [dbo].[Users] AS [Users]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_TransportBusLog_TransportVehicles" Association="Self.FK_TransportBusLog_TransportVehicles">
+      <End Role="TransportVehicles" EntitySet="TransportVehicles" />
+      <End Role="TransportBusLog" EntitySet="TransportBusLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TransportStudentRouteLink_StudentDetails" Association="Self.FK_TransportStudentRouteLink_StudentDetails">
+      <End Role="StudentDetails" EntitySet="StudentDetails" />
+      <End Role="TransportStudentRouteLink" EntitySet="TransportStudentRouteLink" />
+    </AssociationSet>
+    <AssociationSet Name="StudentDetails_TransportStudentAttendanceLog" Association="Self.StudentDetails_TransportStudentAttendanceLog">
+      <End Role="StudentDetails" EntitySet="StudentDetails" />
+      <End Role="TransportStudentAttendanceLog" EntitySet="TransportStudentAttendanceLog" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

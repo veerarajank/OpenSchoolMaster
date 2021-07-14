@@ -1,0 +1,61 @@
+﻿@model GS247.Models.Transport.TransportStudentAttendance
+@{
+    
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div>
+        <h1>@ViewBag.Title</h1>
+        <div class="col-md-2"></div>
+        <div class=" form col-md-8">
+            <div class="formCon">
+                <div class="formConInner">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.HiddenFor(m => m.RouteId, new { @id = "RouteId" })
+                                @Html.HiddenFor(m => m.Session, new { @id = "Session" })
+                                @Html.DropDownListFor(Model => Model.StopId, (IEnumerable<SelectListItem>)ViewBag.Stations, "-Select Station-", new { @class = "form-control", @id = "StopId" })
+                            </th>
+
+                        </tr>
+                        @foreach (var item in Model.Students)
+                        {
+                            <tr>
+                                <th style="color:white;text-align:center;"><button class="btn formbut" onclick="Present(@item.StudentDetailsId)">@item.FirstName @item.MiddleName @item.LastName - @item.StudentId</button></th>
+                            </tr>
+                        }
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+   
+        @if (TempData["Attendance"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("Attendance").ToString()");
+            </script>
+        }
+    </div>
+    
+<script type="text/javascript">
+    function Present(id) {
+        if ($("#StopId").val() == "")
+            alert("Select Station");
+        else {
+            var route = $("#RouteId").val();
+            var stop = $("#StopId").val();
+            var session = $("#Session").val();
+            $.post('Present', { routeId:route,stopId:stop,studentId:id,session:session},
+                function (data) {
+                    alert(data);
+                });
+        }
+    };
+</script>

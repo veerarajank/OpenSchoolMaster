@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+                                <div class="cont_right formWrapper">
+                                    <h1>New Sale</h1>
+
+                                    <div class="button-bg">
+                                        <div class="top-hed-btn-left">
+                                            
+                                                <a class="a_tag-btn" href="@Url.Action("SaleItemList","Purchase")"><span>Back</span></a>
+                                           
+                                        </div>
+                                        <div class="top-hed-btn-right">
+                                            <ul>
+                                                <li><a class="a_tag-btn" href="@Url.Action("SaleItemList","Purchase")"><span>Manage Sale</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <form id="sale-details-form" action="CreateSaleItems" method="post">
+
+                                        <p class="note">Fields with <span class="required">*</span> are required.</p>
+
+                                        <div class="formCon-block">
+                                            <div class="formConInner-block">
+                                                <h3>Sale Details </h3>
+                                                <div class="text-fild-bg-block">
+                                                    <div class="text-fild-block inputstyle">
+                                                        <label for="ItemId" class="required">Item Name <span class="required">*</span></label>
+                                                        <select name="ItemId" id="ItemId" required>
+                                                            <option value="">Select Item Name</option>
+                                                            @foreach (var item1 in ViewBag.PurchaseItemsList)
+                                                            {
+                                                                <option value="@item1.ItemId">@item1.SchoolCO.Name </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="text-fild-block inputstyle">
+                                                        <label for="Quantity" class="required">Quantity <span class="required">*</span></label>
+                                                        <input maxlength="255" name="Quantity" id="Quantity" type="text" required onchange="quantityValidation(this);">
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-fild-bg-block">
+                                                    <div class="text-fild-block inputstyle">
+                                                        <label for="PurchaserType" class="required">Purchaser Type <span class="required">*</span></label>
+                                                        <select name="PurchaserType" id="PurchaserType" required onchange="onChangePurchase(this);">
+                                                            <option value="">Select Purchaser Type</option>
+                                                            <option value="1">Student</option>
+                                                            <option value="2">Teacher</option>
+                                                            <option value="3">Parent</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="text-fild-block inputstyle" style="display:none" id="BatchList">
+                                                        <label for="BatchId" class="required">Batch<span class="required">*</span></label>
+                                                        <select name="BatchId" id="BatchId" onchange="onChangeBatch(this);">
+                                                            <option value="">Select Batch</option>
+                                                            @foreach (var item1 in ViewBag.BatchList)
+                                                            {
+                                                                <option value="@item1.Id">@item1.Name </option>
+                                                            }
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="text-fild-block inputstyle">
+                                                        <label for="PurchasedBy" class="required">Puchased By <span class="required">*</span></label>
+                                                        <select name="PurchasedBy" id="PurchasedBy">
+                                                            <option value="">Select Purchased By</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+
+                                        <div style="padding:0px 0 0 0px; text-align:left">
+                                            <input id="submit_button_form" class="formbut-n" type="submit" name="yt0" value="Add Sale">
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                         
+    <script type="text/javascript">
+        $(".manage-sale_ico").attr('active', '1').closest('li').addClass('list_active');
+
+        function onChangePurchase(ele) {
+            $('#BatchList').css('display', 'none');
+            var Table = document.getElementById("PurchasedBy");
+            Table.innerHTML = "";
+            if(ele.value == "1")
+            {
+                $('#BatchList').css('display', 'block');                
+            }
+            else if (ele.value == "2") {
+                var d = { Type: ele.value };
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/PurchasedByStaff",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, List) {
+                           
+                            if (List.length > 0) {
+                                var value = "<option value=\"\">Select Purchased By</option>";
+
+                                for (var i = 0; i < List.length; i++) {
+                                    value += "<option value=\"" + List[i].TeacherId + "\">" + List[i].FirstName + " " + List[i].LastName + "</option>";
+                                }
+
+                                $("#PurchasedBy").append(value);
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            }
+            else if (ele.value == "3")
+            {
+                var d = { Type: ele.value };
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/PurchasedByParent",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, List) {
+
+                            if (List.length > 0) {
+                                var value = "<option value=\"\">Select Purchased By</option>";
+
+                                for (var i = 0; i < List.length; i++) {
+                                    value += "<option value=\"" + List[i].GuardianDetailsId + "\">" + List[i].FirstName + " " + List[i].LastName + "</option>";
+                                }
+
+                                $("#PurchasedBy").append(value);
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            }
+        };
+
+        function onChangeBatch(ele) {
+            var Table = document.getElementById("PurchasedBy");
+            Table.innerHTML = "";
+
+            if (ele.value != "") {
+                var d = { Type: 1,BatchId : ele.value, };
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/PurchasedByStudent",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, List) {
+                            if (List.length > 0) {
+                                var value = "<option value=\"\">Select Purchased By</option>";
+
+                                for (var i = 0; i < List.length; i++) {
+                                    value += "<option value=\"" + List[i].StudentDetailsId + "\">" + List[i].FirstName + " " + List[i].LastName + "</option>";
+                                }
+
+                                $("#PurchasedBy").append(value);
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            }
+            else {
+                var Table = document.getElementById("batchid");
+                Table.innerHTML = "";
+            }
+        };
+
+        function quantityValidation(ele) {
+            var ItemId = $('#ItemId').val();
+            if (ItemId != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/ItemQuantityValidation",
+                    data: '{ItemId: ' + ItemId + ',Quantity:' + ele.value + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.Message != "") {
+                            $('#Quantity').css("border", "1px solid red");
+                            $('#Quantity').val('');
+                            return false;
+                        }
+                        else {
+                            $('#Quantity').css("border", "1px solid blue");
+                        }
+                    }
+                });
+            }
+        };
+    </script>

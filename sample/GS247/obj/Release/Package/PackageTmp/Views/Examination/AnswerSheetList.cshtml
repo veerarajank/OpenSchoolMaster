@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.Title = "Answer Sheet List";
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<style>
+    .reslt ul {
+        padding-left: 0px;
+    }
+
+        .reslt ul li label {
+            color: #6f83a9;
+        }
+
+        .reslt ul li {
+            color: #f38108;
+            margin: 0;
+            font-size: 13px;
+            list-style: none;
+            padding: 3px 0;
+            font-weight: 600;
+        }
+
+    .pdtab_Con {
+        padding: 8px 0;
+    }
+</style>
+
+<form id="myform" action="SearchExamResultList" method="post">
+    <input type="hidden" value="@ViewBag.CurrentPageIndex" name="CurrentPage" id="CurrentPage" />
+    <input type="hidden" id="ExamId" name="ExamId" value="@ViewBag.ExamId" />
+    <div class="cont_right formWrapper">
+        <h1>Exam - @ViewBag.ExamName</h1>
+        <div class="button-bg">
+            <div class="top-hed-btn-left">
+                @*<div class="reslt">
+                    <ul>
+                        <li><label>Course : </label>@ViewBag.CourseName</li>
+                        <li><label>Batch : </label>@ViewBag.BatchName</li>
+                    </ul>
+                </div>*@
+            </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li><a class="a_tag-btn" href="@Url.Action("OnlineExams", "Examination")"><span>Back</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="pdtab_Con" style="width:100%">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr class="pdtab-h">
+                        <td height="18" align="center">Sl. No.</td>
+                        <td align="center">Student Name</td>
+                        <td align="center">Admission No</td>
+                        <td align="center">Course/Batch</td>
+                        <td align="center">Subject</td>                       
+                        <td align="center">Manage</td>
+                    </tr>
+                    @{ int rowNo = 0; }
+                    @foreach (var item in ViewBag.StudentExamList)
+                    {
+                        <tr>
+                            <td>@(rowNo += 1)</td>
+                            <td style="padding-left:10px; text-align:left;">@item.StudentName</td>
+                            <td style="padding-left:10px; text-align:left;">@item.AdmissionNo</td>
+                            <td style="padding-left:10px; text-align:left;">@item.CourseName / @item.BatchName</td>     
+                            <td style="padding-left:10px; text-align:left;">@item.SubjectName</td>  
+                            @if (item.StatusFlag == 1)
+                            {
+                                <td style="padding-left:10px; text-align:left;">
+                                    <a style="color:darkgreen" id="yt0"><span>Completed</span></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="padding-left:10px; text-align:left;">
+                                    <a style="color:orangered" href="@Url.Action("QuestionPaperCorrection", "Examination", new { StudentExamDetailsId = item.StudentExamDetailsId })" id="yt0"><span>Evaluate</span></a>
+                                </td>
+                            }
+                                
+                                       
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @{var pageCutLow = ViewBag.CurrentPageIndex - 1;}
+        @{var pageCutHigh = ViewBag.CurrentPageIndex + 1;}
+
+        @if (ViewBag.PageCount > 0)
+        {
+            <div class="">
+                <div align="center">
+                    <div class="">
+
+                        @if (ViewBag.CurrentPageIndex > 1)
+                        {
+                            <input type="submit" class="pageclickPrevious" value="Previous" style="border:none;width:50px;height:20px;font-size:10px;background-color:white;" />
+                        }
+
+                        @if (ViewBag.PageCount < 6)
+                        {
+                            for (int i = 1; i <= ViewBag.PageCount; i++)
+                            {
+                                if (i != ViewBag.CurrentPageIndex)
+                                {
+                                    <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                                else
+                                {
+                                    <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ViewBag.CurrentPageIndex > 2)
+                            {
+                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="1" />
+
+                                if (ViewBag.CurrentPageIndex > 3)
+                                {
+                                    <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex == 1)
+                            {
+                                pageCutHigh += 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == 2)
+                            {
+                                pageCutHigh += 1;
+                            }
+
+                            if (ViewBag.CurrentPageIndex == ViewBag.PageCount)
+                            {
+                                pageCutLow -= 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == ViewBag.PageCount - 1)
+                            {
+                                pageCutLow -= 1;
+                            }
+
+                            for (int i = (int)pageCutLow; i <= pageCutHigh; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    i += 1;
+                                }
+                                if (i > ViewBag.PageCount)
+                                {
+                                    continue;
+                                }
+
+                                if (ViewBag.CurrentPageIndex == i)
+                                {
+                                    <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 1)
+                            {
+                                if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 2)
+                                {
+                                    <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+
+                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@ViewBag.PageCount" />
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPageIndex < ViewBag.PageCount)
+                        {
+                            <input type="submit" class="pageclickNext" value="Next" style="border:none;width:30px;height:20px;font-size:10px;background-color:white" />
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    $(".pageclicktest").click(function () {
+        $("#CurrentPage").val($(this).val());
+    });
+
+    $(".pageclickNext").click(function () {
+        var nextPage = parseInt($("#CurrentPage").val()) + 1;
+        $("#CurrentPage").val(nextPage);
+    });
+
+    $(".pageclickPrevious").click(function () {
+        var prevPage = parseInt($("#CurrentPage").val()) - 1;
+        $("#CurrentPage").val(prevPage);
+    });
+
+</script>
+

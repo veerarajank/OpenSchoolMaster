@@ -1,0 +1,249 @@
+﻿@model dynamic
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //Hide the second level menu
+        $('#othleft-sidebar ul li ul').hide();
+        //Show the second level menu if an item inside it active
+        $('li.list_active').parent("ul").show();
+
+        $('#othleft-sidebar').children('ul').children('li').children('a').click(function () {
+
+            if ($(this).parent().children('ul').length > 0) {
+                $(this).parent().children('ul').toggle();
+            }
+        });
+    });
+</script>
+
+<div class="cont_right formWrapper">
+   
+    <h1>View Question Paper</h1>
+   
+    @foreach (var item in ViewBag.ExaminationsData)
+    {
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                @if (item.ExamType == 1)
+                {
+                    <ul>
+                        <li><a class="a_tag-btn" href="@Url.Action("OnlineExams", "Examination")"><span>Back</span></a></li>
+                    </ul>
+                }
+                else
+                {
+                    <ul>
+                        <li><a class="a_tag-btn" href="@Url.Action("CommonExams", "Examination")"><span>Back</span></a></li>
+                    </ul>
+                }               
+            </div>
+        </div>
+        <div class="panel-heading">
+            <div class="row">
+                <div class="">
+                    <div class="yellow-bg">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="online-exm-hd">
+                                    <h3 class="panel-title">@item.Name</h3>
+                                    <h4 class="panel-title">@item.StartTime.ToString("dd MMM yyyy hh:mm tt") - @item.EndTime.ToString("dd MMM yyyy hh:mm tt")</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="online-time">
+                                    <h3 class="panel-title"><span class="">Total Time&nbsp&nbsp&nbsp: </span> @item.Duration</h3>
+                                    <h3 class="panel-title"><span class="">Total Marks&nbsp: </span> @item.TotalMarks</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="" id="qp_questions">
+
+        @{ int rowNo = 0; }
+        @foreach (var item in ViewBag.QuestionPaperList)
+        {
+            <div class="row">
+                <div class="col-md-12 question_class" id="@item.ExamQuestionId">
+                    <div class="online-Q-list-bg">
+                        <div class="online-Q-list">
+                            <h3><span class="qp_number">@(rowNo += 1).</span>@item.QuestionName</h3>
+                            <div class="Q-ansr-block">
+                                @if (@item.QuestionType == 1)
+                                {
+                                    foreach (var item1 in item.OptionValue)
+                                    {
+                                        <div class="online-q-aType">
+                                            <input type="radio" name="field" value="@item1">
+                                            <label>@item1</label>
+                                        </div>
+                                    }
+                                }
+                                else if (@item.QuestionType == 2)
+                                {
+                                    <div class="online-q-aType">
+                                        <input type="radio" name="field" value=1>
+                                        <label>True</label>
+                                    </div>
+                                    <div class="online-q-aType">
+                                        <input type="radio" name="field" value=2>
+                                        <label>False</label>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="answer-verify-ans">
+                        <div class="online-ans-list answer-div" style="display: none;">
+
+                            @if (@item.QuestionType == 2)
+                            {
+                                if (@item.Answer == "1")
+                                {
+                                    <h3>
+                                        True
+                                    </h3>
+                                }
+                                else
+                                {
+                                    <h3>
+                                        False
+                                    </h3>
+                                }
+                            }
+                            else
+                            {
+                                <h3>
+                                    @item.Answer
+                                </h3>
+                            }
+
+                        </div>
+                    </div>
+                    <div class="online-Q-list-action">
+                        <div class="Qstn-actn-ul Qstn-actn-posion-left">
+                            <ul>
+                                @if (item.Ststus == 0)
+                                {
+                                    <li><a title="Edit Question" style="color:orangered" class="Q-edit-icon" href="javascript:editQuestion(@item.ExamQuestionId);">Edit</a></li>
+                                    <li><a class="Q-delete-icon" style="color:orangered" href="javascript:deleteQuestion(@item.ExamQuestionId);" id="yt0">Delete</a></li>
+                                }                                
+                                <li><span class="input-icon"><input title="Show Answer" class="show-answer Q-show-icon" name="yt1" type="button" value="Show Answer" /></span></li>
+                            </ul>
+                        </div>
+                        <div class="Qstn-actn-ul Qstn-actn-posion-right">
+                            <ul>
+                                <li><p><span>@item.Mark</span> Mark</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .placeholder {
+        background: #f3f3f3;
+        visibility: visible;
+        height: auto;
+        float: left;
+    }
+
+    .online-Q-list-bg:hover, .Q-ansr-block:hover {
+        cursor: move;
+    }
+</style>
+
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<script src="/js/jquery-ui-1.11.4.js"></script>
+
+<script>
+    $(document).ready(function () {
+        show_hide();
+    });
+
+    $(function () {
+        $("#qp_questions").sortable({
+            forcePlaceholderSize: true,
+            placeholder: 'placeholder',
+            update: function () {
+                arrange_questions_order();
+                save_questions_order();
+            }
+
+        });
+        $("#qp_questions").disableSelection();
+    });
+
+    var show_hide = function () {
+        $(".show-answer").unbind("click").bind("click", function () {
+            var that = this,
+                    $answer_block = $(that).closest(".col-md-12").find(".answer-div");
+
+            if ($answer_block.is(":visible")) {
+                $answer_block.slideUp('slow');
+                $(that).attr('value', 'Show Answer');
+                $(that).attr('title', 'Show Answer');
+            }
+            else {
+                $answer_block.slideDown('slow');
+                $(that).attr('value', 'Hide Answer');
+                $(that).attr('title', 'Hide Answer');
+            }
+        });
+    };
+
+    function scroll_div(element) {
+        $('html,body').animate({
+            scrollTop: $(element).offset().top
+        }, 'slow');
+    };
+
+    function arrange_questions_order() {
+        var start = 1;
+        $('#qp_questions .question_class').each(function (index, element) {
+            $(element).find('.online-Q-list-bg .online-Q-list .qp_number').text(start + '.');
+            start++;
+        });
+    };
+
+    function save_questions_order() {
+        var questions = [];
+        $('#qp_questions .question_class').each(function (index, element) {
+            var question = {};
+            question.order = index + 1;
+            question.id = $(element).attr('question-id');
+            questions.push(question);
+        });        
+    };
+
+    function deleteQuestion(ExamQuestionId) {
+        if (confirm("Are you sure you want to delete this question?")) {
+            $.ajax({
+                type: "POST",
+                url: "/Examination/DeleteQuestion",
+                data: '{ExamQuestionId: ' + ExamQuestionId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    }
+
+    function editQuestion(ExamQuestionId) {
+        window.location.href = '/Examination/UpdateQuestion?ExamQuestionId=' + ExamQuestionId;
+    }
+
+</script>

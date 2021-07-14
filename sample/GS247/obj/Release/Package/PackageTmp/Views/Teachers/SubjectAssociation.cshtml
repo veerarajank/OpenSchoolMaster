@@ -1,0 +1,275 @@
+﻿@model GS247.Models.Teachers.SubjectAssociation
+
+@{
+    ViewBag.Title = "SubjectAssociation";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+
+<style>
+</style>
+
+<script>
+    AllCourses();
+    function AllDetails() {
+        var CourseId = document.getElementById("c_id").value;
+        var BatchId = document.getElementById("b_id").value;
+        var SubjectId = document.getElementById("s_id").value;
+        if ((CourseId > 0) && (BatchId > 0) && (SubjectId > 0)) {
+            document.getElementById("tableDiv").style.display = "";
+            document.getElementById("AllDepart").style.display = "";
+            document.getElementById("AllDepartDetails").style.display = "";
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Teachers/CurrentlyAssigned?CourseId=" + CourseId + "&BatchId=" + BatchId + "&SubjectId=" + SubjectId, true);
+            request.onload = function () {
+                var data = JSON.parse(this.response);
+                if (request.status >= 200 && request.status < 400) {
+                    var tbl = document.getElementById("Assigned");
+                    tbl.textContent = "";
+                    var tr = document.createElement("tr");
+                    var th = document.createElement("th");
+                    th.textContent = "Teacher Name";
+                    tr.appendChild(th);
+                    var th = document.createElement("th");
+                    th.textContent = "Department";
+                    tr.appendChild(th);
+                    var th = document.createElement("th");
+                    th.textContent = "Action";
+                    tr.appendChild(th);
+                    tbl.appendChild(tr);
+                    for (var i = 0; i < data.length; i++) {
+                        var Id = data[i].Id;
+                        var FirstName = data[i].FirstName;
+                        var LastName = data[i].LastName;
+                        var Department = data[i].Department;
+                        var tr = document.createElement("tr");
+                        var td = document.createElement("td");
+                        td.textContent = FirstName + " " + LastName;
+                        tr.appendChild(td);
+                        var td = document.createElement("td");
+                        td.textContent = Department;
+                        tr.appendChild(td);
+                        var td = document.createElement("td");
+                        var aTag = document.createElement("a");
+                        aTag.textContent = "Remove";
+                        aTag.setAttribute("onclick", "Remove(" + Id + ");")
+                        td.appendChild(aTag);
+                        tr.appendChild(td);
+                        tbl.appendChild(tr);
+                    }
+                }
+            }
+            request.send();
+        }
+        
+    }
+    function AllDepartmentDetails() {
+        var DepartmentId = document.getElementById("depart").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/DepartmentTeachers?DepartmentId=" + DepartmentId, true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var tbl = document.getElementById("teacherDetails");
+                tbl.textContent = "";
+                var tr = document.createElement("tr");
+                var th = document.createElement("th");
+                th.textContent = "Teacher Name";
+                tr.appendChild(th);
+                var th = document.createElement("th");
+                th.textContent = "Action";
+                tr.appendChild(th);
+                tbl.appendChild(tr);
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var Name = data[i].Name;
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    td.textContent = Name;
+                    tr.appendChild(td);
+                    var td = document.createElement("td");
+                    var aTag = document.createElement("a");
+                    aTag.textContent = "Assign";
+                    aTag.setAttribute("onclick", "Assign(" + Id + "," + DepartmentId+");")
+                    td.appendChild(aTag);
+                    tr.appendChild(td);
+                    tbl.appendChild(tr);
+                }
+            }
+        }
+        request.send();
+
+    }
+    function AllCourses() {
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/AllCourses", true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var select = document.getElementById("c_id");
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var Name = data[i].Name;
+                    var option = document.createElement("option");
+                    option.setAttribute("value", Id);
+                    option.textContent = Name;
+                    select.appendChild(option);
+                }
+            }
+        }
+        request.send();
+    }
+    function AllDepartments() {
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/AllDepartments", true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var select = document.getElementById("depart");
+                select.textContent = "";
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var Name = data[i].Name;
+                    var option = document.createElement("option");
+                    option.setAttribute("value", Id);
+                    option.textContent = Name;
+                    select.appendChild(option);
+                }
+            }
+        }
+        request.send();
+    }
+    function AllBatch() {
+        var Id = document.getElementById("c_id").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/AllBatches?CourseId="+Id, true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var select = document.getElementById("b_id");
+                select.textContent = "";
+                var option = document.createElement("option");
+                option.setAttribute("value", "");
+                option.textContent = "Select Batch";
+                select.appendChild(option);
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var Name = data[i].Name;
+                    var option = document.createElement("option");
+                    option.setAttribute("value", Id);
+                    option.textContent = Name;
+                    select.appendChild(option);
+                }
+            }
+        }
+        request.send();
+    }
+    function AllSubjects() {
+        var Id = document.getElementById("c_id").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/AllSubjects?CourseId=" + Id, true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var select = document.getElementById("s_id");
+                select.textContent = "";
+                var option = document.createElement("option");
+                option.setAttribute("value", "");
+                option.textContent = "Select Subject";
+                select.appendChild(option);
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var Name = data[i].Name;
+                    var option = document.createElement("option");
+                    option.setAttribute("value", Id);
+                    option.textContent = Name;
+                    select.appendChild(option);
+                }
+            }
+        }
+        request.send();
+    }
+    function Remove(id) {
+        alert(id);
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/DeleteAssigned?Id=" + id, true);
+        request.send();
+        if ((request.status == 200) || (request.status == 0)) {
+            AllDetails();
+            AllDepartmentDetails();
+        }
+    }
+    function Assign(id,depId) {
+        var CourseId = document.getElementById("c_id").value;
+        var BatchId = document.getElementById("b_id").value;
+        var SubjectId = document.getElementById("s_id").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/Assigned?CourseId=" + CourseId + "&BatchId=" + BatchId + "&SubjectId=" + SubjectId + "&TeacherId=" + id + "&DepartmentId=" + depId, true);
+        request.send();
+        if ((request.status == 200) || (request.status == 0)) {
+            AllDetails();
+            AllDepartmentDetails();
+        }
+    }
+    
+</script>
+<div class="cont_right formWrapper" style="position: absolute; margin-top: -260px;">
+
+    <h1>Subject Association</h1>
+    <div class="formCon">
+        <div class="formConInner">
+            <div class="two-Inputarea">
+                <span>Course</span>
+                <select onchange="AllBatch(); AllSubjects();" id="c_id">
+                    <option value="">Select Course</option>
+                </select>
+            </div>
+            <div class="two-Inputarea">
+                <span>Batch</span>
+                <select id="b_id" onchange="AllDetails(); AllDepartments();">
+                    <option value="">Select Batch</option>
+                </select>
+            </div>
+            <div class="two-Inputarea">
+                <span>Subject</span>&nbsp;&nbsp;
+                <select id="s_id" onchange="AllDetails(); AllDepartments();">
+                    <option value="">Select Subject</option>
+                </select>
+                <br />
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="tableDiv" style="display:none;">
+        <div class="clear"></div>
+        <h3>Currently Assigned:</h3>
+        <div class="tableinnerlist">
+            <table id="Assigned" border="0" cellpadding="0" cellspacing="0" width="100%">
+            </table>
+        </div>
+    </div>
+
+    <div class="formCon" style="display:none;" id="AllDepart">
+        <div class="formConInner">
+            <div class="two-Inputarea">
+                <label>Departments</label>&nbsp;&nbsp;
+                <select id="depart" onchange="AllDepartmentDetails();" name="dep">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="AllDepartDetails" style="display:none;">
+        <h3>Assign New:</h3>
+        <div class="tableinnerlist">
+            <table id="teacherDetails"width="100%" cellpadding="0" cellspacing="0">
+            </table>
+        </div>
+        <br>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,61 @@
+﻿@model GS247.Models.TransportStop
+
+@{
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div>
+
+        <h1>@ViewBag.Title</h1>
+        <div class="form">
+            <div class="formCon">
+                <div class="formConInner">
+                    <div style="background:none;">
+                        <p>Fields with<span class="required"> * </span> are required.</p>
+
+                        @using (Html.BeginForm())
+                        {
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+                                <tr>
+                                    <td><label for="Stop_Name" class="required">Stop Name <span class="required">*</span></label></td>
+                                    <td>@Html.TextBoxFor(m => m.StopName, new { required = "required" }) </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="Fare" class="required">Fare <span class="required">*</span></label></td>
+                                    <td>@Html.TextBoxFor(m => m.Fare, new { required = "required" }) </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="MornArr" class="required">Morning Arrival <span class="required">*</span></label></td>
+                                    <td>@Html.TextBoxFor(m => m.MonArrival, new { required = "required",type="time" }) </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="EvngArr" class="required">Evening Arrival <span class="required">*</span></label></td>
+                                    <td>@Html.TextBoxFor(m => m.EveArrival, new { required = "required", type = "time" }) </td>
+                                </tr>
+                                <tr>
+                                    <td height="10px">&nbsp;</td>
+                                    <td>
+                                        @Html.HiddenFor(m => m.Id)
+                                        <input class="formbut" type="submit" value="Add" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- form -->
+        @if (TempData["Create_Stop"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("Create_Stop").ToString()");
+            </script>
+        }
+    </div>
+    
+

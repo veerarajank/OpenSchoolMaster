@@ -1,0 +1,365 @@
+﻿@model dynamic
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        //Hide the second level menu
+        $('#othleft-sidebar ul li ul').hide();
+        //Show the second level menu if an item inside it active
+        $('li.list_active').parent("ul").show();
+
+        $('#othleft-sidebar').children('ul').children('li').children('a').click(function () {
+
+            if ($(this).parent().children('ul').length > 0) {
+                $(this).parent().children('ul').toggle();
+            }
+        });
+    });
+</script>
+
+<div class="cont_right formWrapper">
+    <h1>Grade Book</h1>
+    <div class="filter_ul filterbxcntnt-new">
+        <ul>
+            <li class="Text_area_Box-two">
+                <select name="courseid" id="courseid" onchange="onChangeCourse(this);">
+                    <option value="">Select Course</option>
+                    @foreach (var item in ViewBag.CoursesList)
+                    {
+                        <option value="@item.Id">@item.Name </option>
+                    }
+                </select>
+            </li>
+            <li class="Text_area_Box-two">
+                <select id="batchid" name="batchid"></select>
+            </li>
+            <li class="Btn_area_Box "><input class="a-tag-btn" type="submit" onclick="onClickSearch();" value="Search"></li>
+        </ul>
+    </div>
+
+    <input type="hidden" value="@ViewBag.CurrentPageIndex" name="CurrentPage" id="CurrentPage" />    
+
+    <div class="pdtab_Con" style="padding-top:10px;">
+        <table width="100%" cellpadding="0" cellspacing="0" id="StudentListGrid"></table>
+    </div>
+    <br />
+    <div class="pagecon">
+        <div class="">
+            <div align="center" id="pageNation">
+            </div> <!-- END div class="pagecon" 2 -->
+            <div class="clear"></div>
+        </div>
+    </div>
+    <br />
+</div>
+
+<div id="loading">
+    <img id="loading-image" src="~/gridview/loading.gif" alt="Loading..." />
+</div>
+<style>
+    #loading {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 1;
+        text-align: center;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 250px;
+        left: 775px;
+        z-index: 100;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+
+    .alphabrtic {
+        background-color: #F60;
+    }
+</style>
+
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+    <script type="text/javascript">
+
+        function onChangeCourse(ele) {
+
+            if (ele.value != "") {
+                var d = { Id: ele.value };
+                $.ajax({
+                    type: "POST",
+                    url: "/Student/BatchListLoad",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, BatchList) {
+                            var Table = document.getElementById("batchid");
+                            Table.innerHTML = "";
+                            if (BatchList.length > 0) {
+                                var value = "<option value=\"0\">All</option>";
+
+                                for (var i = 0; i < BatchList.length; i++) {
+                                    value += "<option value=\"" + BatchList[i].Id + "\">" + BatchList[i].Name + "</option>";
+                                }
+
+                                $("#batchid").append(value);
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            }
+            else {
+                var Table = document.getElementById("batchid");
+                Table.innerHTML = "";
+            }
+        };
+
+        function GetStudentList() {
+
+            $('#loading').show();
+
+            var studentAdvanceSearch = new Object();
+            studentAdvanceSearch.CourseId = $('#courseid').val();
+            studentAdvanceSearch.BatchId = $('#batchid').val();
+            studentAdvanceSearch.CurrentPage = $('#CurrentPage').val();
+
+            var d = { SearchSFields: studentAdvanceSearch };
+
+            $.ajax({
+                type: "POST",
+                url: "/Examination/GradeBookList",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    tableClearValue();
+                    if (result.StudentList.length > 0) {
+                        $.each(result, function (index, StudentList) {
+                            var j = 1;
+                            for (var i = 0; i < StudentList.length; i++) {
+                                $("#StudentListGrid").append(
+                                    "<tr>"
+                                    + "<td>" + j + "</td>"
+                                    + "<td><a style=\"color:darkorange\">" + StudentList[i].StudentName + "</a></td>"
+                                    + "<td>" + StudentList[i].AdmissionNo + "</td>"
+                                    + "<td>" + StudentList[i].ExamName + "</td>"
+                                    + "<td>" + StudentList[i].TotalMark + "</td>"
+                                    + "</tr>");
+                                j++;
+                            }
+                        });
+                    } else {
+                        $("#StudentListGrid").append("<tr align=\"center\"><td colspan=\"4\">No Records Found</td></tr>");
+                    }
+                    pagenationApply(result.TotalPages);
+                    $('#loading').hide();
+                },
+                error: function (response) {
+                    alert('eror');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#loading').hide();
+        });
+
+        function tableClearValue() {
+            var Table = document.getElementById("StudentListGrid");
+            Table.innerHTML = "";
+            $("#StudentListGrid").append(
+                "<tr class=\"tablebx_topbg\">"
+                + "<td>Sl No</td><td width=\"25%\">Student Name</td><td>Admission No</td><td>Exam Group Name</td><td>Mark</td>"
+                + "</tr>");
+        };
+
+        function onClickSearch() {
+            $("#CurrentPage").val('1');
+            GetStudentList();
+        };
+
+        function pagenationApply(PageCount) {
+
+            var Table = document.getElementById("pageNation");
+            Table.innerHTML = "";
+            var currentPageIndex = $('#CurrentPage').val();
+            var pageCutLow = (parseInt(currentPageIndex)) - parseInt(1);
+            var pageCutHigh = parseInt(1) + (parseInt(currentPageIndex));
+
+            var value = "<div class=\"\">";
+
+            if (parseInt(currentPageIndex) > 1) {
+                value += "<input type=\"submit\" onclick=\"pageclickPrevious(this);\" value=\"Previous\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white;\"/>";
+            }
+
+            if (parseInt(PageCount) < 6) {
+                for (var i = 1; i <= parseInt(PageCount) ; i++) {
+                    if (i != parseInt(currentPageIndex)) {
+                        value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                    }
+                    else {
+                        value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                    }
+                }
+            }
+            else {
+                if (parseInt(currentPageIndex) > 2) {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"1\" />";
+
+                    if (parseInt(currentPageIndex) > 3) {
+                        value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\" />";
+                    }
+                }
+                if (parseInt(currentPageIndex) == 1) {
+                    pageCutHigh += 2;
+                }
+                else if (parseInt(currentPageIndex) == 2) {
+                    pageCutHigh += 1;
+                }
+
+                if (parseInt(currentPageIndex) == parseInt(PageCount)) {
+                    pageCutLow -= 2;
+                }
+                else if (parseInt(currentPageIndex) == parseInt(PageCount) - 1) {
+                    pageCutLow -= 1;
+                }
+
+                for (var i = pageCutLow; i <= pageCutHigh; i++) {
+                    if (i == 0) {
+                        i += 1;
+                    }
+                    if (i > parseInt(PageCount)) {
+                        continue;
+                    }
+
+                    if (parseInt(currentPageIndex) == i) {
+                        value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                    }
+                    else {
+                        value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                    }
+                }
+
+                if (parseInt(currentPageIndex) < parseInt(PageCount) - 1) {
+                    if (parseInt(currentPageIndex) < parseInt(PageCount) - 2) {
+                        value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\"/>";
+                    }
+
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + parseInt(PageCount) + "\" />";
+                }
+
+                if (parseInt(currentPageIndex) < parseInt(PageCount)) {
+                    value += "<input type=\"submit\" onclick=\"pageclickNext(this);\" value=\"Next\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white\" />";
+                }
+
+            }
+
+            value += "</div>";
+
+            $("#pageNation").append(value);
+
+        };
+
+        function pageclicktest(ele) {
+            $("#CurrentPageIndex").val(ele.value);
+            var listsize = $('#listsize').val();
+            GetStudentList(listsize);
+        };
+
+        function pageclickNext(ele) {
+            var nextPage = parseInt($("#CurrentPageIndex").val()) + 1;
+            $("#CurrentPageIndex").val(nextPage);
+            var listsize = $('#listsize').val();
+            GetStudentList(listsize);
+        };
+
+        function pageclickPrevious(ele) {
+            var prevPage = parseInt($("#CurrentPageIndex").val()) - 1;
+            $("#CurrentPageIndex").val(prevPage);
+            var listsize = $('#listsize').val();
+            GetStudentList(listsize);
+        };
+
+    </script>
+
+    

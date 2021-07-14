@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Fees";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td valign="top" width="75%">
+            <div class="cont_right formWrapper">
+                <div class="opnsl_headerBox">
+                    <div class="opnsl_actn_box">
+                        <h1>Fees - #4</h1>
+                    </div>
+                </div>
+                <div class="pdtab_Con">
+                    <div class="formCon">
+                        <div class="formConInner">
+                            <div><span style="font-weight:bold;">Name :</span>  Exam Fees </div><br />
+                            <div><span style="font-weight:bold;">Description :</span>  Exam Fees </div><br />
+                        </div>
+                    </div>
+                    <div style="font-size:13px; padding:5px 0px">
+                        <strong>Fee Particulars</strong>
+                    </div>
+                    <div class="invoice-table">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                                <tr class="pdtab-h">
+                                    <td height="18" align="center">#</td>
+                                    <td align="center">Particular</td>
+                                    <td height="18">Description</td>
+                                    <td height="18">Tax</td>
+                                    <td height="18">Discount</td>
+                                    <td align="center">Group</td>
+                                    <td align="center">Amount</td>
+                                </tr>
+                                @foreach (var item in ViewBag.FeesParticular)
+                                {
+                                    <tr>
+                                        <td>1</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.TaxName</td>
+                                        <td>
+                                            @if (item.Type == 1)
+                                            {
+                                                @String.Format("{0:N2}", Convert.ToDecimal(@item.Discount))   <span> %</span>
+                                            }
+                                            else
+                                            {
+                                                <span>INR </span> @String.Format("{0:N2}", Convert.ToDecimal(@item.Discount))
+                                            }
+                                        </td>
+
+                                        <td>
+                                            @foreach (var data in item.SchoolCO.FeeAccess)
+                                            {
+                                                if (data.Type == 1)
+                                                {
+                                                    <div> @data.SchoolCO.BatchName  </div>
+                                                    <div> @data.SchoolCO.CourseName  </div>
+                                                    <div> @data.SchoolCO.FeeCategoryName  </div>
+                                                }
+                                                else
+                                                {
+                                                    if (data.AdmissionNumbers != "")
+                                                    {
+                                                        <div> Admission Number : @data.AdmissionNumbers </div>
+                                                    }
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var data in item.SchoolCO.FeeAccess)
+                                            {
+                                                <div>@String.Format("{0:N2}", Convert.ToDecimal(@data.Amount))   </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+

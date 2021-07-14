@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "CreateNews";
+    Layout = "~/Views/Shared/_MyAccountLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+
+    .formbut {
+        padding: 0px 20px;
+        margin: 0px;
+        background: none repeat scroll 0 0 #f38108;
+        height: 30px !important;
+        font-size: 13px !important;
+        border: none;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer !important;
+    }
+</style>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@*<script src="~/Scripts/MyAccounts/datepicker/jquery-1.11.1.min.js"></script>*@
+
+<script src="~/Scripts/MyAccounts/datepicker/bootstrap-datepicker.js"></script>
+<link href="~/Scripts/MyAccounts/datepicker/datepicker3.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery-ui.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+
+        $('#btn_newsSubmit').click(function () {
+
+            var title = $('#Publish_title').val();
+            if (title == "" || title == null || title == '') {
+                $('#create_errmsg').text("Title cannot be blank.");
+                return false;
+            }
+            else {
+                $('#create_errmsg').text("");
+            }
+
+            var content = $('#Publish_content').val();
+            if (content == "" || content == null || content == '') {
+                $('#create_errmsg').text("Description cannot be blank.");
+                return false;
+            }
+            else {
+                $('#create_errmsg').text("");
+            }
+
+            var serviceUrl = '/MyAccount/NewsFeedDetails'
+            var flag = "InsertNews";
+            var IsPublish = 0;
+            var userId = "Raaj";
+            var Id = null;
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "Id": Id, "flag": flag, "NewsTopic": title, "NewsDescription": content, "userId": userId, "IsPublish": IsPublish }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "Success") {
+                            location.href = "/MyAccount/PublishNews";
+                        }
+                    }
+                }
+            });
+
+        });
+
+
+
+
+    });
+</script>
+
+
+
+
+<div class="cont_right formWrapper">
+
+    <div style="display:block;">
+
+        <div id="div_CreateNews">
+            <div class="cont_right formWrapper">
+                <h1><b>Create News</b></h1>
+
+                <style type="text/css">
+                    td.rah textarea {
+                        width: 100% !important;
+                        height: auto;
+                    }
+                </style>
+
+                <p class="note">Fields with<span class="required">*</span> are required.</p>
+                <div class="formCon">
+                    <div class="formConInner">
+                        <form id="config-sms-form" action="#" method="post">
+                            <table width="80%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td><label for="Publish_title" class="required">Title <span class="required">*</span></label></td>
+                                    <td><input size="32" maxlength="255" name="Publish[title]" id="Publish_title" type="text" autocomplete="off" /> </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="2">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><label for="Publish_content" class="required">Description <span class="required">*</span></label></td>
+                                    <td class="rah"><textarea rows="5" name="Publish[content]" id="Publish_content"></textarea> </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td><span id="create_errmsg" style="color:red;"></span></td>
+                                </tr>
+                            </table>
+                            <div style="padding-top:20px;"> <input class="formbut" type="button" name="yt0" value="Create" id="btn_newsSubmit" /> </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- form -->
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+

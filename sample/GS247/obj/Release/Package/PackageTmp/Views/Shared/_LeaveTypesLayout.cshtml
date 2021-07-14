@@ -1,0 +1,89 @@
+﻿@{            
+       ViewBag.Title = "_LeaveTypesLayout";
+       Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+</head>
+<body style="background-color:">
+
+    <div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+        <div class="wrap_container_admin wrap_container_flex">
+            <script>
+                $(document).ready(function () {
+                    window.history.pushState(null, "", window.location.href);
+                    window.onpopstate = function () {
+                        window.history.pushState(null, "", window.location.href);
+                    };
+                });
+                function setDefault(Id) {
+                    var tag = document.getElementById(Id);
+                    tag.setAttribute("class", "list_active");
+                }
+            </script>
+
+            <div class="midnav" style="background-color: ; color: ">
+                <div class="breadcrumbs">
+
+                </div>
+            </div>
+            <div class="container">
+                <div class="container">
+                    <div class="span-19">
+                        <div id="content">
+
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="247" valign="top">
+                                        <div id="othleft-sidebar">
+                                            <!--<div class="lsearch_bar">
+                  <input type="text" value="Search" class="lsearch_bar_left" name="">
+                  <input type="button" class="sbut" name="">
+                  <div class="clear"></div>
+    </div> -->
+                                            <h1>Manage LeaveTypes</h1>
+                                            <ul id="yw0">
+                                                <li><a class="list-cours_ico" onload="setDefault(this.parentNode.id)" href="@Url.Action("Index","HRModule")">List LeaveType <span>Current LeaveTypes Details</span></a></li>
+                                                <li><a class="create-courses_ico" href="@Url.Action("CreateLeaveType","HRModule")">CreateLeaveType<span>Add New Leave Types Details</span></a></li>
+                                                <li><a class="previous-courses_ico" href="@Url.Action("LeaveRequest","HRModule")">LeaveRequest<span>Leave Request Details</span></a></li>
+                                                <li><a class="deactive-course_ico" href="@Url.Action("ApprovedLeave","HRModule")">ApprovedLeaveRequest<span> Approved Leave Request Details</span></a></li>
+                                                <li><a class="common-pool-course_ico" href="@Url.Action("CancelledLeave","HRModule")">CancelledLeaveRequest<span>Cancelled Leave Request Details</span></a></li>
+                                                <li id="menu_1"><a class="genaral-setting_ico" href="@Url.Action("","")">General Settings<span>Manage Configurations</span></a></li>
+                                            </ul>
+                                            <h1>Salary Management</h1>
+                                            <ul id="yw0">
+                                                <li><a class="list-cours_ico" onload="setDefault(this.parentNode.id)" href="@Url.Action("Payslip","HRModule")">Salary Details <span>Current salary Details</span></a></li>
+                                                @*<li><a class="create-courses_ico" href="@Url.Action("CreateLeaveType","HRModule")">Generation Payships<span>Add New Leave Types Details</span></a></li>
+                                                <li><a class="previous-courses_ico" href="@Url.Action("LeaveRequest","HRModule")">LeaveRequest<span>Leave Request Details</span></a></li>
+                                                <li><a class="deactive-course_ico" href="@Url.Action("ApprovedLeaveRequest","HRModule")">ApprovedLeaveRequest<span> Approved Leave Request Details</span></a></li>
+                                                <li><a class="common-pool-course_ico" href="@Url.Action("CancelledLeaveRequest","HRModule")">CancelledLeaveRequest<span>Cancelled Leave Request Details</span></a></li>
+                                                <li id="menu_1"><a class="genaral-setting_ico" href="@Url.Action("","")">General Settings<span>Manage Configurations</span></a></li>*@
+                                            </ul>                                           
+                                            <div id="subject-name-ajax-grid"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="content" style="        background-color: white">
+                                            @RenderBody()
+                                            <!-- Content Header (Page header) -->
+                                            <!-- /.content -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,754 @@
+﻿@model GS247.Models.Fee
+@{
+    ViewBag.Title = "Fees";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+
+
+<div class="cont_right formWrapper">
+    <h1> Create Fees</h1>
+    <style>
+        .fee-particular-head {
+            padding: 10px 15px;
+            background-color: #c5ced9;
+            color: #405875;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .feeParticular {
+            border: 1px solid #c5ced9;
+            padding: 15px;
+            background-color: #fff;
+            margin-bottom: 20px;
+        }
+
+
+        .applicable-to {
+            border: 1px solid #c5ced9;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #F9F9FD;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        .error-brd {
+            border-color: #F30 !important;
+        }
+    </style>
+
+    <form id="fee-categories-form" action="" method="post">
+        <div class="formCon">
+            <div class="formConInner" style="width:95%;">
+                <h3>Fee Category</h3>
+                <table width="100%">
+                    <tr>
+                        <td width="10%"><label for="Name" class="required">Name <span class="required">*</span></label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="FeeCategories_name" required style="width:100% !important;" name="FeeName" id="FeeName" type="text" maxlength="250" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Description">Description</label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea class="FeeCategories_description" style="width:100% !important; height:120px;" name="FeeDescription" id="FeeDescription"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <div class="clear"></div>
+                <br />
+                <br />
+                <h3 style="width:100%;">Fee Particulars</h3>
+
+                <!-- Fee particulars here -->
+                <div id="fee-particulars">
+                    <div class="fee-particular" id="fee-particular-0" data-row="0">
+                        <div class="fee-particular-head">
+                            <table width="100%">
+                                <tr>
+                                    <td width="22%"><label>Name<sup>*</sup></label></td>
+                                    <td width="33%"><label>Description</label></td>
+
+                                    @if (ViewBag.feeConfiguration != null)
+                                    {
+                                        if (ViewBag.feeConfiguration.TaxFlag == 1)
+                                        {
+                                            <td width="17%"><label>Tax</label></td>
+                                        }
+                                        if (ViewBag.feeConfiguration.DiscountFlag == 1)
+                                        {
+                                            <td width="13%"><label>Discount</label></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td width="17%"><label>Tax</label></td>
+                                        <td width="13%"><label>Discount</label></td>
+                                    }
+                                    <td width="45%"><label>&nbsp;</label></td>
+                                </tr>
+                            </table>
+                            <a href="javascript:void(0);" title="Click to remove particular" class="remove-particular fees-trash"></a>
+                        </div>
+                        <div class="feeParticular">
+                            <table width="100%" class="feetablheader">
+                                <tr>
+                                    <td width="20%" valign="top">
+                                        <input class="FeeParticulars_name particular-name" required placeholder="Particular Name" style="width:120px !important;" name="Name" id="Name" type="text" />
+                                    </td>
+                                    <td width="35%" valign="top">
+                                        <input class="FeeParticulars_description" placeholder="Particular Description" style="width:200px !important;" name="Description" id="Description" type="text" />
+                                    </td>
+
+                                    <td width="45%" valign="top" id="tdTax">
+                                        <select class="FeeParticulars_tax" style="width:100px !important;" name="Tax" id="Tax">
+                                            <option value="">No Tax</option>
+                                            @foreach (var item in ViewBag.taxdetails)
+                                            {
+                                                <option value="@item.TaxID">@item.TaxName</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td width="45%" valign="top" id="tdDiscount">
+                                        <input class="FeeParticulars_tax only-numeric" placeholder="Discount" style="width:70px !important;" value="0.00" name="Discount" maxlength="10" id="Discount" type="text" />
+                                    </td>
+                                    <td width="45%" valign="top" id="tdType">
+                                        <select class="FeeParticulars_discount_type" style="width:100px !important;" name="Type" id="Type">
+                                            <option value="1">%</option>
+                                            <option value="2">INR</option>
+                                        </select>
+                                    </td>
+                                    <td width="10%" valign="middle"></td>
+                                </tr>
+                            </table>
+
+                            <br />
+                            <h3>Applicable to:</h3>
+
+                            <div id="particular-accesses-0">
+
+                                <div class="particular-access" data-row="0">
+                                    <div class="applicable-to">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <select class="particular-access-type" style="width:120px !important;" name="Type" id="Type">
+                                                        <option value="1">Default</option>
+                                                        <option value="2">Admission number</option>
+                                                    </select>
+                                                </td>
+                                                <td id="AdmissionNumbers0" style="display:none">
+                                                    <input style="width:364px !important" placeholder="Admission Numbers seperated by commas" name="AdmissionNumbers" id="AdmissionNumbers" type="text">
+                                                </td>
+                                                <td class="access-datas" id="defaulyTd0">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <select class="access-course" style="width:120px !important;" name="CourseID" id="CourseID" onchange="onChangeCourse(this,0,0);">
+                                                                    <option value="">All Courses</option>
+                                                                    @foreach (var item in ViewBag.CoursesList)
+                                                                    {
+                                                                        <option value="@item.Id">@item.Name</option>
+                                                                    }
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select class="access-batch0" style="width:120px !important;" name="BatchID" id="BatchID">
+                                                                    <option value="">All Batches</option>
+                                                                    @foreach (var item in ViewBag.BatchList)
+                                                                    {
+                                                                        <option value="@item.Id">@item.Name</option>
+                                                                    }
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select style="width:120px !important;" name="CategoryID" id="CategoryID">
+                                                                    <option value="">All Categories</option>
+                                                                    @foreach (var item in ViewBag.CategoryList)
+                                                                    {
+                                                                        <option value="@item.StudentCategoryID">@item.Name</option>
+                                                                    }
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <input placeholder="Amount" class="only-numeric" style="width:70px !important; padding-top:6px; padding-bottom:6px;" value="0.00" name="Amount" id="Amount" type="text" />
+                                                </td>
+                                                <td>
+                                                    <div style="position:relative;">
+                                                        <a href="javascript:void(0);" title="Click to remove access" class="remove-access fees-trash" style="top:-9px; right:-25px;" data-row="0"></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="javascript:void(0);" title="Click to add access to another group" class="add-particular-access" style="font-size:12px;color:orange" data-row="0"><strong>+ Add access</strong></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fee particulars here -->
+
+                <div>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="3">
+                                <a href="javascript:void(0);" title="Click to add another particular" id="add-fee-particular" style="font-size:14px;color:orange"><strong>+ Add particular</strong></a> <strong style="color:orange">/</strong> <a title="Press `Ctrl + Enter` to add another particular" style="color:orange"><strong>{ Press Ctrl + Enter }</strong></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <input class="formbut-n" onclick="createFees();" type="submit" name="yt0" value="Setup Subscriptions" style="height:30px" />
+        </div>
+    </form>
+
+
+
+    <script type="text/javascript">
+
+
+        function onclickRemoveAccess(that) {
+            remove_access(that);
+        };
+
+        function onclickAddAccess(that) {
+            add_access(that);
+        };
+
+        function onclickRemoveParticular(that) {
+            remove_particular(that);
+        };
+
+        var add_particular	= function(){
+            var ptrow = parseInt($("#fee-particulars .fee-particular").last().attr("data-row")) + 1;
+
+            var config = @Html.Raw(Json.Encode(ViewBag.feeConfiguration));
+            var coursesList = @Html.Raw(Json.Encode(ViewBag.CoursesList));
+            var batchList = @Html.Raw(Json.Encode(ViewBag.BatchList));
+            var categoryList = @Html.Raw(Json.Encode(ViewBag.CategoryList));
+
+            var value = "<div class=\"fee-particular\" id=\"fee-particular-" + ptrow + "\" data-row=\"" + ptrow + "\">\n\t<div class=\"fee-particular-head\">\n\t\t<table width=\"100%\">\n\t\t\t<tr>\n\t\t\t\t<td width=\"22%\"><label>Name<sup>*<\/sup><\/label><\/td>\n\t\t\t\t<td width=\"33%\"><label>Description<\/label><\/td>\n";
+
+            if(config && config.TaxFlag == 0)
+            {
+                value += "";
+            }
+            else
+            {
+                value += "<td width=\"17%\"><label>Tax<\/label><\/td>\n";
+            }
+            if(config && config.DiscountFlag == 0)
+            {
+                value += "";
+            }
+            else
+            {
+                value += "\n<td width=\"13%\"><label>Discount<\/label><\/td>\n";
+            }
+
+            value += "<td width=\"45%\"><label>&nbsp;<\/label><\/td>\t\t\t\n\t\t\t<\/tr>\n\t\t<\/table>\n\t\t<a href=\"javascript:void(0);\" title=\"Click to remove particular\" onclick=\"onclickRemoveParticular(this)\" class=\"remove-particular fees-trash\"><\/a>\n\t<\/div>\n\t<div class=\"feeParticular\">\n    <table class=\"feetablheader\" width=\"100%\">\n";
+            value += "<tr>\n\t\t\t<td width=\"20%\" valign=\"top\">\n<input class=\"FeeParticulars_name particular-name\" required placeholder=\"Particular Name\" style=\"width:120px !important;\" name=\"Name\" id=\"Name\" type=\"text\" \/>            <\/td>\n            ";
+            value += "<td width=\"35%\" valign=\"top\">\n<input class=\"FeeParticulars_description\" placeholder=\"Particular Description\" style=\"width:200px !important;\" name=\"Description\" id=\"Description\" type=\"text\" \/><\/td>\n\t\t\t";
+
+            if(config && config.TaxFlag == 0)
+            {
+                value += "<td id=\"tdTax\" style=\"display:none\" width=\"45%\" valign=\"top\">\n<select class=\"FeeParticulars_tax\" style=\"width:100px !important;\" name=\"Tax\" id=\"Tax\">\n<option value=\"\">No Tax<\/option>\n   @foreach (var item in ViewBag.taxdetails){<option value=\"@item.TaxID\">@item.TaxName</option>}\n<\/select><\/td>\n";
+            }
+            else
+            {
+                value += "<td id=\"tdTax\" width=\"45%\" valign=\"top\">\n<select class=\"FeeParticulars_tax\" style=\"width:100px !important;\" name=\"Tax\" id=\"Tax\">\n<option value=\"\">No Tax<\/option>\n   @foreach (var item in ViewBag.taxdetails){<option value=\"@item.TaxID\">@item.TaxName</option>}\n<\/select><\/td>\n";
+            }
+            if(config && config.DiscountFlag == 0)
+            {
+                value += "<td id=\"tdDiscount\" style=\"display:none\" width=\"45%\" valign=\"top\">\n<input class=\"FeeParticulars_tax only-numeric\" placeholder=\"Discount\" style=\"width:70px !important;\" value=\"0.00\" name=\"Discount\" id=\"Discount\" type=\"text\" \/> ";
+                value += "<\/td>\n<td id=\"tdType\" style=\"display:none\" width=\"45%\" valign=\"top\">\n<select class=\"FeeParticulars_discount_type\" style=\"width:100px !important;\" name=\"Type\" id=\"Type\">\n<option value=\"1\">%<\/option>\n<option value=\"2\">INR<\/option>\n<\/select>            <\/td>\n";
+            }
+            else
+            {
+                value += "<td id=\"tdDiscount\" width=\"45%\" valign=\"top\">\n<input class=\"FeeParticulars_tax only-numeric\" placeholder=\"Discount\" style=\"width:70px !important;\" value=\"0.00\" name=\"Discount\" id=\"Discount\" type=\"text\" \/> ";
+                value += "<\/td>\n<td id=\"tdType\" width=\"45%\" valign=\"top\">\n<select class=\"FeeParticulars_discount_type\" style=\"width:100px !important;\" name=\"Type\" id=\"Type\">\n<option value=\"1\">%<\/option>\n<option value=\"2\">INR<\/option>\n<\/select>            <\/td>\n";
+            }
+
+            value += "<td width=\"10%\" valign=\"middle\">\n<\/td>\n\t\n<\/tr>\n<\/table>\n\t\n\t <br \/> \n   <h3>Applicable to:<\/h3>\n   \n    <div id=\"particular-accesses-" + ptrow + "\">\n\t\t   \n<div class=\"particular-access\" data-row=\"0\">\n<div class=\"applicable-to\">\n\t<table>\n\t\t<tr>\n\t\t\t<td>\n\t\t\t\t<select class=\"particular-access-type\" style=\"width:120px !important;\" name=\"Type\" id=\"Type\" onchange=\"onChangeType(this,0);\">\n<option value=\"1\">Default<\/option>\n<option value=\"2\">Admission number<\/option>\n<\/select>\t\t\t<\/td>";
+            value += "\n\t\t\t<td id=\"AdmissionNumbers0\" style=\"display:none\">\n\t\t\t\t<input style=\"width:364px !important\" placeholder=\"Admission Numbers seperated by commas\" name=\"AdmissionNumbers\" id=\"AdmissionNumbers\" type=\"text\">\n\t\t\t<\/td>                \n\t\t\t";
+            value += "\n\t\t\t<td class=\"access-datas\" id=\"defaulyTd0\">\n\t\t\t\t<table> \n    <tr>\n";
+            value += " <td>\n\t<select class=\"access-course\" style=\"width:120px !important;\" onchange=\"onChangeCourse(this,"+ ptrow +",'0');\" name=\"CourseID\" id=\"CourseID\">\n<option value=\"\">All Courses<\/option>\n";
+            for(var i = 0; i < coursesList.length; i++)
+            {
+                value += "<option value=\""+ coursesList[i].Id +"\">"+ coursesList[i].Name +"<\/option>\n";
+            }
+            value += "\n<\/select>        <\/td>\n";
+
+            value += "<td>\n        \t<select class=\"access-batch0\" style=\"width:120px !important;\" name=\"BatchID\" id=\"BatchID\">\n<option value=\"\">All Batches<\/option>\n";
+            for(var i = 0; i < batchList.length; i++)
+            {
+                value += "<option value=\""+ batchList[i].Id +"\">"+ batchList[i].Name +"<\/option>\n";
+            }
+            value += "\n<\/select>        <\/td>\n";
+
+            value += "\n<td>\n<select style=\"width:120px !important;\" name=\"CategoryID\" id=\"CategoryID\">\n<option value=\"\">All Categories<\/option>\n";
+            for(var i = 0; i < categoryList.length; i++)
+            {
+                value += "<option value=\""+ categoryList[i].StudentCategoryID +"\">"+ categoryList[i].Name +"<\/option>\n";
+            }
+            value += "\n<\/select>        <\/td>\n";
+            value += "\n    <\/tr>\n<\/table>\t\t\t\n\t\t\t<\/td>\n  ";
+            value += "<td>\n\t\t\t\t<input placeholder=\"Amount\" class=\"only-numeric\" style=\"width:70px !important; padding-top:6px; padding-bottom:6px;\" value=\"0.00\" name=\"Amount\" id=\"Amount\" type=\"text\" \/>            <\/td>\n            <td>\n\t\t\t<div style=\"position:relative;\">\n            \t<a href=\"javascript:void(0);\" title=\"Click to remove access\" class=\"remove-access fees-trash\" style=\"top:-9px; right:-25px;\" data-row=\"" + ptrow + "\"><\/a>\n\t\t\t\t<\/div>\n            <\/td>\n\t\t<\/tr>\n\t<\/table>\n<\/div>\n<\/div>    \n    <\/div>\n\t\n    <a href=\"javascript:void(0);\" title=\"Click to add access to another group\" class=\"add-particular-access\" onclick=\"onclickAddAccess(this)\" style=\"font-size:12px;color:orange\" data-row=\"" + ptrow + "\"><strong>+ Add access<\/strong><\/a>\n\t<\/div>\n<\/div>\n";
+            $("#fee-particulars").append(value);
+        };
+
+        var remove_particular	= function(that){
+            var particular	= "";
+            if($(that).closest('.fee-particular').find('input.particular-name[type="text"]').length>0 && $(that).closest('.fee-particular').find('input.particular-name[type="text"]').val()!=""){
+                particular	= "`" + $(that).closest('.fee-particular').find('input.particular-name[type="text"]').val() + "`";
+            }
+
+            if($("#fee-particulars .fee-particular").length>1){
+                if(confirm("Are you sure remove this particular " + particular + " ?")){
+                    $(that).closest(".fee-particular").remove();
+                }
+            }
+            else{
+                alert("Can't remove. You need to create atleast one particular !!");
+            }
+        };
+
+        var add_access	= function(that){
+
+            var coursesList = @Html.Raw(Json.Encode(ViewBag.CoursesList));
+            var batchList = @Html.Raw(Json.Encode(ViewBag.BatchList));
+            var categoryList = @Html.Raw(Json.Encode(ViewBag.CategoryList));
+
+            var ptrow	= parseInt($(that).attr("data-row"));
+            var acrow = parseInt($("#particular-accesses-" + ptrow + " .particular-access").last().attr("data-row")) + 1;
+
+            var value ="\n<div class=\"particular-access\" data-row=\"" + acrow + "\">\n<div class=\"applicable-to\">\n\t<table>\n\t\t<tr>\n\t\t\t<td>\n\t\t\t\t<select class=\"particular-access-type\" style=\"width:120px !important;\" name=\"Type\" id=\"Type\" onchange=\"onChangeType(this," + acrow + ");\">\n<option value=\"1\">Default<\/option>\n<option value=\"2\">Admission number<\/option>\n<\/select>\t\t\t<\/td>\n\t\t\t<td id=\"AdmissionNumbers" + acrow + "\" style=\"display:none\">\n\t\t\t\t<input style=\"width:364px !important\" placeholder=\"Admission Numbers seperated by commas\" name=\"AdmissionNumbers\" id=\"AdmissionNumbers\" type=\"text\">\n\t\t\t<\/td>            \n\t\t\t<td class=\"access-datas\" id=\"defaulyTd" + acrow + "\">\n\t\t\t\t<table> \n    <tr>\n\n\t\t\t        <td>\n        \t<select class=\"access-course\" style=\"width:120px !important;\" name=\"CourseID\" onchange=\"onChangeCourse(this,"+ ptrow +"," + acrow + ");\" id=\"CourseID\">\n<option value=\"\">All Courses<\/option>\n";
+            for(var i = 0; i < coursesList.length; i++)
+            {
+                value += "<option value=\""+ coursesList[i].Id +"\">"+ coursesList[i].Name +"<\/option>\n";
+            }
+            value += "\n<\/select>        <\/td>\n";
+
+            value += "<td>\n        \t<select class=\"access-batch"+acrow+"\" style=\"width:120px !important;\" name=\"BatchID\" id=\"BatchID\">\n<option value=\"\">All Batches<\/option>\n";
+            for(var i = 0; i < batchList.length; i++)
+            {
+                value += "<option value=\""+ batchList[i].Id +"\">"+ batchList[i].Name +"<\/option>\n";
+            }
+            value += "\n<\/select>        <\/td>\n";
+
+            value += "\n<td>\n<select style=\"width:120px !important;\" name=\"CategoryID\" id=\"CategoryID\">\n<option value=\"\">All Categories<\/option>\n";
+            for(var i = 0; i < categoryList.length; i++)
+            {
+                value += "<option value=\""+ categoryList[i].StudentCategoryID +"\">"+ categoryList[i].Name +"<\/option>\n";
+            }
+            value += "\n<\/select>        <\/td>\n";
+
+
+            value +="\n    <\/tr>\n<\/table>\t\t\t\n\t\t\t<\/td>\n            <td>\n\t\t\t\t<input placeholder=\"Amount\" class=\"only-numeric\" style=\"width:70px !important; padding-top:6px; padding-bottom:6px;\" value=\"0.00\" name=\"Amount\" id=\"Amount\" type=\"text\" \/>            <\/td>\n            <td>\n\t\t\t<div style=\"position:relative;\">\n            \t<a href=\"javascript:void(0);\" title=\"Click to remove access\" class=\"remove-access fees-trash\" style=\"top:-9px; right:-25px;\" onclick=\"onclickRemoveAccess(this)\" data-row=\"" + ptrow + "\"><\/a>\n\t\t\t\t<\/div>\n            <\/td>\n\t\t<\/tr>\n\t<\/table>\n<\/div>\n<\/div>";
+
+            $("#particular-accesses-" + ptrow).append(value);
+        };
+
+        var remove_access	= function(that){
+            var row	= parseInt($(that).attr("data-row"));
+            if($("#particular-accesses-" + row + " .particular-access").length>1){
+                if(confirm("Are you sure remove access this group ?")){
+                    $(that).closest(".particular-access").remove();
+                }
+            }
+            else{
+                alert("Can't remove. You need to give access to atleast one group for this particular !!");
+            }
+        };
+
+        var change_access_type	= function(that){
+            var type	= $(that).val();
+            var ptrow	= parseInt($(that).closest(".fee-particular").attr("data-row"));
+            var acrow = parseInt($(that).closest(".particular-access").attr("data-row"));
+
+
+            //  alert(type);
+            if (type == "1") {
+                $("#fee-particular-" + ptrow).find("#AdmissionNumbers" + acrow).css("display", "none");
+                $("#fee-particular-" + ptrow).find("#defaulyTd" + acrow).css("display", "block");
+                //$("#defaulyTd" + num).css("display", "block");
+            }
+            else {
+                //alert(ptrow); alert(acrow);
+                $("#fee-particular-" + ptrow).find("#AdmissionNumbers" + acrow).css("display", "block");
+                $("#fee-particular-" + ptrow).find("#defaulyTd" + acrow).css("display", "none");
+                //$("#defaulyTd" + num).css("display", "none");
+            }
+
+
+        };
+
+        $(document).ready(function () {
+
+            $(".only-numeric").bind("keypress", function (event) {
+
+                if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+
+            });
+
+            var config = @Html.Raw(Json.Encode(ViewBag.feeConfiguration));
+            if(config != null)
+            {
+                if(config.TaxFlag == 0)
+                {
+                    $("#tdTax").css("display", "none");
+                }
+                if(config.DiscountFlag == 0)
+                {
+                    $("#tdDiscount").css("display", "none");
+                    $("#tdType").css("display", "none");
+                }
+            }
+
+            var ptrow = 0;
+            var model = @Html.Raw(Json.Encode(Model));
+            if(model != null)
+            {
+                for(var j = 0 ; j < model.FeeParticulars.length; j++)
+                {
+                    bindFeeParticular(model.SchoolCO.FeeParticulars[j],j);
+                    for(var i = 0 ; i < model.SchoolCO.FeeParticulars[j].FeeAccess.length; i++)
+                    {
+                        bindFeeAccess(model.SchoolCO.FeeParticulars[j].FeeAccess[i],j,i);
+                    }
+                }
+            }
+        });
+
+        var bindFeeParticular = function(data1,ptrow)
+        {
+            var modelTax = @Html.Raw(Json.Encode(ViewBag.taxdetails));
+
+            var value = "<div class=\"fee-particular\" id=\"fee-particular-" + ptrow + "\" data-row=\"" + ptrow + "\">\n\t<div class=\"fee-particular-head\">\n\t\t<table width=\"100%\">\n\t\t\t<tr>\n\t\t\t\t<td width=\"22%\"><label>Name<sup>*<\/sup><\/label><\/td>\n\t\t\t\t<td width=\"33%\"><label>Description<\/label><\/td>\n"
+                +"<td width=\"17%\"><label>Tax<\/label><\/td>\n<td width=\"13%\"><label>Discount<\/label><\/td>\n"
+                + "<td width=\"45%\"><label>&nbsp;<\/label><\/td>\t\t\t\n\t\t\t<\/tr>\n\t\t<\/table>\n\t\t<a href=\"javascript:void(0);\" title=\"Click to remove particular\" onclick=\"onclickRemoveParticular(this)\" class=\"remove-particular fees-trash\"><\/a>\n\t<\/div>\n\t<div class=\"feeParticular\">\n    <table class=\"feetablheader\" width=\"100%\">\n"
+                + "<tr>\n\t\t\t<td width=\"20%\" valign=\"top\">\n<input class=\"FeeParticulars_name particular-name\" required placeholder=\"Particular Name\" style=\"width:120px !important;\" value=\""+ data1.Name +"\" name=\"Name\" id=\"Name\" type=\"text\" \/>            <\/td>\n            "
+                +"<td width=\"35%\" valign=\"top\">\n<input class=\"FeeParticulars_description\" placeholder=\"Particular Description\" style=\"width:200px !important;\" value=\""+ data1.Description +"\" name=\"Description\" id=\"Description\" type=\"text\" \/><\/td>\n\t\t\t"
+                + "<td width=\"45%\" valign=\"top\">\n<select class=\"FeeParticulars_tax\" style=\"width:100px !important;\" name=\"Tax\" id=\"Tax\">\n<option value=\"\">No Tax<\/option>" ;
+
+            for(var i = 0;i < modelTax.length; i++){
+
+                if(data1.Tax == modelTax[i].TaxID)
+                {
+                    value += "\n <option selected=\"selected\" value=\""+ modelTax[i].TaxID +"\">" + modelTax[i].TaxName + " </option>";
+                }
+                else
+                {
+                    value += "\n <option value=\""+ modelTax[i].TaxID +"\">" + modelTax[i].TaxName + "</option>";
+                }
+            }
+
+            value += "\n<\/select><\/td>\n"
+            + "<td width=\"45%\" valign=\"top\">\n<input class=\"FeeParticulars_tax only-numeric\" placeholder=\"Discount\" style=\"width:70px !important;\" value=\"0.00\" name=\"Discount\" id=\"Discount\" value=\""+ parseFloat(data1.Discount).toFixed(2) +"\" type=\"text\" \/> "
+            + "<\/td>\n<td width=\"45%\" valign=\"top\">\n<select class=\"FeeParticulars_discount_type\" style=\"width:100px !important;\" name=\"Type\" id=\"Type\">\n";
+
+            if(data1.Type == 1)
+            {
+                value += "\n <option selected=\"selected\" value=\"1\">%<\/option>\n<option value=\"2\">INR<\/option>";
+
+            }
+            else if(data1.Type == 2)
+            {
+                value += "\n <option  value=\"1\">%<\/option>\n<option selected=\"selected\" value=\"2\">INR<\/option>";
+            }
+
+
+            value += "\n<\/select>            <\/td>\n"
+            + "<td width=\"10%\" valign=\"middle\">\n<\/td>\n\t\n<\/tr>\n<\/table>\n\t\n\t <br \/> \n   <h3>Applicable to:<\/h3>\n <div id=\"particular-accesses-" + ptrow + "\">\n\t\t<\/div>\n   \n   \t\n    <a href=\"javascript:void(0);\" title=\"Click to add access to another group\" class=\"add-particular-access\" onclick=\"onclickAddAccess(this)\" style=\"font-size:12px;color:orange\" data-row=\"" + ptrow + "\"><strong>+ Add access<\/strong><\/a>\n\t<\/div>\n<\/div>\n";
+
+
+            $("#fee-particulars").append(value);
+
+        };
+
+        var bindFeeAccess = function(data1,ptrow,acrow)
+        {
+            var value = "\n<div class=\"particular-access\" data-row=\"" + acrow + "\">\n<div class=\"applicable-to\">\n\t<table>\n\t\t<tr>\n\t\t\t"
+                + "<td>\n\t\t\t\t<select class=\"particular-access-type\" style=\"width:120px !important;\" name=\"Type\" id=\"Type\" onchange=\"onChangeType(this," + acrow + ");\">";
+            //\n<option value=\"1\">Default<\/option>\n<option value=\"2\">Admission number<\/option>
+
+            if(data1.Type == 1)
+            {
+                value += "\n <option selected=\"selected\" value=\"1\">Default<\/option>\n<option value=\"2\">Admission number<\/option>";
+            }
+            else if(data1.Type == 2)
+            {
+                value += "\n <option  value=\"1\">Default<\/option>\n<option selected=\"selected\" value=\"2\">Admission number<\/option>";
+            }
+
+            value +="\n<\/select>\t\t\t<\/td>\n\t\t\t";
+
+            if(data1.Type == 1)
+            {
+                value += "<td id=\"AdmissionNumbers" + acrow + "\" style=\"display:none\">\n\t\t\t\t<input style=\"width:364px !important\" placeholder=\"Admission Numbers seperated by commas\" name=\"AdmissionNumbers\" id=\"AdmissionNumbers\" type=\"text\">\n\t\t\t<\/td>\n\t\t\t<td class=\"access-datas\" id=\"defaulyTd" + acrow + "\">";
+            }
+            else
+            {
+                value += "<td id=\"AdmissionNumbers" + acrow + "\">\n\t\t\t\t<input style=\"width:364px !important\" placeholder=\"Admission Numbers seperated by commas\" value=\""+ data1.AdmissionNumbers +"\" name=\"AdmissionNumbers\" id=\"AdmissionNumbers\" type=\"text\">\n\t\t\t<\/td>\n\t\t\t<td class=\"access-datas\" id=\"defaulyTd" + acrow + "\" style=\"display:none\">";
+            }
+
+            value += "\n\t\t\t\t<table> \n    <tr>\n\n\t\t\t"
+            + "<td>\n\t<select class=\"access-course\" style=\"width:120px !important;\" name=\"CourseID\" onchange=\"onChangeCourse(this,"+ ptrow +"," + acrow + ");\" id=\"CourseID\">\n<option value=\"\">All Courses<\/option>\n<option value=\"1\" "+ (data1.CourseID == 1 ? "selected=\"selected\"" : '') + ">Class 10<\/option>\n<option value=\"2\" "+ (data1.CourseID == 2 ? "selected=\"selected\"" : '') + ">Bachelor Degree<\/option>\n<\/select>        <\/td>\n"
+            + "<td>\n\t<select class=\"access-batch" + acrow + "\" style=\"width:120px !important;\" name=\"BatchID\" id=\"BatchID\">";
+
+            if(data1.CourseID == 1)
+            {
+                value += "\n<option value=\"\">All Batches<\/option>\n<option "+ (data1.BatchID == 1 ? "selected=\"selected\"" : '') + " value=\"1\">Division A<\/option>\n<option "+ (data1.BatchID == 2 ? "selected=\"selected\"" : '') + " value=\"2\">Division B<\/option>";
+            }
+            else if(data1.CourseID == 2)
+            {
+                value += "\n<option value=\"\">All Batchs<\/option>\n<option "+ (data1.BatchID == 5 ? "selected=\"selected\"" : '') + " value=\"5\">B.Sc - Chemistry<\/option>\n<option "+ (data1.BatchID == 13 ? "selected=\"selected\"" : '') + " value=\"13\">B.Sc - Physics<\/option>";
+            }
+            else
+            {
+                value += "\n<option value=\"\">All Batch<\/option>\n<option value=\"1\">Division A<\/option>\n<option value=\"2\">Division B<\/option>\n<option value=\"5\">B.Sc - Chemistry<\/option>\n<option value=\"13\">B.Sc - Physics<\/option>";
+            }
+
+            value += "\n<\/select><\/td>\n<td>\n<select style=\"width:120px !important;\" name=\"CategoryID\" id=\"CategoryID\">";
+
+            value += "\n<option value=\"\">All Categories<\/option>\n<option "+ (data1.CategoryID == 1 ? "selected=\"selected\"" : '') + " value=\"1\">General<\/option>\n<option value=\"2\" "+ (data1.CategoryID == 2 ? "selected=\"selected\"" : '') + " >Special<\/option>";
+
+            value += "\n<\/select>        <\/td>        \n    <\/tr>\n<\/table>\t\t\t\n\t\t\t<\/td>\n"
+                + "<td>\n\t\t\t\t<input placeholder=\"Amount\" class=\"only-numeric\" style=\"width:70px !important; padding-top:6px; padding-bottom:6px;\" value=\""+ parseFloat(data1.Amount).toFixed(2) +"\" name=\"Amount\" id=\"Amount\" type=\"text\" \/><\/td>\n"
+                + "<td>\n\t\t\t<div style=\"position:relative;\">\n\t<a href=\"javascript:void(0);\" title=\"Click to remove access\" class=\"remove-access fees-trash\" style=\"top:-9px; right:-25px;\" onclick=\"onclickRemoveAccess(this)\" data-row=\"" + ptrow + "\"><\/a>\n\t\t\t\t<\/div>\n<\/td>\n\t\t<\/tr>\n\t<\/table>\n<\/div>\n<\/div>";
+
+            $("#particular-accesses-" + ptrow).append(value);
+        };
+
+        var setup_actions	= function(){
+            //remove link for all particular
+            $(".remove-particular").unbind('click').click(function(e) {
+                var that	= this;
+                remove_particular(that);
+            });
+
+            //add access
+            $(".add-particular-access").unbind('click').click(function(e) {
+                var that	= this;
+                add_access(that);
+            });
+
+            //remove access
+            $(".remove-access").unbind('click').click(function(e) {
+                var that	= this;
+                remove_access(that);
+            });
+
+            //change access type
+            $(".particular-access-type").unbind('change').change(function(e) {
+                var that	= this;
+                change_access_type(that);
+            });
+
+            //load bacthes
+            load_batches();
+        };
+
+        var load_batches	= function(){
+        };
+
+        $('#add-fee-particular').click(function(e) {
+            add_particular();
+        });
+
+        $(document).keypress(function(e) {
+            if(e.ctrlKey){
+                if(e.keyCode==13){
+                    add_particular();
+                    return false;
+                }
+            }
+        });
+
+        function _tempemty(val) { return val != undefined ? val != "" ? val != null ? val : "" : "" : "";}
+
+        function createFees() {
+
+            var Name = $("#FeeName").val();
+            var Description = $("#FeeDescription").val();
+
+            if(Name == "" || name == null)
+            {
+                $('#FeeName').css("border", "1px solid red");
+                return false;
+            }
+            else
+            {
+                $('#FeeName').css("border", "1px solid blue");
+            }
+
+            if(Description == "" || Description == null)
+            {
+                $('#FeeDescription').css("border", "1px solid red");
+                return false;
+            }
+            else
+            {
+                $('#FeeDescription').css("border", "1px solid blue");
+            }
+
+            var FeeID = 0;
+            var _tempcomlist = [];
+            $("#fee-particulars .fee-particular").each(function () {
+
+                var list_1 = $(this).find('.feetablheader #Name').val();
+                var list_2 = $(this).find('.feetablheader #Description').val();
+                var list_3 = $(this).find('.feetablheader #Tax').val();
+                var list_4 = $(this).find('.feetablheader #Discount').val();
+                var list_5 = $(this).find('.feetablheader #Type').val();
+
+                if(list_1 == "" || list_1 == null)
+                {
+                    $(this).find('.feetablheader #Name').css("border", "1px solid red");
+                    return false;
+                }
+                else
+                {
+                    $(this).find('.feetablheader #Name').css("border", "1px solid blue");
+                }
+
+                var myObject = new Object();
+                myObject.Name = _tempemty(list_1);
+                myObject.Description =_tempemty( list_2);
+                myObject.Tax = _tempemty(list_3);
+                myObject.Discount = _tempemty(list_4);
+                myObject.Type = _tempemty(list_5);
+
+                var childlist=[]
+
+                $(this).find(".particular-access").each(function () {
+                    var myObject_temp = new Object();
+
+                    var list_11 = $(this).find('#Type').val();
+                    var list_21 = $(this).find('#AdmissionNumbers').val();
+                    var list_33 = $(this).find('#CourseID').val();
+                    var list_44 = $(this).find('#BatchID').val();
+                    var list_55 = $(this).find('#CategoryID').val();
+                    var list_66 = $(this).find('#Amount').val();
+
+                    //console.log(list_11 + " " + list_21 + " " + list_33 + "  " + list_44 + " " + list_55 + " " + list_66)
+
+                    myObject_temp.Type =_tempemty( list_11)
+                    myObject_temp.AdmissionNumbers = _tempemty(list_21)
+                    myObject_temp.CourseID =_tempemty( list_33)
+                    myObject_temp.BatchID = _tempemty(list_44)
+                    myObject_temp.CategoryID =_tempemty( list_55)
+                    myObject_temp.Amount = _tempemty(list_66)
+                    childlist.push(myObject_temp);
+
+                });
+                myObject.feeAccessList = childlist;
+                _tempcomlist.push(myObject);
+
+            });
+            var d = { feeList: _tempcomlist,FeeID : FeeID ,Name:  Name,Description: Description };
+
+            $.ajax({
+                url: "/Fees/CreateFeesTemplate",
+                type:'POST',
+                data: JSON.stringify(d),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function(){
+                    $("#save-fee-category").attr("disabled", true);
+                },
+                success: function (response) {
+                    if (response != null)
+                        window.location.href = '/Fees/CreateSubscription?FeeID=' + response.feeID;
+                },
+                error: function(){
+                }
+            });
+
+            return false;
+        };
+
+        function onChangeType(type, num) {
+
+
+            change_access_type(type);
+
+        };
+
+        function onChangeCourse(course, row, num) {
+            var selectedValue = course.value;
+
+            if(selectedValue != "")
+            {
+                var d = { Id: selectedValue };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Student/BatchListLoad",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, BatchList) {
+                            if (BatchList.length > 0) {
+                                var value = "<option value=\"0\">All Batches</option>";
+
+                                for (var i = 0; i < BatchList.length; i++) {
+                                    value += "<option value=\"" + BatchList[i].Id + "\">" + BatchList[i].Name + "</option>";
+                                }
+
+                                $('#particular-accesses-' + row + ' .access-batch' + num).find('option')
+     .remove()
+     .end().append(value);
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            }
+            else
+            {
+                var value = "<option value=\"0\">All Batches</option>";
+                $('#particular-accesses-' + row + ' .access-batch' + num).find('option')
+    .remove()
+    .end().append(value);
+            }
+        };
+
+        setup_actions();
+
+
+
+
+    </script>
+</div>

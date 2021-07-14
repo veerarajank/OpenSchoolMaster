@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+<div class="cont_right formWrapper">
+    <h1>
+        Vendor Details
+    </h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("VendorDetails", "Purchase")"><span>Back</span></a>  
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li> <a class="a_tag-btn" href="@Url.Action("UpdateVendorDetails", "Purchase", new { VendorDetailId = @ViewBag.VendorDetailId })"><span>Edit</span></a> </li>
+                <li> <a class="a_tag-btn" href="@Url.Action("VendorDetails", "Purchase")"><span>Vendor List</span></a> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="emp_right_contner">
+        <div class="emp_tabwrapper">
+            <div class="clear"></div>
+            <div class="emp_cntntbx">
+                <div class="table_listbx">
+                    <div class="listbxtop_hdng">Vendor Details</div>
+                    <div class="prof-view-col">
+                        @foreach (var item in ViewBag.PurchaseVendorList)
+                        {
+                            <ul>
+                                <li class="l-col">First Name</li>
+                                <li class="r-col">@item.FirstName</li>
+                                <li class="l-col">Last Name</li>
+                                <li class="r-col">@item.LastName</li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">Address 1</li>
+                                <li class="r-col">@item.AddressLine1</li>
+                                <li class="l-col">Address 2</li>
+                                <li class="r-col">@item.AddressLine2</li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">City</li>
+                                <li class="r-col">@item.City</li>
+                                <li class="l-col">State</li>
+                                <li class="r-col">@item.State</li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">Country</li>
+                                <li class="r-col">
+                                    @item.FirstName
+                                </li>
+                                <li class="l-col">Phone</li>
+                                <li class="r-col">@item.PhoneNumber</li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">Office Phone</li>
+                                <li class="r-col">@item.OfficeNumber</li>
+                                <li class="l-col">Currency</li>
+                                <li class="r-col">@item.FirstName</li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">Company Name</li>
+                                <li class="r-col">@item.CompanyName</li>
+                                <li class="l-col">VAT Number</li>
+                                <li class="r-col">@item.VATNumber</li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">CST Number</li>
+                                <li class="r-col">@item.CSTNumber</li>
+                                <li class="l-col"></li>
+                                <li class="r-col"></li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">Email</li>
+                                <li class="r-col">@item.Email</li>
+                                <li class="l-col"></li>
+                                <li class="r-col"></li>
+                            </ul>
+                        }
+
+                        <div class="clear"></div>
+                    </div>
+                    <div class="listbxtop_hdng">Product Details</div>
+                    <div class="prof-view-col">
+                        @foreach (var item in ViewBag.ProductDetailsList)
+                        {
+                            <ul>
+                                <li class="l-col">Item Name</li>
+                                <li class="r-col">
+                                    @item.SchoolCO.Name
+                                </li>
+                                <li class="l-col">Description</li>
+                                <li class="r-col">@item.Description</li>
+                            </ul>
+                            <ul>
+                                <li class="l-col">Price</li>
+                                <li class="r-col">@item.Price</li>
+                                <li class="l-col"></li>
+                                <li class="r-col"></li>
+                            </ul>
+                        }
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".purcs_ico").attr('active', '1').closest('li').addClass('list_active');
+</script>

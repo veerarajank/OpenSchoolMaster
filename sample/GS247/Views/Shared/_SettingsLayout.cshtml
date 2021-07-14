@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "_SettingsLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+</head>
+<div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+    <div class="wrap_container_admin wrap_container_flex">
+        <div class="midnav" style="background-color: ; color: ">
+            <div class="breadcrumbs">
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="container">
+                <div class="span-19">
+                    <div id="content">
+
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="247" valign="top">
+                                    <div id="othleft-sidebar">
+                                        <!--<div class="lsearch_bar">
+                                                      <input type="text" value="Search" class="lsearch_bar_left" name="">
+                                                      <input type="button" class="sbut" name="">
+                                                      <div class="clear"></div>
+                                        </div>-->
+                                        <h1>Manage Settings</h1>
+                                        <ul id="yw0">
+                                            <li><a class="teacher-list_ico" href="@Url.Action("Home","Settings")">Settings Home<span>All Settings</span></a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    @RenderBody()
+                                    <!-- Content Header (Page header) -->
+                                    <!-- /.content -->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

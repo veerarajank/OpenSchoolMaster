@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+<div class="cont_right">
+        <h1>Unpaid Students</h1>
+
+    <div class="pdtab_Con" style="padding:0px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr class="pdtab-h">
+                <td align="center">Student Name</td>
+                <td align="center">Hostel</td>
+                <td align="center">Floor</td>
+                <td align="center">Room No</td>
+                <td align="center">Bed No</td>
+                <td align="center">Food Preference</td>
+                <td align="center">Action</td>
+            </tr>
+            @foreach (var item in ViewBag.StudentList)
+            {
+                <tr>
+                    <td align="center"><a href="#">@item.SchoolCO.StudentName</a></td>
+                    <td align="center"><a href="#">@item.SchoolCO.Name</a></td>
+                    <td align="center"><a href="#">@item.SchoolCO.FloorNo</a></td>
+                    <td align="center"><a href="#">@item.RoomNo</a></td>
+                    <td align="center"><a href="#">@item.BedName</a></td>
+                    <td align="center"><a href="#">@item.SchoolCO.FoodPreference</a></td>
+                    <td align="center">
+                        <a href="#"><span>Not Paid</span></a>
+                        <a style="color:orangered" href="javascript:sendNotification(@item.StudentRoomDetailsId);" id="yt0"><span>[ Send Notification ]</span></a>
+                    </td>
+                </tr>
+            }     
+           
+        </table>
+    </div> 
+
+</div> 
+        
+<script type="text/javascript">
+
+    $(".hostel-messdues_ico").attr('active', '1').closest('li').addClass('list_active');
+
+</script>

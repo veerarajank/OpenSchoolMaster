@@ -1,0 +1,136 @@
+﻿@model IEnumerable<GS247.Models.Library.ReturnBookDetails>
+
+@{
+    ViewBag.Title = "SearchReturnBooks";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(function () {
+            $("#stdName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Library/AutoFillStudent/',
+                        data: "{ 'Prefix': '" + request.term + "' }",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                minLength: 3
+            });
+        });
+     
+    });
+</script>
+
+<div class="cont_right formWrapper" style="padding:15px 20px 210px 20px;">
+    <h1>Return Book Details</h1>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background: none;">
+                    @using (Html.BeginForm("SearchReturnBooks", "Library", FormMethod.Get))
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr class="filters">
+                                <td><label for="Student_name">Student Name</label></td>
+                                <td>@Html.TextBox("stdName","")</td>
+                                <td>
+                                    <input class="formbut" name="Studentname_submit" type="submit" value="Search" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+    <style>
+        .sem-view-block th, td {
+            border: none;
+        }
+    </style>
+    <div id="searchbook-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="SearchBooks-grid_c0">Student Name</th>
+                    <th id="SearchBooks-grid_c1">ISBN</th>
+                    <th id="SearchBooks-grid_c2">Book Name</th>
+                    <th id="SearchBooks-grid_c3">Author</th>
+                    <th id="SearchBooks-grid_c4">Issue Date</th>
+                    <th id="SearchBooks-grid_c5">Due Date</th>
+                    <th id="SearchBooks-grid_c6">Is Returned</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr class="odd">
+                    <td>@Html.DisplayFor(modelItem => item.StudentName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ISBN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>
+
+                        <span style="color:orange;">@Html.DisplayFor(modelItem => item.AuthorName)</span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
+                    <td>  @Html.DisplayFor(modelItem => item.DueDate)</td>
+                    @if (item.isReturned == 0)
+                    {
+                        <td>
+                            <a class="view" title="View" href="@Url.Action("ReturnBook", "Library")?id=@item.BookId" onclick="return confirm('Are you sure to Return Book?')">
+                                <span style="color:orange;">Return Book</span>
+                            </a>
+                        </td>
+                    }
+                    @if (item.isReturned == 1)
+                    {
+                        <td>Yes</td>
+                    }
+                    @if (item.isReturned == 2)
+                    {
+                        <td>Due date expired</td>
+                    }
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+
+

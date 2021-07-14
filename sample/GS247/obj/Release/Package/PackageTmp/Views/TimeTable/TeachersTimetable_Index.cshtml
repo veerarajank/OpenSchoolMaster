@@ -1,0 +1,220 @@
+﻿@model IEnumerable<GS247.Models.TimeTable.Teacher_Timetable_Context>
+
+@{
+    ViewBag.Title = "Teachers Time Table";
+    Layout = "~/Views/Shared/_TimeTableLayout.cshtml";
+}
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+
+    .sem-view-block th, td {
+        border: none;
+    }
+    #myTable > thead > tr > th, #myTable > tbody > tr > td {
+        text-align: center;
+    }
+</style>
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+    function Search() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+              
+                    @using (Html.BeginForm())
+                    {
+                        <p>Fields with<span class="required"> * </span> are required.</p>
+                        <table style=" font-weight:normal;">
+                            <tr>
+                                <th>Department<span class="required">*</span></th>
+                                <td>@Html.DropDownList("Department", (IEnumerable<SelectListItem>)ViewBag.Departments, "-Select Department-", new { @class = "form-control", @id = "Department", required = "required" })</td>
+                            </tr>
+                            <tr>
+                                <th>Teacher<span class="required">*</span></th>
+                                <td>@Html.DropDownList("Teacher", (IEnumerable<SelectListItem>)ViewBag.Teachers, "All", new { @class = "form-control", @id = "Teacher", required = "required" })</td>
+                            </tr>
+                            <tr>
+                                <th>Day</th>
+                                <td>@Html.DropDownList("Day", (IEnumerable<SelectListItem>)ViewBag.Days, "Week", new { @class = "form-control" })</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><input type="submit" value="Filter" class="formbut" /></td>
+                            </tr>
+                        </table>
+                    }
+               
+            </div>
+            </div>
+</div>
+            @foreach (var item in Model)
+            {
+                <table class="table">
+                    <tr style="background-color:cornflowerblue;color:white">
+                        <td><strong>Teacher Name:</strong>@item.TeacherName</td>
+                        <td><strong>Teacher Number:</strong>@item.TeacherNumber</td>
+                    </tr>
+                </table>
+                <style type="text/css">
+                    .pdtab_Con {
+                        margin: 0;
+                        padding: 8px 0 0;
+                    }
+                </style>
+                if (item.Teacher_Timetables.Count != 0)
+                {
+                    foreach (var line in item.Teacher_Timetables)
+                    {
+
+                        <div class="pdtab_Con" style="text-align:center">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered mb30" id="myTable">
+                                <thead>
+                                    <tr><td colspan="4" style="size:12px;">@line.DayName</td></tr>
+                                    <tr style="background-color:Highlight;">
+                                        <th>Class Timing</th>
+                                        <th>Course</th>
+                                        <th>Batch</th>
+                                        <th>Subject</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (line.Teacher_TimeTables.Count != 0)
+                                    {
+                                        foreach (var t in line.Teacher_TimeTables)
+                                        {
+                                            <tr>
+                                                <td>@t.ClassTiming</td>
+                                                <td>@t.CourseName</td>
+                                                <td>@t.BatchName</td>
+                                                <td>@t.Subject</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>No time table is set for this day</tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <i>No time table is set for the Teacher</i>
+                }
+                <br />
+            }
+
+            @if (TempData["Driver_Index"] != null)
+            {
+                <script type="text/javascript">
+            alert("@TempData.Peek("Driver_Index").ToString()");
+                </script>
+            }
+        </div>
+        <script>
+            $('#Department').change(function () {
+                debugger
+                var department = $(this).val();
+                $.ajax
+                    ({
+                        url: '/TimeTable/GetTeachersByDepartment',
+                        type: 'Get',
+                        data: { 'department': department },
+                        success: function (data) {
+
+                            $("#Teacher").html("");
+                            $("#Teacher").append('<option value="0">All</option>');
+                            $.each(data, function (i, result) {
+                                $("#Teacher").append('<option value="' + result.Value + '">' +
+                                    result.Text + '</option>');
+                            });
+                        }
+                    });
+            });
+
+        </script>

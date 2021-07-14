@@ -1,0 +1,317 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+
+<div class="cont_right formWrapper">
+    <h1>Manage Fields</h1>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top">
+                <div class="formWrapper">
+                    <div class="button-bg">
+                        <div class="top-hed-btn-left">
+
+                        </div>
+                        <div class="top-hed-btn-right">
+                            <ul>
+                                <li> <a class="a_tag-btn" href="@Url.Action("StudentFieldSettings", "Student")"><span>Create Form Field</span></a>
+                            </ul>
+                        </div>
+                    </div>
+                    <form id="fee-taxes-form" action="SearchFieldSettings" method="post">
+                        <div class="formCon">
+                            <div class="formConInner">
+
+                                <table width="80%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td>
+                                            <input size="30" maxlength="250" name="Title" id="Title" type="text" placeholder="Enter Field Name" />
+                                        </td>
+                                        <td>
+                                            <select style="width:210px;" name="Flag" id="Flag">
+                                                <option value="0" selected="selected">Please Select</option>
+                                                <option value="1">Text Field</option>
+                                                <option value="2">Text Area</option>
+                                                <option value="3">Drop Down</option>
+                                                <option value="4">Radio Button</option>
+                                                <option value="5">Check Box</option>
+                                                <option value="6">Date Picker</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="formbut" onclick="onClickSearch();" type="submit" name="yt0" value="Search" style="height:30px" />
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div class="grid_table_con">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0" id="content">
+                                <tbody>
+                                    <tr class="pdtab-h">
+                                        <td align="center">#</td>
+                                        <td align="center">Field Name</td>
+                                        <td align="center">Category</td>
+                                        <td align="center">Admin Student Registration</td>
+                                        <td align="center">Online Admission</td>
+                                        <td align="center">Student Profile PDF</td>
+                                        <td align="center">Student Profile</td>
+                                        <td align="center">Student Portal</td>
+                                        <td align="center">Parent Portal</td>
+                                        <td align="center">Teacher Portal</td>
+                                        <td align="center">Manage</td>
+                                    </tr>
+                                    @{ int rowNo = 0; }
+                                    @foreach (var item in ViewBag.manageFieldsList)
+                                                                    {
+                                                                    <tr>
+                                                                        <td>@(rowNo += 1)</td>
+                                                                        <td>@item.Title</td>
+                                                                        <td>@item.Category</td>
+                                                                        <td align="center"><input size="60" maxlength="200" name="AdminStudentRegistrationFormFlag" onclick="onAdminClick(this,@item.StudentFieldSettingID);" id="AdminStudentRegistrationFormFlag" @(Convert.ToBoolean(@item.AdminStudentRegistrationFormFlag) == true ? "checked='checked'" : string.Empty) value="@item.AdminStudentRegistrationFormFlag" type="checkbox"></td>
+                                                                        <td align="center"><input size="60" maxlength="200" name="OnlineAdmissionFormFlag" onclick="onOnlineClick(this,@item.StudentFieldSettingID);" id="OnlineAdmissionFormFlag" @(Convert.ToBoolean(@item.OnlineAdmissionFormFlag) == true ? "checked='checked'" : string.Empty) value="@item.OnlineAdmissionFormFlag" type="checkbox"></td>
+                                                                        <td align="center"><input size="60" maxlength="200" name="StudentProfilePDFFlag" onclick="onStudentProfilePDFClick(this,@item.StudentFieldSettingID);" id="StudentProfilePDFFlag" @(Convert.ToBoolean(@item.StudentProfilePDFFlag) == true ? "checked='checked'" : string.Empty) value="@item.StudentProfilePDFFlag" type="checkbox"></td>
+                                                                        <td align="center"><input size="60" maxlength="200" name="StudentProfileFlag" onclick="onStudentProfileClick(this,@item.StudentFieldSettingID);" id="StudentProfileFlag" @(Convert.ToBoolean(@item.StudentProfileFlag) == true ? "checked='checked'" : string.Empty) value="@item.StudentProfileFlag" type="checkbox"></td>
+                                                                        <td align="center"><input size="60" maxlength="200" name="StudentPortalFlag" onclick="onStudentPortalClick(this,@item.StudentFieldSettingID);" id="StudentPortalFlag" @(Convert.ToBoolean(@item.StudentPortalFlag) == true ? "checked='checked'" : string.Empty) value="@item.StudentPortalFlag" type="checkbox"></td>
+                                                                        <td align="center"><input size="60" maxlength="200" name="ParentPortalFlag" onclick="onParentPortalClick(this,@item.StudentFieldSettingID);" id="ParentPortalFlag" @(Convert.ToBoolean(@item.ParentPortalFlag) == true ? "checked='checked'" : string.Empty) value="@item.ParentPortalFlag" type="checkbox"></td>
+                                                                        <td align="center"><input size="60" maxlength="200" name="TeacherPortalFlag" onclick="onTeacherPortalClick(this,@item.StudentFieldSettingID);" id="TeacherPortalFlag" @(Convert.ToBoolean(@item.TeacherPortalFlag) == true ? "checked='checked'" : string.Empty) value="@item.TeacherPortalFlag" type="checkbox"></td>
+                                                                        <td><a title="Click to Edit Student Field" style="color:darkorange" href="@Url.Action("EditStudentFields", "Student", new { StudentFieldSettingID = item.StudentFieldSettingID })">Edit</a></td>
+                                                                    </tr>
+                                                                    }
+                                </tbody>
+                            </table>
+                            <br />
+                        </div>
+                        @{var pageCutLow = ViewBag.CurrentPageIndex - 1;}
+                        @{var pageCutHigh = ViewBag.CurrentPageIndex + 1;}
+
+                        @if (ViewBag.PageCount > 0)
+                                                        {
+                                                        <div class="">
+                                                            <div align="center">
+                                                                <div class="">
+
+                                                                    <input type="hidden" value="@ViewBag.CurrentPageIndex" name="CurrentPage" id="CurrentPage" />
+
+                                                                    @if (ViewBag.CurrentPageIndex > 1)
+                                                                        {
+                                                                        <input type="submit" class="pageclickPrevious" value="Previous" style="border:none;width:50px;height:20px;font-size:10px;background-color:white;" />
+                                                                        }
+
+                                                                    @if (ViewBag.PageCount < 6)
+                                                                        {
+                                                                            for (int i = 1; i <= ViewBag.PageCount; i++)
+                                                                            {
+                                                                                if (i != ViewBag.CurrentPageIndex)
+                                                                                {
+                                                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                        <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:#4CAF50;color:white" value="@i" />
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            if (ViewBag.CurrentPageIndex > 2)
+                                                                            {
+                                                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="1" />
+
+                                                                                if (ViewBag.CurrentPageIndex > 3)
+                                                                                {
+                                                                        <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                                                                }
+                                                                            }
+
+                                                                            if (ViewBag.CurrentPageIndex == 1)
+                                                                            {
+                                                                                pageCutHigh += 2;
+                                                                            }
+                                                                            else if (ViewBag.CurrentPageIndex == 2)
+                                                                            {
+                                                                                pageCutHigh += 1;
+                                                                            }
+
+                                                                            if (ViewBag.CurrentPageIndex == ViewBag.PageCount)
+                                                                            {
+                                                                                pageCutLow -= 2;
+                                                                            }
+                                                                            else if (ViewBag.CurrentPageIndex == ViewBag.PageCount - 1)
+                                                                            {
+                                                                                pageCutLow -= 1;
+                                                                            }
+
+                                                                            for (int i = (int)pageCutLow; i <= pageCutHigh; i++)
+                                                                            {
+                                                                                if (i == 0)
+                                                                                {
+                                                                                    i += 1;
+                                                                                }
+                                                                                if (i > ViewBag.PageCount)
+                                                                                {
+                                                                                    continue;
+                                                                                }
+
+                                                                                if (ViewBag.CurrentPageIndex == i)
+                                                                                {
+                                                                        <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:#4CAF50;color:white" value="@i" />
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                                                                }
+                                                                            }
+
+                                                                            if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 1)
+                                                                            {
+                                                                                if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 2)
+                                                                                {
+                                                                        <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                                                                }
+
+                                                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@ViewBag.PageCount" />
+                                                                            }
+                                                                        }
+
+                                                                    @if (ViewBag.CurrentPageIndex < ViewBag.PageCount)
+                                                                        {
+                                                                        <input type="submit" class="pageclickNext" value="Next" style="border:none;width:30px;height:20px;font-size:10px;background-color:white" />
+                                                                        }
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        }
+
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+
+                                    function onAdminClick(val, ID) {
+                                        if ($(val).is(':checked')) {
+                                            allcheckBoxCheckValidate("AdminStudentRegistrationFormFlag", "1", ID);
+                                        }
+                                        else {
+                                            allcheckBoxCheckValidate("AdminStudentRegistrationFormFlag", "0", ID);
+                                        }
+                                    };
+
+                                    function onOnlineClick(val, ID) {
+                                        if ($(val).is(':checked')) {
+                                            allcheckBoxCheckValidate("OnlineAdmissionFormFlag", "1", ID);
+                                        }
+                                        else {
+                                            allcheckBoxCheckValidate("OnlineAdmissionFormFlag", "0", ID);
+                                        }
+                                    };
+
+                                    function onParentPortalClick(val, ID) {
+                                        if ($(val).is(':checked')) {
+                                            allcheckBoxCheckValidate("ParentPortalFlag", "1", ID);
+                                        }
+                                        else {
+                                            allcheckBoxCheckValidate("ParentPortalFlag", "0", ID);
+                                        }
+                                    };
+
+                                    function onStudentProfileClick(val, ID) {
+                                        if ($(val).is(':checked')) {
+                                            allcheckBoxCheckValidate("StudentProfileFlag", "1", ID);
+                                        }
+                                        else {
+                                            allcheckBoxCheckValidate("StudentProfileFlag", "0", ID);
+                                        }
+                                    };
+
+                                    function onStudentProfilePDFClick(val, ID) {
+                                        if ($(val).is(':checked')) {
+                                            allcheckBoxCheckValidate("StudentProfilePDFFlag", "1", ID);
+                                        }
+                                        else {
+                                            allcheckBoxCheckValidate("StudentProfilePDFFlag", "0", ID);
+                                        }
+                                    };
+
+                                    function onStudentPortalClick(val, ID) {
+                                        if ($(val).is(':checked')) {
+                                            allcheckBoxCheckValidate("StudentPortalFlag", "1", ID);
+                                        }
+                                        else {
+                                            allcheckBoxCheckValidate("StudentPortalFlag", "0", ID);
+                                        }
+                                    };
+
+                                    function onTeacherPortalClick(val, ID) {
+                                        if ($(val).is(':checked')) {
+                                            allcheckBoxCheckValidate("TeacherPortalFlag", "1", ID);
+                                        }
+                                        else {
+                                            allcheckBoxCheckValidate("TeacherPortalFlag", "0", ID);
+                                        }
+                                    };
+
+                                    function allcheckBoxCheckValidate(name, value, ID) {
+
+                                        var d = { flag: name, checkValue: value, StudentFieldSettingID: ID };
+
+                                        $.ajax({
+                                            url: "/Student/updateManageStudentFields",
+                                            type: 'POST',
+                                            data: JSON.stringify(d),
+                                            dataType: "json",
+                                            contentType: "application/json; charset=utf-8",
+                                            success: function (response) {
+                                            },
+                                            error: function () {
+                                            }
+                                        });
+                                        return false;
+                                    };
+
+                                    function PagerClick(id) {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: "/Student/PagenationFieldSettings",
+                                            dataType: 'json',
+                                            data: { "CurrentPage": id, "Title": $("#Title").val(), "Flag": $("#Flag").val() },
+                                            success: function (result) {
+                                                window.location.reload();
+                                        }
+                                    });
+
+                                    }
+                                    $(".pageclicktest").click(function () {
+                                        $("#CurrentPage").val($(this).val());
+                                        //PagerClick($(this).val());
+                                    });
+
+                                    $(".pageclickNext").click(function () {
+                                        var nextPage = parseInt($("#CurrentPage").val()) + 1;
+                                        $("#CurrentPage").val(nextPage);
+                                        //PagerClick(nextPage);
+                                    });
+
+                                    $(".pageclickPrevious").click(function () {
+                                        var prevPage =  parseInt($("#CurrentPage").val()) - 1;
+                                        $("#CurrentPage").val(prevPage);
+                                        //PagerClick(prevPage);
+                                    });
+
+                                    function onClickSearch() {
+                                        $("#CurrentPage").val('1');
+                                    };
+
+</script>
+

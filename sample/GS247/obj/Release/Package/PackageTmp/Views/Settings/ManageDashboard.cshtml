@@ -1,0 +1,61 @@
+﻿
+@model GS247.Models.Settings.DashboardList
+@{
+    ViewBag.Title = "ManageDashboard";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+</style>
+<div class="cont_right formWrapper">
+    <h1>Manage Dashboard Blocks</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("EnableAll","Settings")?val=2" id="yt0"><span>Reset Order</span></a></li>
+                <li><a class="a_tag-btn" href="@Url.Action("EnableAll","Settings")?val=1" id="yt1"><span>Enable All</span></a></li>
+                <li><a class="a_tag-btn" href="@Url.Action("EnableAll","Settings")?val=0" id="yt1"><span>Disable All</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tablebx">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tablebx_topbg">
+                <td>&nbsp;#&nbsp;</td>
+                <td>Name</td>
+                <td>Block Order</td>
+                <td>Action</td>
+            </tr>
+            @for (int i = 0; i < Model.Dashboards.Count; i++)
+            {
+                String j = "even";
+                if ((i % 2) == 0) { j = "odd"; }
+        <tr class=@j>
+
+            <td>@(i+1)</td>
+
+            <td>@Model.Dashboards[i].Name</td>
+
+            <td>@Model.Dashboards[i].BlockOrder</td>
+            @if (Model.Dashboards[i].isEnable == GS247.Models.Settings.Enable.Enable )
+            {
+                <td><a href="@Url.Action("Switch","Settings")?Id=@Model.Dashboards[i].Id&val=1">Disable</a></td>
+            }
+            @if (Model.Dashboards[i].isEnable == GS247.Models.Settings.Enable.Disable)
+            {
+                <td><a href="@Url.Action("Switch","Settings")?Id=@Model.Dashboards[i].Id&val=0">Enable</a></td>
+            }
+
+
+
+        </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

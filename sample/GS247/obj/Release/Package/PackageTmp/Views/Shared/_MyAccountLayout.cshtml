@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "_SettingsLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+</head>
+
+
+@*<div class="midnav" style="background-color: ; color: ">
+    <div class="breadcrumbs">
+
+    </div>
+</div>*@
+
+
+<div class="container">
+
+    <div class="span-19">
+        <div id="content">
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="247" valign="top">
+
+
+
+
+
+
+                        <div id="othleft-sidebar">
+
+                            <h1>MY ACCOUNT</h1>
+                            <ul id="yw0">
+                                <li id="li_salaryDetails"><a class="ddbook_ico" href="@Url.Action("Index", "MyAccount")">Activity Feed<span>Track Activities</span></a></li>
+                                <li id="li_GeneratesPayslip"><a class="news_ico" href="@Url.Action("News", "MyAccount")">News<span>All Site News</span></a></li>
+                                <li id="li_Reports"><span><h1>Events</h1></span></li>
+                                <li id="li_salaryDetails"><a class="evntlist_ico" href="@Url.Action("Events", "MyAccount")">Events<span>All Events</span></a></li>
+                                <li id="li_GeneratesPayslip"><a class="cal_ico" href="@Url.Action("Calendar", "MyAccount")">Calendar<span>Schedule Events</span></a></li>
+                                <li id="li_GeneratesPayslip"><a class="evnttype_ico" href="@Url.Action("EventTypes", "MyAccount")">Event Types<span>Manage Event Types</span></a></li>
+                                <li id="li_Reports"><span><h1>Document Uploads</h1></span></li>
+                                <li id="li_salaryDetails"><a class="evntlist_ico" href="@Url.Action("DocumentList", "MyAccount")">Document List<span>All Upload Document</span></a></li>
+                                <li id="li_Reports"><span><h1>COMPLAINTS</h1></span></li>
+                                <li id="li_salaryDetails"><a class="lbook_ico" href="@Url.Action("Category", "MyAccount")">Category<span>Manage Category</span></a></li>
+                                <li id="li_salaryDetails"><a class="mg_ico" href="@Url.Action("ComplaintList", "MyAccount")">Complaint List<span class="count">1</span><span>Complaint List</span></a></li>
+                                <li id="li_salaryDetails"><a class="online-registration_ico" href="@Url.Action("ComplaintRegister", "MyAccount")">Register Complaint</a></li>
+                            </ul>
+
+                            <div id="subject-name-ajax-grid"></div>
+                        </div>
+
+                    </td>
+                    <td valign="top">
+                        @RenderBody()
+                        <!-- Content Header (Page header) -->
+                        <!-- /.content -->
+                    </td>
+                </tr>
+            </table>
+        </div><!-- content -->
+    </div>
+    <div class="span-5 last">
+        <div id="sidebar">
+        </div><!-- sidebar -->
+    </div>
+
+    <div class="clear"></div>
+</div>

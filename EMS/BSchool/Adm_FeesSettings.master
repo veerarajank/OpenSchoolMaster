@@ -1,0 +1,57 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/GS247.master" AutoEventWireup="true" CodeFile="Adm_FeesSettings.master.cs" Inherits="Adm_FeesSettings" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div class="midnav">
+        <span onclick="Goto('Settings.aspx')">Fees</span>
+    </div>
+
+
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-md-3" style="vertical-align: top; border: 1px solid #b9c7d0">
+
+                    <div id="othleft-sidebar">
+                        <ul id="yw0">
+                            <li><span>
+                                <h1>Manage Fees</h1>
+                            </span></li>
+                            <li class="list_active"><a class="fee-dashboad_ico" href="Adm_Fee.aspx">Dashboard<span>Fees dashboard</span></a></li>
+                            <li><a class="create-fee_ico" href="Adm_CreateFees.aspx">Create Fees<span>Create Fees</span></a></li>
+                            <li><a class="manageinvoice_ico" href="Adm_manageinvoice.aspx">Manage Invoices <span>Manage Generated Invoices</span></a></li>
+                            <li><a class="setting-passwors_ico" href="FeeConfiguration.aspx">Configurations <span>Fees Configurations</span></a></li>
+                           
+                            <li><span>
+                                <h1>Payment Types</h1>
+                            </span></li>
+                            <li><a class="managfile-upload_ico" href="Adm_Paymenttype.aspx?mode=add">Create Payment Type<span>Create a Payment Type</span></a></li>
+                            <li><a class="m-paymnt_ico" href="Adm_Paymenttype.aspx">Manage Payment Types<span>Manage all Payment Types</span></a></li>
+                            <li><span>
+                                <h1>Tax Settings</h1>
+                            </span></li>
+                            <li><a class="creat-task_ico" href="Adm_TaxMaster.aspx?mode=add">Create Tax<span>Create a new Tax value</span></a></li>
+                            <li><a class="manage-task_ico" href="Adm_TaxMaster.aspx">Manage Tax<span>Manage all Tax values</span></a></li>
+                            <li><span>
+                                <h1>Reports</h1>
+                            </span></li>
+                            <li><a class="manage-grade_ico" href="#">Daily Collection Report<span>Daily Collection Report</span></a></li>
+                            <li><a class="mg_ico" href="#">Due Report<span>Due Report</span></a></li>
+                            <li><span>
+                                <h1>Payment Gateway</h1>
+                            </span></li>
+                            <li><a class="setting-ap_ico" href="#">Settings<span>Gateway settings</span></a></li>
+                        </ul>
+                    </div>
+                    <div id="subject-name-ajax-grid"></div>
+
+                </td>
+                <td class="col-md-9" style="vertical-align: top; border: 1px solid #b9c7d0">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</asp:Content>
+

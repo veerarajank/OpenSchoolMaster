@@ -1,0 +1,35 @@
+﻿@model GS247.Models.HRModule.LeaveTypeModel
+@{
+    ViewBag.Title = "ViewLeave";
+    Layout = "~/Views/Shared/_LeaveTypesLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+    <h1 style="color:#0c2e8a">View Leave</h1>
+    <div class="">
+        <table class="detail-view" width="60%">
+            <tr>
+                <th width="100px">Type</th>
+                <td>@Model.LeaveTypeName</td>
+            </tr>
+            <tr>
+                <th width="100px">Description</th>
+                <td>@Model.Description</td>
+            </tr>
+            <tr>
+                <th width="100px">Category</th>
+                <td>@Model.CategoryId</td>
+            </tr>
+            <tr>
+                <th width="100px">Gender</th>
+                <td>@Model.Gender</td>
+            </tr>
+            <tr>
+                <th width="100px">Count</th>
+                <td>
+                    @Model.Count
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@model GS247.Models.Settings.DocumentTypeAdd
+
+@{
+    ViewBag.Title = "CreateDocumentType";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("UserName").value == '') return false;
+        return true;
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Create Document Type</h1>
+    <div class="top-hed-btn-right">
+        <a class="a_tag-btn" href="@Url.Action("ManageDocumentType","Settings")"><span>Back</span></a>
+    </div>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertDocumentType", "Settings", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">Document Type Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Name, new { id = "UserName", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Mandatory <span class="required">*</span></label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.RadioButtonFor(Model => Model.Mandatory, GS247.Models.Settings.Mandatory.No)
+                            <label>No</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.RadioButtonFor(Model => Model.Mandatory, GS247.Models.Settings.Mandatory.YesCan)
+                            <label>Yes, Can be skipped during Registration</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.RadioButtonFor(Model => Model.Mandatory, GS247.Models.Settings.Mandatory.YesCannot)
+                            <label>Yes,Cannot be skipped during Registration</label>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td>
+                            <span>Show in Online Registration</span>
+                            @Html.CheckBoxFor(Model => Model.IsRequired)
+                        </td>
+                    </tr>
+                </table>
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Save" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

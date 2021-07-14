@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+</style>
+
+<div class="cont_right formWrapper">
+    <h1>Manage Sale</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("CreateSaleItems","Purchase")"><span>Add Sale</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="jobDialog"></div>
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="yellow-bg">
+                <div class="row">
+                    <div class="col-md-8 ">
+                        <div class="filter-right-cnt">
+                            <h3>Purchaser Type</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4 posicton-right ">
+                        <select id="PurchaserType" name="PurchaserType" onchange="onChangePurchase(this);">
+                            <option value="0">All</option>
+                            <option value="1">Student</option>
+                            <option value="2">Teacher</option>
+                            <option value="3">Parent</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="a_feed_cntnr" id="SaleItemListGrid">
+
+    </div>
+    <input type="hidden" name="SaleDetailsId" id="SaleDetailsId" />
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Return Issued Item</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <div>
+
+                        <table>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Email" class="required">Return Date <span class="required">*</span></label> <br>
+                                    <span>
+                                        <input readonly maxlength="255" style="width:200px;height:30px" name="ReturnDate" id="ReturnDate" type="text" required class="datepicker">
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="ReturnReason" class="required">Return Reason <span class="required">*</span></label> <br>
+                                    <span>                                        
+                                        <textarea name="ReturnReason" id="ReturnReason" required></textarea>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                        <div class="row" align="center">
+                            <input id="closeJobDialog" name="Submit" class="formbut-n" style="width:200px" type="submit" value="Return" onclick="ReturnStatusUpdate();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+
+<script type="text/javascript">
+    $(".manage-sale_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function onChangePurchase(ele) {
+        GetSaleList(ele.value);
+    };
+
+    $(document).ready(function () {
+        GetSaleList(0);
+    });
+
+    function GetSaleList(PurchaserType) {
+
+        var d = { PurchaserType: PurchaserType, currentPage: 1 };
+
+        $.ajax({
+            type: "POST",
+            url: "/Purchase/SaleItemList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableClearValue();
+                
+                $.each(result, function (index, PurchaseSaleDetailsList) {
+                    for (var i = 0; i < PurchaseSaleDetailsList.length; i++) {
+                        var value = "";
+                        value = "<div class=\"individual_feed\"><div class=\"a_feed_online\"><div class=\"a_feed_innercntnt\"><div class=\"a_feed_inner_arrow\"></div><div class=\"onln-adm-list\">";
+                        value += "<div class=\"onln-adm-name\"><h1><strong>Item Name : " + PurchaseSaleDetailsList[i].SchoolCO.Name + "</strong></h1></div><div class=\"onln-adm-date\"></div></div>";
+                        value += "<div class=\"onln-adm-list\"><div class=\"onln-adm-table\"><table class=\"reg_bx\" width=\"300\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
+                        value += "<tr><td width=\"30%\"><p>Type</p></td><td width=\"10\">:</td><td>" + PurchaseSaleDetailsList[i].SchoolCO.TransactionTypeName + "</td></tr>";
+                        value += "<tr><td width=\"30%\"><p>Requested By</p></td><td width=\"10\">:</td><td>" + PurchaseSaleDetailsList[i].SchoolCO.StudentName + "</td></tr>";
+                        value += "<tr><td width=\"15%\"><p>Department</p></td><td>:</td><td>" + PurchaseSaleDetailsList[i].SchoolCO.RelationName + "</td></tr>";
+                        value += "<tr><td><p>Quantity</p></td><td>:</td><td>" + PurchaseSaleDetailsList[i].Quantity + " </td></tr></table></div>";
+
+                        if (PurchaseSaleDetailsList[i].StatsuFlag == 2) {
+                            value += "<div class=\"onln-adm-table-icon\"><div class=\"online_time onln-adm-stus\"><div class=\"online_time\">";
+                            value += "<div class=\"online_status\"><div class=\"tag_approved\">Issued</div></div></div></div><div class=\"online_but onln-adm-stus\">";
+                            value += "<ul class=\"tt-wrapper\"><li><a class=\"tt-return\" title=\"Return Item\" id=\"" + PurchaseSaleDetailsList[i].SaleDetailsId + "\" href=\"javascript:StatusUpdate(" + PurchaseSaleDetailsList[i].SaleDetailsId + ");\"><span>Return Item</span></a>	</li></ul></div></div>";
+                        }
+                        else {
+                            value += "<div class=\"onln-adm-table-icon\"><div class=\"online_time onln-adm-stus\"><div class=\"online_time\">";
+                            value += "<div class=\"online_status\"><div class=\"tag_return\">Returned</div></div></div></div><div class=\"online_but onln-adm-stus\">";
+                            value += "<ul class=\"tt-wrapper\"><li></li></ul></div></div>";
+                        }
+                        $("#SaleItemListGrid").append(value);
+                    }
+                    
+                });
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    }
+
+    function tableClearValue() {
+        var Table = document.getElementById("SaleItemListGrid");
+        Table.innerHTML = "";
+    };
+
+    function StatusUpdate(SaleDetailsId) {
+        $('#SaleDetailsId').val(SaleDetailsId);
+        $('#myModal').css('display', 'block');
+    };
+
+    function ReturnStatusUpdate() {
+
+        var SaleDetailsId = $('#SaleDetailsId').val();        
+        var ReturnDate = $('#ReturnDate').val();        
+        var Reason = $('#ReturnReason').val();
+
+        var d = { SaleDetailsId: parseInt(SaleDetailsId), ReturnDate: ReturnDate, Reason: Reason };
+
+        $.ajax({
+            type: "POST",
+            url: "/Purchase/SaleStatusUpdate",
+            data: JSON.stringify(d),
+            //data: '{SaleDetailsId: ' + parseInt(SaleDetailsId) + ',ReturnDate:' + ReturnDate + ',Reason:' + Reason + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    var j = jQuery.noConflict();
+    j(function () {
+        j("#ReturnDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+    });
+
+    function onClose() {
+        $('#myModal').css('display', 'none');
+    };
+
+</script>

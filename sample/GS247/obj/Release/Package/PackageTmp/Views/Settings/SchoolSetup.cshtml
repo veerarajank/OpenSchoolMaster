@@ -1,0 +1,261 @@
+﻿@model GS247.Models.Settings.SchoolSetup
+@{
+    ViewBag.Title = "SchoolSetup";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+    <style>
+        .tab-pane {
+            background: #50d8af;
+        }
+    </style>
+<div class="cont_right formWrapper">
+    <h1>Institution Configurations</h1>
+    <div id="tabs">
+        <button id="button1" onclick="show('',0);" class="tab-pane">School Information</button>
+        <button id="button2" onclick="show('',1);" class="tab-pane">Principal / Head of the Institution</button>
+        <button id="button3" onclick="show('',2);" class="tab-pane">School Year Setup</button>
+    </div>
+    <div id="configurations" class="Summary">
+        <p class="note">Fields with <span class="required">*</span>are required.</p>
+    </div><!-- School Information -->
+    @using (Html.BeginForm("UpdateSetup", "Settings", FormMethod.Post))
+    {
+        <div class="formCon">
+            <div class="formConInner">
+                <h3>School Information</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        @Html.HiddenFor(Model => Model.Id)
+                        <td>
+                            <label>School / College Name</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Name)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Registration ID
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.RegistrationId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Founded On
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.FoundedOn, new { type = "date" })
+                        </td>
+                        <td>
+                            Curriculum
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Curriculum)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Address
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(Model => Model.Address, new { style = "width:150px !important; height: 60px;" })
+                        </td>
+                        <td>
+                            Pin code
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Pincode)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Phone
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Phone)
+                        </td>
+                        <td>
+                            Alternate Phone
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.AlternatePhone)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Email)
+                        </td>
+                        <td>
+                            Fax
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Fax)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Upload Logo</td>
+                        <td colspan="2">
+                            <div class="row">
+                                <input id="ytLogo_uploadedFile" type="hidden" value="" name="Logo[uploadedFile]" /><input name="Logo[uploadedFile]" id="Logo_uploadedFile" type="file" /><div class="errorMessage" id="Logo_uploadedFile_em_" style="display:none"></div>
+                                <strong>
+                                    <i>
+                                        <br>(supported formats : .jpg , .png ; max filesize: 60Kb, <br />
+                                        recommended size : 64*64)
+                                    </i>
+                                </strong>
+                            </div>
+
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Favicon
+                        </td>
+                        <td colspan="2">
+                            <div class="row">
+                                <br />
+                                <input id="yticon" type="hidden" value="" name="Favicon[icon]" />
+                                <input id="icon" onChange="validate(this.value)" name="Favicon[icon]" type="file" />
+                                <strong>
+                                    <i>
+                                        <br>(supported formats : .ico, .jpg <br />
+                                        recommended size : 16*16)
+                                    </i>
+                                </strong>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <input id="submit_button_form" onclick="show('Next', 0);" class="formbut" style="width:10%;" name="submit" value="Next" />
+        </div>
+        <!-- End School Information -->
+        <!-- Head of institution -->
+        <div class="formCon">
+            <div class="formConInner">
+                <h3>Principal / Head of the Institution</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            Name of the Principal
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.PrincipalName)
+                        </td>
+                        <td>
+                            Email of the Principal
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.PrincipalEmail)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Phone
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.PrincipalPhone)
+                        </td>
+                        <td>
+                            Mobile
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.PrincipalMobile)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <input id="submit_button_form" onclick="show('Prev', 1);" class="formbut" style="width:10%;" name="submit" value="Prev" />
+            <input id="submit_button_form" onclick="show('Next', 1);" class="formbut" style="width:10%;" name="submit" value="Next" />
+        </div>
+        <!-- End Head of institution -->
+        <!-- Academic Year Setup -->
+        <div class="formCon">
+            <div class="formConInner">
+                <h3>School Year Setup</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            Academic Year<span class="required">*</span>
+                        </td>
+                        <td>
+                            <select id="year" name="academic_year">
+                                <option value="">Select</option>
+                                <option value="2">PYear</option>
+                                <option value="1" selected="selected">test</option>
+                            </select>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Finance Year Start</td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.FinanceYearStart, new { type = "date" })
+                        </td>
+                        <td>Finance Year End</td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.FinanceYearEnd, new { type = "date" })
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <input id="submit_button_form" onclick="show('Prev', 2);" class="formbut" style="width:10%;" name="submit" value="Prev" />
+            <input id="submit_button_form" class="formbut" style="width:10%;" name="submit" type="submit" value="Save" />
+        </div>
+        <!-- End Academic Year Setup -->
+
+    }
+</div>
+<script>
+    show("", 0);
+    function show(trav, id) {
+        if (trav == "Prev") {
+            id = id - 1;
+        }
+        if (trav == "Next") {
+            id = id + 1;
+        }
+        tabs = document.getElementsByClassName("formCon");
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = "none";
+        }
+        tabs[id].style.display = "";
+        tabPane = document.getElementsByClassName("tab-pane");
+        for (var i = 0; i < tabPane.length; i++) {
+            tabPane[i].style.background = "#50d8af";
+        }
+        tabPane[id].style.background = "#808080";
+    }
+</script>

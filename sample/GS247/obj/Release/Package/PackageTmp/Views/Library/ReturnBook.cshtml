@@ -1,0 +1,101 @@
+﻿@model GS247.Models.Library.ReturnBookDetails
+
+@{
+    ViewBag.Title = "ReturnBook";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+    <head>
+        <script type="text/css">
+            .formConInner {
+            padding: 15px 15px;
+            position: relative;
+            }
+        </script>
+        <style>
+            .formbut {
+                background: #50d8af;
+            }
+        </style>
+     
+    </head>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+
+
+    <div class="cont_right formWrapper" style="padding:15px 20px 80px 20px;">
+        <h1>Return Book</h1>
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li>
+                        <a class="formbut" href="@Url.Action("SearchReturnBooks","Library")"><span>Back</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="form">
+            <div class="formCon">
+                <div class="formConInner">
+                    <div style="background:none;">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <p>Fields with <span class="required"> * </span> are required.</p>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td><label for="ReturnBook_studname">Student</label></td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.StudentName, new { @class = "form-control", @disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ReturnBook_booktitle">Book</label></td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.HiddenFor(model => model.BookId)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ReturnBook_issuedate">Issue Date</label></td>
+                                    <td>
+
+                                        @Html.TextBoxFor(model => model.IssueDate, "{0:dd-MM-yyyy}", new { @class = "form-control", type = "date", @disabled = "disabled" })
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ReturnBook_returndate" class="required">Return Date<span class="required">*</span></label></td>
+                                    <td>@Html.TextBox("ReturnDate", DateTime.Now.ToString("dd-mm-yyyy"), new { type = "date", required = "required" })</td>
+                                </tr>
+                                <tr>
+                                    <td height="10px">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td height="10px">&nbsp;</td>
+                                    <td><input class="formbut" type="submit" value="Create" /></td>
+                                </tr>
+                            </table>
+                        }
+                    </div><!-- form -->
+                </div>
+            </div>
+            </div>
+        </div>
+
+

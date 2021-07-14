@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+
+    <div class="cont_right">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <div class="emp_cntntbx">
+
+                        <div class="setbx_con">
+                            <div class="block_box">
+                                <div class="setbx">
+                                    <div class="setbx_top">
+                                        <h1>General Settings</h1>
+                                    </div>
+
+                                    <div class="setbx_bot">
+                                        <ul>
+                                            <li class="menu_box">
+                                                <div class="set_icon"><i class="fa fa-gears"></i></div>
+                                                <a class="name-txt" href="@Url.Action("SchoolSetup","Settings")">School Setup<span>School Name,Logo..</span></a>
+                                            </li>
+                                            <li class="menu_box">
+                                                <div class="set_icon"><i class="fa fa-calendar-o"></i></div>
+                                                <a class="name-txt" href="@Url.Action("ManageYears","Settings")">Academic Year<span>Set up,Manage previous years...</span></a>
+                                            </li>
+                                            <li class="menu_box">
+                                                <div class="set_icon"><i class="fa fa-key"></i></div>
+                                                <a class="name-txt" href="@Url.Action("ManageUsers","Settings")">User Roles<span>Manage / Create Users</span></a>
+                                            </li>
+                                            <li class="menu_box">
+                                                <div class="set_icon"><i class="fa fa-calendar"></i></div>
+                                                <a class="name-txt" href="@Url.Action("ManageEventTypes","Settings")">Event Types<span>Manage Event Types</span></a>
+                                            </li>
+                                            <li class="menu_box">
+                                                <div class="set_icon"><i class="fa fa-tasks"></i></div>
+                                                <a class="name-txt" href="@Url.Action("ManageFeatures","Settings")">Features<span>Manage Features</span></a>
+                                            </li>
+                                            <li class="menu_box">
+                                                <div class="set_icon"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
+                                                <a id="set_grade_level" class="name-txt" href="@Url.Action("ManageDashboard","Settings")">Manage Dashboard<span>Manage Dashboard Blocks</span></a>
+                                            </li>
+                                    </div>
+
+
+                                    <div class="clear"></div>
+
+                                </div><!-- block box end -->
+                                <div class="clear"></div>
+                                <div class="block_box">
+                                    <div class="setbx" style="width:700px;">
+                                        <div class="setbx_top">
+                                            <h1 class="headings">Enrollment Settings</h1>
+                                        </div>
+                                        <div class="setbx_bot">
+                                            <ul>
+                                                <li class="menu_box">
+                                                    <div class="set_icon"><i class="fa fa-keyboard-o"></i></div>
+                                                    <a class="name-txt" href="@Url.Action("ManageRegistration","Settings")">Online Registration Settings<span>Online Registration Settings</span></a>
+                                                </li>
+                                                <li class="menu_box">
+                                                    <div class="set_icon"><i class="fa fa-book"></i></div>
+                                                    <a id="" class="name-txt" href="@Url.Action("ManageDocumentType","Settings")">Manage Student Document<span>Manage Student Document Types</span></a>                <!--<a href="#" class="icon5">Default Subjects<span>Admins &amp; Class Teachers</span></a>-->
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
+                                <div class="block_box">
+                                    <div class="setbx" style="width:700px;">
+                                        <div class="setbx_top">
+                                            <h1 class="headings">Course / Batch Settings</h1>
+                                        </div>
+                                        <div class="setbx_bot">
+                                            <ul>
+                                                <li class="menu_box">
+                                                    <div class="set_icon"><i class="fa fa-clock-o"></i></div>
+                                                    <a class="name-txt" href="@Url.Action("ManageClassTimings","Settings")">Common Class Timings<span>Create & Manage Institution Class Timings</span></a>
+                                                </li>
+                                                <li class="menu_box">
+                                                    <div class="set_icon"><i class="fa fa-calendar"></i></div>
+                                                    <a class="name-txt" href="@Url.Action("WeekDaysSetup","Settings")">Default Weekdays<span>Default School Weekdays</span></a>
+                                                </li>
+                                                <li class="menu_box">
+                                                    <div class="set_icon"><i class="fa fa-line-chart"></i></div>
+                                                    <a id="set_grade_level" class="name-txt" href="@Url.Action("ManageGradingLevels","Settings")">Set Default Grading Levels<span>Setting the Default Grading Levels</span></a>
+                                                </li>
+                                                <li class="menu_box">
+                                                    <div class="set_icon"><i class="fa fa-mortar-board"></i></div>
+                                                    <a id="set_grade_level" class="name-txt" href="@Url.Action("ManageExamFormat","Settings")">Manage Exam Format<span>Choose Exam Format</span></a>
+                                                </li>
+
+                                                <li class="menu_box">
+                                                    <div class="set_icon"><i class="fa fa-tasks"></i></div>
+                                                    <a class="name-txt" href="@Url.Action("ManageTimeTable","Settings")">Manage Timetable Format<span>Choose Timetable Format</span></a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
+                                <div class="clear"></div>
+
+                            <div class="block_box">
+                                <div class="setbx" style="width:700px;">
+                                    <div class="setbx_top">
+                                        <h1 class="headings">SMS Settings</h1>
+                                    </div>
+                                    <div class="setbx_bot">
+                                        <ul>
+                                            <li class="menu_box">
+                                                <div class="set_icon"><i class="fa fa-comments-o"></i></div>
+                                                <a class="name-txt" href="@Url.Action("ManageSMSCounter","Settings")">SMS Counter<span>Track SMS Count</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+
+                            <div class="clear"></div>
+                            
+                        
+                        <div class="block_box">
+                            <div class="setbx" style="width:700px;">
+                                <div class="setbx_top">
+                                    <h1 class="headings">Notification Settings</h1>
+                                </div>
+                                <div class="setbx_bot">
+                                    <ul>
+                                        <li class="menu_box">
+                                            <div class="set_icon"><i class="fa fa-gear"></i></div>
+                                            <a class="name-txt" href="@Url.Action("ManageNotification","Settings")">Notification Settings<span>Enable SMS, MAIL notifications</span></a>
+                                        </li>
+                                        <li class="menu_box">
+                                            <div class="set_icon"><i class="fa fa-sliders"></i></div>
+                                            <a class="name-txt" href="@Url.Action("ManageSMTP","Settings")">SMTP Settings<span>SMTP Configuration</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+
+                        
+                        
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+

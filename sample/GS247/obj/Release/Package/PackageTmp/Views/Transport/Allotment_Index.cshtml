@@ -1,0 +1,202 @@
+﻿@model IEnumerable<GS247.Models.Transport.Students>
+
+@{
+    ViewBag.Title = "Allot Transportation";
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+    <style>
+        .a_tag-btn {
+            background: #50d8af;
+        }
+        .grid-view table.items th {
+            color: #0c2e8a;
+        }
+        #myTable > thead > tr > th, #myTable > tbody > tr > td {
+            text-align: center;
+        }
+    </style>
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+    function Search(tmp, inc) {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById(tmp);
+        if (input.value == '') {
+            loadPage($lastPage);
+            return;
+        }
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[inc];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="a_tag-btn
+" href="@Url.Action("Student_Allotment","Transport")"><span>New Allotment</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <style>
+        .sem-view-block th, td {
+            border: none;
+        }
+    </style>
+
+    <div id="semester-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="Driver-grid_c0" onclick="sortTable(0);">Student Name - Student Id</th>
+
+                    <th id="Driver-grid_c1" onclick="sortTable(1);">Route</th>
+                    <th id="Driver-grid_c2" onclick="sortTable(2);">Stop</th>
+                    <th>Action</th>
+                </tr>
+                <tr class="filters">
+
+                    <td><input class="form-control" id="myInputStudentName" onkeyup="Search(this.id,0);" name="Transport[StudentName]" type="text" maxlength="225" value="" placeholder="Search"/></td>
+                    <td><input class="form-control" id="myInputRoute" onkeyup="Search(this.id,1);" name="Transport[Route]" type="text" maxlength="225" value="" placeholder="Search"/></td>
+                    <td><input class="form-control" id="myInputStop" onkeyup="Search(this.id,2);" name="Transport[Stop]" type="text" maxlength="225" value="" placeholder="Search"/></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="odd">
+
+                        <td>
+                            <button class="btn btn-xs btn-link" title="Info" type="button" data-toggle="modal" data-target=#@item.StudentId>@item.StudentName - @item.StudentId</button>
+                            <div class="modal fade" id=@item.StudentId tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Details of Student</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>Student Name</th>
+                                                    <th>Admission #</th>
+                                                    <th>Batch</th>
+                                                    <th>Phone</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>@item.StudentName</td>
+                                                    <td>@item.AdmissionNo</td>
+                                                    <td>@item.Batch</td>
+                                                    <td>@item.Phone</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+                        </td>
+                        <td>@Html.DisplayFor(m => item.RouteName)</td>
+                        <td>@Html.DisplayFor(m => item.StopName)</td>
+                        <td>
+                            <a class="update" title="Update" href="@Url.Action("Update_Student_Allotment","Transport")?id=@item.StudentId">
+                                <img src="../gridview/update.png" alt="Update" />
+                            </a>
+                            <a class="delete" title="Delete" href="@Url.Action("Delete_Student_Allotment","Transport")?id=@item.StudentId" onclick="return confirm('Are you sure you want to delete this item?')">
+                                <img src="../gridview/delete.png" alt="Delete" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+   
+        </div>
+
+        @if (TempData["Allotment_Index"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("Allotment_Index").ToString()");
+            </script>
+        }
+    </div>
+    <script type="text/javascript">
+
+    </script>

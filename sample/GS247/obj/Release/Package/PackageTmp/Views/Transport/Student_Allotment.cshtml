@@ -1,0 +1,86 @@
+﻿@model GS247.Models.TransportStudentRouteLink
+@{
+    ViewBag.Title = "New Allotment";
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div>
+
+    <h1>@ViewBag.Title</h1>
+    <div class="col-md-1"></div>
+    <div class=" form col-md-10">
+        <div class="formCon">
+            <div class="formConInner">
+                <p>Fields with<span class="required"> * </span> are required.</p>
+                <a href="/Transport/Allotment_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                @using (Html.BeginForm("Student_Allotment", "Transport", FormMethod.Post))
+                {
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table" style="font-size:small;">
+                        <tr>
+                            <th>Student<span class="required">*</span></th>
+                            <td>
+                                <a href="/Transport/SearchStudents?BackTo=Student_Allotment">Get Student</a>
+                                @if (Model.StudentDetail != null)
+                                {
+                                    <span><strong>@Model.StudentDetail.FirstName @Model.StudentDetail.MiddleName @Model.StudentDetail.LastName - @Model.StudentDetail.StudentId</strong></span>
+                                }
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th style="vertical-align:middle;">Route Name<span class="required">*</span></th>
+                            <td>@Html.DropDownListFor(m => m.RouteId, (IEnumerable<SelectListItem>)ViewBag.Routes, "-Select Route-", new { @class = "form-control", required = "required" })</td>
+                        </tr>
+                        <tr id="trStopNames">
+                            <th style="vertical-align:middle;">Stop Name<span class="required">*</span></th>
+                            <td>@Html.DropDownListFor(m => m.StopId, (IEnumerable<SelectListItem>)ViewBag.Stops, "-Select Stop-", new { @class = "form-control", required = "required" })</td>
+                        </tr>
+                        <tr>
+                            <td height="10px">&nbsp;</td>
+                            <td>
+                                @Html.HiddenFor(m => m.StudentId)
+                                <input class="formbut" type="submit" value="Submit" />
+                            </td>
+                        </tr>
+                    </table>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    @if (TempData["Allotment"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("Allotment").ToString()");
+        </script>
+    }
+</div>
+
+<script type="text/javascript">
+    $("#RouteId").on("change", function () {
+        var routeId = $(this).val();
+        $.ajax
+            ({
+                url: '/Transport/GetStopNames',
+                type: 'Get',
+                data: { 'routeId': routeId },
+                success: function (data) {
+                    debugger
+                    $("#StopId").html("");
+                    $("#StopId").append('<option value="0">-Select Stop-</option>');
+                    $.each(data, function (i, result) {
+                        $("#StopId").append('<option value="' + result.Value + '">' +
+                            result.Text + '</option>');
+                    });
+                },
+                error: function () {
+                    alert("Something went wrong..")
+                },
+            });
+    });
+</script>

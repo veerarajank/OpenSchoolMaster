@@ -1,0 +1,47 @@
+﻿@model GS247.Models.Settings.DefaultGrading
+
+@{
+    ViewBag.Title = "CreateNewGradingLevel";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("UserName").value == '') return false;
+        if (document.getElementById("Password").value == '') return false;
+        return true;
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Create New Grading Level</h1>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertGrading", "Settings", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Name, new { id = "UserName", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Min Score <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.MinScore, new { id = "Password", required = "required", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                </table>
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Create" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

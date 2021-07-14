@@ -1,0 +1,315 @@
+﻿@{
+    ViewBag.Title = "DocumentList";
+    Layout = "~/Views/Shared/_MyAccountLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+
+    .formbut {
+        padding: 0px 20px;
+        margin: 0px;
+        background: none repeat scroll 0 0 #f38108;
+        height: 30px !important;
+        font-size: 13px !important;
+        border: none;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer !important;
+    }
+
+    .view_Exmintn_atg {
+        padding: 3px 7px;
+        color: #fff;
+        border-radius: 3px;
+        margin-right: 5px;
+        font-size: 12px;
+        transition: 0.2s all ease;
+        -webkit-transition: 0.2s all ease;
+        -moz-transition: 0.2s all ease;
+        -o-transition: 0.2s all ease;
+        -ms-transition: 0.2s all ease;
+        display: inline-block;
+        margin: 2px 2px;
+    }
+
+    .opnsl_closeBtn {
+        background-color: #e63f51;
+        border: 1px solid #e63f51;
+    }
+
+    .opnsl_viewBtn {
+        background-color: #3598db;
+        border: 1px solid #3598db;
+    }
+
+    .opnsl_reopenBtn {
+        background-color: #f78900;
+        border: 1px solid #f78900;
+    }
+</style>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@*<script src="~/Scripts/MyAccounts/datepicker/jquery-1.11.1.min.js"></script>*@
+
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link href="~/Scripts/MyAccounts/datepicker/jquery-ui.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/MyAccounts/Events/jquery.drawrpalette-min.js"></script>
+
+
+<script type="text/javascript">
+
+
+    function GetEventType() {
+
+        var serviceUrl = '/MyAccount/GetNewsFeed'
+        var flag = "GetDocumentList";
+
+
+        $.ajax({
+
+            type: "POST",
+            url: serviceUrl,
+            data: JSON.stringify({ "flag": flag }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null) {
+                    //data = JSON.parse(data.d);
+                    $('#Reg_grid').DataTable().destroy();
+
+                    var j = 1;
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i]["Status"] == "Open") {
+                            data[i]["Action"] = "<i class='fa fa-check-circle-o fa-lg tbl_row_Approved' style='cursor:pointer;color:blue;'></i><i class='fa fa-times-circle-o fa-lg tbl_row_disApproved' style='cursor:pointer;color:red;margin-left: 20px;'></i><i class='fa fa-download fa-lg tbl_row_download' style='cursor:pointer;color:green;margin-left: 18px;'></i>";
+                        }
+                        else {
+                            data[i]["Action"] = "<i class='fa fa-download fa-lg tbl_row_download' style='cursor:pointer;color:green;margin-left: 30px;'></i>";
+                        }
+                        data[i]["Rownumber"] = j++;
+                        data[i]["Identifier"]=data[i]["TableName"]+" "+data[i]["OperationType"];
+
+                    }
+
+
+                    $('#Reg_grid').DataTable({
+                        data: data,
+                        columns: [
+                                    { 'data': 'Id', 'visible': false },
+                                    { 'data': 'Rownumber' },
+                                    { 'data': 'Identifier' },
+                                     { 'data': 'Status' },
+                                     { 'data': 'CreatedBy' },
+                                     { 'data': 'Reason' },
+                                    { 'data': 'Action' },
+                                    { 'data': 'FilePath', 'visible': false }
+
+                        ],
+
+                        fixedHeader: true,
+                        "aaSorting": [[1, "asc"]],
+                        scrollY: 400,
+                        scrollX: true,
+                        iDisplayLength: 25,
+                        bPaginate: true
+
+                    });
+
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+    $(document).ready(function () {
+
+
+        GetEventType();
+
+
+
+        $('#Reg_grid').on("click", "td .tbl_row_download", function () {
+
+            var currentRow = $(this).closest("tr");
+
+            var data = $('#Reg_grid').DataTable().row(currentRow).data();
+            var FilePath = data['FilePath'];
+
+            location.href = "/MyAccount/DownloadFile?filePath="+FilePath;
+
+
+
+        });
+
+        $('#Reg_grid').on("click", "td .tbl_row_Approved", function () {
+
+            var currentRow = $(this).closest("tr");
+
+            var data = $('#Reg_grid').DataTable().row(currentRow).data();
+            var Id = data['Id'];
+
+            var Category = null;
+            var subject = null;
+            var complaint = null;
+            var UserType = null;
+
+            var serviceUrl = '/MyAccount/ComplaintDetails'
+            var flag = "UpdateDocumentList";
+            var status = "Approve";
+            var userId = "Veera";
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "Id": Id, "flag": flag, "Category": Category, "subject": subject, "complaint": complaint, "status": status, "UserType": UserType, "userId": userId }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "Success") {
+
+                            location.href = "/MyAccount/DocumentList";
+                        }
+                    }
+                }
+            });
+
+        });
+
+        $('#Reg_grid').on("click", "td .tbl_row_disApproved", function () {
+
+            var currentRow = $(this).closest("tr");
+
+            var data = $('#Reg_grid').DataTable().row(currentRow).data();
+            var Id = data['Id'];
+
+            var Category = data['FilePath'];
+            var subject = null;
+            var complaint = null;
+            var UserType = null;
+
+            var serviceUrl = '/MyAccount/DisApprovedDetails'
+            var flag = "UpdateDocumentList";
+            var status = "Reject";
+            var userId = "Veera";
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "Id": Id, "flag": flag, "Category": Category, "subject": subject, "complaint": complaint, "status": status, "UserType": UserType, "userId": userId }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "Success") {
+
+                            location.href = "/MyAccount/DocumentList";
+                        }
+                    }
+                }
+            });
+        });
+
+
+
+
+
+    });
+</script>
+
+
+
+
+<div class="cont_right formWrapper">
+
+    <div style="display:block;">
+        <div id="div_sitenews" class="cont_right formWrapper" style="padding:0px; width:753px;">
+            <div id="parent_rightSect">
+                <div class="parentright_innercon">
+                    <div class="mail_head"><h1 style="margin:0px;"><b>Manage Document Uploads</b></h1></div>
+
+
+                    <div class="news-list ui-helper-clearfix" sortby="modified.desc">
+                        <style type="text/css">
+                            .flash-notice {
+                                right: 35%;
+                                font-size: 11px;
+                                top: 26px;
+                                width: 342px;
+                                right: 30%;
+                            }
+
+                            .flash-success {
+                                top: 32px;
+                                font-size: 11px;
+                                right: 230px;
+                                width: 339px;
+                            }
+                        </style>
+
+                        <form id="message-list-form" action="#" method="post">
+                            <div class="mailbox-clistview-container ui-helper-clearfix">
+                                <div id="mailbox" class="list-view">
+
+                                    <div id="mailbox-items" class="ui-helper-clearfix">
+
+                                        <table id="Reg_grid" class="table table-striped table-bordered" style="width:100%">
+                                            <thead style="background: #EAF5FD;color: #3E719B;">
+                                                <tr>
+                                                    <th style="display:none;">Id</th>
+                                                    <th>#</th>
+                                                    <th>Identifier</th>
+                                                    <th>Status</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Reason</th>
+                                                    <th>Action</th>
+                                                    <th style="display:none;">Filepath</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+

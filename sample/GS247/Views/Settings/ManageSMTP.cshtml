@@ -1,0 +1,119 @@
+﻿@model GS247.Models.Settings.SMTP
+
+@{
+    ViewBag.Title = "ManageSMTP";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+    <style>
+        .formbut {
+            background: #50d8af;
+        }
+    </style>
+<script>
+    function Validate() {
+        if (document.getElementById("Host").value == '') return false;
+        if (document.getElementById("UserName").value == '') return false;
+        if (document.getElementById("Password").value == '') return false;
+        if (document.getElementById("Port").value == '') return false;
+        if (document.getElementById("ConnectionSecurity").value == '') return false;
+        if (document.getElementById("ConnectionSecurity").value == 0) return false;
+        if (document.getElementById("EnableSMTP").value == '') return false;
+        if (document.getElementById("EnableSMTP").value == 0) return false;
+        return true;
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Configure SMTP Server</h1>
+
+    @using (Html.BeginForm("UpdateSMTP", "Settings", FormMethod.Post, new { onsubmit ="return Validate();"}))
+    {
+        <p class="note">Fields with <span class="required">*</span>are required.</p>
+        <!-- School Information -->
+        <div class="formCon">
+            <div class="formConInner">
+                <h3>SMTP Server details</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    @Html.HiddenFor(Model=>Model.Id)
+                    <tr>
+                        <td width="80">
+                            <label for="MailConfig_host" class="required">Host <span class="required">*</span></label>
+                        </td>
+                        <td width="300">
+                           @Html.TextBoxFor(Model=>Model.Host, new { required="required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="MailConfig_username" class="required">Username <span class="required">*</span></label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.UserName, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="MailConfig_password" class="required">Password <span class="required">*</span></label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Password,new { required="required", type="password" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="MailConfig_port" class="required">Port <span class="required">*</span></label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Port, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="MailConfig_security" class="required">Connection Security <span class="required">*</span></label>
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(Model => Model.ConnectionSecurity, 1)
+                            <label>SSL</label>
+                            @Html.RadioButtonFor(Model => Model.ConnectionSecurity, 2)
+                            <label>TLS</label>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Enable SMTP <span class="required">*</span></label>
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(Model => Model.EnableSMTP, 1)
+                            <label>Yes</label>
+                            @Html.RadioButtonFor(Model => Model.EnableSMTP, 2)
+                            <label>No</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="padding:0px 0 0 0px; text-align:left">
+            <input class="formbut" name="submit" type="submit" value="Apply" />
+        </div>
+    }
+</div>
+        
+

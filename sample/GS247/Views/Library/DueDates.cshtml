@@ -1,0 +1,110 @@
+﻿@model IEnumerable<GS247.Models.Library.ReturnBookDetails>
+
+@{
+    ViewBag.Title = "DueDates";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+</style>
+<script type="text/javascript">
+    function GetDueBookDetails() {
+        document.duedateForm.submit();
+    }
+</script>
+<div class="cont_right formWrapper" style="padding:15px 20px 80px 20px;">
+    <h1>Library Management</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="a_tag-btn" href="#"><span>Send Reminder</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    @using (Html.BeginForm("DueDates", "Library", FormMethod.Get, new { id = "duedateForm", name = "duedateForm" }))
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="Search_duebooks">Student whose due date will expire on</label></td>
+                                <td>
+                                    @Html.DropDownList("ddlsearchitem", new List<SelectListItem>()
+                                    {
+                                        new SelectListItem(){ Text= "All Dues", Value = "1"},
+                                        new SelectListItem(){ Text= "Due Date Expired", Value = "2"},
+                                    }, new { @class = "select2-arrow", @onchange = "GetDueBookDetails()" })
+                                </td>
+
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+    <style>
+        .sem-view-block th, td {
+            border: none;
+        }
+    </style>
+    <div id="searchdue-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="searchdue-grid_c0">Student Name</th>
+                    <th id="searchdue-grid_c1">ISBN</th>
+                    <th id="searchdue-grid_c2">Book Name</th>
+                    <th id="searchdue-grid_c3">Author</th>
+                    <th id="searchdue-grid_c4">Issue Date</th>
+                    <th id="searchdue-grid_c5">Due Date</th>
+                    <th id="searchdue-grid_c6">Is returned</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr class="odd">
+                    <td>@Html.DisplayFor(modelItem => item.StudentName)</td>
+                    <td>  @Html.DisplayFor(modelItem => item.ISBN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AuthorName)
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
+                    <td>  @Html.DisplayFor(modelItem => item.DueDate)</td>
+                    @if (item.isReturned == 0)
+                    {
+                        <td>No</td>
+                    }
+                    @if (item.isReturned == 2)
+                    {
+                        <td>Due date expired</td>
+                    }
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+
+
+

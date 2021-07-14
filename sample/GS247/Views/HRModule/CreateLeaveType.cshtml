@@ -1,0 +1,91 @@
+﻿@model GS247.Models.HRModule.LeaveTypeModel
+@{
+    ViewBag.Title = "CreateLeaveType";
+    Layout = "~/Views/Shared/_LeaveTypesLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script type="text/javascript">
+    $("#submit").click(function () {
+        debugger;
+        var radioValue = $("input[type='radio']:checked").val();
+        console.log(radioValue);
+        alert(radioValue);
+    });
+</script>
+<div>
+    <h1>Create New Leave Type</h1>
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            <div>
+
+                @using (Html.BeginForm("CreateLeaveType", "HRModule", FormMethod.Post))
+                {
+                    <div style="display:none"><input type="hidden" value="32b8c8478cd27c7eb0da0c1d8ce4290c05917305" name="YII_CSRF_TOKEN" /></div>
+                    <p class="note">Fields with <span class="required"> * </span> are required.</p>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="200"><label for="HrModule_Leave_name" class="required">Type<span class="required">*</span></label></td>
+                            <td>@Html.TextBoxFor(Model => Model.LeaveTypeName, new { required = "required", size = "40", maxlength = "100", id = "HrModule_Leave_name" })</td>
+                        </tr>
+
+                        <tr><td colspan="2">&nbsp;</td></tr>
+                        <tr>
+                            <td width="200"><label for="Courses_course_name" class="required">Description<span class="required">*</span></label></td>
+                            <td>@Html.TextBoxFor(Model => Model.Description, new { required = "required", size = "40", maxlength = "100", id = "Courses_course_name" })</td>
+                        </tr>
+                        <tr><td colspan="2">&nbsp;</td></tr>
+                        <tr>
+                            <td><label for="LeaveTypes_Category">Category</label></td>
+                            <td>
+                                @for (int i = 0; i < Model.CategoryInfo.Count; i++)
+                                {
+                                    @Html.RadioButtonFor(x => Model.CategoryInfo[i].Id, Model.CategoryInfo[i].Text.ToString())
+                                    @Model.CategoryInfo[i].Text
+                                    @Html.HiddenFor(x => Model.CategoryInfo[i].Id)
+                                    <span>&nbsp;&nbsp;</span>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr><td colspan="2">&nbsp;</td></tr>
+
+                        <tr>
+                            <td><label for="LeaveTypes_Gender">Gender</label></td>
+                            <td>
+                                @for (int i = 0; i < Model.Genderinfo.Count; i++)
+                                {
+                                    @Html.RadioButtonFor(x => Model.Genderinfo[i].Id, Model.Genderinfo[i].Text.ToString())
+                                    @Model.Genderinfo[i].Text
+                                    @Html.HiddenFor(x => Model.Genderinfo[i].Id)
+                                    <span>&nbsp;&nbsp;</span>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr><td colspan="2">&nbsp;</td></tr>
+                        <tr>
+                            <td width="200"><label for="Courses_course_name" class="required">Count<span class="required">*</span></label></td>
+                            <td>@Html.TextBoxFor(Model => Model.Count, new { required = "required", size = "40", maxlength = "100", id = "Courses_course_name" })</td>
+                        </tr>
+
+                        <tr><td colspan="2">&nbsp;</td></tr>
+                    </table>
+
+                    <!-- Batch Form Ends -->
+                    <div style="padding:0px 0 0 0px; text-align:left">
+                        <input class="formbut" id="submit" type="submit" value="Create" />
+                    </div>
+                }
+
+            </div>
+        </div><!-- form -->
+    </div>
+</div>
+

@@ -1,0 +1,560 @@
+﻿@{
+    ViewBag.Title = "Guardian";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div id="loading">
+    <img id="loading-image" src="~/gridview/loading.gif" alt="Loading..." />
+</div>
+
+
+<style>
+
+    #loading {
+                  width: 100%;
+                  height: 100%;
+                  top: 0;
+                  left: 0;
+                  position: fixed;
+                  display: block;
+                  opacity: 0.7;
+                  background-color: #fff;
+                  z-index: 1;
+                  text-align: center;
+              }
+
+              #loading-image {
+                  position: absolute;
+                  top: 250px;
+                  left: 775px;
+                  z-index: 100;
+              }
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+</style>
+
+
+<div class="cont_right formWrapper">
+    <h1>Manage Guardians Archive</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="javascript:onClickSearch();"><span>Clear All</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="list_contner_hdng" id="">
+        <div class="letterNavCon" id="letterNavCon">
+            <ul class="" id="">
+                <li><a class="alphabrtic" style="width:30px;height:25px" onclick="onClickAlphabetic('All');">All</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('A');">A</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('B');">B</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('C');">C</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('D');">D</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('E');">E</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('F');">F</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('G');">G</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('H');">H</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('I');">I</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('J');">J</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('K');">K</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('L');">L</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('M');">M</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('N');">N</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('O');">O</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('P');">P</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Q');">Q</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('R');">R</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('S');">S</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('T');">T</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('U');">U</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('V');">V</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('W');">W</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('X');">X</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Y');">Y</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Z');">Z</a></li>
+            </ul>
+        </div>
+    </div>        <!-- END Alphabetic Sort -->
+    <div class="qurdn-not">
+        <div class="head">
+            <b>
+                <h2>Note :</h2>
+            </b>
+        </div>
+        <div class="not-bullet">
+            <ul>
+                <li>Emails or Phone numbers already in use should be changed before restoration.</li>
+                <li>Removing an entry from here will result in permanent deletion and cannot be retrieved.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><input id="delete_btn" class="formbut-n" onclick="getDeleteAllGuardian();" name="delete_btn" type="submit" value="Delete All" /></li>
+                <li><input id="restore_btn" class="formbut-n" onclick="getRestoreAllGuardian();" name="restore_btn" type="submit" value="Restore" /></li>
+            </ul>
+        </div>
+    </div>
+    <form id="myform" action="SearchGuardianArchiveList" method="post">
+
+        <input type="hidden" value="@ViewBag.CurrentPageIndex" name="CurrentPage" id="CurrentPage" />
+        <input type="hidden" id="alphaValue" name="alphaValue" value="All" />
+
+        <div class="pdtab_Con" style="padding-top:10px;">
+            <table width="100%" cellpadding="0" cellspacing="0" id="guardianList">
+                <tr class="pdtab-h">
+                    <td align="center" width="25"><input class="check_all" type="checkbox" value="1" name="all_student" id="all_student" onchange="checkAll(this);" /></td>
+                    <td align="center" width="25">Sl No</td>
+                    <td align="center" width="150">Name</td>                    
+                    <td align="center" width="75">Email</td>
+                    <td align="center" width="75">Phone Number</td>
+                    <td align="center" width="65">Action</td>
+                </tr>
+                @{ int rowNo = 0; }
+                @foreach (var item in ViewBag.GuardianList)
+                {
+                    <tr>
+                        <td style="text-align:center">
+                            <div class="btn-group mailbox-checkall-buttons os_checkbox">
+                                <input class="checkbox1 " id="@item.GuardianDetailsId" type="checkbox" name="@item.GuardianDetailsId" onclick="checkBoxCheck()" /><label for="@item.GuardianDetailsId"></label>
+                            </div>
+                        </td>
+                        <td>@(rowNo += 1)</td>
+                        <td style="padding-left:10px; text-align:left;">@item.FirstName @item.LastName</td>
+                        <td style="padding-left:10px; text-align:left;">@item.Email</td>
+                        <td style="padding-left:10px; text-align:left;">@item.MobilePhone</td>
+                        <td>
+                            <a href="javascript:getGuardianDetail(@item.GuardianDetailsId,'@item.Email','@item.MobilePhone');" id="yt1">
+                                <img src="/gridview/update.png" alt="Update" />
+                            </a>
+                            <a href="javascript:deleteGuardian(@item.GuardianDetailsId);" id="yt1"><img src="/gridview/delete.png" alt="Delete" /></a>
+                            <a href="javascript:restoreGuardian(@item.GuardianDetailsId);" id="yt1"><img src="/gridview/restore.png" alt="Restore" /></a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <div class="pagecon">
+            </div>
+        </div>
+        <br />
+        @{var pageCutLow = ViewBag.CurrentPageIndex - 1;}
+        @{var pageCutHigh = ViewBag.CurrentPageIndex + 1;}
+
+        @if (ViewBag.PageCount > 0)
+        {
+            <div class="">
+                <div align="center">
+                    <div class="">
+
+                        @if (ViewBag.CurrentPageIndex > 1)
+                        {
+                            <input type="submit" class="pageclickPrevious" value="Previous" style="border:none;width:50px;height:20px;font-size:10px;background-color:white;" />
+                        }
+
+                        @if (ViewBag.PageCount < 6)
+                        {
+                            for (int i = 1; i <= ViewBag.PageCount; i++)
+                            {
+                                if (i != ViewBag.CurrentPageIndex)
+                                {
+                                    <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                                else
+                                {
+                                    <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ViewBag.CurrentPageIndex > 2)
+                            {
+                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="1" />
+
+                                if (ViewBag.CurrentPageIndex > 3)
+                                {
+                                    <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex == 1)
+                            {
+                                pageCutHigh += 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == 2)
+                            {
+                                pageCutHigh += 1;
+                            }
+
+                            if (ViewBag.CurrentPageIndex == ViewBag.PageCount)
+                            {
+                                pageCutLow -= 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == ViewBag.PageCount - 1)
+                            {
+                                pageCutLow -= 1;
+                            }
+
+                            for (int i = (int)pageCutLow; i <= pageCutHigh; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    i += 1;
+                                }
+                                if (i > ViewBag.PageCount)
+                                {
+                                    continue;
+                                }
+
+                                if (ViewBag.CurrentPageIndex == i)
+                                {
+                                    <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 1)
+                            {
+                                if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 2)
+                                {
+                                    <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+
+                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@ViewBag.PageCount" />
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPageIndex < ViewBag.PageCount)
+                        {
+                            <input type="submit" class="pageclickNext" value="Next" style="border:none;width:30px;height:20px;font-size:10px;background-color:white" />
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </form>
+    <div class="clear"></div>
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Update Email and Phone Number</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <form id="subjects-common-pool-form" action="UpdateGuardianEmail" method="post">
+                        <input id="GuardianDetailsId" type="hidden" name="GuardianDetailsId">
+                        <p class="note">Fields with<span class="required">*</span> are required.</p>
+                        <div>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label style="color:#444444;" for="Email" class="required">Email <span class="required">*</span></label> <br>
+                                        <span>
+                                            <input maxlength="255" style="width:200px;height:30px" name="Email" id="Email" type="text" required>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="color:#444444;" for="MobilePhone" class="required">Phone Number <span class="required">*</span></label> <br>
+                                        <span>
+                                            <input maxlength="255" style="width:200px;height:30px" name="MobilePhone" id="MobilePhone" type="text" required>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+                            <div class="row" align="center">
+                                <input id="closeJobDialog" name="Submit" class="formbut-n" style="width:200px" type="submit" value="Update" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function getGuardianDetail(GuardianDetailsId, Eamil, MobilePhone) {
+        $('#Email').val(Eamil);
+        $('#MobilePhone').val(MobilePhone);
+        $('#GuardianDetailsId').val(GuardianDetailsId);
+        $('#myModal').css('display', 'block');
+    };
+
+    function deleteGuardian(GuardianDetailsId) {
+        if (confirm("Are you sure you want to delete this guardian?")) {
+            $('#loading').show();
+            $.ajax({
+                type: "POST",
+                url: "/Student/DeleteGuardianArchive",
+                data: '{GuardianDetailsId: ' + GuardianDetailsId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    }
+
+    function restoreGuardian(GuardianDetailsId) {
+        if (confirm("Are you sure you want to restore this guardian?")) {
+            $('#loading').show();
+            $.ajax({
+                type: "POST",
+                url: "/Student/RestoreGuardianArchive",
+                data: '{GuardianDetailsId: ' + GuardianDetailsId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    }
+
+    function onClose() {
+        $('#loading').hide();
+        $('#myModal').css('display', 'none');
+    };
+
+    function getDeleteAllGuardian() {
+
+        var flag = false;
+        var grid = document.getElementById("guardianList");
+        var checkBoxes = grid.getElementsByTagName("INPUT");
+        for (var i = 0; i < checkBoxes.length; i++) {
+            if (checkBoxes[i].checked && !flag) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            if (confirm("Are you sure you want to delete this all guardian?")) {
+                $('#loading').show();
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (i > 0)
+                    {
+                        if (checkBoxes[i].checked) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/Student/DeleteGuardianArchive",
+                                data: '{GuardianDetailsId: ' + checkBoxes[i].id + '}',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                }
+                            });
+                        }
+                    }
+                }
+                location.reload(true);
+                $('#loading').hide();
+            }
+        }
+        else {
+            alert("Please select atleast one guardian");
+            return false;
+        }
+    }
+
+    function getRestoreAllGuardian() {
+
+        var flag = false;
+        var grid = document.getElementById("guardianList");
+        var checkBoxes = grid.getElementsByTagName("INPUT");
+        for (var i = 0; i < checkBoxes.length; i++) {
+            if (checkBoxes[i].checked && !flag) {
+                flag = true;
+            }
+        }
+
+        if (flag) {
+            if (confirm("Are you sure you want to restore this all guardian?")) {
+                $('#loading').show();
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (checkBoxes[i].checked) {
+                        if (i > 0)
+                        {
+                            $.ajax({
+                                type: "POST",
+                                url: "/Student/RestoreGuardianArchive",
+                                data: '{GuardianDetailsId: ' + checkBoxes[i].id + '}',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                }
+                            });
+                        }
+                    }
+                }
+                location.reload(true);
+                $('#loading').hide();
+            }
+        }
+        else {
+            alert("Please select atleast one guardian");
+            return false;
+        }
+    }
+
+    $(".pageclicktest").click(function () {
+        $("#CurrentPage").val($(this).val());
+    });
+
+    $(".pageclickNext").click(function () {
+        var nextPage = parseInt($("#CurrentPage").val()) + 1;
+        $("#CurrentPage").val(nextPage);
+    });
+
+    $(".pageclickPrevious").click(function () {
+        var prevPage = parseInt($("#CurrentPage").val()) - 1;
+        $("#CurrentPage").val(prevPage);
+    });
+
+    function onClickSearch() {
+        $("#CurrentPage").val('1');
+        $('#alphaValue').val('All');
+        document.getElementById("myform").submit();
+    };
+
+    function onClickAlphabetic(alphaValue) {
+        $("#CurrentPage").val('1');
+        $('#alphaValue').val(alphaValue);
+        document.getElementById("myform").submit();
+    };
+
+    $('#all_student').change(function () {
+        if ($(this).is(':checked')) {
+            $('.checkbox1').attr('checked', true);
+        }
+        else {
+            $('.checkbox1').attr('checked', false);
+        }
+    });
+
+    function checkBoxCheck() {
+        if ($('.checkbox1').length == $('.checkbox1:checked').length) {
+            $('#all_student').attr('checked', true);
+        }
+        else {
+            $('#all_student').attr('checked', false);
+        }
+    };
+
+    function checkAll(ele) {
+        var checkboxes = document.getElementsByTagName('input');
+        if (ele.checked) {
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].type == 'checkbox') {
+                    checkboxes[i].checked = true;
+                }
+            }
+        } else {
+            for (var i = 0; i < checkboxes.length; i++) {              
+                if (checkboxes[i].type == 'checkbox') {
+                    checkboxes[i].checked = false;
+                }
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        $('#loading').hide();
+    });
+
+    $('#closeJobDialog').click(function (ev) {
+        $('#myModal').css('display', 'none');
+        $('#loading').show();
+    });
+
+</script>
+

@@ -1,0 +1,67 @@
+﻿@model GS247.Models.Courses.CoursesModel
+@{
+    ViewBag.Title = "CreateCourse";
+    Layout = "~/Views/Shared/_CoursesLayout.cshtml";
+}
+    <style>
+        .formbut {
+            background: #50d8af;
+        }
+    </style>
+
+    <div class="cont_right formWrapper">
+        <h1>Create Course</h1>
+         <div class="formCon">
+
+            <div class="formConInner">
+
+                <div>
+
+                    @using (Html.BeginForm("InsertCourse", "Courses", FormMethod.Post))
+                    {
+                        <div style="display:none"><input type="hidden" value="32b8c8478cd27c7eb0da0c1d8ce4290c05917305" name="YII_CSRF_TOKEN" /></div>
+                        <p class="note">Fields with <span class="required"> * </span> are required.</p>
+                        <table width="80%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="200"><label for="Courses_course_name" class="required">Arm Name <span class="required">*</span></label></td>
+                                <td>@Html.TextBoxFor(Model => Model.Name, new { required="required",size = "40", maxlength = "100",id = "Courses_course_name" })</td>
+                            </tr>
+
+                            <tr><td colspan="2">&nbsp;</td></tr>
+                            <tr>
+                                <td width="200"><label for="Courses_semester_enabled">Enable semester system</label></td>
+                                <td>@Html.CheckBoxFor(Model => Model.IsEnable.IsChecked)</td>
+                                @Html.HiddenFor(Model=>Model.IsEnable.Id)
+                            </tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
+                            <tr>
+                                <td><label for="Courses_exam_format">Exam Format</label></td>
+                                <td>
+                                    @for (int i = 0; i < Model.ExamFormat.Count; i++)
+                                    {
+
+                                        @Html.RadioButtonFor(Model => Model.ExamFormat[i].Id, Model.ExamFormat[i].Text.ToString())
+                                        @Model.ExamFormat[i].Text
+                                        @Html.HiddenFor(Model => Model.ExamFormat[i].Id)
+                                        <span>&nbsp;&nbsp;</span>
+
+
+                                }
+                                    
+                                 </td>
+                            </tr>
+                            <tr><td colspan="2">&nbsp;</td></tr>
+
+                        </table>
+                        <input name="Courses[is_deleted]" id="Courses_is_deleted" type="hidden" value="0" /><input value="2020-03-25" name="Courses[created_at]" id="Courses_created_at" type="hidden" /><input value="2020-03-25" name="Courses[updated_at]" id="Courses_updated_at" type="hidden" />
+                        <!-- Batch Form Ends -->
+                        <div style="padding:0px 0 0 0px; text-align:left">
+                            <input class="formbut" type="submit"  value="Save" />
+                        </div>
+                     }
+                    
+                </div>
+            </div><!-- form -->
+         </div>
+    </div>
+

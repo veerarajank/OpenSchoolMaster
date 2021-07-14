@@ -1,0 +1,100 @@
+﻿@model GS247.Models.PurchaseItem
+@{
+    ViewBag.Title = "Product Items";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+@if (Model != null)
+{
+    <div class="cont_right formWrapper">
+        <h1>Update Item</h1>
+
+        <div class="button-bg">
+            <div class="top-hed-btn-left">
+                <a class="a_tag-btn" href="@Url.Action("PurchaseItems", "Purchase")"><span>Back</span></a>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("UpdatePurchaseItems", "Purchase", FormMethod.Post))
+        {
+            <form id="employee-departments-form">
+                <input type="hidden" value="@Model.ItemId" name="ItemId" id="ItemId" />
+                <p class="note">Fields with<span class="required">*</span> are required.</p>
+                <div class="formCon">
+                    <div class="formConInner">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr>
+                                    <td width="15%"><label for="ItemName" class="required">Item Name <span class="required">*</span></label>		</td>
+                                    <td width="40%">
+                                        <input size="30" maxlength="255" name="ItemName" id="ItemName" value="@Model.ItemName" type="text" required>
+                                        <br />
+                                        <label style="display:none" id="lbl"><span class="required" id="span"></span></label>
+                                    </td>
+                                    <td><input class="formbut-n" type="submit" name="yt0" id="submit_button_form" value="Update"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form><!-- form -->
+        }
+    </div>
+}
+else
+{
+    using (Html.BeginForm("CreatePurchaseItems", "Purchase", FormMethod.Post))
+    {
+
+        <div class="cont_right formWrapper">
+            <h1>Create New Item</h1>
+
+            <div class="button-bg">
+                <div class="top-hed-btn-left">
+                    <a class="a_tag-btn" href="@Url.Action("PurchaseItems", "Purchase")"><span>Back</span></a>
+                </div>
+            </div>
+
+            <form id="employee-departments-form">
+                <p class="note">Fields with<span class="required">*</span> are required.</p>
+                <div class="formCon">
+                    <div class="formConInner">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr>
+                                    <td width="15%"><label for="ItemName" class="required">Item Name <span class="required">*</span></label>	</td>
+                                    <td width="40%">
+                                        <input size="30" maxlength="255" name="ItemName" id="ItemName" type="text" required onchange="validateItems(this,-1)">
+                                        <br />
+                                        <label style="display:none" id="lbl"><span class="required" id="span"></span></label>
+                                    </td>
+                                    <td><input class="formbut-n" type="submit" id="submit_button_form" name="yt0" value="Create"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form><!-- form -->
+        </div>
+    }
+}
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $('#span').html('@ViewBag.Message');
+        $('#lbl').css('display', 'block');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#span').html('');
+        $('#lbl').css('display', 'none');
+    </script>
+}
+
+
+<script type="text/javascript">
+    $(".purcsitem-stock_ico").attr('active', '1').closest('li').addClass('list_active');
+</script>

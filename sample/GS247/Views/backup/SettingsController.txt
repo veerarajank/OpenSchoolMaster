@@ -1,0 +1,306 @@
+ /**Start of Weekdays**/
+        public ActionResult WeekDaysSetup()
+        {
+            int UserId = Convert.ToInt32(Session["UserId"]);
+            if (UserId == 0)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            DefaultWeekdaysList obj = new DefaultWeekdaysList();
+            obj.Weekdays = new List<DefaultWeekdays>();
+
+            con.Open();
+            SqlDataReader reader = null;
+            SqlCommand sqlCmd = new SqlCommand();
+            sqlCmd.CommandType = CommandType.Text;
+            sqlCmd.CommandText = "select Id,WeekDay,IsEnable from dbo.SettingsDefaultWeekdays";
+            sqlCmd.Connection = con;
+            reader = sqlCmd.ExecuteReader();
+            while(reader.Read())
+            {
+                DefaultWeekdays subobj = new DefaultWeekdays();
+                subobj.Id = Convert.ToInt32(reader.GetValue(0));
+                subobj.Name = reader.GetValue(1).ToString();
+                int val = Convert.ToInt32(reader.GetValue(2));
+                subobj.IsEnable = false;
+                if (val == 1)
+                {
+                    subobj.IsEnable = true;
+                }
+                obj.Weekdays.Add(subobj);
+            }
+            con.Close();
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult UpdateWeekDays(DefaultWeekdaysList Data)
+        {
+            int UserId = Convert.ToInt32(Session["UserId"]);
+            if (UserId == 0)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            con.Open();
+            SqlDataReader reader=null;
+            SqlCommand sqlCmd = new SqlCommand();
+            for (int i = 0; i < Data.Weekdays.Count; i++)
+            {
+                int IsEnable = 0;
+                if (Data.Weekdays[i].IsEnable == true)
+                {
+                    IsEnable = 1;
+                }
+                reader = null;
+                sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "Update dbo.SettingsDefaultWeekdays Set IsEnable=@IsEnable where Id=@Id";
+                sqlCmd.Connection = con;
+                sqlCmd.Parameters.AddWithValue("@Id", Data.Weekdays[i].Id);
+                sqlCmd.Parameters.AddWithValue("@IsEnable", IsEnable);
+                reader = sqlCmd.ExecuteReader();
+                
+            }
+            return RedirectToAction("WeekDaysSetup", "Settings");
+        }
+        /**End of Weekdays**/
+
+/**Start of Manage Class Timings**/
+        public ActionResult ManageClassTimings()
+        {
+            int UserId = Convert.ToInt32(Session["UserId"]);
+            if (UserId == 0)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            ClassTimingsList obj = new ClassTimingsList();
+            obj.ClassTimings = new List<ClassTimingDiff>();
+            
+                con.Open();
+                SqlDataReader reader = null;
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "Select Id,Name,StartTime,EndTime,IsBreak,IsAllBatch from dbo.settingsCommonclasstimings";
+                sqlCmd.Connection = con;
+                reader = sqlCmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    ClassTimingDiff subobj = new ClassTimingDiff();
+                    subobj.Id = Convert.ToInt32(reader.GetValue(0));
+                    subobj.Name = reader.GetValue(1).ToString();
+                    subobj.StartTime = reader.GetValue(2).ToString();
+                    subobj.EndTime = reader.GetValue(3).ToString();
+                    subobj.IsBreak = Break.No;
+                    int val = Convert.ToInt32(reader.GetValue(4));
+                    if (val == 1)
+                    {
+                        subobj.IsBreak = Break.Yes;
+                    }
+                    subobj.IsAllBatch = false;
+                    int val1 = Convert.ToInt32(reader.GetValue(5));
+                    if (val1 == 1)
+                    {
+                        subobj.IsAllBatch = true;
+                    }
+                    obj.ClassTimings.Add(subobj);
+                }
+                con.Close();
+            
+            return View(obj);
+        }
+
+        [HttpPost]
+        public ActionResult InsertClassTimings(ClassTiming Data)
+        {
+            int UserId = Convert.ToInt32(Session["UserId"]);
+            if (UserId == 0)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            
+                con.Open();
+                SqlDataReader reader = null;
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                if (Data.Id > 0)
+                {
+                    sqlCmd.CommandText = "UPDATE dbo.settingsCommonclasstimings SET Name=@Name,StartTime=@StartTime,EndTime=@EndTime,IsBreak=@IsBreak,IsAllBatch=@IsAllBatch where Id=@Id";
+                }
+                else
+                {
+                    sqlCmd.CommandText = "Insert into dbo.settingsCommonclasstimings (Name,StartTime,EndTime,IsBreak,IsAllBatch) values (@Name,@StartTime,@EndTime,@IsBreak,@IsAllBatch)";
+                }
+                sqlCmd.Connection = con;
+                sqlCmd.Parameters.AddWithValue("@Id", Data.Id);
+                sqlCmd.Parameters.AddWithValue("@Name", Data.Name);
+                sqlCmd.Parameters.AddWithValue("@StartTime", Data.StartTime);
+                sqlCmd.Parameters.AddWithValue("@EndTime", Data.EndTime);
+                sqlCmd.Parameters.AddWithValue("@IsBreak", Data.IsBreak);
+                sqlCmd.Parameters.AddWithValue("@IsAllBatch", Data.IsAllBatch);
+                reader = sqlCmd.ExecuteReader();
+                reader.Read();
+
+                if(Data.Id>0)
+                {
+                    reader = null;
+                    sqlCmd = new SqlCommand();
+                    sqlCmd.CommandType = CommandType.Text;
+                    sqlCmd.CommandText = "Delete from dbo.SettingsTimingsWeekdaysLink where ClassTimingId=@Id";
+                    sqlCmd.Connection = con;
+                    sqlCmd.Parameters.AddWithValue("@Id", Data.Id);
+                    reader = sqlCmd.ExecuteReader();
+                    reader.Read();
+                }
+                for (int i = 0; i < Data.Weekdays.Count; i++)
+                {
+                    if (Data.Weekdays[i].IsEnable == true)
+                    {
+                        reader = null;
+                        sqlCmd = new SqlCommand();
+                        sqlCmd.CommandType = CommandType.Text;
+                        sqlCmd.CommandText = "INSERT INTO dbo.SettingsTimingsWeekdaysLink (ClassTimingId,WeekDaysId) VALUES (@ClassId,@WeekId)";
+                        sqlCmd.Connection = con;
+                        sqlCmd.Parameters.AddWithValue("@ClassId", Data.Id);
+                        sqlCmd.Parameters.AddWithValue("@WeekId", Data.Weekdays[i].Id);
+                        reader = sqlCmd.ExecuteReader();
+                        reader.Read();
+                    }
+                }
+
+                con.Close();
+            
+          return RedirectToAction("ManageClassTimings", "Settings");
+        }
+
+        public ActionResult AddClassTimings()
+        {
+            int UserId = Convert.ToInt32(Session["UserId"]);
+            if (UserId == 0)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            ClassTiming obj = new ClassTiming();
+            obj.Weekdays = new List<DefaultWeekdays>();
+            
+                con.Open();
+                SqlDataReader reader = null;
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "Select Id,WeekDay,IsEnable from dbo.settingsDefaultWeekdays where IsEnable=1";
+                sqlCmd.Connection = con;
+                reader = sqlCmd.ExecuteReader();
+                while(reader.Read())
+                {
+                    DefaultWeekdays subobj = new DefaultWeekdays();
+                    subobj.Id = Convert.ToInt32(reader.GetValue(0));
+                    subobj.Name = reader.GetValue(1).ToString();
+                    int val = Convert.ToInt32(reader.GetValue(2));
+                    subobj.IsEnable = false;
+                    obj.Weekdays.Add(subobj);
+                }
+            
+            return View(obj);
+        }
+
+        public ActionResult UpdateClassTimings(int Id)
+        {
+            int UserId = Convert.ToInt32(Session["UserId"]);
+            if (UserId == 0)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            ClassTiming obj = new ClassTiming();
+            obj.Weekdays = new List<DefaultWeekdays>();
+            
+                con.Open();
+                SqlDataReader reader = null;
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "select Name,StartTime,EndTime,IsBreak,IsAllBatch from dbo.SettingsCommonClassTimings where Id=@Id";
+                sqlCmd.Connection = con;
+                sqlCmd.Parameters.AddWithValue("@Id", Id);
+                reader = sqlCmd.ExecuteReader();
+                if(reader.Read())
+                {
+                    obj.Id = Id;
+                    obj.Name =reader.GetValue(0).ToString();
+                    obj.StartTime = reader.GetValue(1).ToString();
+                    obj.EndTime = reader.GetValue(2).ToString();
+                    obj.IsBreak = false;
+                    int val = Convert.ToInt32(reader.GetValue(3));
+                    if (val == 1)
+                    { obj.IsBreak = true; }
+                    obj.IsAllBatch = false;
+                    val = Convert.ToInt32(reader.GetValue(4));
+                    if (val == 1)
+                    { obj.IsAllBatch = true; }
+                }
+
+                reader = null;
+                sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "Select Id,WeekDay,IsEnable from dbo.settingsDefaultWeekdays where IsEnable=1";
+                sqlCmd.Connection = con;
+                reader = sqlCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    DefaultWeekdays subobj = new DefaultWeekdays();
+                    subobj.Id = Convert.ToInt32(reader.GetValue(0));
+                    subobj.Name = reader.GetValue(1).ToString();
+                    subobj.IsEnable = false;
+
+                    SqlDataReader reader1 = null;
+                    SqlCommand sqlCmd1 = new SqlCommand();
+                    sqlCmd1.CommandType = CommandType.Text;
+                    sqlCmd1.CommandText = "select count(ClassTimingId) from dbo.SettingsTimingsWeekdaysLink where ClassTimingId=@ClassId and WeekdaysId=@WeekId";
+                    sqlCmd1.Connection = con;
+                    sqlCmd1.Parameters.AddWithValue("@ClassId", Id);
+                    sqlCmd1.Parameters.AddWithValue("@WeekId", subobj.Id);
+                    reader1 = sqlCmd1.ExecuteReader();
+                    if (reader1.Read())
+                    {
+                        int count = Convert.ToInt32(reader1.GetValue(0));
+                        if (count > 0)
+                        {
+                            subobj.IsEnable = true;
+                        }
+                    }
+                    obj.Weekdays.Add(subobj);
+                }
+                con.Close();
+            
+            
+            return View(obj);
+        }
+        public ActionResult DeleteClassTimings(int Id)
+        {
+            int UserId = Convert.ToInt32(Session["UserId"]);
+            if (UserId == 0)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            
+                con.Open();
+                SqlDataReader reader = null;
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "Delete from dbo.SettingsCommonClassTimings where Id=@Id";
+                sqlCmd.Connection = con;
+                sqlCmd.Parameters.AddWithValue("@Id", Id);
+                reader = sqlCmd.ExecuteReader();
+                reader.Read();
+
+                reader = null;
+                sqlCmd = new SqlCommand();
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "Delete from dbo.SettingsTimingsWeekdaysLink where ClassTimingId=@Id";
+                sqlCmd.Connection = con;
+                sqlCmd.Parameters.AddWithValue("@Id", Id);
+                reader = sqlCmd.ExecuteReader();
+                reader.Read();
+
+                con.Close();
+            
+            return RedirectToAction("ManageClassTimings", "Settings");
+        }
+        /**End of Manage Class Timings**/

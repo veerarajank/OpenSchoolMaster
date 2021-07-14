@@ -1,0 +1,640 @@
+﻿@model GS247.Models.StudentFeesInvoice
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+    <div id="loading">
+        <img id="loading-image" src="~/gridview/loading.gif" alt="Loading..." />
+    </div>
+    <style>
+        #loading {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: block;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 1;
+            text-align: center;
+        }
+
+        #loading-image {
+            position: absolute;
+            top: 250px;
+            left: 775px;
+            z-index: 100;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            margin-top: 0px;
+            border: 1px solid #888;
+            width: 350px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+
+        /* The Close Button */
+        .close {
+            color: red;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #FDC93E !important;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 2px 16px;
+        }
+
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .vtip:hover {
+            background-color: #F60;
+        }
+
+        .alphabrtic {
+            background-color: #F60;
+        }
+    </style>
+
+   
+
+                                @if (Model != null)
+                                {
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                        <tr>
+
+                                            <td valign="top" width="75%">
+
+                                                <div class="cont_right formWrapper">
+
+                                                    <h1>Invoice #@Model.InvoiceID</h1>
+
+                                                    <div class="pdf-box">
+
+                                                        <div class="box-one">
+
+                                                            <div class="bttns_addstudent-n">
+
+                                                                <ul>
+
+                                                                    <li><a class="a_tag-btn" href="@Url.Action("ManageInvoices", "Fees")"><span>Back</span></a> </li>
+
+                                                                    <li></li>
+
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="box-two">
+
+                                                            <div class="pdf-div">
+
+                                                                <a class="pdf_but" target="_blank" href="#">Generate PDF</a>
+                                                                &nbsp;
+
+                                                                <a class="expertcv" href="#">Generate RTF</a>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                                    <div style="width:100%; padding-top:0px;" class="pdtab_Con">
+
+                                                        <div class="invoice-table">
+
+                                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                                                <tr>
+
+                                                                    <td width="25%"><strong>Invoice ID</strong></td>
+
+                                                                    <td> @Model.InvoiceID</td>
+
+                                                                </tr>
+
+
+                                                                <tr>
+
+                                                                    <td><strong>Recipient</strong></td>
+
+                                                                    <td>
+
+                                                                        <a href="#">@Model.SchoolCO.StudentName</a>
+                                                                    </td>
+
+                                                                </tr>
+
+
+                                                                <tr>
+
+                                                                    <td><strong>Fee Category</strong></td>
+
+                                                                    <td>
+
+                                                                        @Model.SchoolCO.FeeCategoryName
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td><strong>Invoice Date</strong></td>
+
+                                                                    <td>
+
+                                                                        @Model.CreatedDate.ToString("dd MMM yyyy");
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td><strong>Invoice Amount</strong></td>
+
+                                                                    <td>@Model.InvoiceAmount</td>
+
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td><strong>Adjustments</strong></td>
+
+                                                                    <td>0.00</td>
+
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td><strong>Payment Details</strong></td>
+
+                                                                    <td>@Model.SchoolCO.InvoicePaidAmount</td>
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td><strong>Amount Payable</strong></td>
+
+                                                                    <td>@Model.SchoolCO.InvoiceBalanceAmount</td>
+
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td><strong>Due Date</strong></td>
+
+                                                                    <td>
+                                                                        @Model.DueDate.GetValueOrDefault().ToString("dd MMM yyyy")
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td><strong> Last payment date</strong></td>
+
+                                                                    @if (Model.PaymentDate != null)
+                                                                    {
+                                                                        <td>
+                                                                            @Model.SchoolCO.LastPaymentDate
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td>-</td>
+                                                                    }                                                                    
+
+                                                                </tr>
+
+                                                                <tr>
+
+                                                                    <td style="font-weight:bold; font-size:12px;"><strong>Status</strong> </td>
+
+                                                                    <td style="font-size:20px; font-weight:bold;">
+                                                                        @if (Model.PaidStatusFlag == 0)
+                                                                        {
+                                                                            <span style='color:#F00'>@Model.SchoolCO.StatusFlagDesc</span>
+                                                                        }
+                                                                        else if (Model.PaidStatusFlag == 1)
+                                                                        {
+                                                                            <span style='color:#090'>@Model.SchoolCO.StatusFlagDesc</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span style="font-size:20px; font-weight:bold;">Cancelled</span>
+                                                                        }                                                                        
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </table>
+
+                                                        </div>
+
+                                                        <br />
+
+                                                        <form id="fee-invoice-particulars-form" action="/index.php?r=fees/invoices/view&amp;id=52" method="post">
+                                                            <div style="display:none"><input type="hidden" value="538239cf1cdaaf53374a46c7ee5811e8e421c50e" name="YII_CSRF_TOKEN" /></div>
+                                                            <div class="invoice-table">
+
+                                                                <input id="invoice_id" type="hidden" value="52" name="invoice_id" />
+                                                                <table width="100%" cellspacing="0" cellpadding="0" border="0" id="invoice-particualrs">
+
+                                                                    <tbody>
+
+                                                                        <tr class="pdtab-h">
+
+                                                                            <td height="18" align="center">#</td>
+                                                                            <td align="center">Particulars</td>
+                                                                            <td height="18">Description</td>
+                                                                            <td align="center">Unit Price</td>
+                                                                            <td align="center">Tax</td>
+                                                                            <td align="center">Discount</td>
+                                                                            <td align="center">Amount</td>
+                                                                        </tr>
+                                                                        @{ int rowNo = 0; }
+                                                                        @foreach (var item in @Model.SchoolCO.StudentInvoicePayment)
+                                                                        {
+                                                                            <tr class='invoice-particular-box'>
+
+                                                                                <td align="center">@(rowNo += 1)</td>
+
+                                                                                <td>@item.SchoolCO.ParticularName</td>
+
+                                                                                <td>@item.SchoolCO.ParticularDesc</td>
+
+                                                                                <td align="center">@item.SchoolCO.UnitAmount</td>
+
+                                                                                <td align="center">
+                                                                                    @item.SchoolCO.Tax
+                                                                                </td>
+
+                                                                                <td align="center">
+                                                                                    @item.SchoolCO.Discount
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                    @item.InvoicePaymentAmount
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+
+                                                                        <tr>
+
+                                                                            <td colspan="5" align="right" style="padding-right:10px;"><strong>Sub Total (INR)</strong></td>
+
+                                                                            <td align="center">@Model.TotalAmount</td>
+
+                                                                        </tr>
+
+                                                                        <tr>
+
+                                                                            <td colspan="5" align="right" style="padding-right:10px;"><strong>Tax (INR)</strong></td>
+
+                                                                            <td align="center">@Model.TaxAmount</td>
+
+                                                                        </tr>
+
+                                                                        <tr>
+
+                                                                            <td colspan="5" align="right" style="padding-right:10px;"><strong>Discount (INR)</strong></td>
+
+                                                                            <td align="center">@Model.DiscountAmount</td>
+
+                                                                        </tr>
+
+                                                                        <tr>
+
+                                                                            <td colspan="5" align="right" style="padding-right:10px;"><strong>Total (INR)</strong></td>
+
+                                                                            <td align="center">@Model.InvoiceAmount</td>
+
+                                                                        </tr>
+
+                                                                    </tbody>
+
+                                                                </table>
+
+                                                            </div>
+
+                                                            <br />
+
+
+                                                            <a href="javascript:void(0);" class='formbut-n' style='float:right;display:none;'>Edit</a>
+
+                                                            <input name="save-particulars" class="formbut-n" style="float:right; display:none;" type="submit" value="Save" />
+
+                                                        </form>
+
+
+                                                        <div class="clear"></div>
+
+                                                        <br />
+
+                                                        <br />
+
+                                                        <br />
+
+                                                        <h1>Transactions</h1>
+
+
+                                                        <div class="invoice-table">
+
+
+
+                                                            <table width="100%" cellspacing="0" cellpadding="0" border="0" id="tranasctionTable">
+
+
+
+                                                            </table>
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </table>
+                                }
+
+                            
+                    <input name="Proof" id="Proof" type="hidden" />
+                    <input id="FileName" type="hidden" value="" name="FileName" />
+                
+  
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#loading').hide();
+        loadTranactionData();
+    });
+
+    function tableClearValue() {
+        var Table = document.getElementById("tranasctionTable");
+        Table.innerHTML = "";
+        $("#tranasctionTable").append(
+            "<tr class=\"tablebx_topbg\">"
+              + "<td align=\"center\">#</td>"
+              + "<td align=\"center\">Date *</td>"
+              + "<td align=\"center\">Type</td>"
+              + "<td align=\"center\">Transaction ID</td>"
+              + "<td align=\"center\">Description</td>"
+              + "<td align=\"center\">Amount *</td>"
+              + "<td align=\"center\">Proof</td>"
+              + "<td align=\"center\">Status</td>"
+              + "<td align=\"center\">Actions</td>"
+            + "</tr>");
+    };
+
+    function removeTransaction(TransactionID)
+    {
+        if (confirm("Are you sure you want to remove this transaction?")) {
+            $('#loading').show();
+            var d = { TransactionID: TransactionID };
+            $.ajax({
+                type: "POST",
+                url: "/Fees/RemoveTransactionData",
+                data: JSON.stringify(d),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {                    
+                    window.location.href = '/Fees/ViewInvoice?InvoiceID=' +  @Model.InvoiceID;
+                    $('#loading').hide();
+                },
+                error: function (response) {
+                    window.location.href = '/Fees/ViewInvoice?InvoiceID=' +  @Model.InvoiceID;
+                    $('#loading').hide();
+                }
+            });
+        }
+    };
+
+        function downloadTransaction(TransactionID)
+        {
+            var d = { TransactionID: TransactionID };
+            $.ajax({
+                type: "POST",
+                url: "/Fees/fileDownload",
+                data: JSON.stringify(d),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {   
+                    window.open(response);
+                },
+                error: function (response) {                       
+                        
+                }
+            });
+        };
+
+    function saveTransaction()  {
+        $('#loading').show();
+
+        var fu1value = $('#DataString').val();
+        var sFileName = fu1value.split("\\").pop();
+        if (sFileName.length > 0) {
+            $('#FileName').val(sFileName);
+        }
+
+        var StudentInvoiceTransaction = new Object();
+        StudentInvoiceTransaction.InvoiceId = @Model.InvoiceID;
+        StudentInvoiceTransaction.TransactionDate = $('#TransactionDate').val();
+        StudentInvoiceTransaction.TransactionType = $('#TransactionType').val();
+        StudentInvoiceTransaction.TransactionNumber = $('#TransactionNumber').val();
+        StudentInvoiceTransaction.Description = $('#Description').val();
+        StudentInvoiceTransaction.InvoicePaymentAmount = $('#InvoicePaymentAmount').val();
+        StudentInvoiceTransaction.StatusFlag =0;
+        StudentInvoiceTransaction.proof =$('#Proof').val();
+        StudentInvoiceTransaction.FileName = $('#FileName').val();
+
+        if(StudentInvoiceTransaction.TransactionDate == null || StudentInvoiceTransaction.TransactionDate == "")
+        {
+            $('#TransactionDate').css("border", "1px solid red");
+            $('#loading').hide();
+            return false;
+        }
+        if(StudentInvoiceTransaction.InvoicePaymentAmount == null || StudentInvoiceTransaction.InvoicePaymentAmount == "")
+        {
+            $('#InvoicePaymentAmount').css("border", "1px solid red");
+            $('#loading').hide();
+            return false;
+        }
+
+        var totalAmount = @Model.SchoolCO.InvoiceBalanceAmount;
+
+        if(parseFloat(totalAmount) < parseFloat(StudentInvoiceTransaction.InvoicePaymentAmount))
+        {
+            $('#InvoicePaymentAmount').css("border", "1px solid red");
+            $('#loading').hide();
+            return false;
+        }
+
+        var d = { StudentInvoiceTransaction: StudentInvoiceTransaction };
+
+        $.ajax({
+            type: "POST",
+            url: "/Fees/SaveTransactionData",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = '/Fees/ViewInvoice?InvoiceID=' +  @Model.InvoiceID;
+                $('#loading').hide();
+            },
+            error: function (response) {
+                window.location.href = '/Fees/ViewInvoice?InvoiceID=' +  @Model.InvoiceID;
+                $('#loading').hide();
+            }
+        });
+        $('#loading').hide();
+    };
+
+    function loadTranactionData() {
+
+        var d = { InvoiceID: @Model.InvoiceID };
+
+        $.ajax({
+            type: "POST",
+            url: "/Fees/LoadTransaction",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableClearValue();
+                $.each(result, function (index, TransactionList) {
+                    var j = 0;
+                    for (var i = 0; i < TransactionList.length; i++) {
+                        j++; var value = "";
+                        if(TransactionList[i].StatusFlag == 1)
+                            value += "<tr style=\"text-decoration:line-through;\">";
+                        else
+                            value += "<tr>";
+                        value += "<td>" + j  + "</td>"
+                        value += "<td>" + TransactionList[i].SchoolCO.TransactionDateStr + "</td>";
+                        value += "<td>" + TransactionList[i].SchoolCO.TransactionTypeName + "</td>";
+                        value += "<td>" + TransactionList[i].TransactionNumber + "</td>";
+                        value += "<td>" + TransactionList[i].Description + "</td>";
+                        value += "<td>" + TransactionList[i].InvoicePaymentAmount + "</td>";
+                        if(TransactionList[i].proof != "" && TransactionList[i].proof != null)
+                        {
+                            value +=  "<td><a style=\"color:darkorange\" href=\"javascript:downloadTransaction(" + TransactionList[i].TransactionID + ");\" id=\"yt0\">Download</a></td>";
+                        }
+                        else
+                        {
+                            value += "<td>No</td>";
+                        }
+                        value += "<td>Completed</td>";
+                        value += "<td><a style=\"color:darkorange\" href=\"javascript:removeTransaction(" + TransactionList[i].TransactionID + ");\" id=\"yt0\">Remove</a></td>";
+                        value += "</tr>";
+
+                        $("#tranasctionTable").append(value);
+                    }
+                    j++;
+                    if(@Model.PaidStatusFlag == 0)
+                    {
+                        var value = "<tr>";
+                        value += "<td>" + j  + "</td>"
+                        value += "<td><input style=\"width:80px;\" id=\"TransactionDate\" name=\"TransactionDate\" type=\"text\" class=\"datepicker\"  required/></td>";
+                        value += "<td><select style=\"width:80px;\" name=\"TransactionType\" id=\"TransactionType\"><option value=\"1\">Cash</option><option value=\"2\">Cheque</option>";
+                        value += "<option value=\"3\">Credit Card</option></select></td>";
+                        value += "<td><input style=\"width:80px;\" id=\"TransactionNumber\" name=\"TransactionNumber\" type=\"text\" /></td>";
+                        value += "<td><input style=\"width:80px;\" id=\"Description\" name=\"Description\" type=\"text\" /></td>";
+                        value += "<td><input style=\"width:50px;\" id=\"InvoicePaymentAmount\" name=\"InvoicePaymentAmount\" type=\"text\" required/></td>";
+                        //value += "<td><a href=\"javascript:void(0);\" id=\"DataString\" class=\"input\" onchange=\"convertBase64();\">File</a></td>";
+                        value += "<td> <input name=\"DataString\" id=\"DataString\" onchange=\"convertBase64();\" type=\"file\" /></td>";
+                        value += "<td>-</td>"
+                        value += "<td><input class=\"formbut-n\" type=\"submit\" name=\"yt0\" value=\"Add\" onclick=\"saveTransaction();\" /></td>";
+                        value += "</tr>";
+                        $("#tranasctionTable").append(value);
+                        $('#loading').hide();
+
+                        var j = jQuery.noConflict();
+                        j(function () {
+                            j("#TransactionDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+                        });
+                    }
+                    $('#loading').hide();
+                });
+
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+        function convertBase64() {
+            var data = $('#DataString')[0].files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(data);
+            reader.onload = function () {
+                var base64data = reader.result;
+                $('#Proof').val(base64data);
+            }
+        };
+
+    $(document).on("click",".datepicker",function(){
+
+        $(this).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'd M yy'
+        }).datepicker("show");
+    });
+
+    </script>
+

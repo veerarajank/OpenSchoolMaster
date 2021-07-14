@@ -1,0 +1,586 @@
+﻿@model GS247.Models.Teachers.TeachersList  
+
+@{
+    ViewBag.Title = "ListTeachers";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+
+    <div class="cont_right formWrapper">
+        <h1>Manage Teachers</h1>
+        <div class="search_btnbx">
+            <div id="jobDialog"></div>
+            <div class="button-bg">
+                <div class="top-hed-btn-left"> </div>
+                <div class="top-hed-btn-right">
+                    <ul>
+                        <li><a id="showJobDialog" class="a_tag-btn" href="#"><span>Save Filter</span></a></li>
+
+                        <li style=" position:relative;">
+                            <a href="javascript:void(0)" class="load_filter a_tag-btn" onClick="hide('load')"><span>Load Filter</span></a>
+                            <div id="load" style="display:none; left: -141px;" class="drop">
+                                <div class="droparrow"></div>
+                                <ul class="loaddrop">
+                                    <li style="text-align:center">
+                                        <span style="color:#d30707;"><i>No Saved Searches</i></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a class="a_tag-btn" href="/index.php?r=employees/employees/manage"><span>Clear All</span></a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="contrht_bttns">
+
+                <ul>
+                    <li></li>
+                    <li>
+
+
+
+
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="clear"></div>
+        
+        @using (Html.BeginForm("SearchListTeachers", "Teachers", FormMethod.Post))
+        {
+            <div class="filtercontner">
+                <div class="filterbxcntnt">
+                    <div class="filterbxcntnt_inner" style="border-bottom:#ddd solid 1px; height:60px;">
+                        <ul>
+                            <li style="font-size:12px">Filter Your Teacher:</li>
+
+
+                            <div style="display:none"><input type="hidden" value="employees/employees/manage" name="r" /></div>
+
+                            <li>
+                                <div onClick="show('name')" style="cursor:pointer;">Name</div>
+                                <div id="name" style="display:none; width:230px;" class="drop_search">
+                                    <div class="droparrow" style="left:10px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.TextBox("Name")
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div onClick="show('admissionnumber')" style="cursor:pointer;">Teacher Number</div>
+                                <div id="admissionnumber" style="display:none; width:230px;" class="drop_search">
+                                    <div class="droparrow" style="left:10px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.TextBox("TeacherNumber")
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+
+
+                            <li>
+                                <div onClick="show('batch')" style="cursor:pointer;">Department</div>
+                                <div id="batch" style="display:none; width:230px;" class="drop_search">
+                                    <div class="droparrow" style="left:10px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("Batch", new SelectList(ViewBag.Departments, "Value", "Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div onClick="show('cat')" style="cursor:pointer;">Category</div>
+                                <div id="cat" style="display:none; width:230px;" class="drop_search">
+                                    <div class="droparrow" style="left:10px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("Cat",new SelectList(ViewBag.Categories,"Value","Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                            <li>
+                                <div onClick="show('pos')" style="cursor:pointer;">Position</div>
+                                <div id="pos" style="display:none; width:230px;" class="drop_search">
+                                    <div class="droparrow" style="left:10px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("Pos", new SelectList(ViewBag.Positions, "Value", "Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div onClick="show('grd')" style="cursor:pointer;">Grade</div>
+                                <div id="grd" style="display:none; width:230px;left:-140px" class="drop_search">
+                                    <div class="droparrow" style="left:150px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("Pos", new SelectList(ViewBag.Grades, "Value", "Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                            <li>
+                                <div onClick="show('gender')" style="cursor:pointer;">Gender</div>
+                                <div id="gender" style="display:none; width:242px; left:-140px" class="drop_search">
+                                    <div class="droparrow" style="left:150px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("Gender", new SelectList(ViewBag.Genders, "Value", "Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div onClick="show('marital')" style="cursor:pointer;">Marital Status</div>
+                                <div id="marital" style="display:none; width:230px; left:-140px" class="drop_search">
+                                    <div class="droparrow" style="left:173px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("Marital", new SelectList(ViewBag.Marital, "Value", "Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div onClick="show('bloodgroup')" style="cursor:pointer;">Blood Group</div>
+                                <div id="bloodgroup" style="display:none; width:230px;" class="drop_search">
+                                    <div class="droparrow" style="left:10px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("BloodGroup", new SelectList(ViewBag.BloodGroup, "Value", "Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div onClick="show('nationality')" style="cursor:pointer;">Country</div>
+                                <div id="nationality" style="display:none; width:230px; left:-180px;" class="drop_search">
+                                    <div class="droparrow" style="left:200px;"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box">
+                                                @Html.DropDownList("Nationality", new SelectList(ViewBag.Nationality, "Value", "Text"))
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </li>
+
+
+                            <li>
+                                <div onClick="show('dob')" style="cursor:pointer;">Date Of Birth</div>
+                                <div id="dob" style="display:none; width:420px; left:-210px; " class="drop_search">
+                                    <div class="droparrow" style=" left:240px"></div>
+
+
+                                    <div class="filter_ul">
+                                        <ul>
+
+                                            <li class="Text_area_Box-two">
+                                                <select name="DOBOpt" id="DOBOpt">
+                                                    <option value="">Option</option>
+                                                    <option value="1">born before</option>
+                                                    <option value="2">born in</option>
+                                                    <option value="3">born after</option>
+                                                </select>
+                                            </li>
+                                            <li class="Text_area_Box-two">
+                                                @Html.TextBox("DOB", null,new { @type = "date" })
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+                            </li>
+
+                            <li>
+                                <div onClick="show('joining')" style="cursor:pointer;">Joining Date</div>
+                                <div id="joining" style="display:none; width:420px; left:-190px; " class="drop_search">
+                                    <div class="droparrow" style=" left:220px"></div>
+                                    <div class="filter_ul">
+                                        <ul>
+                                            <li class="Text_area_Box-two">
+                                                <select name="JoiningOpt" id="JoiningOpt">
+                                                    <option value="">Option</option>
+                                                    <option value="1">before</option>
+                                                    <option value="2">on</option>
+                                                    <option value="3">after</option>
+                                                </select>
+                                            </li>
+                                            <li class="Text_area_Box-two">
+                                                @Html.TextBox("joining",null,new { @type = "date" })
+                                            </li>
+                                            <li class="Btn_area_Box">
+                                                <input type="submit" value="Apply" />
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="filterbxcntnt_inner_bot">
+                        <div class="filterbxcntnt_left"><strong>Active Filters:</strong></div>
+                        <div class="clear"></div>
+                        <div class="filterbxcntnt_right">
+                            <ul>
+                                <div style="padding-top:3px; font-size:11px;">
+                                    <i>
+                                        No Active Filters
+                                    </i>
+                                </div>
+
+
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        }
+    <!-- Alphabetic Sort -->
+        <div class="list_contner_hdng" id="">
+            <div class="letterNavCon" id="letterNavCon">
+                <ul class="" id="">
+                    <li class="ln_active"><a href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&pageSize=2&pageNo=0">All</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'A%'&pageSize=2&pageNo=0">A</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'B%'&pageSize=2&pageNo=0">B</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'C%'&pageSize=2&pageNo=0">C</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'D%'&pageSize=2&pageNo=0">D</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'E%'&pageSize=2&pageNo=0">E</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'F%'&pageSize=2&pageNo=0">F</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'G%'&pageSize=2&pageNo=0">G</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'H%'&pageSize=2&pageNo=0">H</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'I%'&pageSize=2&pageNo=0">I</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'J%'&pageSize=2&pageNo=0">J</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'K%'&pageSize=2&pageNo=0">K</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'L%'&pageSize=2&pageNo=0">L</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'M%'&pageSize=2&pageNo=0">M</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'N%'&pageSize=2&pageNo=0">N</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'O%'&pageSize=2&pageNo=0">O</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'P%'&pageSize=2&pageNo=0">P</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'Q%'&pageSize=2&pageNo=0">Q</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'R%'&pageSize=2&pageNo=0">R</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'S%'&pageSize=2&pageNo=0">S</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'T%'&pageSize=2&pageNo=0">T</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'U%'&pageSize=2&pageNo=0">U</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'V%'&pageSize=2&pageNo=0">V</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'W%'&pageSize=2&pageNo=0">W</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'X%'&pageSize=2&pageNo=0">X</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'Y%'&pageSize=2&pageNo=0">Y</a></li>
+                    <li><a class="vtip" href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=FirstName&Desc=0&Where= Where FirstName like 'Z%'&pageSize=2&pageNo=0">Z</a></li>
+                </ul>
+            </div>
+        </div> <!-- END Alphabetic Sort -->
+
+
+
+        <div style="margin-top:43px;">
+
+            <div class="clear"></div>
+
+            <div class="pdf-box">
+                <div class="box-one">
+                    <div class="bttns_addstudent-n">
+                        <ul>
+                            <li>
+                                <a class="formbut-n" href="@Url.Action("AddStaff","Teachers")">Add Teacher</a>
+                            </li>
+                            <li>
+                                <input name="submit" class=" formbut-n-input" id="delete" onclick="return delete_all()" type="button" value="Delete All" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box-two">
+                    <div class="pdf-div">
+                        <button type="submit" class="pdf_but-input" name="print" formtarget="_blank">
+                            Generate PDF
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="tablebx" style="position:relative">
+
+
+
+
+                <div class="clear"></div>
+
+
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr class="tablebx_topbg">
+                        <td style="text-align:center">
+                            <div class="btn-group mailbox-checkall-buttons">
+                                <input type="checkbox" id="ch" name="ch1" class="chkbox checkall" onClick="checkall()" />
+                            </div>
+                        </td>
+                        <td>Sl. No.</td>
+                        <td>Teacher Name</td>
+                        <td>Teacher No</td>
+                        <td>Department</td>
+                        <td>Gender</td>
+                        <td>Actions</td>
+                        <!--<td style="border-right:none;">Task</td>-->
+                    </tr>
+                    @for (int i = ViewBag.StartRecord; i <= ViewBag.EndRecord; i++)
+                    {
+
+                        <tr class="even" id=@i>
+                            <td style="text-align:center">
+                                <div class="mailbox-item-wrapper">
+                                    <label class="checkbox1" for="conv_12" />
+                                    <div class="mailbox-check mailbox-ellipsis">
+                                        <input class="checkbox1 " id="conv_12" type="checkbox" name="convs" value="12" onClick="selectcheck()" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@i</td>
+                            <td><a href="@Url.Action("ViewStaff","Teachers")?Id=@Model.Teachers[i].Id">@Model.Teachers[i].Name</a></td>
+                            <td>@Model.Teachers[i].Number</td>
+                            <td>@Model.Teachers[i].Department</td>
+                            <td>@Model.Teachers[i].Gender</td>
+                            <td><a href="" id="yt0"><span>Delete</span></a></td>
+                        </tr>
+                    }
+                </table>
+                <div class="pagecon">
+                    <ul class="pages" id="yw2">
+                        <li class="first"><a href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=@ViewBag.OrderByColumn&Desc=@ViewBag.Desc&Where=@ViewBag.Where&pageSize=2&pageNo=0">&lt;&lt; First</a></li>
+                        <li class="previous"><a href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=@ViewBag.OrderByColumn&Desc=@ViewBag.Desc&Where=@ViewBag.Where&pageSize=2&pageNo=@ViewBag.PreviousPage">&lt; Previous</a></li>
+                        <li class="page selected"><a href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=@ViewBag.OrderByColumn&Desc=@ViewBag.Desc&Where=@ViewBag.Where&pageSize=2&pageNo=@ViewBag.CurrentPage">@(ViewBag.CurrentPage+1)</a></li>
+                        <li class="next"><a href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=@ViewBag.OrderByColumn&Desc=@ViewBag.Desc&Where=@ViewBag.Where&pageSize=2&pageNo=@ViewBag.NextPage">Next &gt;</a></li>
+                        <li class="last"><a href="@Url.Action("ListTeachers","Teachers")?OrderByColumn=@ViewBag.OrderByColumn&Desc=@ViewBag.Desc&Where=@ViewBag.Where&pageSize=2&pageNo=@ViewBag.TotalPages">Last &gt;&gt;</a></li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <br />
+
+    </div>
+  
+<script type="text/javascript">
+    function show(id) {
+        document.getElementById("name").style.display = "none";
+        document.getElementById("admissionnumber").style.display = "none";
+        document.getElementById("batch").style.display = "none";
+        document.getElementById("cat").style.display = "none";
+        document.getElementById("pos").style.display = "none";
+        document.getElementById("grd").style.display = "none";
+        document.getElementById("gender").style.display = "none";
+        document.getElementById("marital").style.display = "none";
+        document.getElementById("bloodgroup").style.display = "none";
+        document.getElementById("nationality").style.display = "none";
+        document.getElementById("dob").style.display = "none";
+        document.getElementById("joining").style.display = "none";
+        document.getElementById(id).style.display = "";
+    }
+/*<![CDATA[*/
+jQuery(function($) {
+jQuery('body').undelegate('#showJobDialog','click').delegate('#showJobDialog','click',function(){jQuery.ajax({'onclick':'$(\"#jobDialog\").dialog(\"open\"); return false;','type':'GET','data':{'val1':'/index.php?r=employees/employees/manage','type':'2'},'dataType':'text','url':'/index.php?r=employees/Savedsearches/Create','cache':false,'success':function(html){jQuery("#jobDialog").html(html)}});return false;});
+jQuery('#dobtxt').datepicker({'showAnim':'fold','dateFormat':'d M yy','changeMonth':true,'changeYear':true,'yearRange':'1900:2057'});
+jQuery('#joindatetxt').datepicker({'showAnim':'fold','dateFormat':'d M yy','changeMonth':true,'changeYear':true,'yearRange':'1900:2057'});
+jQuery('body').undelegate('#yt0','click').delegate('#yt0','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=12',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt1','click').delegate('#yt1','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=23',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt2','click').delegate('#yt2','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=13',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt3','click').delegate('#yt3','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=14',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt4','click').delegate('#yt4','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=15',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt5','click').delegate('#yt5','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=16',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt6','click').delegate('#yt6','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=17',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt7','click').delegate('#yt7','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=11',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt8','click').delegate('#yt8','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=4',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt9','click').delegate('#yt9','click',function(){if(confirm('Are you sure you want to delete the teacher?')) {jQuery.yii.submitForm(this,'/index.php?r=employees/employees/deletes&id=18',{'YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;} else return false;});
+jQuery('body').undelegate('#yt10','click').delegate('#yt10','click',function(){jQuery.yii.submitForm(this,'/index.php?r=user/login',{'UserLogin':'Guest User','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f','type':'guest_user','user_type':'sa'});return false;});
+jQuery('body').undelegate('#yt11','click').delegate('#yt11','click',function(){return false;jQuery.yii.submitForm(this,'/index.php?r=user/login',{'UserLogin':'Guest User','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f','type':'guest_user','user_type':'a'});return false;});
+jQuery('body').undelegate('#yt12','click').delegate('#yt12','click',function(){jQuery.yii.submitForm(this,'/index.php?r=user/login',{'UserLogin':'Guest User','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f','type':'guest_user','user_type':'s'});return false;});
+jQuery('body').undelegate('#yt13','click').delegate('#yt13','click',function(){jQuery.yii.submitForm(this,'/index.php?r=user/login',{'UserLogin':'Guest User','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f','type':'guest_user','user_type':'t'});return false;});
+jQuery('body').undelegate('#yt14','click').delegate('#yt14','click',function(){jQuery.yii.submitForm(this,'/index.php?r=user/login',{'UserLogin':'Guest User','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f','type':'guest_user','user_type':'p'});return false;});
+jQuery('body').undelegate('#yt15','click').delegate('#yt15','click',function(){jQuery.yii.submitForm(this,'/index.php?r=user/login',{'UserLogin':'Guest User','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f','type':'guest_user','user_type':'pr'});return false;});
+jQuery('body').undelegate('#yt16','click').delegate('#yt16','click',function(){jQuery.yii.submitForm(this,'/index.php?r=user/login',{'UserLogin':'Guest User','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f','type':'guest_user','user_type':'sr'});return false;});
+jQuery('body').undelegate('#rtl_link','click').delegate('#rtl_link','click',function(){jQuery.yii.submitForm(this,'/index.php?r=site/setLanguage',{'lang_type':'rtl','YII_CSRF_TOKEN':'139841db66de8c18ae3a5b6563e1b2ab0579838f'});return false;});
+jQuery('body').undelegate('#open_apps','click').delegate('#open_apps','click',function(){jQuery.ajax({'url':'/index.php?r=site/explorer','cache':false,'success':function(html){jQuery("#explorer_handler").html(html)}});return false;});
+jQuery('body').undelegate('#system_yid','change').delegate('#system_yid','change',function(){jQuery.ajax({'type':'POST','url':'/index.php?r=configurations/viewyear','success':function(){location.reload()},'data':{system_yid:$(this).val(), "YII_CSRF_TOKEN":"139841db66de8c18ae3a5b6563e1b2ab0579838f"},'cache':false});return false;});
+});
+/*]]>*/
+
+$('body').click(function() {
+	$('#load').hide();
+   $('#name').hide();
+   $('#admissionnumber').hide();
+   $('#batch').hide();
+   $('#cat').hide();
+   $('#pos').hide();
+   $('#grd').hide();
+   $('#gender').hide();
+   $('#marital').hide();
+    $('#bloodgroup').hide();
+	$('#nationality').hide();
+	if($("#dobtxt").val().length <=0)
+	{
+		$('#dob').hide();
+	}
+	if($("#joindatetxt").val().length <=0)
+	{
+		$('#joining').hide();
+	}
+});
+
+$('.filterbxcntnt_inner').click(function(event){
+   event.stopPropagation();
+});
+
+$('.load_filter').click(function(event){
+   event.stopPropagation();
+});
+
+function rowdelete(id)
+{
+	 $("#"+id).fadeOut("slow");
+	 location.reload();
+}
+function checkall()
+{
+	if(ch.checked)
+	{
+		$('.checkbox1').prop('checked', true);
+	}
+	else
+	{
+		$('.checkbox1').each(function() { //loop through each checkbox
+		   this.checked = false; //deselect all checkboxes with class "checkbox1"
+		});
+	}
+}
+function selectcheck()
+{
+	var numberOfChecked = $('.checkbox1:checked').length; //count of all checked checkboxes with class "checkbox1"
+	var totalCheckboxes = $('.checkbox1:checkbox').length; //count of all textboxes with class "checkbox1"
+	if(numberOfChecked == totalCheckboxes)
+		ch.checked=true;
+	else
+		ch.checked=false;
+}
+
+function delete_all()
+{
+	var numberOfChecked = $('.checkbox1:checked').length; //count of all checked checkboxes with class "checkbox1"
+	var totalCheckboxes = $('.checkbox1:checkbox').length; //count of all textboxes with class "checkbox1"
+	var notChecked 		= $('.checkbox1:not(":checked")').length; //totalCheckboxes - numberOfChecked;
+
+	if(numberOfChecked > 0){
+		var favorite = [];
+		$.each($("input[name='convs']:checked"), function(){
+			favorite.push($(this).val());
+		});
+		var r	= confirm("Are you sure ? Do you want to delete this?");
+
+		if(r==true){
+			$.ajax({
+				url:"/index.php?r=employees/employees/delete_all",
+				type:'POST',
+				data:{id:favorite, "YII_CSRF_TOKEN":"139841db66de8c18ae3a5b6563e1b2ab0579838f"},
+				dataType:"json",
+				success:function(response){
+					if(response.status=="success"){
+						window.location.reload();
+					}
+					else{
+						alert("Error");
+					}
+				}
+			});
+		}
+		else{
+			return false;
+		}
+	}else{
+		alert("Please select atleast one Teacher");
+		return false;
+	}
+}
+</script>

@@ -1,0 +1,528 @@
+﻿@model GS247.Models.LibraryBooksIssue
+
+@{
+    ViewBag.Title = "CreateBorrowBook";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        $(function () {
+            $("#StudentName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Library/AutoFillStudent/',
+                        data: "{ 'Prefix': '" + request.term + "' }",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('#StudentId').val(ui.item.val);
+                },
+                minLength: 3
+            });
+        });
+        $(function () {
+            $("#PhoneNumber1").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Library/AutoFillPhoneNumber1/',
+                        data: "{ 'Prefix': '" + request.term + "' }",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('#StudentId').val(ui.item.val);
+                },
+                minLength: 1
+            });
+        });
+    });
+
+    function clickStudentPopUp() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        $('#CurrentPageIndex').val('1');
+        $('#alphaValue').val('All');
+        GetStudentList();
+    };
+
+    function onClickAlphabetic(alphaValue) {
+        $('#CurrentPageIndex').val(1);
+        $('#alphaValue').val(alphaValue);
+        GetStudentList();
+    };
+
+    function GetStudentList() {
+        $('#loading').show();
+        var currentPageIndex = $('#CurrentPageIndex').val();
+        var alphaValue = $('#alphaValue').val();
+        var studentAdvanceSearch1 = [];
+        var studentAdvanceSearch = new Object();
+        studentAdvanceSearch.NameTxt = $('#NameTxt').val();
+        studentAdvanceSearch.AdmissionNumberTxt = $('#AdmissionNumberTxt').val();
+        studentAdvanceSearch1.push(studentAdvanceSearch);
+
+        var d = { currentPageIndex: currentPageIndex, alphaValue: alphaValue, studentAdvanceSearch: studentAdvanceSearch };
+
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/GetStudentList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableClearValue();
+                $.each(result, function (index, StudentList) {
+                    for (var i = 0; i < StudentList.length; i++) {
+                        $("#StudentListGrid").append(
+        "<tr>"
+        + "<td></td>"
+        + "<td><a style=\"color:darkorange\" href=\"javascript:selectStudent(" + StudentList[i].StudentDetailsId + ",'" + StudentList[i].FirstName + " " + StudentList[i].LastName + "');\">" + StudentList[i].FirstName + " " + StudentList[i].LastName + "</a></td>"
+        + "<td>" + StudentList[i].AdmissionNo + "</td>"
+        + "<td>" + StudentList[i].SchoolCO.CourseBatchName + "</td>"
+        + "<td>" + StudentList[i].PhoneNumber1 + "</td>"
+        + "</tr>");
+                    }
+                });
+
+                pagenationApply(result.TotalPages);
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+    function tableClearValue() {
+        var Table = document.getElementById("StudentListGrid");
+        Table.innerHTML = "";
+        $("#StudentListGrid").append(
+            "<tr class=\"tablebx_topbg\">"
+            + "<td>Roll No</td><td width=\"25%\">Student Name</td><td>Admission No</td><td>Course / Batch</td><td>Phone Number</td>"
+            + "</tr>");
+    };
+
+    function onclickAdvSearch() {
+        $('#CurrentPageIndex').val(1);
+        GetStudentList();
+    };
+
+    function selectStudent(StudentDetailsId, FirstName) {
+        $('#StudentId').val(StudentDetailsId);        
+        $('#StudentName').val(FirstName);
+        onClose();
+    };
+
+    function onClose() {
+        $("#myModal").css('display', 'none');
+    };
+
+    function pagenationApply(PageCount) {
+
+        var Table = document.getElementById("pageNation");
+        Table.innerHTML = "";
+        var currentPageIndex = $('#CurrentPageIndex').val();
+        var pageCutLow = (parseInt(currentPageIndex)) - parseInt(1);
+        var pageCutHigh = parseInt(1) + (parseInt(currentPageIndex));
+
+        var value = "<div class=\"\">";
+
+        if (parseInt(currentPageIndex) > 1) {
+            value += "<input type=\"submit\" onclick=\"pageclickPrevious(this);\" value=\"Previous\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white;\"/>";
+        }
+
+        if (parseInt(PageCount) < 6) {
+            for (var i = 1; i <= parseInt(PageCount) ; i++) {
+                if (i != parseInt(currentPageIndex)) {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+            }
+        }
+        else {
+            if (parseInt(currentPageIndex) > 2) {
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"1\" />";
+
+                if (parseInt(currentPageIndex) > 3) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\" />";
+                }
+            }
+            if (parseInt(currentPageIndex) == 1) {
+                pageCutHigh += 2;
+            }
+            else if (parseInt(currentPageIndex) == 2) {
+                pageCutHigh += 1;
+            }
+
+            if (parseInt(currentPageIndex) == parseInt(PageCount)) {
+                pageCutLow -= 2;
+            }
+            else if (parseInt(currentPageIndex) == parseInt(PageCount) - 1) {
+                pageCutLow -= 1;
+            }
+
+            for (var i = pageCutLow; i <= pageCutHigh; i++) {
+                if (i == 0) {
+                    i += 1;
+                }
+                if (i > parseInt(PageCount)) {
+                    continue;
+                }
+
+                if (parseInt(currentPageIndex) == i) {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount) - 1) {
+                if (parseInt(currentPageIndex) < parseInt(PageCount) - 2) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\"/>";
+                }
+
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + parseInt(PageCount) + "\" />";
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount)) {
+                value += "<input type=\"submit\" onclick=\"pageclickNext(this);\" value=\"Next\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white\" />";
+            }
+
+        }
+
+        value += "</div>";
+
+        $("#pageNation").append(value);
+
+    };
+
+    function pageclicktest(ele) {
+        $("#CurrentPageIndex").val(ele.value);
+        var listsize = $('#listsize').val();
+        GetStudentList(listsize);
+    };
+
+    function pageclickNext(ele) {
+        var nextPage = parseInt($("#CurrentPageIndex").val()) + 1;
+        $("#CurrentPageIndex").val(nextPage);
+        var listsize = $('#listsize').val();
+        GetStudentList(listsize);
+    };
+
+    function pageclickPrevious(ele) {
+        var prevPage = parseInt($("#CurrentPageIndex").val()) - 1;
+        $("#CurrentPageIndex").val(prevPage);
+        var listsize = $('#listsize').val();
+        GetStudentList(listsize);
+    };
+
+</script>
+
+<style>
+    #loading {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 1;
+        text-align: center;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 250px;
+        left: 775px;
+        z-index: 100;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 700px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+
+    .alphabrtic {
+        background-color: #F60;
+    }
+</style>
+
+<div class="cont_right formWrapper" style="padding:15px 20px 80px 20px;">
+    <h1>Borrow Book</h1>
+   
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    <p>Fields with<span class="required"> * </span>are required.</p>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="Borrow_studentname" class="required">Student Name<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.TextBox("StudentName", "", new { required = "required", @readonly = "readonly", @placeholder = "Student Name" })
+                                    @Html.HiddenFor(model => model.StudentId)                                  
+                                    <a id="explorer_student_name" class="exp_but-n" href="javascript:clickStudentPopUp()"></a>
+                                </td>
+                                @*<td><label for="Borrow_phNo1" class="required">Phone Number</label></td>
+                                <td>
+                                    @Html.TextBox("PhoneNumber1","")
+                                    @Html.HiddenFor(model => model.StudentId)
+                                </td>*@
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="Borrow_subject" class="required">Subject<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.SubjectId, ViewBag.Subjects as IEnumerable<SelectListItem>, "--Select--", new { @class = "select2-arrow", required = "required" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="Borrow_booktitle" class="required">Title <span class="required"> * </span></label></td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.BookId, ViewBag.BookNames as IEnumerable<SelectListItem>, "--Select--", new { @class = "select2-arrow", required = "required" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="Borrow_issuedate" class="required">Issue Date<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.IssueDate, new { id = "Borrow_issuedate", type = "date", required = "required" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+
+                            <tr>
+                                <td><label for="Borrow_duedate" class="required">Due Date<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.DueDate, new { id = "Borrow_duedate", type = "date", required = "required" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                                <td><input class="formbut" type="submit" name="BorrowBook_submit" value="Create" /></td>
+                            </tr>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Students Details</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="filter_ul filterbxcntnt-new">
+                    <ul>
+                        <li class="Text_area_Box-two">
+                            <input type="text" placeholder="Name" style="width:200px;height:30px" id="NameTxt" />
+                        </li>
+                        <li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>
+                        <li class="Btn_area_Box"><input type="submit" onclick="onclickAdvSearch();" value="Apply"></li>
+                    </ul>
+                </div>
+
+                <div class="filter_ul filterbxcntnt-new">
+                    <ul>
+                        <li class="Text_area_Box-two">
+                            <input type="text" placeholder="Admission No" style="width:200px;height:30px" id="AdmissionNumberTxt" />
+                        </li>
+                        <li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>
+                        <li class="Btn_area_Box"><input type="submit" onclick="onclickAdvSearch();" value="Apply"></li>
+                    </ul>
+                </div>
+
+                <div class="list_contner_hdng" id="">
+                    <div class="letterNavCon" id="letterNavCon">
+                        <ul class="" id="">
+                            <li><a class="alphabrtic" style="width:30px;height:25px" onclick="onClickAlphabetic('All');">All</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('A');">A</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('B');">B</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('C');">C</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('D');">D</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('E');">E</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('F');">F</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('G');">G</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('H');">H</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('I');">I</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('J');">J</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('K');">K</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('L');">L</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('M');">M</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('N');">N</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('O');">O</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('P');">P</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Q');">Q</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('R');">R</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('S');">S</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('T');">T</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('U');">U</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('V');">V</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('W');">W</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('X');">X</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Y');">Y</a></li>
+                            <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Z');">Z</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pdtab_Con">
+                    <div class="clear"></div>
+                    <input type="hidden" name="CurrentPageIndex" id="CurrentPageIndex" />
+                    <input type="hidden" name="alphaValue" id="alphaValue" />
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="StudentListGrid"></table>
+                    <br />
+                    <div class="pagecon">
+                        <div class="">
+                            <div align="center" id="pageNation">
+                            </div> <!-- END div class="pagecon" 2 -->
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

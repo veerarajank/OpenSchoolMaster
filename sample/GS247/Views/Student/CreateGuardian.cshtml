@@ -1,0 +1,413 @@
+﻿@{
+    ViewBag.Title = "Guardian";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+
+    <style type="text/css">
+        .pagetab-bg .li_hide {
+            display: none !important;
+        }
+
+        .student-postn {
+            top: 16px;
+            right: 19px;
+        }
+    </style>
+    <div class="right-pg-hd">
+        <h1>Enrolment</h1>
+    </div>
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Back</span></a>   
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("ViewProfile", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">View Profile</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-tab">
+        <div class="pagetab-bg">
+            <ul>
+                <li class="">
+                    <h2 class="hvr-syle"><a href="@Url.Action("UpdateStudent", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Student Details</a></h2>
+                </li>
+                <li class="active">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreateGuardian", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Guardian Details</a></h2>
+                </li>
+                <li class="">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreatePreviousDetail", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Previous Details</a></h2>
+                </li>
+                <li class="">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreateStudentDocument", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Student Documents</a></h2>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <style>
+        .formCon input[type="text"], input[type="password"], textArea, select {
+            border-radius: 0px !important;
+            border: 1px #c2cfd8 solid;
+            padding: 7px 3px;
+            background: #fff;
+            box-shadow: none !important;
+            width: 100%;
+        }
+    </style>
+
+    @if (ViewBag.GuardiansList.Count > 0)
+                                    {
+        <div class="pdtab_Con">
+            <span>Guardian(s)</span>
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr class="pdtab-h">
+                    <td align="center" width="150">Name</td>
+                    <td align="center" width="150">Relation</td>
+                    <td align="center" width="150">Email</td>
+                    <td align="center" width="150">Actions</td>
+                </tr>
+
+                @foreach (var item in ViewBag.GuardiansList)
+                                                {
+                                                <tr>
+                                                    <td align="center"><a href="#">@item.FirstName @item.LastName</a></td>
+                                                    @if (item.Relation == 1)
+                                                        {
+                                                        <td align="center">
+                                                            Father
+                                                        </td>
+                                                        }
+                                                        else if (@item.Relation == 2)
+                                                        {
+                                                        <td align="center">
+                                                            Mother
+                                                        </td>
+                                                        }
+                                                        else
+                                                        {
+                                                        <td align="center">
+                                                            Other
+                                                        </td>
+                                                        }
+                                                    <td align="center">@item.Email</td>
+                                                    <td align="center">
+                                                        <div class="tt-wrapper-new">
+                                                            <a class="makeedit" href="@Url.Action("UpdateGuardian", "Student", new { GuardianDetailsId = item.GuardianDetailsId })"><img src="~/gridview/update.png" /><span>Edit</span></a>
+                                                            <a class="makedelete" href="javascript:DeleteGuardian(@item.GuardianDetailsId);" id="yt0"><img src="~/gridview/delete.png" /><span>Remove from guardian list</span></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                }
+            </table>
+        </div>
+                                    }
+
+    <div class="guardin-exixt g-input-bg">
+        <select style="width:210px;height:30px" name="FieldTypeFlag" id="FieldTypeFlag" onchange="fieldTypeChange(this);">
+            <option value="1">New Guardian</option>
+            <option value="2"> Already Existing Guardian</option>
+        </select>
+    </div>
+
+    <div class="formCon" id="searchGuardian" style=" display:none;; margin-bottom:0px; margin-top:0px;">
+        <div class="formConInner">
+            Search                            <span class="guard_search">
+                <input placeholder="Sibilings" id="sibilingName" type="text" name="sibilingName" style="width:175px" />
+            </span>
+
+            <span class="guard_search">
+                <input placeholder="Parent" id="parentname" type="text" name="parentname" style="width:175px" />
+                <span class="or_img"></span>
+            </span>
+
+            <span class="guard_search" style="padding-right:10px;">
+                <input placeholder="Parent Email" id="parentemail" type="text" name="parent_email" style="width:175px" />
+            </span>
+            <div class="clear"></div>
+            <div style="margin-top:10px; margin-left:49px;">
+                <input class="formbut-n" name="yt1" type="button" value="Search" id="yt1" onclick="onSearchGuardian();" />
+            </div>
+        </div>
+    </div>
+
+    <div class="pdtab_Con" id="addexguardiansform" style="display:none">
+        <h3>Existing Guardian(s)</h3>
+        <table width="100%" cellpadding="0" cellspacing="0" id="existingGuardianGrid"></table>
+        <div style="margin-top:10px;"><input id="ex_submit_btn" class="formbut-n" name="ex_submit_btn" type="submit" value="Select" onclick="saveExistingGuardians();" /></div>
+    </div>
+
+    <form enctype="multipart/form-data" id="guardianform" action="CreateGuardian" method="post">
+        <br />
+        <p class="note">Fields with<span class="required">*</span>are required.</p>
+
+        <div class="formCon">
+            <div class="formConInner opnsl_form_label">
+                <h3>Personal Details </h3>
+
+                <input type="hidden" value="@ViewBag.StudentDetailsId" name="StudentDetailsId" id="StudentDetailsId" />
+
+                @foreach (var item in ViewBag.managePersonalFieldsList)
+                                                {
+                                                <div class="txtfld-col">
+                                                    <label for="Students_first_name" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty)>
+                                                        @item.Title
+
+                                                        @if (@item.Required == 1)
+                                                            {
+                                                        <span class="required">*</span>
+                                                            }
+                                                    </label>
+
+                                                    @if (@item.FieldTypeFlag == 1)
+                                                        {
+                                                    <input size="30" maxlength="50" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" />
+                                                        }
+                                                        else if (@item.FieldTypeFlag == 3)
+                                                        {
+                                                            if (@item.ColumnMapping == "Relation")
+                                                            {
+                                                    <select name="Relation" id="Relation">
+                                                        <option value="">Select</option>
+                                                        <option value="1">Father</option>
+                                                        <option value="1">Mother</option>
+                                                        <option value="2">Others</option>
+                                                    </select>
+                                                            }
+                                                        }
+                                                        else if (@item.FieldTypeFlag == 6)
+                                                        {
+                                                    <input size="30" maxlength="50" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" class="datepicker" />
+                                                        }
+
+                                                </div>
+                                                }
+
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="formCon">
+            <div class="formConInner opnsl_form_label">
+                <h3>Contact Details</h3>
+
+                @foreach (var item in ViewBag.manageContactFieldsList)
+                                                {
+                                                <div class="txtfld-col">
+                                                    <label for="Students_first_name" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty)>
+                                                        @item.Title
+
+                                                        @if (@item.Required == 1)
+                                                            {
+                                                        <span class="required">*</span>
+                                                            }
+                                                    </label>
+
+                                                    @if (@item.FieldTypeFlag == 1)
+                                                        {
+                                                    <input size="30" maxlength="50" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" />
+                                                        }
+                                                    else if (@item.FieldTypeFlag == 3)
+                                                    {
+                                                        if (@item.ColumnMapping == "Country")
+                                                        {
+                                                    <select name="Country" id="Country">
+                                                        <option value="">Select Country</option>
+                                                        @foreach (var item1 in ViewBag.CountryList)
+                                                                {
+                                                                <option value="@item1.id">@item1.country_name </option>
+                                                                }
+                                                    </select>
+                                                        }
+                                                    }
+                                                    else if (@item.FieldTypeFlag == 6)
+                                                    {
+                                                    <input size="30" maxlength="50" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" class="datepicker" />
+                                                        }
+
+                                                </div>
+                                                }
+
+                <br /><br />
+                <div class="clear"></div>
+                <!-- dynamic fields -->
+                <!-- dynamic fields -->
+                <div class="txtfld-col">
+                    <input id="ParentUserFlag" name="ParentUserFlag" value="1" type="checkbox" />
+                    <label for="ParentUserFlag">Don't Create Parent User</label>
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+
+        <div class="clear"></div>
+        <div>
+            <input id="addbtn" class="formbut-n" onclick="onSaveButtonClick(1);" type="submit" name="yt2" value="Save and Add Another" />&nbsp;
+            <div style="float:right;">
+                <input id="continuebtn" class="formbut-n" onclick="onSaveButtonClick(2);" type="submit" name="yt2" value="Save and Continue" />&nbsp;
+                <a class="formbut-n" href="@Url.Action("CreatePreviousDetail", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Next</a>
+            </div>
+        </div>
+        <input type="hidden" name="AddFlag" id="AddFlag" />
+    </form>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+<script type="text/javascript">
+
+                    var j = jQuery.noConflict();
+                    j(function () {
+                        j("#DOB").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+                    });
+
+                    function onSaveButtonClick(id) {
+                        $('#AddFlag').val(id);
+                    };
+
+                    function DeleteGuardian(GuardianDetailsId) {
+                        if (confirm("Are you sure you want to delete this guardian?")) {                            
+                            $.ajax({
+                                type: "POST",
+                                url: "/Student/DeleteGuardian",
+                                data: '{GuardianDetailsId: ' + GuardianDetailsId + '}',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    location.reload(true);
+                                }
+                            });
+                        }
+                    };
+
+                    function fieldTypeChange(ele) {
+                        if (ele.value == "2") {
+                            $('#searchGuardian').css('display', 'block');
+                        }
+                        else {
+                            $('#searchGuardian').css('display', 'none');
+                        }
+                    };
+
+                    function tableClearValue() {
+                        var Table = document.getElementById("existingGuardianGrid");
+                        Table.innerHTML = "";
+                        $("#existingGuardianGrid").append(
+                            "<tr class=\"tablebx_topbg\">"
+                            + "<td style=\"text-align:center\">"
+                            + "<div class=\"btn-group mailbox-checkall-buttons os_checkbox\">"
+                            + "<input type=\"checkbox\" id=\"ch\" name=\"ch1\" class=\"chkbox checkall\" onchange=\"checkAll(this)\" /> </div> </td>"
+                            + "<td>Name</td><td width=\"25%\">Relation</td><td>Email</td>"
+                            + "</tr>");
+                    };
+
+                    function onSearchGuardian() {
+
+                        var SibilingName = $('#sibilingName').val();
+                        var Parentname = $('#parentname').val();
+                        var ParentEmail = $('#parentEmail').val();
+                        var StudentDetailsId = $('#StudentDetailsId').val();
+
+                        if (SibilingName != null || SibilingName != "" || Parentname != null || Parentname != "" || ParentEmail != null || ParentEmail != "") {
+                            var d = { SibilingName: SibilingName, Parentname: Parentname, ParentEmail: ParentEmail, StudentDetailsId: StudentDetailsId };
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Student/LoadExistingGuardian",
+                                data: JSON.stringify(d),
+                                contentType: "application/json;charset=utf-8",
+                                dataType: "json",
+                                success: function (result) {
+                                    $.each(result, function (index, GuardianDetailList) {
+                                        if (GuardianDetailList.length > 0) {
+                                            tableClearValue();
+                                            $('#guardianform').css('display', 'none');
+                                            $('#addexguardiansform').css('display', 'block');
+                                            for (var i = 0; i < GuardianDetailList.length; i++) {
+                                                $("#existingGuardianGrid").append(
+                                                    "<tr>"
+                                                    + "<td style=\"text-align:center\"><div class=\"btn-group mailbox-checkall-buttons os_checkbox\"><input class=\"checkbox1\" id=\"" + GuardianDetailList[i].GuardianDetailsId + "\" type=\"checkbox\" name=\"" + GuardianDetailList[i].GuardianDetailsId + "\" /> </div></td>"
+                                                    + "<td>" + GuardianDetailList[i].FirstName + " " + GuardianDetailList[i].LastName + "</td>"
+                                                    + "<td>" + GuardianDetailList[i].SchoolCO.RelationName + "</td>"
+                                                    + "<td>" + GuardianDetailList[i].Email + "</td>"
+                                                    + "</tr>");
+                                            }
+                                        }
+                                        else {
+                                            $('#guardianform').css('display', 'block');
+                                            $('#addexguardiansform').css('display', 'none');
+                                        }
+                                    });
+                                },
+                                error: function (response) {
+                                    alert(response);
+                                }
+                            });
+                        }
+                        else {
+                            alert("Please enter any one field!");
+                        }
+                    };
+
+                    function saveExistingGuardians() {
+                        var flag = false;
+                        var grid = document.getElementById("existingGuardianGrid");
+                        var checkBoxes = grid.getElementsByTagName("INPUT");
+
+                        var StudentDetailsId = $('#StudentDetailsId').val();
+
+                        for (var i = 0; i < checkBoxes.length; i++) {
+                            if (checkBoxes[i].checked && !flag) {
+                                flag = true;
+                            }
+                        }
+                        if (flag) {
+                            for (var i = 0; i < checkBoxes.length; i++) {
+                                if (checkBoxes[i].checked && i > 0) {
+                                    var d = { StudentDetailsId: StudentDetailsId, GuardianDetailsId: checkBoxes[i].id };
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Student/SaveExistingGuardian",
+                                        data: JSON.stringify(d),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (response) {
+
+                                        }
+                                    });
+                                }
+                            }
+                            location.reload(true);
+                        }
+                        else {
+                            alert("Please select atleast one guardian");
+                            return false;
+                        }
+                    };
+
+                    function checkAll(ele) {
+                        var checkboxes = document.getElementsByTagName('input');
+                        if (ele.checked) {
+                            for (var i = 0; i < checkboxes.length; i++) {
+                                if (checkboxes[i].type == 'checkbox') {
+                                    checkboxes[i].checked = true;
+                                }
+                            }
+                        } else {
+                            for (var i = 0; i < checkboxes.length; i++) {
+                                console.log(i)
+                                if (checkboxes[i].type == 'checkbox') {
+                                    checkboxes[i].checked = false;
+                                }
+                            }
+                        }
+                    }
+
+</script>
+

@@ -1,0 +1,76 @@
+﻿@model GS247.Models.TransportBusLog
+@{
+    
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div>
+
+        <h1>@ViewBag.Title</h1>
+       
+          
+                    <div class="col-md-2"></div>
+                    <div class=" form col-md-8">
+                        <div class="formCon">
+                            <div class="formConInner">
+                                <p>Fields with<span class="required"> * </span> are required.</p>
+                                <a href="/Transport/BusLog_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                                @using (Html.BeginForm())
+                                {
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table" style="font-size:small;">
+                                        <tr>
+                                            <th><label for="VehicleCode" class="required">Vehicle Code<span class="required">*</span></label></th>
+                                            <td>@Html.DropDownListFor(m => m.VehicleId, (IEnumerable<SelectListItem>)ViewBag.Vehicles, "-Select Vehicle Code-")</td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="StartReading" class="required">Start Reading<span class="required">*</span></label></th>
+                                            <td>@Html.TextBoxFor(m => m.ReadingStart, new { @class = "form-control", required = "required" }) </td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="EndReading" class="required">End Reading<span class="required">*</span></label></th>
+                                            <td>@Html.TextBoxFor(m => m.ReadingEnd, new { @class = "form-control", required = "required" }) </td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="FuelConsumed" class="required">Fuel Consumed<span class="required">*</span></label></th>
+                                            <td>@Html.TextBoxFor(m => m.FuelConsumed, new { @class = "form-control", required = "required" }) </td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="Amount" class="required">Amount<span class="required">*</span></label></th>
+                                            <td>@Html.TextBoxFor(m => m.Amount, new { @class = "form-control", required = "required" }) </td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="Date" class="required">Date<span class="required">*</span></label></th>
+                                            <td>@Html.TextBoxFor(m => m.EntryDate, new { @class = "form-control", required = "required", @type = "date" }) </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                @Html.HiddenFor(m => m.Id)
+                                                <input class="formbut" type="submit" value="Submit" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                                </div></div>
+                            </div>
+                            <div class="col-md-2"></div>
+
+                            @if (TempData["Bus_Log"] != null)
+                            {
+                                <script type="text/javascript">
+            alert("@TempData.Peek("Bus_Log").ToString()");
+                                </script>
+                            }
+                        </div>
+
+
+                        <script type="text/javascript">
+
+                            $(function () {
+                                $("#EntryDate").datepicker();
+                            });
+                        </script>

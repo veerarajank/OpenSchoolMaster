@@ -1,0 +1,66 @@
+﻿@model GS247.Models.HostelMessDetail
+@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+<div class="cont_right">
+    <h1>Mess Details</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("ManageMessDetails", "Hostel")"><span>Back</span></a>
+        </div>
+        <div class="top-hed-btn-right">
+        </div>
+    </div>
+    @if (Model != null)
+    {
+        <div class="form">
+            <form id="food-info-form" action="CreateMessDetails" method="post">
+                <input id="HostelMessId" type="hidden" value="@Model.HostelMessId" name="HostelMessId">
+                <p class="note">Fields with <span class="required">*</span> are required.</p>
+                <div class="formCon">
+                    <div class="formConInner">
+                        <div class="text-fild-bg-block">
+                            <div class="text-fild-block inputstyle">
+                                <label for="FoodPreference" class="required">Food Preference <span class="required">*</span></label>
+                                <input size="40" maxlength="120" name="FoodPreference" id="FoodPreference" type="text" required value="@Model.FoodPreference" />
+                            </div>
+                            <div class="text-fild-block inputstyle">
+                                <label for="Amount" class="required">Amount <span class="required">*</span></label>
+                                <input size="40" maxlength="120" name="Amount" id="Amount" type="text" required value="@Model.Amount" />
+                            </div>
+                        </div>
+                        <div>
+                            <input class="formbut-n" type="submit" name="yt0" value="Save" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="form">
+            <form id="food-info-form" action="CreateMessDetails" method="post">
+                <p class="note">Fields with <span class="required">*</span> are required.</p>
+                <div class="formCon">
+                    <div class="formConInner">
+                        <div class="text-fild-bg-block">
+                            <div class="text-fild-block inputstyle">
+                                <label for="FoodPreference" class="required">Food Preference <span class="required">*</span></label>
+                                <input size="40" maxlength="120" name="FoodPreference" id="FoodPreference" type="text" required />
+                            </div>
+                            <div class="text-fild-block inputstyle">
+                                <label for="Amount" class="required">Amount <span class="required">*</span></label>
+                                <input size="40" maxlength="120" name="Amount" id="Amount" type="text" required />
+                            </div>
+                        </div>
+                        <div>
+                            <input class="formbut-n" type="submit" name="yt0" value="Create" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+</div>

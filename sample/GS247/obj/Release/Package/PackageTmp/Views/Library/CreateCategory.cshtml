@@ -1,0 +1,66 @@
+﻿@model GS247.Models.LibraryCategory
+
+@{
+    ViewBag.Title = "CreateCategory";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div class="cont_right formWrapper" style="padding:15px 20px 180px 20px;">
+    <h1>Create Category</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="formbut" href="@Url.Action("ManageBookCategories","Library")"><span>Back</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background: none;">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="Author_name" class="required">Name <span class="required">*</span></label></td>
+                                <td>@Html.TextBoxFor(model => model.CategoryName, new { required = "required" }) 
+                                    <br />
+                                    <label style="display:none" id="lbl"><span class="required" id="span"></span></label></td>
+                                <td><input class="formbut" type="submit" name="Category_submit" value="Create" /></td>
+                            </tr>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $('#span').html('@ViewBag.Message');
+        $('#lbl').css('display', 'block');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#span').html('');
+        $('#lbl').css('display', 'none');
+    </script>
+}
+
+

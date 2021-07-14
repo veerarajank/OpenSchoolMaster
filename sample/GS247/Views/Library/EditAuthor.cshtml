@@ -1,0 +1,79 @@
+﻿@model GS247.Models.LibraryAuthor
+
+@{
+    ViewBag.Title = "EditAuthor";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+<head>
+    <script type="text/css">
+        .formConInner {
+        padding: 15px 15px;
+        position: relative;
+        }
+    </script>
+    <style>
+        .formbut {
+            background: #50d8af;
+        }
+    </style>
+</head>
+
+    <div class="cont_right formWrapper" style="padding:15px 20px 80px 20px;">
+        <h1>Edit Author</h1>
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li>
+                        <a class="formbut" href="@Url.Action("ManageAuthors","Library")"><span>Back</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="form">
+            <div class="formCon">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="formConInner">
+                        <div style="background:none;">
+                            <p>Fields with <span class="required"> * </span> are required.</p>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td><label for="Author_name" class="required">Author Name <span class="required">*</span></label></td>
+                                    <td>
+                                        @Html.EditorFor(model => model.AuthorName, new { id = "Author_name", maxlength = 100 })
+                                        @Html.HiddenFor(model => model.Id)
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><label for="Author_desk">Desk</label></td>
+                                    <td>@Html.EditorFor(model => model.Desk, new { id = "Author_desk" })</td>
+                                </tr>
+
+                                <tr>
+                                    <td height="10px">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td height="10px">&nbsp;</td>
+                                    <td><input class="formbut" type="submit" value="Update" /></td>
+                                </tr>
+                            </table>
+                        </div><!-- form -->
+                    </div>
+                }
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+

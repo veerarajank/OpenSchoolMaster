@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+<div class="cont_right">
+
+    <h1>Allot Room</h1>
+
+
+    <div class="formCon">
+
+        <div class="formConInner">
+
+        <table style="width:100%">
+            <tr>
+                <td align="left" style="width:35%">
+                    <p><span>Hostel Name : </span>@ViewBag.StudentRoomDetails.SchoolCO.Name</p>
+                </td>
+                <td style="width:30%">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td align="left" style="width:35%">
+                    <p><span>Student Name : </span>@ViewBag.StudentRoomDetails.SchoolCO.StudentName</p>
+                </td>
+            </tr>
+            <tr>
+                <td align="left" style="width:35%">
+                    <p><span>Food Prefernce : </span>@ViewBag.StudentRoomDetails.SchoolCO.FoodPreference</p>
+                </td>
+                <td style="width:30%">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+                <td align="left" style="width:35%">
+                    <p><span>Description : </span>@ViewBag.StudentRoomDetails.Description</p>
+                </td>
+            </tr>
+            
+        </table>           
+
+            <div class="pdtab_Con" style="padding-top:0px;">
+
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+                    <tr class="pdtab-h">
+
+                        <td align="center">Floor</td>
+
+                        <td align="center">Room No</td>
+
+                        <td align="center">Bed</td>
+
+                        <td align="center">Action</td>
+
+                    </tr>
+
+                    @foreach (var item in ViewBag.OccupiedList)
+                    {                      
+                       
+                        <tr>
+                            <td align="center"><a href="#">@item.FloorNo</a></td>
+                            <td align="center"><a href="#">@item.RoomNo</a></td>
+                            <td align="center"><a href="#">@item.BedName</a></td>
+                            <td align="center">
+                                <a style="color:orangered" href="javascript:allocate(@item.HostelRoomBedId);" id="yt0"><span>Allot</span></a>
+                            </td>
+                        </tr>
+                    }    
+
+
+                </table>
+            </div> 
+        </div> 
+    </div> 
+</div>
+
+<script type="text/javascript">
+
+    $(".hostel-allot-room_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function allocate(HostelRoomBedId) {
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/StudentRoomAllotcate",
+            data: '{StudentRoomDetailsId:'+@ViewBag.StudentRoomDetails.StudentRoomDetailsId+',HostelRoomBedId:' + HostelRoomBedId + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = '/Hostel/ViewDetails?StudentRoomDetailsId=' + @ViewBag.StudentRoomDetails.StudentRoomDetailsId;
+            }
+        });
+    };
+
+    </script>

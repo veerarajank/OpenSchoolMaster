@@ -1,0 +1,76 @@
+﻿@model GS247.Models.TimeTable.FullTimeTable_Context
+<table class="table">
+    <tr style="background-color:cornflowerblue;color:white;">
+        <td><strong>Course:</strong>@Model.CourseBatchTeacher.Course</td>
+        <td><strong>Batch:</strong>@Model.CourseBatchTeacher.Batch</td>
+        <td><strong>Class Teacher:</strong>@Model.CourseBatchTeacher.ClassTeacher</td>
+    </tr>
+</table>
+<style type="text/css">
+    .pdtab_Con {
+        margin: 0;
+        padding: 8px 0 0;
+    }
+</style>
+@if (Model.TimeTableCombined.Count != 0)
+{
+<div class="pdtab_Con" style="text-align:center">
+    <table width="100%" border="0" cellspacing="0" cellpadding="8px" class="table table-bordered mb30">
+        <thead>
+            <tr>
+                <th></th>
+                @foreach (var item in Model.ClassTimings)
+                {
+                    <th style="text-align:center;color:cornflowerblue;">@item.StartTime-@item.EndTime</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var day in Model.Weekdays)
+            {
+                <tr>
+
+                    <th style="color:cornflowerblue;text-align:center;vertical-align:middle;">
+                        <label>@day.WeekdayName</label>
+
+                    </th>
+
+                    @foreach (var item in Model.TimeTableCombined.Where(x => x.WeekDay == day.WeekdayName).ToList())
+                    {
+                        <th style="color:blue;text-align:center;vertical-align:middle;">
+                            @if (item.IsBreak == 1)
+                            {
+                                <strong>Break</strong>
+                            }
+                            else
+                            {
+                                if (item.SubjectId != 0)
+                                {
+                                    @*<a class="update" title="Update" data-toggle="modal" data-target="#@Html.DisplayFor(m => item.Id)">
+                                            <img src="../gridview/update.png" alt="Update" height="65%" width="15%" />
+                                        </a>
+                                        <a class="delete" title="Delete" href="@Url.Action("Delete_Assign", "TimeTable")?id=@item.Id" onclick="return confirm('Are you sure you want to delete this item?')">
+                                            <img src="../gridview/delete.png" alt="Delete" height="65%" width="15%" />
+                                        </a><br />*@
+                                    <strong style="color:green;">@item.SubjectName</strong>
+                                }
+                                <br />
+                                if (item.TeacherId != 0)
+                                {
+                                    <small style="color:black;">@item.TeacherName</small>
+                                }
+
+                            }
+                        </th>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+else
+{
+    <i>No time table is set for this batch</i>
+}

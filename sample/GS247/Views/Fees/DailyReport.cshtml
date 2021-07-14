@@ -1,0 +1,272 @@
+﻿@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+
+
+<div class="cont_right">
+    <h1>Daily Collection Report</h1>
+    <div class="formCon">
+        <div class="formConInner">
+            <div class="txtfld-col-box">
+                <h3>Daily Collection Report</h3>
+                <table>
+                    <tr>
+                        <td>Start Date <span class="required">*</span></td>
+                        <td>
+                            <input readonly="readonly" id="fromDate" name="fromDate" type="text" class="datepicker" />
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>End Date <span class="required">*</span></td>
+                        <td>
+                            <input readonly="readonly" id="toDate" name="toDate" type="text" class="datepicker"/>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td><input name="submit_button_form" class="formbut-n" id="search_btn" type="submit" value="Submit" /></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><div id="start_error" class="required"></div></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><div id="end_error" class="required"></div></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pdtab_Con">
+        <div>
+            <a target="_blank" class="xl-but" href="#">Generate EXCEL</a>
+            <a target="_blank" class="pdf_but" href="#">Generate PDF</a>
+        </div>
+        <br>
+        <div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="FeesReportListGrid">
+                <tbody></tbody>
+            </table>
+        </div>       
+        <br />
+        <div class="pagecon">
+            <div class="">
+                <div align="center" id="pageNation">
+                </div> <!-- END div class="pagecon" 2 -->
+                <div class="clear"></div>
+            </div>
+        </div>
+        <input type="hidden" name="CurrentPageIndex" id="CurrentPageIndex" />
+    </div>    
+</div>
+
+<script src="~/CommonScripts/jquery.js"></script>
+<script src="~/CommonScripts/jquery-ui.min.js"></script>
+<script src="~/CommonScripts/jquery.ui.timepicker.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        $("#fromDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+        $("#toDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+    });
+
+    $('#search_btn').click(function (ev) {
+        var start = $('#fromDate').val();
+        var end = $('#toDate').val();
+        var flag = 0;
+        if (start == '') {
+            $('#fromDate').css("border", "1px solid red");
+            flag = 1;
+        }
+        else
+            $('#fromDate').css("border", "1px solid blue");
+        if (end == '') {
+            $('#toDate').css("border", "1px solid red");
+            flag = 1;
+        }
+        else
+            $('#toDate').css("border", "1px solid blue");
+        if (flag == 1) {
+            return false;
+        }
+        else
+        {
+            $('#CurrentPageIndex').val(1);
+            GetSaleList();
+        }            
+    });
+
+    $(document).ready(function () {       
+    });
+
+    function GetSaleList() {
+
+        var d = { fromDate: $('#fromDate').val(), toDate: $('#toDate').val(), currentPageIndex: $('#CurrentPageIndex').val() };
+
+        $.ajax({
+            type: "POST",
+            url: "/Fees/DailyReportList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableClearValue();
+                $.each(result, function (index, TransactionDetailsList) {
+
+                    if (index == "TransactionDetailsList")
+                    {
+                        var j = 1;
+                        for (var i = 0; i < TransactionDetailsList.length; i++) {
+                            $("#FeesReportListGrid").append(
+                        "<tr>"
+                            + "<td>" + j + "</td>"
+                       + "<td>" + TransactionDetailsList[i].InvoiceId + "</td>"
+                             + "<td>" + TransactionDetailsList[i].FeeCategoryName + "</td>"
+                        + "<td>" + TransactionDetailsList[i].TransactionDateStr + "</td>"
+                             + "<td>" + TransactionDetailsList[i].TransactionTypeName + "</td>"
+                        + "<td>" + TransactionDetailsList[i].TransactionNumber + "</td>"
+                        + "<td>" + TransactionDetailsList[i].Description + "</td>"
+                        + "<td>" + TransactionDetailsList[i].InvoicePaymentAmount + "</td>"
+                            + "</tr>");
+                            j++;
+                        }
+                    }     
+                });
+                if (result.TotalAmount != "") {
+                    $("#FeesReportListGrid").append(
+                 "<tr>"
+                                    + "<td colspan=\"7\" style=\"font-weight:600\" align=\"right\">Total Amount</td>"
+                                    + "<td align=\"center\" style=\"font-weight:600\">" + result.TotalAmount + "</td>"
+                                 + "</tr>");
+                }
+                pagenationApply(result.TotalPages);
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    }
+
+    function tableClearValue() {
+        var Table = document.getElementById("FeesReportListGrid");
+        Table.innerHTML = "";
+        $("#FeesReportListGrid").append(
+                        "<tr class=\"tablebx_topbg\">"
+                        + "<td>Sl No</td><td width=\"10%\">Invoice Id</td><td>Category</td><td>Date</td><td>Payment Type</td><td>Transaction Id</td><td>Description</td><td>Amount</td>"
+                        + "</tr>");
+    };
+
+    function pageclicktest(ele) {
+        $("#CurrentPageIndex").val(ele.value);
+        GetSaleList();
+    };
+
+    function pageclickNext(ele) {
+        var nextPage = parseInt($("#CurrentPageIndex").val()) + 1;
+        $("#CurrentPageIndex").val(nextPage);
+        GetSaleList();
+    };
+
+    function pageclickPrevious(ele) {
+        var prevPage = parseInt($("#CurrentPageIndex").val()) - 1;
+        $("#CurrentPageIndex").val(prevPage);
+        GetSaleList();
+    };
+
+    function pagenationApply(PageCount) {
+
+        var Table = document.getElementById("pageNation");
+        Table.innerHTML = "";
+        var currentPageIndex = $('#CurrentPageIndex').val();
+        var pageCutLow = (parseInt(currentPageIndex)) - parseInt(1);
+        var pageCutHigh = parseInt(1) + (parseInt(currentPageIndex));
+
+        var value = "<div class=\"\">";
+
+        if (parseInt(currentPageIndex) > 1) {
+            value += "<input type=\"submit\" onclick=\"pageclickPrevious(this);\" value=\"Previous\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white;\"/>";
+        }
+
+        if (parseInt(PageCount) < 6) {
+            for (var i = 1; i <= parseInt(PageCount) ; i++) {
+                if (i != parseInt(currentPageIndex)) {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+            }
+        }
+        else {
+            if (parseInt(currentPageIndex) > 2) {
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"1\" />";
+
+                if (parseInt(currentPageIndex) > 3) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\" />";
+                }
+            }
+            if (parseInt(currentPageIndex) == 1) {
+                pageCutHigh += 2;
+            }
+            else if (parseInt(currentPageIndex) == 2) {
+                pageCutHigh += 1;
+            }
+
+            if (parseInt(currentPageIndex) == parseInt(PageCount)) {
+                pageCutLow -= 2;
+            }
+            else if (parseInt(currentPageIndex) == parseInt(PageCount) - 1) {
+                pageCutLow -= 1;
+            }
+
+            for (var i = pageCutLow; i <= pageCutHigh; i++) {
+                if (i == 0) {
+                    i += 1;
+                }
+                if (i > parseInt(PageCount)) {
+                    continue;
+                }
+
+                if (parseInt(currentPageIndex) == i) {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount) - 1) {
+                if (parseInt(currentPageIndex) < parseInt(PageCount) - 2) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\"/>";
+                }
+
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + parseInt(PageCount) + "\" />";
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount)) {
+                value += "<input type=\"submit\" onclick=\"pageclickNext(this);\" value=\"Next\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white\" />";
+            }
+
+        }
+
+        value += "</div>";
+
+        $("#pageNation").append(value);
+
+    };
+
+</script>

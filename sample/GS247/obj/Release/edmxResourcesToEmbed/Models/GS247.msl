@@ -1,0 +1,1725 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GS247StoreContainer" CdmEntityContainer="GS247Entities7">
+    <EntitySetMapping Name="batches">
+      <EntityTypeMapping TypeName="GS247.batch">
+        <MappingFragment StoreEntitySet="batch">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BatchLinks">
+      <EntityTypeMapping TypeName="GS247.BatchLink">
+        <MappingFragment StoreEntitySet="BatchLink">
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+          <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
+          <ScalarProperty Name="TimeTableId" ColumnName="TimeTableId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="GS247.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CBSEExamSettings">
+      <EntityTypeMapping TypeName="GS247.CBSEExamSetting">
+        <MappingFragment StoreEntitySet="CBSEExamSettings">
+          <ScalarProperty Name="CBSEExamSettingId" ColumnName="CBSEExamSettingId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FA1Weightage" ColumnName="FA1Weightage" />
+          <ScalarProperty Name="FA2Weightage" ColumnName="FA2Weightage" />
+          <ScalarProperty Name="SA1Weightage" ColumnName="SA1Weightage" />
+          <ScalarProperty Name="SA2Weightage" ColumnName="SA2Weightage" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="countries">
+      <EntityTypeMapping TypeName="GS247.country">
+        <MappingFragment StoreEntitySet="countries">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="country_code" ColumnName="country_code" />
+          <ScalarProperty Name="country_name" ColumnName="country_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Courses">
+      <EntityTypeMapping TypeName="GS247.Cours">
+        <MappingFragment StoreEntitySet="Courses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+          <ScalarProperty Name="ExamFormat" ColumnName="ExamFormat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CoursesSubjectsLinks">
+      <EntityTypeMapping TypeName="GS247.CoursesSubjectsLink">
+        <MappingFragment StoreEntitySet="CoursesSubjectsLink">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Currencies">
+      <EntityTypeMapping TypeName="GS247.Currency">
+        <MappingFragment StoreEntitySet="Currency">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamCommonTypeCourses">
+      <EntityTypeMapping TypeName="GS247.ExamCommonTypeCourse">
+        <MappingFragment StoreEntitySet="ExamCommonTypeCourse">
+          <ScalarProperty Name="ExamCommonTypeCourseId" ColumnName="ExamCommonTypeCourseId" />
+          <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamFormats">
+      <EntityTypeMapping TypeName="GS247.ExamFormat">
+        <MappingFragment StoreEntitySet="ExamFormat">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamGradeLevels">
+      <EntityTypeMapping TypeName="GS247.ExamGradeLevel">
+        <MappingFragment StoreEntitySet="ExamGradeLevel">
+          <ScalarProperty Name="ExamGradeLevelId" ColumnName="ExamGradeLevelId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Examinations">
+      <EntityTypeMapping TypeName="GS247.Examination">
+        <MappingFragment StoreEntitySet="Examination">
+          <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+          <ScalarProperty Name="ExamType" ColumnName="ExamType" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="MultiChoiceLimitCount" ColumnName="MultiChoiceLimitCount" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="Ststus" ColumnName="Ststus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamQuestionPapers">
+      <EntityTypeMapping TypeName="GS247.ExamQuestionPaper">
+        <MappingFragment StoreEntitySet="ExamQuestionPaper">
+          <ScalarProperty Name="ExamQuestionId" ColumnName="ExamQuestionId" />
+          <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+          <ScalarProperty Name="QuestionName" ColumnName="QuestionName" />
+          <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Mark" ColumnName="Mark" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamQuestionTypeValues">
+      <EntityTypeMapping TypeName="GS247.ExamQuestionTypeValue">
+        <MappingFragment StoreEntitySet="ExamQuestionTypeValue">
+          <ScalarProperty Name="ExamQuestionTypeValueId" ColumnName="ExamQuestionTypeValueId" />
+          <ScalarProperty Name="ExamQuestionId" ColumnName="ExamQuestionId" />
+          <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+          <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Fees">
+      <EntityTypeMapping TypeName="GS247.Fee">
+        <MappingFragment StoreEntitySet="Fee">
+          <ScalarProperty Name="FeeID" ColumnName="FeeID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="InvoiceStatusFlag" ColumnName="InvoiceStatusFlag" />
+          <ScalarProperty Name="PaymentTypeFlag" ColumnName="PaymentTypeFlag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeeAccesses">
+      <EntityTypeMapping TypeName="GS247.FeeAccess">
+        <MappingFragment StoreEntitySet="FeeAccess">
+          <ScalarProperty Name="FeeAccessID" ColumnName="FeeAccessID" />
+          <ScalarProperty Name="FeeParticularID" ColumnName="FeeParticularID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="AdmissionNumbers" ColumnName="AdmissionNumbers" />
+          <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+          <ScalarProperty Name="BatchID" ColumnName="BatchID" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="FeeID" ColumnName="FeeID" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeeParticulars">
+      <EntityTypeMapping TypeName="GS247.FeeParticular">
+        <MappingFragment StoreEntitySet="FeeParticular">
+          <ScalarProperty Name="FeeParticularID" ColumnName="FeeParticularID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="FeeID" ColumnName="FeeID" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeesConfigurations">
+      <EntityTypeMapping TypeName="GS247.FeesConfiguration">
+        <MappingFragment StoreEntitySet="FeesConfiguration">
+          <ScalarProperty Name="FeesConfigurationID" ColumnName="FeesConfigurationID" />
+          <ScalarProperty Name="TaxFlag" ColumnName="TaxFlag" />
+          <ScalarProperty Name="DiscountFlag" ColumnName="DiscountFlag" />
+          <ScalarProperty Name="InvoiceDiscountShow" ColumnName="InvoiceDiscountShow" />
+          <ScalarProperty Name="InvoiceTemplate" ColumnName="InvoiceTemplate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeeSubRecurringCustomDetails">
+      <EntityTypeMapping TypeName="GS247.FeeSubRecurringCustomDetail">
+        <MappingFragment StoreEntitySet="FeeSubRecurringCustomDetails">
+          <ScalarProperty Name="FeeSubscriptionCustomID" ColumnName="FeeSubscriptionCustomID" />
+          <ScalarProperty Name="FeeSubscriptionID" ColumnName="FeeSubscriptionID" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeeSubscriptions">
+      <EntityTypeMapping TypeName="GS247.FeeSubscription">
+        <MappingFragment StoreEntitySet="FeeSubscription">
+          <ScalarProperty Name="FeeSubscriptionID" ColumnName="FeeSubscriptionID" />
+          <ScalarProperty Name="FeeID" ColumnName="FeeID" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="NumberOfSubscription" ColumnName="NumberOfSubscription" />
+          <ScalarProperty Name="SubscriptionType" ColumnName="SubscriptionType" />
+          <ScalarProperty Name="RecurringInterval" ColumnName="RecurringInterval" />
+          <ScalarProperty Name="DayOfMonth" ColumnName="DayOfMonth" />
+          <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+          <ScalarProperty Name="DueDate1" ColumnName="DueDate1" />
+          <ScalarProperty Name="DueDate2" ColumnName="DueDate2" />
+          <ScalarProperty Name="DueDate3" ColumnName="DueDate3" />
+          <ScalarProperty Name="DueDate4" ColumnName="DueDate4" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="DueDate5" ColumnName="DueDate5" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileUploads">
+      <EntityTypeMapping TypeName="GS247.FileUpload">
+        <MappingFragment StoreEntitySet="FileUpload">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="Placeholder" ColumnName="Placeholder" />
+          <ScalarProperty Name="Course" ColumnName="Course" />
+          <ScalarProperty Name="Batch" ColumnName="Batch" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+          <ScalarProperty Name="UploadedOn" ColumnName="UploadedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GatewaySettings">
+      <EntityTypeMapping TypeName="GS247.GatewaySetting">
+        <MappingFragment StoreEntitySet="GatewaySettings">
+          <ScalarProperty Name="GatewaySettingsID" ColumnName="GatewaySettingsID" />
+          <ScalarProperty Name="APIUserName" ColumnName="APIUserName" />
+          <ScalarProperty Name="APIPassword" ColumnName="APIPassword" />
+          <ScalarProperty Name="APISignature" ColumnName="APISignature" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenerateSequenceMasters">
+      <EntityTypeMapping TypeName="GS247.GenerateSequenceMaster">
+        <MappingFragment StoreEntitySet="GenerateSequenceMaster">
+          <ScalarProperty Name="SequenceId" ColumnName="SequenceId" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
+          <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
+          <ScalarProperty Name="MaxGenerateId" ColumnName="MaxGenerateId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GuardianDetails">
+      <EntityTypeMapping TypeName="GS247.GuardianDetail">
+        <MappingFragment StoreEntitySet="GuardianDetails">
+          <ScalarProperty Name="GuardianDetailsId" ColumnName="GuardianDetailsId" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Relation" ColumnName="Relation" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Education" ColumnName="Education" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="Income" ColumnName="Income" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="OfficePhone1" ColumnName="OfficePhone1" />
+          <ScalarProperty Name="OfficePhone2" ColumnName="OfficePhone2" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="ParentUserFlag" ColumnName="ParentUserFlag" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LibraryAuthors">
+      <EntityTypeMapping TypeName="GS247.LibraryAuthor">
+        <MappingFragment StoreEntitySet="LibraryAuthors">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AuthorName" ColumnName="AuthorName" />
+          <ScalarProperty Name="Desk" ColumnName="Desk" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LibraryBooks">
+      <EntityTypeMapping TypeName="GS247.LibraryBook">
+        <MappingFragment StoreEntitySet="LibraryBooks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+          <ScalarProperty Name="Edition" ColumnName="Edition" />
+          <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+          <ScalarProperty Name="Copy" ColumnName="Copy" />
+          <ScalarProperty Name="BookPosition" ColumnName="BookPosition" />
+          <ScalarProperty Name="ShelfNo" ColumnName="ShelfNo" />
+          <ScalarProperty Name="CopiesAvailable" ColumnName="CopiesAvailable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LibraryBooksIssues">
+      <EntityTypeMapping TypeName="GS247.LibraryBooksIssue">
+        <MappingFragment StoreEntitySet="LibraryBooksIssue">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="isReturned" ColumnName="isReturned" />
+          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LibraryCategories">
+      <EntityTypeMapping TypeName="GS247.LibraryCategory">
+        <MappingFragment StoreEntitySet="LibraryCategory">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MatchFields">
+      <EntityTypeMapping TypeName="GS247.MatchField">
+        <MappingFragment StoreEntitySet="MatchField">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HeadingName" ColumnName="HeadingName" />
+          <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+          <ScalarProperty Name="PrimaryField" ColumnName="PrimaryField" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentTypes">
+      <EntityTypeMapping TypeName="GS247.PaymentType">
+        <MappingFragment StoreEntitySet="PaymentType">
+          <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseApplyOrders">
+      <EntityTypeMapping TypeName="GS247.PurchaseApplyOrder">
+        <MappingFragment StoreEntitySet="PurchaseApplyOrder">
+          <ScalarProperty Name="ApplyOrderId" ColumnName="ApplyOrderId" />
+          <ScalarProperty Name="OrderItemId" ColumnName="OrderItemId" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="VerifiedFlag" ColumnName="VerifiedFlag" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseItems">
+      <EntityTypeMapping TypeName="GS247.PurchaseItem">
+        <MappingFragment StoreEntitySet="PurchaseItems">
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseItemsStockDetails">
+      <EntityTypeMapping TypeName="GS247.PurchaseItemsStockDetail">
+        <MappingFragment StoreEntitySet="PurchaseItemsStockDetails">
+          <ScalarProperty Name="OrderItemId" ColumnName="OrderItemId" />
+          <ScalarProperty Name="StockDetailsId" ColumnName="StockDetailsId" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="VendorDetailId" ColumnName="VendorDetailId" />
+          <ScalarProperty Name="ItemAvailable" ColumnName="ItemAvailable" />
+          <ScalarProperty Name="SaleItemQuantity" ColumnName="SaleItemQuantity" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseOrderItems">
+      <EntityTypeMapping TypeName="GS247.PurchaseOrderItem">
+        <MappingFragment StoreEntitySet="PurchaseOrderItems">
+          <ScalarProperty Name="OrderItemId" ColumnName="OrderItemId" />
+          <ScalarProperty Name="VendorDetailId" ColumnName="VendorDetailId" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseProductDetails">
+      <EntityTypeMapping TypeName="GS247.PurchaseProductDetail">
+        <MappingFragment StoreEntitySet="PurchaseProductDetails">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="VendorDetailId" ColumnName="VendorDetailId" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseVendorDetails">
+      <EntityTypeMapping TypeName="GS247.PurchaseVendorDetail">
+        <MappingFragment StoreEntitySet="PurchaseVendorDetails">
+          <ScalarProperty Name="VendorDetailId" ColumnName="VendorDetailId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="OfficeNumber" ColumnName="OfficeNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CurrencyType" ColumnName="CurrencyType" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="VATNumber" ColumnName="VATNumber" />
+          <ScalarProperty Name="CSTNumber" ColumnName="CSTNumber" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="country" ColumnName="country" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="semesters">
+      <EntityTypeMapping TypeName="GS247.semester">
+        <MappingFragment StoreEntitySet="semester">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsModels">
+      <EntityTypeMapping TypeName="GS247.SettingsModel">
+        <MappingFragment StoreEntitySet="SettingsModel">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsOnlineRegistrations">
+      <EntityTypeMapping TypeName="GS247.SettingsOnlineRegistration">
+        <MappingFragment StoreEntitySet="SettingsOnlineRegistration">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AcademicYearId" ColumnName="AcademicYearId" />
+          <ScalarProperty Name="AllowOnlineAdmission" ColumnName="AllowOnlineAdmission" />
+          <ScalarProperty Name="ShowLink" ColumnName="ShowLink" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsUserRoles">
+      <EntityTypeMapping TypeName="GS247.SettingsUserRole">
+        <MappingFragment StoreEntitySet="SettingsUserRole">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StaffContactDetails">
+      <EntityTypeMapping TypeName="GS247.StaffContactDetail">
+        <MappingFragment StoreEntitySet="StaffContactDetails">
+          <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+          <ScalarProperty Name="StaffSysId" ColumnName="StaffSysId" />
+          <ScalarProperty Name="AddressTypeName1" ColumnName="AddressTypeName1" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+          <ScalarProperty Name="AddressTypeName2" ColumnName="AddressTypeName2" />
+          <ScalarProperty Name="OfficrAddressLine1" ColumnName="OfficrAddressLine1" />
+          <ScalarProperty Name="OfficeAddressLine2" ColumnName="OfficeAddressLine2" />
+          <ScalarProperty Name="OfficeCity" ColumnName="OfficeCity" />
+          <ScalarProperty Name="OfficeState" ColumnName="OfficeState" />
+          <ScalarProperty Name="OfficeCountry" ColumnName="OfficeCountry" />
+          <ScalarProperty Name="OfficePinCode" ColumnName="OfficePinCode" />
+          <ScalarProperty Name="AddressTypeName3" ColumnName="AddressTypeName3" />
+          <ScalarProperty Name="OfficePhone1" ColumnName="OfficePhone1" />
+          <ScalarProperty Name="OfficePhone2" ColumnName="OfficePhone2" />
+          <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StaffLeaveTypes">
+      <EntityTypeMapping TypeName="GS247.StaffLeaveType">
+        <MappingFragment StoreEntitySet="StaffLeaveType">
+          <ScalarProperty Name="StaffLeaveTypeId" ColumnName="StaffLeaveTypeId" />
+          <ScalarProperty Name="LeaveTypeName" ColumnName="LeaveTypeName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StaffLogCategories">
+      <EntityTypeMapping TypeName="GS247.StaffLogCategory">
+        <MappingFragment StoreEntitySet="StaffLogCategory">
+          <ScalarProperty Name="StaffLogCategoryID" ColumnName="StaffLogCategoryID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentAchievements">
+      <EntityTypeMapping TypeName="GS247.StudentAchievement">
+        <MappingFragment StoreEntitySet="StudentAchievements">
+          <ScalarProperty Name="AchievementID" ColumnName="AchievementID" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="FilePathName" ColumnName="FilePathName" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentCategories">
+      <EntityTypeMapping TypeName="GS247.StudentCategory">
+        <MappingFragment StoreEntitySet="StudentCategory">
+          <ScalarProperty Name="StudentCategoryID" ColumnName="StudentCategoryID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentDetails">
+      <EntityTypeMapping TypeName="GS247.StudentDetail">
+        <MappingFragment StoreEntitySet="StudentDetails">
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="AdmissionNo" ColumnName="AdmissionNo" />
+          <ScalarProperty Name="AdmissionDate" ColumnName="AdmissionDate" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="Batch" ColumnName="Batch" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Blood" ColumnName="Blood" />
+          <ScalarProperty Name="BirthPlace" ColumnName="BirthPlace" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+          <ScalarProperty Name="Religion" ColumnName="Religion" />
+          <ScalarProperty Name="StudentCategory" ColumnName="StudentCategory" />
+          <ScalarProperty Name="PromitionalFlag" ColumnName="PromitionalFlag" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+          <ScalarProperty Name="PhoneNumber1" ColumnName="PhoneNumber1" />
+          <ScalarProperty Name="PhoneNumber2" ColumnName="PhoneNumber2" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="DeleteFlag" ColumnName="DeleteFlag" />
+          <ScalarProperty Name="RollNumber" ColumnName="RollNumber" />
+          <ScalarProperty Name="Semester" ColumnName="Semester" />
+          <ScalarProperty Name="AcademicYear" ColumnName="AcademicYear" />
+          <ScalarProperty Name="AcademicStatus" ColumnName="AcademicStatus" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OnlineStatus" ColumnName="OnlineStatus" />
+          <ScalarProperty Name="OnlineApplicationStatus" ColumnName="OnlineApplicationStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentDocuments">
+      <EntityTypeMapping TypeName="GS247.StudentDocument">
+        <MappingFragment StoreEntitySet="StudentDocuments">
+          <ScalarProperty Name="StudentDocumentsId" ColumnName="StudentDocumentsId" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentExamAnswerDetails">
+      <EntityTypeMapping TypeName="GS247.StudentExamAnswerDetail">
+        <MappingFragment StoreEntitySet="StudentExamAnswerDetails">
+          <ScalarProperty Name="StudentExamAnswerDetailsId" ColumnName="StudentExamAnswerDetailsId" />
+          <ScalarProperty Name="StudentExamDetailsId" ColumnName="StudentExamDetailsId" />
+          <ScalarProperty Name="ExamQuestionId" ColumnName="ExamQuestionId" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="AnswerCorrectOrWrong" ColumnName="AnswerCorrectOrWrong" />
+          <ScalarProperty Name="Mark" ColumnName="Mark" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentExamDetails">
+      <EntityTypeMapping TypeName="GS247.StudentExamDetail">
+        <MappingFragment StoreEntitySet="StudentExamDetails">
+          <ScalarProperty Name="StudentExamDetailsId" ColumnName="StudentExamDetailsId" />
+          <ScalarProperty Name="ExamId" ColumnName="ExamId" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+          <ScalarProperty Name="TotalMark" ColumnName="TotalMark" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentFeesInvoices">
+      <EntityTypeMapping TypeName="GS247.StudentFeesInvoice">
+        <MappingFragment StoreEntitySet="StudentFeesInvoice">
+          <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="FeeId" ColumnName="FeeId" />
+          <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
+          <ScalarProperty Name="PaidStatusFlag" ColumnName="PaidStatusFlag" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="FeeAccessID" ColumnName="FeeAccessID" />
+          <ScalarProperty Name="FeeParticularID" ColumnName="FeeParticularID" />
+          <ScalarProperty Name="CancelFlag" ColumnName="CancelFlag" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentFieldSettings">
+      <EntityTypeMapping TypeName="GS247.StudentFieldSetting">
+        <MappingFragment StoreEntitySet="StudentFieldSettings">
+          <ScalarProperty Name="StudentFieldSettingID" ColumnName="StudentFieldSettingID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Required" ColumnName="Required" />
+          <ScalarProperty Name="FieldTypeFlag" ColumnName="FieldTypeFlag" />
+          <ScalarProperty Name="CheckAllFlag" ColumnName="CheckAllFlag" />
+          <ScalarProperty Name="AdminStudentRegistrationFormFlag" ColumnName="AdminStudentRegistrationFormFlag" />
+          <ScalarProperty Name="OnlineAdmissionFormFlag" ColumnName="OnlineAdmissionFormFlag" />
+          <ScalarProperty Name="ParentPortalFlag" ColumnName="ParentPortalFlag" />
+          <ScalarProperty Name="StudentProfileFlag" ColumnName="StudentProfileFlag" />
+          <ScalarProperty Name="StudentProfilePDFFlag" ColumnName="StudentProfilePDFFlag" />
+          <ScalarProperty Name="StudentPortalFlag" ColumnName="StudentPortalFlag" />
+          <ScalarProperty Name="TeacherPortalFlag" ColumnName="TeacherPortalFlag" />
+          <ScalarProperty Name="TabSelection" ColumnName="TabSelection" />
+          <ScalarProperty Name="TabSubSelection" ColumnName="TabSubSelection" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+          <ScalarProperty Name="ColumnMapping" ColumnName="ColumnMapping" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentInstutionDetails">
+      <EntityTypeMapping TypeName="GS247.StudentInstutionDetail">
+        <MappingFragment StoreEntitySet="StudentInstutionDetails">
+          <ScalarProperty Name="InstutionDetailsId" ColumnName="InstutionDetailsId" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="Instution" ColumnName="Instution" />
+          <ScalarProperty Name="Course" ColumnName="Course" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="TotalMark" ColumnName="TotalMark" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentInvoicePayments">
+      <EntityTypeMapping TypeName="GS247.StudentInvoicePayment">
+        <MappingFragment StoreEntitySet="StudentInvoicePayments">
+          <ScalarProperty Name="InvoicePaymentID" ColumnName="InvoicePaymentID" />
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+          <ScalarProperty Name="FeeId" ColumnName="FeeId" />
+          <ScalarProperty Name="FeeParticularID" ColumnName="FeeParticularID" />
+          <ScalarProperty Name="FeeAccessID" ColumnName="FeeAccessID" />
+          <ScalarProperty Name="InvoicePaymentAmount" ColumnName="InvoicePaymentAmount" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentInvoiceTransactions">
+      <EntityTypeMapping TypeName="GS247.StudentInvoiceTransaction">
+        <MappingFragment StoreEntitySet="StudentInvoiceTransaction">
+          <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+          <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+          <ScalarProperty Name="TransactionNumber" ColumnName="TransactionNumber" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="InvoicePaymentAmount" ColumnName="InvoicePaymentAmount" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="proof" ColumnName="proof" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentLeaveTypes">
+      <EntityTypeMapping TypeName="GS247.StudentLeaveType">
+        <MappingFragment StoreEntitySet="StudentLeaveType">
+          <ScalarProperty Name="StudentLeaveTypeID" ColumnName="StudentLeaveTypeID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Label" ColumnName="Label" />
+          <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="AttendanceFlag" ColumnName="AttendanceFlag" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentLogs">
+      <EntityTypeMapping TypeName="GS247.StudentLog">
+        <MappingFragment StoreEntitySet="StudentLog">
+          <ScalarProperty Name="StudentLogID" ColumnName="StudentLogID" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="StudentLogCategoryID" ColumnName="StudentLogCategoryID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="NotificationToStudent" ColumnName="NotificationToStudent" />
+          <ScalarProperty Name="NotificationToParent" ColumnName="NotificationToParent" />
+          <ScalarProperty Name="VisibleToStudents" ColumnName="VisibleToStudents" />
+          <ScalarProperty Name="VisibleToParents" ColumnName="VisibleToParents" />
+          <ScalarProperty Name="VisibleToTeachers" ColumnName="VisibleToTeachers" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentLogCategories">
+      <EntityTypeMapping TypeName="GS247.StudentLogCategory">
+        <MappingFragment StoreEntitySet="StudentLogCategory">
+          <ScalarProperty Name="StudentLogCategoryID" ColumnName="StudentLogCategoryID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="AllowStatusFlag" ColumnName="AllowStatusFlag" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentSearchFilters">
+      <EntityTypeMapping TypeName="GS247.StudentSearchFilter">
+        <MappingFragment StoreEntitySet="StudentSearchFilter">
+          <ScalarProperty Name="SearchFilterdId" ColumnName="SearchFilterdId" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="SearchFilterdName" ColumnName="SearchFilterdName" />
+          <ScalarProperty Name="FileldName" ColumnName="FileldName" />
+          <ScalarProperty Name="SearchValue" ColumnName="SearchValue" />
+          <ScalarProperty Name="OptionValue" ColumnName="OptionValue" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subjects">
+      <EntityTypeMapping TypeName="GS247.Subject">
+        <MappingFragment StoreEntitySet="Subjects">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FirstSub" ColumnName="FirstSub" />
+          <ScalarProperty Name="SecondSub" ColumnName="SecondSub" />
+          <ScalarProperty Name="Weekly" ColumnName="Weekly" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Taxes">
+      <EntityTypeMapping TypeName="GS247.Tax">
+        <MappingFragment StoreEntitySet="Tax">
+          <ScalarProperty Name="TaxID" ColumnName="TaxID" />
+          <ScalarProperty Name="TaxName" ColumnName="TaxName" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeachersManageCategories">
+      <EntityTypeMapping TypeName="GS247.TeachersManageCategory">
+        <MappingFragment StoreEntitySet="TeachersManageCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeachersManageDepartments">
+      <EntityTypeMapping TypeName="GS247.TeachersManageDepartment">
+        <MappingFragment StoreEntitySet="TeachersManageDepartments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeachersManageGrades">
+      <EntityTypeMapping TypeName="GS247.TeachersManageGrade">
+        <MappingFragment StoreEntitySet="TeachersManageGrades">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="MaxHoursDay" ColumnName="MaxHoursDay" />
+          <ScalarProperty Name="MaxHoursWeek" ColumnName="MaxHoursWeek" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeachersManagePositions">
+      <EntityTypeMapping TypeName="GS247.TeachersManagePosition">
+        <MappingFragment StoreEntitySet="TeachersManagePositions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportAttendanceByRoutes">
+      <EntityTypeMapping TypeName="GS247.TransportAttendanceByRoute">
+        <MappingFragment StoreEntitySet="TransportAttendanceByRoute">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RouteId" ColumnName="RouteId" />
+          <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+          <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
+          <ScalarProperty Name="morngStartTime" ColumnName="morngStartTime" />
+          <ScalarProperty Name="MorngEndTime" ColumnName="MorngEndTime" />
+          <ScalarProperty Name="EvngStartTime" ColumnName="EvngStartTime" />
+          <ScalarProperty Name="EvngEndTime" ColumnName="EvngEndTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportBusLogs">
+      <EntityTypeMapping TypeName="GS247.TransportBusLog">
+        <MappingFragment StoreEntitySet="TransportBusLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="ReadingStart" ColumnName="ReadingStart" />
+          <ScalarProperty Name="ReadingEnd" ColumnName="ReadingEnd" />
+          <ScalarProperty Name="FuelConsumed" ColumnName="FuelConsumed" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportDrivers">
+      <EntityTypeMapping TypeName="GS247.TransportDriver">
+        <MappingFragment StoreEntitySet="TransportDrivers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="LicenseNo" ColumnName="LicenseNo" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportDriverVehicleLinks">
+      <EntityTypeMapping TypeName="GS247.TransportDriverVehicleLink">
+        <MappingFragment StoreEntitySet="TransportDriverVehicleLink">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportRoutes">
+      <EntityTypeMapping TypeName="GS247.TransportRoute">
+        <MappingFragment StoreEntitySet="TransportRoutes">
+          <ScalarProperty Name="RouteId" ColumnName="RouteId" />
+          <ScalarProperty Name="RouteName" ColumnName="RouteName" />
+          <ScalarProperty Name="NoOfStops" ColumnName="NoOfStops" />
+          <ScalarProperty Name="NoOfStudents" ColumnName="NoOfStudents" />
+          <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportStops">
+      <EntityTypeMapping TypeName="GS247.TransportStop">
+        <MappingFragment StoreEntitySet="TransportStops">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RouteName" ColumnName="RouteName" />
+          <ScalarProperty Name="StopName" ColumnName="StopName" />
+          <ScalarProperty Name="Fare" ColumnName="Fare" />
+          <ScalarProperty Name="MonArrival" ColumnName="MonArrival" />
+          <ScalarProperty Name="EveArrival" ColumnName="EveArrival" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportStudentAttendanceLogs">
+      <EntityTypeMapping TypeName="GS247.TransportStudentAttendanceLog">
+        <MappingFragment StoreEntitySet="TransportStudentAttendanceLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StudentDetailId" ColumnName="StudentDetailId" />
+          <ScalarProperty Name="RouteId" ColumnName="RouteId" />
+          <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
+          <ScalarProperty Name="StopId" ColumnName="StopId" />
+          <ScalarProperty Name="MorngStartTime" ColumnName="MorngStartTime" />
+          <ScalarProperty Name="MorngEndTime" ColumnName="MorngEndTime" />
+          <ScalarProperty Name="EvngStartTime" ColumnName="EvngStartTime" />
+          <ScalarProperty Name="EvngEndTime" ColumnName="EvngEndTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportStudentRouteLinks">
+      <EntityTypeMapping TypeName="GS247.TransportStudentRouteLink">
+        <MappingFragment StoreEntitySet="TransportStudentRouteLink">
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="RouteId" ColumnName="RouteId" />
+          <ScalarProperty Name="StopId" ColumnName="StopId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportVehicles">
+      <EntityTypeMapping TypeName="GS247.TransportVehicle">
+        <MappingFragment StoreEntitySet="TransportVehicles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VehicleNo" ColumnName="VehicleNo" />
+          <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
+          <ScalarProperty Name="NoOfSeats" ColumnName="NoOfSeats" />
+          <ScalarProperty Name="MaximumCapacity" ColumnName="MaximumCapacity" />
+          <ScalarProperty Name="VehicleType" ColumnName="VehicleType" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+          <ScalarProperty Name="TaxRemitted" ColumnName="TaxRemitted" />
+          <ScalarProperty Name="Permit" ColumnName="Permit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Years">
+      <EntityTypeMapping TypeName="GS247.Year">
+        <MappingFragment StoreEntitySet="Years">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StartsOn" ColumnName="StartsOn" />
+          <ScalarProperty Name="EndsOn" ColumnName="EndsOn" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BatchCourseLinks">
+      <EntityTypeMapping TypeName="GS247.BatchCourseLink">
+        <MappingFragment StoreEntitySet="BatchCourseLink">
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BatchSubjectsLinks">
+      <EntityTypeMapping TypeName="GS247.BatchSubjectsLink">
+        <MappingFragment StoreEntitySet="BatchSubjectsLink">
+          <ScalarProperty Name="SubjectsId" ColumnName="SubjectsId" />
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EventsDetails">
+      <EntityTypeMapping TypeName="GS247.EventsDetail">
+        <MappingFragment StoreEntitySet="EventsDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EventName" ColumnName="EventName" />
+          <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+          <ScalarProperty Name="EventFromDate" ColumnName="EventFromDate" />
+          <ScalarProperty Name="EventToDate" ColumnName="EventToDate" />
+          <ScalarProperty Name="EventFromTime" ColumnName="EventFromTime" />
+          <ScalarProperty Name="EventToTime" ColumnName="EventToTime" />
+          <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="LastModifiedDateTime" ColumnName="LastModifiedDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EventTypes">
+      <EntityTypeMapping TypeName="GS247.EventType">
+        <MappingFragment StoreEntitySet="EventTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EventType1" ColumnName="EventType" />
+          <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NewsFeeds">
+      <EntityTypeMapping TypeName="GS247.NewsFeed">
+        <MappingFragment StoreEntitySet="NewsFeed">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NewsTopic" ColumnName="NewsTopic" />
+          <ScalarProperty Name="NewsDescription" ColumnName="NewsDescription" />
+          <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="LastModifiedDateTime" ColumnName="LastModifiedDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsAttendances">
+      <EntityTypeMapping TypeName="GS247.SettingsAttendance">
+        <MappingFragment StoreEntitySet="SettingsAttendance">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StudentType" ColumnName="StudentType" />
+          <ScalarProperty Name="DayWiseStudentType" ColumnName="DayWiseStudentType" />
+          <ScalarProperty Name="TeacherType" ColumnName="TeacherType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsCommonClassTimings">
+      <EntityTypeMapping TypeName="GS247.SettingsCommonClassTiming">
+        <MappingFragment StoreEntitySet="SettingsCommonClassTimings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="IsBreak" ColumnName="IsBreak" />
+          <ScalarProperty Name="IsAllBatch" ColumnName="IsAllBatch" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsDashboards">
+      <EntityTypeMapping TypeName="GS247.SettingsDashboard">
+        <MappingFragment StoreEntitySet="SettingsDashboard">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="BlockOrder" ColumnName="BlockOrder" />
+          <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsDefaultGradings">
+      <EntityTypeMapping TypeName="GS247.SettingsDefaultGrading">
+        <MappingFragment StoreEntitySet="SettingsDefaultGrading">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="MinScore" ColumnName="MinScore" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsDefaultWeekdays">
+      <EntityTypeMapping TypeName="GS247.SettingsDefaultWeekday">
+        <MappingFragment StoreEntitySet="SettingsDefaultWeekdays">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="WeekDay" ColumnName="WeekDay" />
+          <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsDocumentTypes">
+      <EntityTypeMapping TypeName="GS247.SettingsDocumentType">
+        <MappingFragment StoreEntitySet="SettingsDocumentType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+          <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
+          <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsExamFormats">
+      <EntityTypeMapping TypeName="GS247.SettingsExamFormat">
+        <MappingFragment StoreEntitySet="SettingsExamFormat">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IsLevel" ColumnName="IsLevel" />
+          <ScalarProperty Name="SchoolLevelType" ColumnName="SchoolLevelType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsFeatures">
+      <EntityTypeMapping TypeName="GS247.SettingsFeature">
+        <MappingFragment StoreEntitySet="SettingsFeatures">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IsAchievements" ColumnName="IsAchievements" />
+          <ScalarProperty Name="IsComplaints" ColumnName="IsComplaints" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsNotifications">
+      <EntityTypeMapping TypeName="GS247.SettingsNotification">
+        <MappingFragment StoreEntitySet="SettingsNotification">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsSMS" ColumnName="IsSMS" />
+          <ScalarProperty Name="IsEmail" ColumnName="IsEmail" />
+          <ScalarProperty Name="IsMessage" ColumnName="IsMessage" />
+          <ScalarProperty Name="IsStudent" ColumnName="IsStudent" />
+          <ScalarProperty Name="IsGuardian" ColumnName="IsGuardian" />
+          <ScalarProperty Name="IsTeacher" ColumnName="IsTeacher" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsSchoolSetups">
+      <EntityTypeMapping TypeName="GS247.SettingsSchoolSetup">
+        <MappingFragment StoreEntitySet="SettingsSchoolSetup">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+          <ScalarProperty Name="FoundedOn" ColumnName="FoundedOn" />
+          <ScalarProperty Name="Curriculum" ColumnName="Curriculum" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="AlternatePhone" ColumnName="AlternatePhone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="PrincipalName" ColumnName="PrincipalName" />
+          <ScalarProperty Name="PrincipalEmail" ColumnName="PrincipalEmail" />
+          <ScalarProperty Name="PrincipalPhone" ColumnName="PrincipalPhone" />
+          <ScalarProperty Name="PrincipalMobile" ColumnName="PrincipalMobile" />
+          <ScalarProperty Name="CurrentAcademicYear" ColumnName="CurrentAcademicYear" />
+          <ScalarProperty Name="FinanceYearStart" ColumnName="FinanceYearStart" />
+          <ScalarProperty Name="FinanceYearEnd" ColumnName="FinanceYearEnd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsSMSCounters">
+      <EntityTypeMapping TypeName="GS247.SettingsSMSCounter">
+        <MappingFragment StoreEntitySet="SettingsSMSCounter">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SMSDate" ColumnName="SMSDate" />
+          <ScalarProperty Name="DayWiseCount" ColumnName="DayWiseCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsSMSGateways">
+      <EntityTypeMapping TypeName="GS247.SettingsSMSGateway">
+        <MappingFragment StoreEntitySet="SettingsSMSGateway">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+          <ScalarProperty Name="Method" ColumnName="Method" />
+          <ScalarProperty Name="ResponseFormat" ColumnName="ResponseFormat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsSMSGatewayParameters">
+      <EntityTypeMapping TypeName="GS247.SettingsSMSGatewayParameter">
+        <MappingFragment StoreEntitySet="SettingsSMSGatewayParameters">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="ParameterName" ColumnName="ParameterName" />
+          <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsSMTPs">
+      <EntityTypeMapping TypeName="GS247.SettingsSMTP">
+        <MappingFragment StoreEntitySet="SettingsSMTP">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Host" ColumnName="Host" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Port" ColumnName="Port" />
+          <ScalarProperty Name="ConnectionSecurity" ColumnName="ConnectionSecurity" />
+          <ScalarProperty Name="EnableSMTP" ColumnName="EnableSMTP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_timetable_defaultweekday">
+      <EntityTypeMapping TypeName="GS247.tbl_timetable_defaultweekday">
+        <MappingFragment StoreEntitySet="tbl_timetable_defaultweekday">
+          <ScalarProperty Name="refid" ColumnName="refid" />
+          <ScalarProperty Name="is_sunday" ColumnName="is_sunday" />
+          <ScalarProperty Name="is_monday" ColumnName="is_monday" />
+          <ScalarProperty Name="is_tuesday" ColumnName="is_tuesday" />
+          <ScalarProperty Name="is_wednesday" ColumnName="is_wednesday" />
+          <ScalarProperty Name="is_thursday" ColumnName="is_thursday" />
+          <ScalarProperty Name="is_friday" ColumnName="is_friday" />
+          <ScalarProperty Name="is_saturday" ColumnName="is_saturday" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeacherLogCategories">
+      <EntityTypeMapping TypeName="GS247.TeacherLogCategory">
+        <MappingFragment StoreEntitySet="TeacherLogCategory">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeachersPositionCategoryLinks">
+      <EntityTypeMapping TypeName="GS247.TeachersPositionCategoryLink">
+        <MappingFragment StoreEntitySet="TeachersPositionCategoryLink">
+          <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TeacherSubjectAssociations">
+      <EntityTypeMapping TypeName="GS247.TeacherSubjectAssociation">
+        <MappingFragment StoreEntitySet="TeacherSubjectAssociation">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+          <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+          <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TransportDevices">
+      <EntityTypeMapping TypeName="GS247.TransportDevice">
+        <MappingFragment StoreEntitySet="TransportDevices">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="Route" ColumnName="Route" />
+          <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="GS247.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="SuperUser" ColumnName="SuperUser" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="LastVisit" ColumnName="LastVisit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HostelDetails">
+      <EntityTypeMapping TypeName="GS247.HostelDetail">
+        <MappingFragment StoreEntitySet="HostelDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="HostelDetailsId" ColumnName="HostelDetailsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HostelFloorDetails">
+      <EntityTypeMapping TypeName="GS247.HostelFloorDetail">
+        <MappingFragment StoreEntitySet="HostelFloorDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="NumberOfRooms" ColumnName="NumberOfRooms" />
+          <ScalarProperty Name="FloorNo" ColumnName="FloorNo" />
+          <ScalarProperty Name="HostelDetailsId" ColumnName="HostelDetailsId" />
+          <ScalarProperty Name="HostelFloorId" ColumnName="HostelFloorId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HostelMessDetails">
+      <EntityTypeMapping TypeName="GS247.HostelMessDetail">
+        <MappingFragment StoreEntitySet="HostelMessDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="FoodPreference" ColumnName="FoodPreference" />
+          <ScalarProperty Name="HostelMessId" ColumnName="HostelMessId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HostelRoomBedDetails">
+      <EntityTypeMapping TypeName="GS247.HostelRoomBedDetail">
+        <MappingFragment StoreEntitySet="HostelRoomBedDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="AllocateFlag" ColumnName="AllocateFlag" />
+          <ScalarProperty Name="BedName" ColumnName="BedName" />
+          <ScalarProperty Name="HostelRoomId" ColumnName="HostelRoomId" />
+          <ScalarProperty Name="HostelRoomBedId" ColumnName="HostelRoomBedId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HostelRoomDetails">
+      <EntityTypeMapping TypeName="GS247.HostelRoomDetail">
+        <MappingFragment StoreEntitySet="HostelRoomDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="NumberOfBeds" ColumnName="NumberOfBeds" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="HostelFloorId" ColumnName="HostelFloorId" />
+          <ScalarProperty Name="HostelDetailsId" ColumnName="HostelDetailsId" />
+          <ScalarProperty Name="HostelRoomId" ColumnName="HostelRoomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseSaleDetails">
+      <EntityTypeMapping TypeName="GS247.PurchaseSaleDetail">
+        <MappingFragment StoreEntitySet="PurchaseSaleDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ReturnReason" ColumnName="ReturnReason" />
+          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+          <ScalarProperty Name="StatsuFlag" ColumnName="StatsuFlag" />
+          <ScalarProperty Name="PurchasedBy" ColumnName="PurchasedBy" />
+          <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+          <ScalarProperty Name="PurchaserType" ColumnName="PurchaserType" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="SaleDetailsId" ColumnName="SaleDetailsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GeneratePaySlips">
+      <EntityTypeMapping TypeName="GS247.GeneratePaySlip">
+        <MappingFragment StoreEntitySet="GeneratePaySlip">
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Net_Salary" ColumnName="Net Salary" />
+          <ScalarProperty Name="Total_Deduction" ColumnName="Total Deduction" />
+          <ScalarProperty Name="EPF" ColumnName="EPF" />
+          <ScalarProperty Name="ESI" ColumnName="ESI" />
+          <ScalarProperty Name="FestivalBonus" ColumnName="FestivalBonus" />
+          <ScalarProperty Name="Loan" ColumnName="Loan" />
+          <ScalarProperty Name="LossofPay" ColumnName="LossofPay" />
+          <ScalarProperty Name="TDS" ColumnName="TDS" />
+          <ScalarProperty Name="EarnTotal" ColumnName="EarnTotal" />
+          <ScalarProperty Name="Hike" ColumnName="Hike" />
+          <ScalarProperty Name="OverTime" ColumnName="OverTime" />
+          <ScalarProperty Name="Incentive" ColumnName="Incentive" />
+          <ScalarProperty Name="BasicPay" ColumnName="BasicPay" />
+          <ScalarProperty Name="SalaryDate" ColumnName="SalaryDate" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MailBoxes">
+      <EntityTypeMapping TypeName="GS247.MailBox">
+        <MappingFragment StoreEntitySet="MailBox">
+          <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+          <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Attachments" ColumnName="Attachments" />
+          <ScalarProperty Name="MailBody" ColumnName="MailBody" />
+          <ScalarProperty Name="BCCMailIds" ColumnName="BCCMailIds" />
+          <ScalarProperty Name="CCMailIds" ColumnName="CCMailIds" />
+          <ScalarProperty Name="ToMailIds" ColumnName="ToMailIds" />
+          <ScalarProperty Name="FromMailId" ColumnName="FromMailId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentRoomDetails">
+      <EntityTypeMapping TypeName="GS247.StudentRoomDetail">
+        <MappingFragment StoreEntitySet="StudentRoomDetails">
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="PaidStatusFlag" ColumnName="PaidStatusFlag" />
+          <ScalarProperty Name="VacateFlag" ColumnName="VacateFlag" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="VacateDate" ColumnName="VacateDate" />
+          <ScalarProperty Name="AdmissionDate" ColumnName="AdmissionDate" />
+          <ScalarProperty Name="BedName" ColumnName="BedName" />
+          <ScalarProperty Name="HostelRoomBedId" ColumnName="HostelRoomBedId" />
+          <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+          <ScalarProperty Name="HostelRoomId" ColumnName="HostelRoomId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="HostelMessId" ColumnName="HostelMessId" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="HostelFloorId" ColumnName="HostelFloorId" />
+          <ScalarProperty Name="HostelDetailsId" ColumnName="HostelDetailsId" />
+          <ScalarProperty Name="StudentRoomDetailsId" ColumnName="StudentRoomDetailsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequestMaterialDetails">
+      <EntityTypeMapping TypeName="GS247.RequestMaterialDetail">
+        <MappingFragment StoreEntitySet="RequestMaterialDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+          <ScalarProperty Name="TeacherApprovedFlag" ColumnName="TeacherApprovedFlag" />
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+          <ScalarProperty Name="DepartementId" ColumnName="DepartementId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="ReferenceId" ColumnName="ReferenceId" />
+          <ScalarProperty Name="RequestType" ColumnName="RequestType" />
+          <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentHostelFeesMailNotifications">
+      <EntityTypeMapping TypeName="GS247.StudentHostelFeesMailNotification">
+        <MappingFragment StoreEntitySet="StudentHostelFeesMailNotification">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="StudentRoomDetailsId" ColumnName="StudentRoomDetailsId" />
+          <ScalarProperty Name="MailNotificationId" ColumnName="MailNotificationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentHostelFeesPaidDetails">
+      <EntityTypeMapping TypeName="GS247.StudentHostelFeesPaidDetail">
+        <MappingFragment StoreEntitySet="StudentHostelFeesPaidDetails">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="FeeId" ColumnName="FeeId" />
+          <ScalarProperty Name="PaidStatusFlag" ColumnName="PaidStatusFlag" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="StudentRoomDetailsId" ColumnName="StudentRoomDetailsId" />
+          <ScalarProperty Name="StudentPaidDetailsId" ColumnName="StudentPaidDetailsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentHostelRoomChangelNotifications">
+      <EntityTypeMapping TypeName="GS247.StudentHostelRoomChangelNotification">
+        <MappingFragment StoreEntitySet="StudentHostelRoomChangelNotification">
+          <ScalarProperty Name="StatusFlag" ColumnName="StatusFlag" />
+          <ScalarProperty Name="HostelRoomBedId" ColumnName="HostelRoomBedId" />
+          <ScalarProperty Name="HostelFloorId" ColumnName="HostelFloorId" />
+          <ScalarProperty Name="HostelDetailsId" ColumnName="HostelDetailsId" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+          <ScalarProperty Name="StudentDetailsId" ColumnName="StudentDetailsId" />
+          <ScalarProperty Name="RoomChangeNotificationId" ColumnName="RoomChangeNotificationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Staff_Attendance">
+      <EntityTypeMapping TypeName="GS247.Staff_Attendance">
+        <MappingFragment StoreEntitySet="Staff_Attendance">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Attendance_Date" ColumnName="Attendance_Date" />
+          <ScalarProperty Name="Staff_Name" ColumnName="Staff_Name" />
+          <ScalarProperty Name="Staff_Number" ColumnName="Staff_Number" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Student_Attendance">
+      <EntityTypeMapping TypeName="GS247.Student_Attendance">
+        <MappingFragment StoreEntitySet="Student_Attendance">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Attendance_Date" ColumnName="Attendance_Date" />
+          <ScalarProperty Name="Student_Name" ColumnName="Student_Name" />
+          <ScalarProperty Name="Student_Number" ColumnName="Student_Number" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StaffSalaryDetails">
+      <EntityTypeMapping TypeName="GS247.StaffSalaryDetail">
+        <MappingFragment StoreEntitySet="StaffSalaryDetails">
+          <ScalarProperty Name="AadhaarNo" ColumnName="AadhaarNo" />
+          <ScalarProperty Name="PANCardNo" ColumnName="PANCardNo" />
+          <ScalarProperty Name="PassportExpiryDate" ColumnName="PassportExpiryDate" />
+          <ScalarProperty Name="PassportNo" ColumnName="PassportNo" />
+          <ScalarProperty Name="IFSCCode" ColumnName="IFSCCode" />
+          <ScalarProperty Name="BankAccountNo" ColumnName="BankAccountNo" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="TDSValue" ColumnName="TDSValue" />
+          <ScalarProperty Name="ESI" ColumnName="ESI" />
+          <ScalarProperty Name="EPF" ColumnName="EPF" />
+          <ScalarProperty Name="BasicPay" ColumnName="BasicPay" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="StaffSalaryId" ColumnName="StaffSalaryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SettingsTimeTableFormats">
+      <EntityTypeMapping TypeName="GS247.SettingsTimeTableFormat">
+        <MappingFragment StoreEntitySet="SettingsTimeTableFormat">
+          <ScalarProperty Name="IsLevelType" ColumnName="IsLevelType" />
+          <ScalarProperty Name="IsLevel" ColumnName="IsLevel" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StaffDetails">
+      <EntityTypeMapping TypeName="GS247.StaffDetail">
+        <MappingFragment StoreEntitySet="StaffDetails">
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="OfficePhone2" ColumnName="OfficePhone2" />
+          <ScalarProperty Name="OficePhone1" ColumnName="OficePhone1" />
+          <ScalarProperty Name="OfficePinCode" ColumnName="OfficePinCode" />
+          <ScalarProperty Name="OfficeCountry" ColumnName="OfficeCountry" />
+          <ScalarProperty Name="OfficeState" ColumnName="OfficeState" />
+          <ScalarProperty Name="OfficeCity" ColumnName="OfficeCity" />
+          <ScalarProperty Name="OfficeAddressLine2" ColumnName="OfficeAddressLine2" />
+          <ScalarProperty Name="OfficeAddressLine1" ColumnName="OfficeAddressLine1" />
+          <ScalarProperty Name="HomePinCode" ColumnName="HomePinCode" />
+          <ScalarProperty Name="HomeCountry" ColumnName="HomeCountry" />
+          <ScalarProperty Name="HomeState" ColumnName="HomeState" />
+          <ScalarProperty Name="HomeCity" ColumnName="HomeCity" />
+          <ScalarProperty Name="HomeAddressLine2" ColumnName="HomeAddressLine2" />
+          <ScalarProperty Name="HomeAddressLine1" ColumnName="HomeAddressLine1" />
+          <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+          <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+          <ScalarProperty Name="SpouseName" ColumnName="SpouseName" />
+          <ScalarProperty Name="MotherName" ColumnName="MotherName" />
+          <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+          <ScalarProperty Name="ChildrenCount" ColumnName="ChildrenCount" />
+          <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+          <ScalarProperty Name="ExperienceDetails" ColumnName="ExperienceDetails" />
+          <ScalarProperty Name="TotalExpMonths" ColumnName="TotalExpMonths" />
+          <ScalarProperty Name="TotalExpYears" ColumnName="TotalExpYears" />
+          <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+          <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+          <ScalarProperty Name="TeacherNumber" ColumnName="TeacherNumber" />
+          <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

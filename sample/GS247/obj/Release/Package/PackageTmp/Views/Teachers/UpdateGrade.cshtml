@@ -1,0 +1,91 @@
+﻿@model GS247.Models.Teachers.Grade
+
+
+@{
+    ViewBag.Title = "UpdateGrade";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("Name").value == '') return false;
+        if (document.getElementById("Priority").value == 0) { alert("Priority is required Field"); return false; }
+        if (document.getElementById("Status").value == 0) { alert("Status is required Field"); return false; }
+        return true;
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Update Grade</h1>
+    <div class="formCon">
+
+        <div class="formConInner">
+            @using (Html.BeginForm("InsertGrade", "Teachers", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <p class="note">Fields with<span class="required">*</span> are required.</p>
+                @Html.HiddenFor(Model => Model.Id)
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="req_name" class="required">Name <span class="required">*</span></label></td>
+                        <td>&nbsp;</td>
+                        <td>@Html.TextBoxFor(Model => Model.Name, new { required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="EmployeeGrades_priority" class="required">Priority <span class="required">*</span></label></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.EnumDropDownListFor(Model => Model.Priority, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="EmployeeGrades_status" class="required">Status <span class="required">*</span></label></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.EnumDropDownListFor(Model => Model.Status)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="EmployeeGrades_max_hours_day">Max Hours Day</label></td>
+                        <td>&nbsp;</td>
+                        <td>@Html.TextBoxFor(Model => Model.MaxHoursDay)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="EmployeeGrades_max_hours_week">Max Hours Week</label></td>
+                        <td>&nbsp;</td>
+                        <td>@Html.TextBoxFor(Model => Model.MaxHoursWeek)</td>
+                    </tr>
+
+                </table>
+
+                <div style="padding:20px 0 0 0px;">
+                    <input class="formbut" type="submit" name="yt0" value="Save" />
+                </div>
+
+            }
+        </div>
+    </div><!-- form -->
+</div>
+

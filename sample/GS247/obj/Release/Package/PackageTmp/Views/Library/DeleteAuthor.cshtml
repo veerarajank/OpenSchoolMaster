@@ -1,0 +1,42 @@
+﻿@model GS247.Models.LibraryAuthor
+
+@{
+    ViewBag.Title = "DeleteAuthor";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+    <head>
+        
+        <style>
+            .formbut {
+                background: #50d8af;
+            }
+        </style>
+    </head>
+    <div class="cont_right formWrapper" style="padding:15px 20px 310px 20px;">
+        <h3>Are you sure you want to delete this?</h3>
+        <h1 style="color:#0c2e8a">Delete Author</h1>
+        <div class="">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <table class="detail-view" width="60%">
+                    <tr>
+                        <th width="100px">Author Name</th>
+                        <td>@Html.DisplayFor(model => model.AuthorName)</td>
+                    </tr>
+                    <tr>
+                        <th width="100px">Desk</th>
+                        <td>@Html.DisplayFor(model => model.Desk)</td>
+                    </tr>
+                   
+
+                    <tr>
+                        <td height="10px">&nbsp;</td>
+                        <td><input class="formbut" type="submit" name="Author_delete" value="Delete" /></td>
+                    </tr>
+
+                </table>
+            }
+        </div>
+    </div>
+

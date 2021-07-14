@@ -1,0 +1,626 @@
+﻿@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+
+
+
+        <div id="loading">
+            <img id="loading-image" src="~/gridview/loading.gif" alt="Loading..." />
+        </div>
+        <style>
+            #loading {
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                position: fixed;
+                display: block;
+                opacity: 0.7;
+                background-color: #fff;
+                z-index: 1;
+                text-align: center;
+            }
+
+            #loading-image {
+                position: absolute;
+                top: 250px;
+                left: 775px;
+                z-index: 100;
+            }
+
+            /* The Modal (background) */
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+                position: relative;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 0;
+                margin-top: 0px;
+                border: 1px solid #888;
+                width: 350px;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+                -webkit-animation-name: animatetop;
+                -webkit-animation-duration: 0.4s;
+                animation-name: animatetop;
+                animation-duration: 0.4s;
+            }
+
+            /* The Close Button */
+            .close {
+                color: red;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+                .close:hover,
+                .close:focus {
+                    color: #000;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+            .modal-header {
+                padding: 2px 16px;
+                background-color: #FDC93E !important;
+                color: white;
+            }
+
+            .modal-body {
+                padding: 2px 16px;
+            }
+
+            .modal-footer {
+                padding: 2px 16px;
+                background-color: #5cb85c;
+                color: white;
+            }
+
+            .vtip:hover {
+                background-color: #F60;
+            }
+        </style>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td valign="top" width="75%">
+                                            <div class="cont_right formWrapper">
+                                                <h1>Manage Invoices</h1>
+                                                <div class="overview">
+                                                    <div class="overviewbox overviewbox-onerow  ovbox1">
+                                                        <h1><strong>Total Invoices</strong></h1>
+                                                        <div class="ovrBtm">
+                                                            <a id="all" href='javascript:seacrhDashboard("");'>@ViewBag.TotalInvoices</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="overviewbox overviewbox-onerow  ovbox2">
+                                                        <h1><strong>Paid Invoices</strong></h1>
+                                                        <div class="ovrBtm">
+                                                            <a href='javascript:seacrhDashboard(1);'>@ViewBag.PaidInvoices</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="overviewbox overviewbox-onerow  ovbox2">
+                                                        <h1><strong>Un-Paid Invoices</strong></h1>
+                                                        <div class="ovrBtm">
+                                                            <a href='javascript:seacrhDashboard(0);'>@ViewBag.UnpaidInvoices</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="overviewbox overviewbox-onerow  ovbox2">
+                                                        <h1><strong>Cancelled</strong></h1>
+                                                        <div class="ovrBtm">
+                                                            <a href='javascript:seacrhDashboard(2);'>@ViewBag.CancelledInvoices</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <!-- categories -->
+
+                                                <div class="clear"></div><br />
+
+                                                <div class="formCon">
+                                                    <div class="formConInner invoice-fltr">
+                                                        <h3>Search Invoices</h3>
+                                                        <table width="98%">
+                                                            <tr>
+                                                                <td>Fee Category</td>
+                                                                <td>Invoice ID</td>
+                                                                <td colspan="2">Recipient name</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <select name="FeeId" id="FeeId">
+                                                                        <option value="">All categories</option>
+                                                                        @foreach (var item in ViewBag.FeesList)
+                                                                        {
+                                                                            if (@ViewBag.FeeID == @item.FeeID)
+                                                                            {
+                                                                                <option value="@item.FeeID" selected="selected">@item.Name</option>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option value="@item.FeeID">@item.Name</option>
+                                                                            }
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td><input name="InvoiceId" id="InvoiceId" type="text" /></td>
+                                                                <td><input style="width:212px;" name="StudentName" id="StudentName" type="text" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="4">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Course</td>
+                                                                <td>Batch</td>
+                                                                <td>Status</td>
+                                                                <td>Invoice Date</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <select name="CourseId" id="CourseId">
+                                                                        <option value="">All courses</option>
+                                                                        @foreach (var item in ViewBag.CoursesList)
+                                                                        {
+                                                                            <option value="@item.Id">@item.Name</option>
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <select name="BatchId" id="BatchId">
+                                                                        <option value="">All batches</option>
+                                                                        @foreach (var item in ViewBag.BatchList)
+                                                                        {
+                                                                            <option value="@item.Id">@item.Name</option>
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <select name="Status" id="Status">
+                                                                        <option value="">All</option>
+                                                                        <option value="1">Paid</option>
+                                                                        <option value="0">Unpaid</option>
+                                                                        <option value="2">Cancelled</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="datepicker" id="InvoiceDate" name="InvoiceDate" type="text" />
+                                                                </td>
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td colspan="4" style="padding-top:9px;"><input name="" class="formbut-n" type="submit" onclick="seacrh();" value="Search" /></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="pdf-box">
+                                                    <div class="box-one">
+                                                        <div class="bttns_addstudent-n">
+                                                            <ul>
+                                                                <li><a href='javascript:getCancelAllInvoice();' class='formbut-n' id='mark-as-cancel'>Cancel</a></li>
+                                                                <li><a href='javascript:void(0);' class='formbut-n' id='send-reminder'>Send Reminder</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-two">
+                                                        <div class="bttns_addstudent-n">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="expertcv" href="#">Export CSV</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a target="_blank" class="pdf_but" href="#">Generate PDF</a>
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="clear"></div>
+                                                <div style="width:100%; padding-top:0px;" class="pdtab_Con">
+
+                                                    <input type="hidden" name="CurrentPageIndex" id="CurrentPageIndex" />
+                                                    <input type="hidden" name="FeeID" id="FeeID" value="@ViewBag.FeeID" />
+                                                    <table width="100%" cellspacing="0" cellpadding="0" border="0" id="StudentInvoiceGrid"></table>
+                                                    <br />
+
+                                                    <div class="pagecon">
+                                                        <div class="">
+                                                            <div align="center" id="pageNation">
+                                                            </div> <!-- END div class="pagecon" 2 -->
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                           
+        <script type="text/javascript">
+                        $('#check-all').change(function () {
+                            if ($(this).is(':checked')) {
+                                $('.invoice-check').attr('checked', true);
+                            }
+                            else {
+                                $('.invoice-check').attr('checked', false);
+                            }
+                        });
+
+
+
+                        $('#mark-as-paid').click(function () {
+                            if ($('.invoice-check:checked').length == 0) {
+                                alert("Please select atleast one invoice");
+                            }
+                            else {
+                                var datas = $('form#invoices-form').serialize();
+                                if (confirm("Are you sure mark these invoices paid ?")) {
+                                    $.ajax({
+                                        url: "/index.php?r=fees/invoices/markaspaid",
+                                        type: "POST",
+                                        data: datas,
+                                        dataType: "json",
+                                        success: function (response) {
+                                            if (response.status == "success") {
+                                                window.location.reload();
+                                            }
+                                            else {
+                                                alert("Some problem found while marking invoices as paid");
+                                            }
+                                        },
+                                        error: function () {
+                                            alert("Some problem found while marking invoices as paid");
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                        $('#mark-as-unpaid').click(function () {
+                            if ($('.invoice-check:checked').length == 0) {
+                                alert("Please select atleast one invoice");
+                            }
+                            else {
+                                var datas = $('form#invoices-form').serialize();
+                                if (confirm("Are you sure mark these invoices unpaid ?")) {
+                                    $.ajax({
+                                        url: "/index.php?r=fees/invoices/markasunpaid",
+                                        type: "POST",
+                                        data: datas,
+                                        dataType: "json",
+                                        success: function (response) {
+                                            if (response.status == "success") {
+                                                window.location.reload();
+                                            }
+                                            else {
+                                                alert("Some problem found while marking invoices as unpaid");
+                                            }
+                                        },
+                                        error: function () {
+                                            alert("Some problem found while marking invoices as unpaid");
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                                               
+                        $('#send-reminder').click(function () {
+                            if ($('.invoice-check:checked').length == 0) {
+                                alert("Please select atleast one invoice");
+                            }
+                            else {
+                                var datas = $('form#invoices-form').serialize();
+                                if (confirm("Are you sure send reminder for these invoices ?")) {
+                                    $.ajax({
+                                        url: "/index.php?r=fees/invoices/sendreminder",
+                                        type: "POST",
+                                        data: datas,
+                                        dataType: "json",
+                                        success: function (response) {
+                                            if (response.status == "success") {
+                                                alert("Reminder send succesfully");
+                                                window.location.reload();
+                                            }
+                                            else {
+                                                alert("Some problem found while sending reminder to these invoices");
+                                            }
+                                        },
+                                        error: function () {
+                                            alert("Some problem found while  sending reminder to these invoices");
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    </script>               
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#CurrentPageIndex').val(1);
+            GetStudentList();
+        });
+
+        function GetStudentList() {
+            $('#loading').show();
+            var currentPageIndex = $('#CurrentPageIndex').val();
+            var feeID = $('#FeeId').val();
+            var studentAdvanceSearch1 = [];
+            var studentAdvanceSearch = new Object();
+            studentAdvanceSearch.FeeId = $('#FeeId').val();
+            studentAdvanceSearch.StudentName = $('#StudentName').val();
+            studentAdvanceSearch.InvoiceId = $('#InvoiceId').val();
+            studentAdvanceSearch.InvoiceDate = $('#InvoiceDate').val();
+            studentAdvanceSearch.Status = $('#Status').val();
+            studentAdvanceSearch.CourseId = $('#CourseId').val();
+            studentAdvanceSearch.BatchId = $('#BatchId').val();
+
+            var d = { currentPageIndex: currentPageIndex, FeeID: feeID, studentAdvanceSearch: studentAdvanceSearch };
+
+            $.ajax({
+                type: "POST",
+                url: "/Fees/GetStudentList",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    tableClearValue();
+                    $.each(result, function (index, studentInvoiceList) {
+                        for (var i = 0; i < studentInvoiceList.length; i++) {
+
+                            $("#StudentInvoiceGrid").append(
+            "<tr>"
+            + "<td style=\"text-align:center\"><div class=\"btn-group mailbox-checkall-buttons os_checkbox\"><input class=\"invoice-check\" id=\"" + studentInvoiceList[i].InvoiceID + "\" type=\"checkbox\" name=\"" + studentInvoiceList[i].InvoiceID + "\" onclick=\"checkBoxCheck();\"/> </div></td>"
+            + "<td>" + studentInvoiceList[i].InvoiceID + "</td>"
+            + "<td>" + studentInvoiceList[i].SchoolCO.StudentName + "</td>"
+            + "<td>" + studentInvoiceList[i].SchoolCO.FeeCategoryName + "</td>"
+            + "<td>" + studentInvoiceList[i].InvoiceAmount + "</td>"
+            + "<td>" + studentInvoiceList[i].InvoiceAmount + "</td>"
+            + "<td>" + studentInvoiceList[i].SchoolCO.TransactionDateStr + "</td>"
+            + "<td>" + studentInvoiceList[i].SchoolCO.StatusFlagDesc + "</td>"
+            + "<td><a style=\"color:darkorange\" href=\"javascript:ViewInvoive(" + studentInvoiceList[i].InvoiceID + ");\" id=\"yt0\">View</a></td>"
+            + "</tr>");
+                        }
+                    });
+
+                    pagenationApply(result.TotalPages);
+                    $('#loading').hide();
+                },
+                error: function (response) {
+                    alert('eror');
+                }
+            });
+        }
+
+        function tableClearValue() {
+            var Table = document.getElementById("StudentInvoiceGrid");
+            Table.innerHTML = "";
+            $("#StudentInvoiceGrid").append(
+                "<tr class=\"tablebx_topbg\">"
+                + "<td style=\"text-align:center\">"
+                + "<div class=\"btn-group mailbox-checkall-buttons os_checkbox\">"
+                + "<input type=\"checkbox\" id=\"checkall\" name=\"checkall\" class=\"chkbox checkall\" onchange=\"checkAll(this)\" /> </div> </td>"
+                + "<td>InvoiceId</td><td width=\"25%\">Recipient</td><td>Fee Category</td><td>Amount</td><td>Balance</td><td>Date</td><td>Status</td><td>Actions</td>"
+                + "</tr>");
+        };
+
+        function pagenationApply(PageCount) {
+
+            var Table = document.getElementById("pageNation");
+            Table.innerHTML = "";
+            var currentPageIndex = $('#CurrentPageIndex').val();
+            var pageCutLow = (parseInt(currentPageIndex)) - parseInt(1);
+            var pageCutHigh = parseInt(1) + (parseInt(currentPageIndex));
+
+            var value = "<div class=\"\">";
+
+            if (parseInt(currentPageIndex) > 1) {
+                value += "<input type=\"submit\" class=\"vtip\" onclick=\"pageclickPrevious(this);\" value=\"Previous\" style=\"border:none;width:70px;height:40px;font-size:15px;background-color:white;\"/>";
+            }
+
+            if (parseInt(PageCount) < 6) {
+                for (var i = 1; i <= parseInt(PageCount) ; i++) {
+                    if (i != parseInt(currentPageIndex)) {
+                        value += "<input type=\"submit\" class=\"vtip\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                    }
+                    else {
+                        value += "<input disabled=\"disabled\" class=\"vtip\" type=\"submit\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                    }
+                }
+            }
+            else {
+                if (parseInt(currentPageIndex) > 2) {
+                    value += "<input type=\"submit\" class=\"vtip\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:white\" value=\"1\" />";
+
+                    if (parseInt(currentPageIndex) > 3) {
+                        value += "<input type=\"submit\" class=\"vtip\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:white\" value=\"...\" />";
+                    }
+                }
+                if (parseInt(currentPageIndex) == 1) {
+                    pageCutHigh += 2;
+                }
+                else if (parseInt(currentPageIndex) == 2) {
+                    pageCutHigh += 1;
+                }
+
+                if (parseInt(currentPageIndex) == parseInt(PageCount)) {
+                    pageCutLow -= 2;
+                }
+                else if (parseInt(currentPageIndex) == parseInt(PageCount) - 1) {
+                    pageCutLow -= 1;
+                }
+
+                for (var i = pageCutLow; i <= pageCutHigh; i++) {
+                    if (i == 0) {
+                        i += 1;
+                    }
+                    if (i > parseInt(PageCount)) {
+                        continue;
+                    }
+
+                    if (parseInt(currentPageIndex) == i) {
+                        value += "<input disabled=\"disabled\" class=\"vtip\" type=\"submit\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                    }
+                    else {
+                        value += "<input type=\"submit\" class=\"vtip\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                    }
+                }
+
+                if (parseInt(currentPageIndex) < parseInt(PageCount) - 1) {
+                    if (parseInt(currentPageIndex) < parseInt(PageCount) - 2) {
+                        value += "<input type=\"submit\" class=\"vtip\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:white\" value=\"...\"/>";
+                    }
+
+                    value += "<input type=\"submit\" class=\"vtip\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:40px;font-size:15px;background-color:white\" value=\"" + parseInt(PageCount) + "\" />";
+                }
+
+                if (parseInt(currentPageIndex) < parseInt(PageCount)) {
+                    value += "<input type=\"submit\" class=\"vtip\" onclick=\"pageclickNext(this);\" value=\"Next\" style=\"border:none;width:70px;height:40px;font-size:15px;background-color:white\" />";
+                }
+
+            }
+
+            value += "</div>";
+
+            $("#pageNation").append(value);
+
+        };
+
+        function pageclicktest(ele) {
+            $("#CurrentPageIndex").val(ele.value);
+            GetStudentList();
+        };
+
+        function pageclickNext(ele) {
+            var nextPage = parseInt($("#CurrentPageIndex").val()) + 1;
+            $("#CurrentPageIndex").val(nextPage);
+            GetStudentList();
+        };
+
+        function pageclickPrevious(ele) {
+            var prevPage = parseInt($("#CurrentPageIndex").val()) - 1;
+            $("#CurrentPageIndex").val(prevPage);
+            GetStudentList();
+        };
+
+        function ViewInvoive(InvoiceID) {
+            window.location.href = '/Fees/ViewInvoice?InvoiceID=' + InvoiceID;
+        };
+
+        function seacrh() {
+            $('#CurrentPageIndex').val(1);
+            GetStudentList();
+        };
+
+        function seacrhDashboard(id) {            
+            $('#Status').val(id);
+           $('#FeeId').val('');
+            $('#StudentName').val('');
+            $('#InvoiceId').val('');
+            $('#InvoiceDate').val('');            
+            $('#CourseId').val('');
+            $('#BatchId').val('');
+            $('#CurrentPageIndex').val(1);
+            GetStudentList();
+        };
+
+        function checkAll(ele) {
+            var checkboxes = document.getElementsByTagName('input');
+            if (ele.checked) {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].type == 'checkbox') {
+                        checkboxes[i].checked = true;
+                    }
+                }
+            } else {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    console.log(i)
+                    if (checkboxes[i].type == 'checkbox') {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+        }
+
+        var j = jQuery.noConflict();
+        j(function () {
+            j("#InvoiceDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+        });
+
+        function checkBoxCheck() {
+            if ($('.invoice-check').length == $('.invoice-check:checked').length) {
+                $('#checkall').attr('checked', true);
+            }
+            else {
+                $('#checkall').attr('checked', false);
+            }
+        };
+
+        function getCancelAllInvoice() {          
+            var flag = false;
+            var grid = document.getElementById("StudentInvoiceGrid");
+            var checkBoxes = grid.getElementsByTagName("INPUT");
+            for (var i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].checked && !flag) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                if (confirm("Are you sure you want to cancel this invoice?")) {
+                    $('#loading').show();
+                    for (var i = 0; i < checkBoxes.length; i++) {
+                        if (checkBoxes[i].checked && i > 0) {
+                            
+                            $.ajax({
+                                type: "POST",
+                                url: "/Fees/CancelInvoiceTransactionData",
+                                data: '{InvoiceId: ' + checkBoxes[i].id + '}',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                },
+                                error: function (response) {
+                                }
+                            });
+                        }
+                    }
+                    location.reload(true);
+                }                
+            }
+            else {
+                alert("Please select atleast one invoice");
+                return false;
+            }
+        }
+
+    </script>

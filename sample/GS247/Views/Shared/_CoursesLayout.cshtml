@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "_CoursesLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+    #othleft-sidebar ul li a:hover {
+        color: #50d8af;
+    }
+</style>
+ </head>
+<body style="background-color:">
+
+    <div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+        <div class="wrap_container_admin wrap_container_flex">
+            <script>
+                $(document).ready(function () {
+                    window.history.pushState(null, "", window.location.href);
+                    window.onpopstate = function () {
+                        window.history.pushState(null, "", window.location.href);
+                    };
+                });
+                function setDefault(Id) {
+                    var tag = document.getElementById(Id);
+                    tag.setAttribute("class", "list_active");
+                }
+            </script>
+
+            <div class="midnav" style="background-color: ; color: ">
+                <div class="breadcrumbs">
+
+                </div>
+            </div>
+            <div class="container">
+                <div class="container">
+                    <div class="span-19">
+                        <div id="content">
+
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="247" valign="top">
+                                        <div id="othleft-sidebar">
+                                            <!--<div class="lsearch_bar">
+                    <input type="text" value="Search" class="lsearch_bar_left" name="">
+                    <input type="button" class="sbut" name="">
+                    <div class="clear"></div>
+      </div> -->
+                                            <h1>Manage Course / Batch</h1>
+                                            <ul id="yw0">
+                                                <li><a class="list-cours_ico" onload="setDefault(this.parentNode.id)" href="@Url.Action("ManageCourse","Courses")">List Course / Batch<span>Current Courses and Batch Details</span></a></li>
+                                                <li><a class="create-courses_ico" href="@Url.Action("CreateCourse","Courses")">Create Courses<span>Add New Course Details</span></a></li>
+                                                <li><a class="previous-courses_ico" href="@Url.Action("ManageAllCourses","Courses")">Previous Year Courses<span>All Courses and Batch Details</span></a></li>
+                                                <li><a class="deactive-course_ico" href="@Url.Action("DeactivatedBatch","Courses")">Deactivated Batch<span>Deactivated Batch Details</span></a></li>
+                                                <li><a class="common-pool-course_ico" href="@Url.Action("SubjectsList","Courses")">Subjects Common Pool<span>Common Subject Details</span></a></li>
+                                                <li id="menu_1"><a class="genaral-setting_ico" href="@Url.Action("","")">General Settings<span>Manage Configurations</span></a></li>
+                                            </ul>
+                                            <ul>
+
+                                                <li>
+                                                    <a class="gradebook_ico" active="1" href="@Url.Action("ManageSemester","Courses")" onclick="setDefault(this.parentNode.id)">Manage Semesters<span>Semesters for the Courses </span></a>
+                                                </li>
+                                            </ul>
+                                            <div id="subject-name-ajax-grid"></div>
+
+
+
+                                        </div>
+                                     </td>
+                                    <td>
+                                        <div class="content" style="        background-color: white">
+                                            @RenderBody()
+                                            <!-- Content Header (Page header) -->
+                                            <!-- /.content -->
+                                        </div>
+                                    </td>
+                                 </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

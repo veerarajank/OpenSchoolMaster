@@ -1,0 +1,170 @@
+﻿@model IEnumerable<GS247.Models.TransportStop>
+
+@{
+    ViewBag.Title = "Manage Stops";
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+
+    .sem-view-block th, td {
+        border: none;
+    }
+</style>
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+    function Search() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="a_tag-btn
+" href="@Url.Action("Create_Stop","Transport",new { routeName=Session["RouteName"].ToString()})"><span>Add Stop</span></a>
+                    <a class="a_tag-btn
+" href="@Url.Action("Edit_Stops","Transport",new { routeName=Session["RouteName"].ToString()})"><span>Edit Stops</span></a>
+                    <a class="a_tag-btn
+" href="@Url.Action("Remove_All_Stops","Transport",new { routeName=Session["RouteName"].ToString()})" onclick="return confirm('Are you sure you want to delete all stops?')"><span>Remove All Stops</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div id="semester-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="semester-grid_c0" onclick="sortTable(0);">Stop Name</th>
+                    <th id="semester-grid_c1" onclick="sortTable(1);">Fare</th>
+                    <th id="semester-grid_c2" onclick="sortTable(2);">Morning Arrival</th>
+                    <th id="semester-grid_c3" onclick="sortTable(3);">Evening Arrival</th>
+                    <th class="button-column" id="semester-grid_c3">Action</th>
+                </tr>
+                <tr class="filters">
+                    <td><input id="myInput" onkeyup="Search();" name="Transport[StopName]" type="text" maxlength="225" value="" /></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="odd">
+
+                        <td>@Html.DisplayFor(m => item.StopName)</td>
+                        <td>@Html.DisplayFor(m => item.Fare)</td>
+                        <td>@Html.DisplayFor(m => item.MonArrival)</td>
+                        <td>@Html.DisplayFor(m => item.EveArrival)</td>
+                        <td class="button-column">
+
+                            <a class="update" title="Update" href="@Url.Action("UpdateStop","Transport")?id=@item.Id">
+                                <img src="../gridview/update.png" alt="Update" />
+                            </a>
+                            <a class="delete" title="Delete" href="@Url.Action("DeleteStop","Transport")?id=@item.Id" onclick="return confirm('Are you sure you want to delete this item?')">
+                                <img src="../gridview/delete.png" alt="Delete" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <br />
+        <a href="/Transport/ListAllRoutes_Index" class="btn btn-xs btn-danger">Back</a>
+    </div>
+
+    @if (TempData["Stops"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("Stops").ToString()");
+        </script>
+    }
+</div>

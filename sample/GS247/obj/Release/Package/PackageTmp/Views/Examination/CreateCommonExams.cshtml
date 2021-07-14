@@ -1,0 +1,452 @@
+﻿@model dynamic
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<style>
+    .formCon input[type="text"], input[type="password"], textArea, select {
+        border-radius: 0px !important;
+        border: 1px #c2cfd8 solid;
+        padding: 7px 3px;
+        background: #fff;
+        box-shadow: none !important;
+        width: 100%;
+    }
+
+    .bg_white .head {
+        padding: 0px 0px 0px 0px;
+        border-bottom: 1px solid #c2cfd8;
+        background-color: white;
+    }
+
+    .bg_white h4, .bg_white select {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .bg_white h4 {
+        padding: 8px;
+    }
+
+    .batch-block {
+        width: 100%;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border: 1px solid #c7c7d6;
+        padding: 7px 11px 6px 11px;
+        margin-top: 5px;
+        overflow: hidden;
+        background-color: #f1f1f9;
+    }
+
+        .batch-block .move_action {
+            float: right;
+            font-size: 20px;
+        }
+
+            .batch-block .move_action .fa-arrow-right {
+                color: #f38108;
+                font-size: 12px;
+            }
+
+    .action-cion .fa {
+        color: #77798e;
+        font-size: 11px;
+        line-height: 17px;
+    }
+
+    .batch-block .move_action .fa-times {
+        color: #E81C30;
+        font-size: 12px;
+    }
+</style>
+
+<div class="cont_right formWrapper">
+    <h1>Create Common Exam</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a id="add_exam-groups" class="a_tag-btn" href="@Url.Action("CommonExams","Examination")"><span>Manage Exam</span></a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="clear"></div>
+
+
+    <div class="formCon">
+        <div class="formConInner">
+            <style>
+                td {
+                    padding-bottom: 10px !important;
+                }
+
+                .time-block .ui-datepicker-trigger {
+                    line-height: normal;
+                    position: absolute;
+                    right: -1px;
+                    top: 1px;
+                    font-size: 23px;
+                    color: #ccc;
+                    background-color: #77798e;
+                    box-shadow: none;
+                    border: none;
+                }
+            </style>
+
+            <h3>Fields with <span class="required">*</span> are required.</h3>
+            <form id="exam-form" action="CreateNewCommonExams" method="post">
+                <input type="hidden" name="ExamType" id="ExamType" value="2" />
+                <div class="txtfld-col">
+                    <label for="Name" class="required">Name <span class="required">*</span></label>
+                    <input placeholder="Name" name="Name" id="Name" type="text" required />
+                </div>
+                <div class="txtfld-col">
+                    <label for="StartTime" class="required">Start Time <span class="required">*</span></label>
+                    <div class="time-block">
+                        <input type="text" class="timepicker" id="StartTime" value="" name="StartTime" size="10" required readonly />
+                    </div>
+
+                </div>
+                <div class="txtfld-col">
+                    <label for="EndTime" class="required">End Time <span class="required">*</span></label>
+                    <div class="time-block">
+                        <input type="text" class="timepicker" id="EndTime" value="" name="EndTime" size="10" required readonly />
+                    </div>
+                </div>
+                <div class="txtfld-col">
+                    <label for="Duration" class="required">
+                        Duration <span class="required">*</span>
+                    </label>    <input placeholder="Duration in Minutes" name="Duration" id="Duration" type="text" required />
+                </div>
+                <div class="txtfld-col">
+                    <label for="MultiChoiceLimitCount">Multi Choice Limit</label>
+                    <input placeholder="Choice Limit" name="MultiChoiceLimitCount" id="MultiChoiceLimitCount" type="text" value="4" readonly />
+                </div>
+                <div class="txtfld-col">
+                    <label for="MarksType" class="required">Mark Type<span class="required">*</span></label>
+                    <select id="MarksType" name="MarksType">
+                        <option value="1">Marks</option>
+                        <option value="2">Grades</option>
+                        <option value="3">Marks & Grades</option>
+                    </select>
+                </div>
+                <div class="txtfld-col">
+                    <label for="TotalMarks">Total Marks <span class="required">*</span></label>
+                    <input placeholder="Marks" name="TotalMarks" id="TotalMarks" type="text" required />
+                </div>
+                <div class="txtfld-col">
+                    <input size="60" maxlength="200" name="SubjectFlag" id="SubjectFlag" value="0" type="checkbox" onchange="onSubjectCheck(this);">&nbsp;&nbsp;
+                    <label for="SubjectFlag">Subject Include</label>
+                </div>
+                <div class="txtfld-col" style="display:none" id="divSubject">
+                    <label for="SubjectId" class="required">Subject <span class="required">*</span></label>
+                    <select id="SubjectId" name="SubjectId" onchange="onChangeSubject(this);"></select>
+                </div>
+
+                <h3>Batch</h3>
+
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td width="48%" valign="top">
+                                <div class="bg_white bg_white-box">
+                                    <div class="head">
+                                        <select name="course_id" id="course_id" onchange="onChangeCourse(this);">
+                                            <option value="">Select Course</option>
+                                            @foreach (var item1 in ViewBag.CoursesList)
+                                            {
+                                                <option value="@item1.Id">@item1.Name </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div id="batches"></div>
+                                </div>
+                            </td>
+                            <td class="action-cion" align="center">
+                                <i class="fa fa-arrow-right" aria-hidden="true" style="font-size:12px;"></i>
+                            </td>
+                            <td width="48%" valign="top">
+                                <div class="bg_white bg_white-box">
+                                    <div class="head">
+                                        <h4>Selected Batch</h4>
+                                    </div>
+                                    <div id="selected-batches">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="clear"></div>
+
+                <div class="txtfld-col-btn">
+                    <div class="txtfld-col-btn-block">
+                        <input class="formbut-n" type="submit" id="submit_button_form" name="yt0" value="Add Questions" />
+                    </div>
+                </div>
+
+                <input type="hidden" name="BatchIds" id="BatchIds" />
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="../CommonScripts/js/jquery-ui-1.7.3.css">
+<link rel="stylesheet" href="../CommonScripts/js/timepicker.css">
+<script src="../CommonScripts/js/jquery.js"></script>
+<script src="../CommonScripts/js/jquery-ui.min.js"></script>
+<script src="../CommonScripts/js/jquery.ui.timepicker.js"></script>
+
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        $('#StartTime').datetimepicker({ 'dateFormat': 'd M yy', 'timeFormat': 'hh:mm:ss', 'showOn': 'button', 'showSecond': false, 'changeMonth': false, 'changeYear': false, 'value': '', 'tabularLevel': null });
+        $('#EndTime').datetimepicker({ 'dateFormat': 'd M yy', 'timeFormat': 'hh:mm:ss', 'showOn': 'button', 'showSecond': false, 'changeMonth': false, 'changeYear': false, 'value': '', 'tabularLevel': null });
+    });
+
+    function onChangeCourse(ele) {
+
+        if (ele.value != "") {
+            if($('#SubjectFlag').val() == 0)
+            {
+                var d = { Id: ele.value };
+                $.ajax({
+                    type: "POST",
+                    url: "/Student/BatchListLoad",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, BatchList) {
+                            var Table = document.getElementById("batches");
+                            Table.innerHTML = "";
+                            if (BatchList.length > 0) {
+                                var value = "";
+                                for (var i = 0; i < BatchList.length; i++) {
+                                    value += "<div class=\"batch-block\" id=\"" + BatchList[i].Id + "\"><span>" + BatchList[i].Name + "</span><a href=\"javascript:void(0);\"  class=\"move_action\" title=\"Add\"><i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></div>";
+                                }
+
+                                $("#batches").append(value);
+                                move_action();
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            }
+            else
+            {
+                var d = { CourseId: ele.value , SubjectId:$('#SubjectId').val() };
+                $.ajax({
+                    type: "POST",
+                    url: "/Examination/SubjectCourseBatch",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, BatchList) {
+                            var Table = document.getElementById("batches");
+                            Table.innerHTML = "";
+                            if (BatchList.length > 0) {
+                                var value = "";
+                                for (var i = 0; i < BatchList.length; i++) {
+                                    value += "<div class=\"batch-block\" id=\"" + BatchList[i].Id + "\"><span>" + BatchList[i].Name + "</span><a href=\"javascript:void(0);\"  class=\"move_action\" title=\"Add\"><i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></div>";
+                                }
+
+                                $("#batches").append(value);
+                                move_action();
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            }            
+        }
+        else {
+            var Table = document.getElementById("batches");
+            Table.innerHTML = "";
+        }
+    };
+
+    var move_action = function () {
+        $('.move_action').unbind('click').click(function (e) {
+            var batch = $(this).closest('.batch-block');
+            if ($(this).closest('#batches').length > 0) {
+                var batch_id = batch[0].id;
+                if ($('#selected-batches').find('.batch-block[id="' + batch_id + '"]').length == 0) {
+                    var clone = batch.clone();
+                    var hidden = $('<input name="batch_id[]" type="hidden" value="' + batch_id + '" />');
+                    clone.prepend(hidden);
+                    clone.find('.move_action').attr('title', 'Remove').html('<i class="fa fa-times" aria-hidden="true"></i>');
+                    $('#selected-batches').append(clone);
+                    move_action();
+                }
+                else {
+                    $('#selected-batches').find('.batch-block[id="' + batch_id + '"]').effect('highlight', 1000);
+                }
+            }
+            else if ($(this).closest('#selected-batches').length > 0) {
+                batch.remove();
+            }
+        });
+    };
+
+    $(document).ready(function (e) {
+        move_action();
+    });
+
+    $('#submit_button_form').click(function (ev) {
+
+        if ($('#StartTime').val() == null || $('#StartTime').val() == "") {
+            $('#StartTime').css("border", "1px solid red");           
+            return false;
+        }
+
+        if ($('#EndTime').val() == null || $('#EndTime').val() == "") {
+            $('#EndTime').css("border", "1px solid red");            
+            return false;
+        }
+
+        var dt1 = $('#StartTime').val();
+        var dt2 = $('#EndTime').val();
+
+        if (dt1 != null && dt1 != "" && dt2 != null && dt2 != "")
+        {
+            var d1 = new Date(dt1);
+            var d2 = new Date(dt2);    
+            if (d1.getTime() >= d2.getTime())
+            {
+                $('#StartTime').css("border", "1px solid red");
+                $('#EndTime').css("border", "1px solid red");
+                return false;
+            }
+        }  
+
+        var optionlist = [];
+
+        $("#selected-batches .batch-block").each(function () {
+            var option = this.id;
+            optionlist.push(option);
+        });
+
+        $('#BatchIds').val(optionlist);
+
+
+        if ($('#BatchIds').val() == null || $('#BatchIds').val() == "") {    
+            $('#course_id').css("border", "1px solid red");      
+            return false;
+        }
+    });
+
+    function onSubjectCheck(ele) {
+
+        var Table2 = document.getElementById("course_id");
+        Table2.innerHTML = "";
+
+        var Table1 = document.getElementById("selected-batches");
+        Table1.innerHTML = "";
+
+        var Table3 = document.getElementById("batches");
+        Table3.innerHTML = "";
+        
+        if (ele.checked == true) {
+            $('#SubjectFlag').val('1');
+            $('#divSubject').css('display', 'block');
+            var d = { Id: $('#batchid').val() };
+            $.ajax({
+                type: "POST",
+                url: "/Examination/SubjectList",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (index, BatchList) {
+                        var Table = document.getElementById("SubjectId");
+                        Table.innerHTML = "";
+                        if (BatchList.length > 0) {
+                            var value = "<option value=\"\">Select Subject</option>";
+                            for (var i = 0; i < BatchList.length; i++) {
+                                value += "<option value=\"" + BatchList[i].Id + "\">" + BatchList[i].Name + "</option>";
+                            }
+                            $("#SubjectId").append(value);
+                        }
+                    });
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });
+        }
+        else {
+            var Table = document.getElementById("SubjectId");
+            Table.innerHTML = "";
+            $('#SubjectFlag').val('0');
+            $('#divSubject').css('display', 'none');
+            var coursesList = @Html.Raw(Json.Encode(ViewBag.CoursesList));
+            var value = "<option value=\"\">Select Course</option>";
+            for (var i = 0; i < coursesList.length; i++) {
+                value += "<option value=\"" + coursesList[i].Id + "\">" + coursesList[i].Name + "</option>";
+            }
+            $("#course_id").append(value);            
+        }
+    };
+
+    function onChangeSubject(ele) {
+
+        var Table2 = document.getElementById("course_id");
+        Table2.innerHTML = "";
+
+        var Table1 = document.getElementById("selected-batches");
+        Table1.innerHTML = "";
+
+        var Table3 = document.getElementById("batches");
+        Table3.innerHTML = "";
+
+        if (ele.value != "") {
+
+            var d = { Id: ele.value };
+            $.ajax({
+                type: "POST",
+                url: "/Examination/SubjectCourse",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (index, CourseList) {
+                        var Table = document.getElementById("course_id");
+                        Table.innerHTML = "";
+                        if (CourseList.length > 0) {
+                            var value = "<option value=\"\">Select Course</option>";
+                            for (var i = 0; i < CourseList.length; i++) {
+                                value += "<option value=\"" + CourseList[i].Id + "\">" + CourseList[i].Name + "</option>";
+                            }
+                            $("#course_id").append(value);
+                        }
+                    });
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });
+        }
+        else {
+            var Table = document.getElementById("course_id");
+            Table.innerHTML = "";          
+        }
+    };
+
+</script>

@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+
+<style>
+    #loading {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 1;
+        text-align: center;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 250px;
+        left: 775px;
+        z-index: 100;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+
+    .alphabrtic {
+        background-color: #F60;
+    }
+
+    .hide-modal {
+        width: 250px;
+        position: absolute;
+        margin: 0 auto;
+        right: 0;
+        left: 0;
+        bottom: 20px;
+        z-index: 9999;
+    }
+</style>
+
+<div class="cont_right">
+
+    <h1>Update Room</h1>
+
+    <div class="form">
+
+            <p class="note">Fields with&nbsp;<span class="required">*</span> &nbsp;are required.</p>
+
+            <div class="formCon" style="margin-bottom:8px; border:1px #e6e8e9 solid;">
+
+                <div class="formConInner">
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                        <tr>
+
+                            <td><label for="RoomNo" class="required">Room No <span class="required">*</span></label></td>
+                            <td>
+                                <input size="20" value="@ViewBag.RoomNo" readonly="readonly" name="RoomNo" id="RoomNo" type="text" maxlength="120" />
+                            </td>
+                            <td><label for="NumberOfBeds" class="required">No. of Bed (s) <span class="required">*</span></label></td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <input size="20" value="@ViewBag.NumberOfBeds" name="NumberOfBeds" id="NumberOfBeds" type="text" maxlength="120" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="formCon" style="border:1px #e6e8e9 solid;">
+                <div class="formConInner">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="12%"><label for="Room_floor">Floor</label></td>
+                            <td width="85%">
+                                <input value="@ViewBag.FloorNo" readonly="readonly" name="Room[floor]" id="Room_floor" type="text" maxlength="120" />
+                                <input value="@ViewBag.HostelRoomId" readonly="readonly" name="HostelRoomId" id="HostelRoomId" type="hidden" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <input class="formbut-n" type="submit" name="yt0" value="Save" onclick="UpdateRoom()" />
+            </div>        
+    </div>
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>
+                    <span id="Span_id" style="color: black">Alert</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <div>
+                        <label style="color:red;" id="labelmsg"></label> <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(".hostel-roomlist_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function UpdateRoom()
+    {
+        var d = { HostelRoomId: @ViewBag.HostelRoomId, NumberOfBeds: $('#NumberOfBeds').val() };
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/UpdateRoom",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Message != "") {
+                    document.getElementById("labelmsg").innerHTML = result.Message;
+                    $('#myModal').show(0);
+                    setTimeout(function () { $('#myModal').hide(5000); }, 5000);
+                    $('#' + fieldName).val('');
+                }
+                else
+                {
+                    window.location.href = '/Hostel/ManageRoomDetails';
+                }
+            }
+        });
+    }
+
+</script>
+
+

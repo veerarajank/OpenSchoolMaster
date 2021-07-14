@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Student Log";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+<div class="cont_right formWrapper">
+
+
+    <h1>Log Category </h1>
+
+
+    <div>
+
+        <div class="button-bg">
+            <div class="top-hed-btn-left"></div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li> <a id="" class="a_tag-btn" href="@Url.Action("CreateLog","Student")">Create Log Category</a></li>
+
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="grid-view clear" id="log-category-grid">
+        <table class="items">
+            <thead>
+                <tr>
+                    <th>Name</a></th>
+                    <th class="button-column" id="log-category-grid_c1">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.StudentLogCategoriesList)
+                                                {
+                                                <tr>
+                                                    <td>@item.Name</td>
+                                                    <td align="center">
+                                                        <a class="makeedit" title="Update" href="@Url.Action("EditStudentLog", "Student", new { StudentLogCategoryID = item.StudentLogCategoryID })"><img src="/gridview/update.png" alt="Update"></a>
+                                                        <a class="makedelete" title="Delete" href="javascript:deleteStudentLog(@item.StudentLogCategoryID);"><img src="/gridview/delete.png" alt="Delete"></a>
+                                                    </td>
+                                                </tr>
+                                                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/assets/bf0b18e0/gridview/jquery.yiigridview.js"></script>
+<script type="text/javascript">
+
+    function deleteStudentLog(StudentLogCategoryID) {
+        if (confirm("Are you sure you want to delete this log category?")) {            
+            $.ajax({
+                type: "POST",
+                url: "/Student/deleteStudentLog",
+                data: '{StudentLogCategoryID: ' + StudentLogCategoryID + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    }
+
+</script>
+

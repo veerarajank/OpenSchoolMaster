@@ -1,0 +1,27 @@
+﻿@if (Session["BatchId"].ToString() == "0")
+{
+    <div class="button-bg">
+        <table class="table">
+            <tr style="background-color:lightcoral;color:darkred;">
+                <th><div class="sb_icon">No Course/Batch Selected</div></th>
+                <th>
+                    <a class="btn btn-danger" href="@Url.Action("SearchCourseBatch", "TimeTable")"><span>Select Batch</span></a>
+                </th>
+            </tr>
+        </table>
+    </div>
+}
+else
+{
+<div class="button-bg">
+    <table class="table">
+        <tr style="background-color:cornflowerblue;color:white;">
+            <td><strong>Coures:</strong>@Session["Course"]</td>
+            <td><strong>Batch:</strong>@Session["Batch"]</td>
+            <th>
+                <a class="a_tag-btn" href="@Url.Action("SearchCourseBatch", "TimeTable")"><span>Change Batch</span></a>
+            </th>
+        </tr>
+    </table>
+</div>
+}

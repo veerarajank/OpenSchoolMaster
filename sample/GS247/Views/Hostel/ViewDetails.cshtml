@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+
+<div class="cont_right">
+    <h1>View Details</h1>
+    <div class="formCon">
+        <div class="formConInner">
+            <div class="pdtab_Con" style="padding-top:0px;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr class="pdtab-h">
+                        <td align="center">Student Name</td>
+                        <td align="center">Admission Date</td>
+                        <td align="center">Hostel</td>
+                        <td align="center">Floor</td>
+                        <td align="center">Room</td>
+                        <td align="center">Bed</td>
+                    </tr>
+                    <tr>
+                        <td align="center">@ViewBag.StudentRoomDetails.SchoolCO.StudentName</td>
+                        <td align="center">@ViewBag.StudentRoomDetails.AdmissionDate.ToString("dd MMM yyyy")</td>
+                        <td align="center">@ViewBag.StudentRoomDetails.SchoolCO.Name</td>
+                        <td align="center">@ViewBag.StudentRoomDetails.SchoolCO.FloorNo</td>
+                        <td align="center">@ViewBag.StudentRoomDetails.RoomNo</td>
+                        <td align="center">@ViewBag.StudentRoomDetails.BedName</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".view-student-dtls_ico").attr('active', '1').closest('li').addClass('list_active');
+</script>

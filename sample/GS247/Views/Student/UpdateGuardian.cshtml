@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Guardian";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+
+<div class="cont_right formWrapper">
+
+    <style type="text/css">
+        .pagetab-bg .li_hide {
+            display: none !important;
+        }
+
+        .student-postn {
+            top: 16px;
+            right: 19px;
+        }
+    </style>
+    <div class="right-pg-hd">
+        <h1>Update Guardian</h1>
+    </div>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("CreateGuardian", "Student")"><span>Back</span></a>
+        </div>
+        <div class="top-hed-btn-right">
+        </div>
+    </div>
+
+    <style>
+        .formCon input[type="text"], input[type="password"], textArea, select {
+            border-radius: 0px !important;
+            border: 1px #c2cfd8 solid;
+            padding: 7px 3px;
+            background: #fff;
+            box-shadow: none !important;
+            width: 100%;
+        }
+    </style>
+
+    <form enctype="multipart/form-data" id="students-form" action="UpdateGuardian" method="post">
+        <br />
+        <p class="note">Fields with<span class="required">*</span>are required.</p>
+
+        <div class="formCon">
+            <div class="formConInner opnsl_form_label">
+                <h3>Personal Details </h3>
+                <input type="hidden" value="@ViewBag.GuardianDetailsId" name="GuardianDetailsId" id="GuardianDetailsId" />
+
+                @foreach (var item in ViewBag.managePersonalFieldsList)
+                {
+                    <div class="txtfld-col">
+                        <label for="Students_first_name">
+                            @item.Title
+
+                            @if (@item.Required == 1)
+                            {
+                                <span class="required">*</span>
+                            }
+                        </label>
+
+                        @if (@item.FieldTypeFlag == 1)
+                        {
+                            <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) type="text" />
+                        }
+                        else if (@item.FieldTypeFlag == 3)
+                        {
+                            if (@item.ColumnMapping == "Relation")
+                            {
+                                <select name="Relation" id="Relation">
+                                    <option value="">Please Select</option>
+                                    <option value="1" @(item.SchoolCO.FieldValue == "1" ? "selected='selected'" : string.Empty)>Father</option>
+                                    <option value="2" @(item.SchoolCO.FieldValue == "2" ? "selected='selected'" : string.Empty)>Mother</option>
+                                    <option value="3" @(item.SchoolCO.FieldValue == "3" ? "selected='selected'" : string.Empty)>Others</option>
+                                </select>
+                            }
+                        }
+                        else if (@item.FieldTypeFlag == 6)
+                        {
+                            <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) class="datepicker" />
+                        }
+
+                    </div>
+                }
+
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="formCon">
+            <div class="formConInner opnsl_form_label">
+                <h3>Contact Details</h3>
+
+                @foreach (var item in ViewBag.manageContactFieldsList)
+                {
+                    <div class="txtfld-col">
+                        <label for="Students_first_name" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty)>
+                            @item.Title
+
+                            @if (@item.Required == 1)
+                            {
+                                <span class="required">*</span>
+                            }
+                        </label>
+
+                        @if (@item.FieldTypeFlag == 1)
+                        {
+                            <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) />
+                        }
+                        else if (@item.FieldTypeFlag == 3)
+                        {
+                            if (@item.ColumnMapping == "Country")
+                            {
+                                <select name="Country" id="Country">
+                                    <option value="">Select Country</option>
+                                    @foreach (var item1 in ViewBag.CountryList)
+                                    {
+                                        if (item1.id.ToString() == item.SchoolCO.FieldValue)
+                                        {
+                                            <option selected="selected" value="@item1.id">@item1.country_name </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item1.id">@item1.country_name </option>
+                                        }
+                                    }
+                                </select>
+                            }
+                        }
+                        else if (@item.FieldTypeFlag == 6)
+                        {
+                            <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) type="text" class="datepicker" />
+                        }
+
+                    </div>
+                }
+
+                <!-- dynamic fields -->
+                <!-- dynamic fields -->
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li><input id="submit_button_form" class="formbut-n" type="submit" name="yt0" value="Update" /></li>
+                </ul>
+            </div>
+        </div>
+        <input name="Data" id="Data" type="hidden" />
+    </form>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+
+    j(function () {
+
+        j("#DOB").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+    });
+
+</script>

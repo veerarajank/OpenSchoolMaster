@@ -1,0 +1,90 @@
+﻿@model GS247.Models.Courses.SemesterClass
+@{
+    ViewBag.Title = "CreateSemester";
+    Layout = "~/Views/Shared/_CoursesLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div class="cont_right formWrapper">
+        <h1>Create Semester</h1>
+        <div class="form">
+            <div class="formCon">
+                <div class="formConInner">
+                     <div style="background:none;">
+                         <p>Fields with<span class="required"> * </span> are required.</p>
+                         @using (Html.BeginForm("InsertSemester", "Courses",FormMethod.Post))
+                         {
+                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                     <tr>
+                                         <td><label for="Semester_name" class="required">Name <span class="required">*</span></label></td>
+                                          <td>@Html.TextBoxFor(Model => Model.Name,new { required="required" }) </td>
+                                     </tr>
+                                     <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="Semester_description">Description</label></td>
+                                        <td>
+                                            @Html.TextAreaFor(Model => Model.Description)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="Semester_start_date" class="required">Start Date <span class="required"> * </span></label></td>
+                                        <td>@Html.TextBoxFor(Model => Model.StartDate, new { id = "Semester_start_date", type="date",required="required" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="Semester_end_date" class="required">End Date <span class="required">*</span></label></td>
+                                        <td>
+                                            @Html.TextBoxFor(Model => Model.EndDate, new { id = "Semester_end_date", type="date",required="required" })
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3"><h3>Select Courses</h3></td>
+                                    </tr>
+
+                                    @for (int i=0;i<Model.CoursesInfo.Count;i++)
+                                    {
+                                        <tr>
+                                            <td colspan="3">
+                                                @Html.CheckBoxFor(Model => Model.CoursesInfo[i].IsChecked)
+                                                @Model.CoursesInfo[i].Text
+                                                @Html.HiddenFor(Model => Model.CoursesInfo[i].Text)
+                                                @Html.HiddenFor(Model => Model.CoursesInfo[i].Id)
+                                            </td>
+                                        </tr>
+                                        <tr><td colspan="3">&nbsp;</td></tr>
+                                    }
+                                    <tr>
+                                        <td height="10px">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td height="10px">&nbsp;</td>
+                                        <td><input class="formbut" type="submit" name="yt0" value="Create" /></td>
+                                    </tr>
+                              </table>
+                          }
+                            
+                    </div>
+                 </div>
+            </div>
+        </div><!-- form -->
+    </div>
+    
+

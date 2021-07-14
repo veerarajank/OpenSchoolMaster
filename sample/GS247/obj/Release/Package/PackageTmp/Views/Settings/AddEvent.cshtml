@@ -1,0 +1,50 @@
+﻿@model GS247.Models.Settings.NewEvent
+
+@{
+    ViewBag.Title = "CreateEvent";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("UserName").value == '') return false;
+        if (document.getElementById("Password").value == '') return false;
+        return true;
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Create New Event</h1>
+    <div class="top-hed-btn-right">
+        <a class="a_tag-btn" href="@Url.Action("ManageEventTypes","Settings")"><span>Back</span></a>
+    </div>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertEvent", "Settings", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">EventType <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.EventType, new { id = "UserName", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Color Code <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.ColorCode, new { id = "Password", type = "color", required = "required", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                </table>
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Create" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

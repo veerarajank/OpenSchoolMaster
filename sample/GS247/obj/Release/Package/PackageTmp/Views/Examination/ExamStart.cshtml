@@ -1,0 +1,619 @@
+﻿@model GS247.Models.Examination
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<div id="loading">
+    <img id="loading-image" src="~/gridview/loading.gif" alt="Loading..." />
+</div>
+
+<style>
+    #loading {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 1;
+        text-align: center;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 500px;
+        left: 775px;
+        z-index: 100;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 250px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        height:0px;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+
+    .alphabrtic {
+        background-color: #F60;
+    }
+
+     .placeholder {
+        background: #f3f3f3;
+        visibility: visible;
+        height: auto;
+        float: left;
+    }
+
+    .online-Q-list-bg:hover, .Q-ansr-block:hover {
+        cursor: move;
+    }
+
+    .panel-heading {
+        padding: 0px !important;
+    }
+</style>
+
+@if (Model != null)
+{
+
+    <div class="cont_right formWrapper">
+        <h1>Question Paper</h1>
+        <input type="hidden" value="@ViewBag.StudentExamDetailsId" name="StudentExamDetailsId" id="StudentExamDetailsId" />
+        <input type="hidden" name="QuestionCount" id="QuestionCount" value="1" />
+        <input type="hidden" name="ExamId" id="ExamId" value="@Model.ExamId" />
+        <input type="hidden" name="flag" id="flag" value="True" />
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="yellow-bg">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="online-exm-hd">
+                                    <h3 class="panel-title">@Model.Name</h3>
+                                    <h4 class="panel-title">@Model.StartTime.GetValueOrDefault().ToString("dd MMM yyyy hh:mm tt")   @Model.EndTime.GetValueOrDefault().ToString("dd MMM yyyy hh:mm tt")</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="online-time">
+                                    <h3 class="panel-title"><span class="">Total Time&nbsp&nbsp&nbsp: </span> @Model.Duration</h3>
+                                    <input type="hidden" id="extottime" value="@Model.Duration" />
+                                    <h3 class="panel-title"><span class="">Duration&nbsp&nbsp&nbsp: </span><span class="ex-time-duration">  </span> </h3>
+                                    <h3 class="panel-title"><span class="">Total Marks&nbsp: </span> @Model.TotalMarks</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="" id="qp_questions">
+        </div>
+    </div>
+
+    <div class="formConInner">
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" style="border-color:black;border:solid;">
+                <div class="modal-body">
+                    <div class="popup-input">
+                        <div align="center">
+                            <br />
+                            <label>Your examination time is completed</label>
+                            <div class="popup_btn" align="center">
+                                <input id=" closejobdialog" name="Submit" style="width:150px" class="formbut-n" type="submit" onclick="submit();" value="Submit" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="formConInner">
+        <!-- The Modal -->
+        <div id="myModal1" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content" style="border-color:black;border:solid;">
+                <div class="modal-body">
+                    <div class="popup-input">
+                        <div align="center">
+                            <br /><br /><br /><br /><br /><br />
+                            <h1>Thank You</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    function submitold() {
+        var answerList = [];
+
+        var finalObject = new Object();
+
+        $("#qp_questions .row").each(function (index, element) {
+            var qtype = $(this).attr('data-qtype');
+
+            var myObject = new Object();
+
+            switch (qtype) {
+                case '1':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="option_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    break;
+                case '2':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="field_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    break;
+                case '3':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    break;
+                case '4':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    break;
+            }
+
+            answerList.push(myObject);
+
+        });
+
+        finalObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+        finalObject.ExamStudentAnswer = answerList;
+
+        var d = { examAnswerSheet: finalObject };
+
+        $.ajax({
+            type: "POST",
+            url: "/Examination/StudentOnlineExamAnswer",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = '/Examination/OnlineExams';
+            },
+            error: function () {
+                window.location.href = '/Examination/OnlineExams';
+            }
+        });
+    };
+
+    var extotaltime = parseInt($('#extottime').val());
+
+    var exdurationtime = parseInt($('#extottime').val()) - 1;
+
+    setInterval(function () {
+        if($('#flag').val() == "True")
+        {
+            extotaltime = extotaltime - 1;
+            $('.ex-time-duration').html(exdurationtime + " : " + extotaltime);
+            if (exdurationtime == 0 && extotaltime == 0) {
+                var modal = document.getElementById("myModal");
+                modal.style.display = "block";
+                $('#flag').val('False')
+            }
+            else if (extotaltime == 0) {
+                exdurationtime = exdurationtime - 1;
+                extotaltime = 60;
+            }
+        }
+
+    }, 1000);
+
+    $(document).ready(function () {
+        examStart()
+    });
+
+    function examStart() {
+        var d = { ExamId: $('#ExamId').val()};
+        $.ajax({
+            type: "POST",
+            url: "/Examination/ExamStartList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (index, QuestionPaperList) {
+                    var value = "";
+                    for(var i = 0; i < QuestionPaperList.length; i++)
+                    {
+                        value += "<div style=\"display:block\" class=\"row\" data-qtype=\"" + QuestionPaperList[i].QuestionType + "\"><div class=\"col-md-12 question_class\" id=\"" + QuestionPaperList[i].ExamQuestionId +"\">";
+                        value += "<div class=\"online-Q-list-bg\"><div class=\"online-Q-list\"> <h3><span class=\"qp_number\">" + $('#QuestionCount').val() + ".</span>" + QuestionPaperList[i].QuestionName + "</h3> <div class=\"Q-ansr-block\">";
+
+                        if(QuestionPaperList[i].QuestionType == 1)
+                        {
+                            for(var m = 0; m < QuestionPaperList[i].OptionValue.length; m++)
+                            {
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"option_" + QuestionPaperList[i].ExamQuestionId + "\" value=\""+ QuestionPaperList[i].OptionValue[m] +"\"><label>"+ QuestionPaperList[i].OptionValue[m] +"</label></div>";
+                            }
+                        }
+                        else if(QuestionPaperList[i].QuestionType == 2)
+                        {
+                            value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"1\"><label>True</label></div>";
+                            value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"0\"><label>False</label></div>";
+                        }
+                        else
+                        {
+                            value += "<div class=\"online-q-aType\"><textarea class=\"form-control\" name=\"OnlineExamQuestions[exam_answer]\" style=\"height:100px;\" id=\"" + QuestionPaperList[i].ExamQuestionId + "\"></textarea></div>";
+                        }
+                        value += "</div></div></div><div class=\"online-Q-list-action\"><div class=\"Qstn-actn-ul Qstn-actn-posion-right\"><ul><li><p><span>" + QuestionPaperList[i].Mark +"</span> Mark</p></li></ul></div></div></div>";
+                        if (QuestionPaperList[i].StatusFlagDesc == "3") {
+                            value += "<div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"submitModal()();\"><span>Submit</span></a></li></ul></div></div>";
+                        }
+                        else
+                        {
+                            value += "<div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"examNextClick();\"><span>Next</span></a></li></ul></div></div>";
+                        }                        
+                    }
+                    $("#qp_questions").append(value);
+                });
+                exdurationtime = @Model.Duration -1;
+                extotaltime = 59;
+                $('#loading').hide();
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+    function submitModal()
+    {
+        var modal = document.getElementById("myModal1");
+        modal.style.display = "block";
+        setTimeout(function () { $('#myModal1').hide(5000); }, 5000);
+        submit();
+    }
+
+    function submit() {
+        var myObject = new Object();
+
+        $("#qp_questions .row").each(function (index, element) {
+            var qtype = $(this).attr('data-qtype');
+
+            switch (qtype) {
+                case '1':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="option_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '2':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="field_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '3':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '4':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+            }
+        });
+
+        var d = { examAnswerSheet: myObject};
+        $.ajax({
+            type: "POST",
+            url: "/Examination/StudentOnlineExamAnswer",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '/Login/Index';
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+    function examNextClick() {
+        $('#loading').show();
+        var myObject = new Object();
+        $("#qp_questions .row").each(function (index, element) {
+            var qtype = $(this).attr('data-qtype');
+
+            switch (qtype) {
+                case '1':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="option_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '2':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="field_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '3':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '4':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+            }
+
+        });
+
+
+        var qCnt = parseInt($('#QuestionCount').val()) + 1;
+        $('#QuestionCount').val(qCnt);
+
+        var d = { examAnswerSheet: myObject, Count: qCnt, ExamId: $('#ExamId').val() };
+
+        $.ajax({
+            type: "POST",
+            url: "/Examination/ExamStartListNext",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var Table = document.getElementById("qp_questions");
+                Table.innerHTML = "";
+                $.each(result, function (index, QuestionPaperList) {
+                    var value = "";
+                    for (var i = 0; i < QuestionPaperList.length; i++) {
+                        value += "<div style=\"display:block\" class=\"row\" data-qtype=\"" + QuestionPaperList[i].QuestionType + "\"><div class=\"col-md-12 question_class\" id=\"" + QuestionPaperList[i].ExamQuestionId + "\">";
+                        value += "<div class=\"online-Q-list-bg\"><div class=\"online-Q-list\"> <h3><span class=\"qp_number\">" + $('#QuestionCount').val() + ".</span>" + QuestionPaperList[i].QuestionName + "</h3> <div class=\"Q-ansr-block\">";
+
+                        if (QuestionPaperList[i].QuestionType == 1) {
+                            for (var m = 0; m < QuestionPaperList[i].OptionValue.length; m++) {
+                                if(QuestionPaperList[i].OptionValue[m] == QuestionPaperList[i].Answer)
+                                    value += "<div class=\"online-q-aType\"><input type=\"radio\" checked=\"checked\" name=\"option_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"" + QuestionPaperList[i].OptionValue[m] + "\"><label>" + QuestionPaperList[i].OptionValue[m] + "</label></div>";
+                                else
+                                    value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"option_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"" + QuestionPaperList[i].OptionValue[m] + "\"><label>" + QuestionPaperList[i].OptionValue[m] + "</label></div>";
+                            }
+                        }
+                        else if (QuestionPaperList[i].QuestionType == 2) {
+                            if(QuestionPaperList[i].Answer == "1")
+                            {
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" checked=\"checked\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"1\"><label>True</label></div>";
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"0\"><label>False</label></div>";
+                            }
+                            else if(QuestionPaperList[i].Answer == "0") {
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"1\"><label>True</label></div>";
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" checked=\"checked\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"0\"><label>False</label></div>";
+                            }
+                            else
+                            {
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"1\"><label>True</label></div>";
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"0\"><label>False</label></div>";
+                            }
+                        }
+                        else {
+                            value += "<div class=\"online-q-aType\"><textarea class=\"form-control\" name=\"OnlineExamQuestions[exam_answer]\" style=\"height:100px;\" id=\"" + QuestionPaperList[i].ExamQuestionId + "\"></textarea></div>";
+                        }
+                        value += "</div></div></div><div class=\"online-Q-list-action\"><div class=\"Qstn-actn-ul Qstn-actn-posion-right\"><ul><li><p><span>" + QuestionPaperList[i].Mark + "</span> Mark</p></li></ul></div></div></div>";
+
+                        if (QuestionPaperList[i].StatusFlagDesc == "1") {
+                            value += " <div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"examNextClick();\"><span>Next</span></a></li></ul></div></div>";
+                        }
+                        else if (QuestionPaperList[i].StatusFlagDesc == "2") {
+                            value += " <div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"examBackClick();\"><span>Back</span></a></li>&nbsp;&nbsp; &nbsp;&nbsp;<li><a class=\"a_tag-btn\" onclick=\"submitModal();\"><span>Submit</span></a></li></ul></div></div>";
+                        }
+                        else {
+                            value += " <div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"examBackClick();\"><span>Back</span></a></li>&nbsp;&nbsp; &nbsp;&nbsp;<li><a class=\"a_tag-btn\" onclick=\"examNextClick();\"><span>Next</span></a></li></ul></div></div>";
+                        }
+                    }
+                    $("#qp_questions").append(value);
+                });
+                $('#loading').hide();
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+    function examBackClick() {
+        $('#loading').show();
+        var myObject = new Object();
+        $("#qp_questions .row").each(function (index, element) {
+            var qtype = $(this).attr('data-qtype');
+
+            switch (qtype) {
+                case '1':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="option_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '2':
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    var optionValue = $(this).find('.online-q-aType input[type="radio"][name="field_' + examQuesId + '"]:checked').val();
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '3':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+                case '4':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    myObject.ExamQuestionId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+                    break;
+            }
+
+        });
+
+        var qCnt = parseInt($('#QuestionCount').val()) - 1;
+        $('#QuestionCount').val(qCnt);
+
+        var d = { examAnswerSheet: myObject, Count: qCnt, ExamId: $('#ExamId').val() };
+
+        $.ajax({
+            type: "POST",
+            url: "/Examination/ExamStartListNext",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var Table = document.getElementById("qp_questions");
+                Table.innerHTML = "";
+                $.each(result, function (index, QuestionPaperList) {
+                    var value = "";
+                    for (var i = 0; i < QuestionPaperList.length; i++) {
+                        value += "<div style=\"display:block\" class=\"row\" data-qtype=\"" + QuestionPaperList[i].QuestionType + "\"><div class=\"col-md-12 question_class\" id=\"" + QuestionPaperList[i].ExamQuestionId + "\">";
+                        value += "<div class=\"online-Q-list-bg\"><div class=\"online-Q-list\"> <h3><span class=\"qp_number\">" + $('#QuestionCount').val() + ".</span>" + QuestionPaperList[i].QuestionName + "</h3> <div class=\"Q-ansr-block\">";
+
+                        if (QuestionPaperList[i].QuestionType == 1) {
+                            for (var m = 0; m < QuestionPaperList[i].OptionValue.length; m++) {
+
+                                if(QuestionPaperList[i].OptionValue[m] == QuestionPaperList[i].Answer)
+                                    value += "<div class=\"online-q-aType\"><input type=\"radio\" checked=\"checked\" name=\"option_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"" + QuestionPaperList[i].OptionValue[m] + "\"><label>" + QuestionPaperList[i].OptionValue[m] + "</label></div>";
+                                else
+                                    value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"option_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"" + QuestionPaperList[i].OptionValue[m] + "\"><label>" + QuestionPaperList[i].OptionValue[m] + "</label></div>";
+                            }
+                        }
+                        else if (QuestionPaperList[i].QuestionType == 2) {
+
+                            if(QuestionPaperList[i].Answer == "1")
+                            {
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" checked=\"checked\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"1\"><label>True</label></div>";
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"0\"><label>False</label></div>";
+                            }
+                            else if(QuestionPaperList[i].Answer == "0") {
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"1\"><label>True</label></div>";
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" checked=\"checked\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"0\"><label>False</label></div>";
+                            }
+                            else
+                            {
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\1\"><label>True</label></div>";
+                                value += "<div class=\"online-q-aType\"><input type=\"radio\" name=\"field_" + QuestionPaperList[i].ExamQuestionId + "\" value=\"0\"><label>False</label></div>";
+                            }
+                        }
+                        else {
+                            value += "<div class=\"online-q-aType\"><textarea class=\"form-control\" name=\"OnlineExamQuestions[exam_answer]\" style=\"height:100px;\" id=\"" + QuestionPaperList[i].ExamQuestionId + "\">"+QuestionPaperList[i].Answer+"</textarea></div>";
+                        }
+                        value += "</div></div></div><div class=\"online-Q-list-action\"><div class=\"Qstn-actn-ul Qstn-actn-posion-right\"><ul><li><p><span>" + QuestionPaperList[i].Mark + "</span> Mark</p></li></ul></div></div></div>";
+
+                        if (QuestionPaperList[i].StatusFlagDesc == "1") {
+                            value += " <div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"examNextClick();\"><span>Next</span></a></li></ul></div></div>";
+                        }
+                        else if (QuestionPaperList[i].StatusFlagDesc == "2") {
+                            value += " <div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"submit();\"><span>Back</span></a>&nbsp;&nbsp; &nbsp;&nbsp;</li><li><a class=\"a_tag-btn\" onclick=\"submit();\"><span>Submit</span></a></li></ul></div></div>";
+                        }
+                        else {
+                            value += " <div class=\"top-hed-btn-right\"><br/><ul><li><a class=\"a_tag-btn\" onclick=\"submit();\"><span>Back</span></a></li>&nbsp;&nbsp; &nbsp;&nbsp;<li><a class=\"a_tag-btn\" onclick=\"examNextClick();\"><span>Next</span></a></li></ul></div></div>";
+                        }
+                    }
+                    $("#qp_questions").append(value);
+                });
+                $('#loading').hide();
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+    </script>
+}
+
+

@@ -1,0 +1,257 @@
+﻿@model GS247.Models.TimeTable.TimeTable_Context
+
+@{
+    ViewBag.Title = "Manage Time Table";
+    int batchId = Convert.ToInt32(Session["BatchId"]);
+    Layout = "~/Views/Shared/_TimeTableLayout.cshtml";
+}
+    <style>
+        .a_tag-btn {
+            background: #50d8af;
+        }
+
+        .grid-view table.items th {
+            color: #0c2e8a;
+        }
+
+        .sem-view-block th, td {
+            border: none;
+        }
+    </style>
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+    function Search() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    @Html.Partial("_Batch")
+
+    @if (Session["BatchId"].ToString() == "0")
+    {
+        @Html.Partial("_HelpDesk")
+    }
+    else
+    {
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn
+" href="@Url.Action("WeekDaysSetup", "TimeTable")"><span>Set Weekdays</span></a>
+            <a class="a_tag-btn
+" href="@Url.Action("ManageClassTimings", "TimeTable")"><span>Set Class Timings</span></a>
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    @*<input type="button" class="btn btn-xs btn-danger" value="Generate PDF" onclick="window.print()" id="btnPrint" />*@
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    }
+
+
+   
+
+    <div>
+        <table width="100%" cellspacing="5px" style="background-color:aliceblue;">
+           
+                <tr>
+                    <td></td>
+                    @foreach (var item in Model.ClassTimings)
+                    {
+                        <th style="color:cornflowerblue;text-align:center;">@item.StartTime-@item.EndTime</th>
+                    }
+                </tr>
+          
+                @foreach (var day in Model.Weekdays)
+                {
+                    <tr>
+
+                        <th style="color:cornflowerblue;text-align:center;vertical-align:middle;">
+                            <label>@day.WeekdayName</label>
+
+                        </th>
+
+                        @foreach (var item in Model.TimeTable_Combined.Where(x => x.WeekDay == day.WeekdayName).ToList())
+                        {
+                    <th style="text-align:center;vertical-align:middle;">
+                        @if (item.IsBreak == 1)
+                        {
+                            <strong>Break</strong>
+                        }
+                        else
+                        {
+                            if (item.SubjectId != 0)
+                            {
+                                <a class="update" title="Update" data-toggle="modal" data-target="#@Html.DisplayFor(m=>item.Id)">
+                                    <img src="../gridview/update.png" alt="Update" height="15px" width="15px" />
+                                </a>
+                                <a class="delete" title="Delete" href="@Url.Action("Delete_Assign","TimeTable")?id=@item.Id" onclick="return confirm('Are you sure you want to delete this item?')">
+                                    <img src="../gridview/delete.png" alt="Delete" height="15px" width="15px" />
+                                </a><br />
+                                <strong style="color:green;">@item.SubjectName</strong>
+                            }
+                            <br />
+                            if (item.TeacherId != 0)
+                            {
+                                <small style="color:black;">@item.TeacherName</small>
+                            }
+                            if(item.TeacherId==0)
+                            {
+                                <button class="btn btn-link" type="button" data-toggle="modal" data-target="#@Html.DisplayFor(m=>item.Id)" style="color:orangered;">Assign</button>
+                            }
+                        }
+                        <div class="modal fade" id="@Html.DisplayFor(m=>item.Id)" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">Time Table Entries</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Fields with<span class="required"> * </span> are required.</p>
+                                        @using (Html.BeginForm("AssignSubject", "TimeTable", FormMethod.Post))
+                                        {
+                                            <table class="table table-bordered table-responsive">
+                                                <tr>
+                                                    <th>Subject<span class="required">*</span></th>
+                                                    <td>@Html.DropDownList("Subject", (IEnumerable<SelectListItem>)ViewBag.Subjects,"-Select Subject-", new { @class = "form-control subject", @onchange = "GetTeachers();" })</td>
+                                                </tr>
+                                                <tr class="trTeacher" style="display:none;">
+                                                    <th>Teacher</th>
+                                                    <td>
+                                                        @Html.DropDownList("Teacher", (IEnumerable<SelectListItem>)ViewBag.Teachers,"-Select Teacher-", new { @class = "form-control teacher" })
+                                                        @Html.Hidden("TimeTableId", item.Id)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <button type="submit" class="formbut">Add</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        }
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div>
+                    </th>
+                        }
+
+                    </tr>
+                }
+          
+        </table>
+
+    </div>
+
+    @if (TempData["Driver_Index"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("Driver_Index").ToString()");
+        </script>
+    }
+</div>
+<script>
+
+    $('.subject').change(function () {
+        var row = $(this).closest("tr");
+        var subject = row.find("#Subject").val();
+        $.ajax
+            ({
+                url: '/TimeTable/GetTeachers',
+                type: 'Get',
+                data: { 'subject': subject },
+                success: function (data) {
+                    
+                    $(".teacher").html("");
+                    $(".teacher").append('<option value="0">-Select Teacher-</option>');
+                    $.each(data, function (i, result) {
+                        $(".teacher").append('<option value="' + result.Value + '">' +
+                            result.Text + '</option>');
+                    });
+                    $(".trTeacher").show();
+                },
+                error: function () {
+                    alert("Something went wrong..")
+                },
+            });
+    });
+</script>

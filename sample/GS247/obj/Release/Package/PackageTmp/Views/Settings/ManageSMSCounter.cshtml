@@ -1,0 +1,193 @@
+﻿@model GS247.Models.Settings.SMSCounter  
+
+@{
+    ViewBag.Title = "ManageSMSCounter";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top" width="75%">
+                <div>
+                    <h1>SMS Counter</h1>
+                    <div class="overview">
+                        <div class="overviewbox ovbox1">
+                            <h1><strong>Total SMS </strong></h1>
+                            <div class="ovrBtm">@Model.TotalCount</div>
+                        </div>
+                        <div class="overviewbox ovbox2">
+                            <h1><strong>Today</strong></h1>
+                            <div class="ovrBtm">@Model.DayCount</div>
+                        </div>
+                        <div class="overviewbox ovbox2">
+                            <h1><strong>Current Month</strong></h1>
+                            <div class="ovrBtm">@Model.MonthCount</div>
+                        </div>
+
+                        <div class="clear"></div>
+
+                    </div>
+                    <div class="clear"></div>
+                    <div style="margin-top:20px; width:90%" id="container"></div>
+                    <div class="pdtab_Con" style="width:97%">
+                        <div style="font-size:13px; padding:5px 0px"><strong>Recent SMS Counter Details</strong></div>
+                        <div class="col-lg-4 nopadding">
+                             <table id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th id="employee-categories-grid_c0" onclick="sortTable(0);">Date</th>
+                                        <th id="employee-categories-grid_c0" onclick="sortTable(1);">Count</th>
+                                    </tr>
+                                    <tr class="filters">
+                                        <td><input onkeyup="Search(this.id,0)" id="Year_Name" name="EmployeeCategories[name]" type="text" maxlength="25" value="" /></td>
+                                        <td>&nbsp;&nbsp;&nbsp;</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.DailySMSList.Count; i++)
+                                    {
+                                        <tr>
+                                            <td align="center">@Model.DailySMSList[i].SMSDate&nbsp;</td>
+                                            <td align="center">@Model.DailySMSList[i].SMSCount&nbsp;</td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                    </div>
+                </div>
+            </td>
+
+        </tr>
+    </table>
+</div>
+<script>
+    defaultLoad();
+    function defaultLoad() {
+        $lastPage = 0;
+        loadPage($lastPage);
+
+    }
+    function loadPage(page) {
+        var table = document.getElementById("myTable"),
+            totstart = 2,
+            totend = table.rows.length,
+            nrows = 5,
+            pages = Math.ceil((totend - totstart) / nrows);
+        if ((page < 0) || (page >= pages)) {
+            return;
+        }
+        var start = totstart + (page * nrows);
+        var end = totstart + ((page * nrows) + nrows - 1);
+        for (var i = totstart; i < totend; i++) {
+            if ((i >= start) && (i <= end)) {
+                table.rows[i].style.display = "";
+                //document.getElementById("row" + i).style.display = "";
+            }
+            else {
+                table.rows[i].style.display = "none";
+                //document.getElementById("row" + i).style.display = "none";
+            }
+
+
+        }
+        document.getElementById("buttons").innerHTML = pageButtons(pages, page);
+        document.getElementById("id" + (page + 1)).style.color = "#50d8af";
+        $lastPage = page;
+    }
+    function pageButtons(pCount, cur) {
+
+        buttons = "<input type='button' value='&lt;&lt; Prev' onclick='loadPage(" + (cur - 1) + ");'>";
+        for (var i = 1; i <= pCount; i++) {
+            buttons += "<input type='button' id='id" + i + "' value='" + i + "' onclick='loadPage(" + (i - 1) + ");'>";
+        }
+        buttons += "<input type='button' value='Next &gt;&gt;' onclick='loadPage(" + (cur + 1) + ");'>";
+        return buttons;
+
+    }
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+        loadPage(0);
+    }
+    function Search(tmp, inc) {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById(tmp);
+        if (input.value == '') {
+            loadPage($lastPage);
+            return;
+        }
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[inc];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+
+

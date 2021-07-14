@@ -1,0 +1,37 @@
+﻿@model GS247.Models.Teachers.Department
+
+@{
+    ViewBag.Title = "AddDepartment";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div class="cont_right formWrapper">
+    <h1>Create New Teacher Department</h1>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertDepartment", "Teachers", FormMethod.Post))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Code, new { id = "EmployeeCategories_name", required = "required", size = "30", maxlength = "255" })</td>
+                        <td><label for="EmployeeCategories_prefix" class="required">Code <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Name, new { id = "EmployeeCategories_prefix", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                </table>
+
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Create" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

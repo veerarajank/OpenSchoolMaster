@@ -1,0 +1,807 @@
+﻿@model GS247.Models.Teachers.ViewStaffDetails
+
+@{
+    ViewBag.Title = "ViewStaff";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+<style>
+    .tab-pane, .formbut, .nav-tabs {
+        background: #50d8af;
+    }
+
+    .nav-tabs {
+        width: 650px;
+    }
+    .txt_area
+    {
+        height:100px;
+    }
+</style>
+<div class="cont_right formWrapper" style="position: absolute; margin-top: -260px;">
+    <h1>View Staff</h1>
+
+    <div id="configurations" class="Summary">
+        <p class="note">Fields with <span class="required">*</span>are required.</p>
+    </div>
+
+    <div id="tabs">
+        <button id="button1" onclick="show('', 0);" class="tab-pane">Profile</button>
+        <button id="button2" onclick="show('', 1);tableLoad(@Model.StaffId);" class="tab-pane">Achievements</button>
+        <button id="button3" onclick="show('', 2); LoadLogCategory(); LoadLogs(@Model.StaffId);" class="tab-pane">Log</button>
+        <button id="button3" onclick="show('', 3); LoadDocuments(@Model.StaffId);" class="tab-pane">Documents</button>
+    </div>
+    <!-- School Information -->
+
+
+    <div class="formCon">
+        <div class="formConInner">
+            <button id="button1" onclick="toggle(1);" class="nav-tabs">General Details</button>
+            <div id="tab1" class="formConInner">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        @Html.HiddenFor(Model => Model.StaffId)
+                        <td>
+                            <label>Staff Number</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.StaffNumber)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Joining Date<span style="color: red"> * </span></label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.JoiningDate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>First Name</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.FirstName)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Middle Name</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.MiddleName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Last Name</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.LastName)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Gender</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.GenderName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Date Of Birth</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.DateOfBirth)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Staff Department</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.DepatmentName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Staff Category</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.CategoryName)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Staff Position</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.PositionName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Staff Grade</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.GradeName)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Job Title</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.JobTitle)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Qualification</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.Qualification)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Staff Type</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.StaffRoleName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Total Experience</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.TotalExpYears)
+                            <label> Years </label>
+
+                            @Html.DisplayTextFor(Model => Model.TotalExpMonths)
+                            <label> Months </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Experience Details</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextAreaFor(Model => Model.ExpDetails,new { @class= "txt_area" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+
+            <button id="button2" onclick="toggle(2);" class="nav-tabs">Personal Details</button>
+            <div id="tab2" style="display:none;" formConInner">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            <label>Marital Status</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.isMarried)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Children Count</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.ChildrenCount)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Father Name</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.FatherName)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Mother Name</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.MotherName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Spouse Name</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.SpouseName)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Blood Group</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.BloodGroupName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Nationality</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.Nationality)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Email</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.Email)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+
+            <button id="button3" onclick="toggle(3);" class="nav-tabs">Salary Details</button>
+            <div id="tab3" style="display:none;" class="formConInner">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            <label>Basic Pay</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.BasicPay)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>EPF</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.EPF)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>ESI</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.ESI)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Bank Name</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.BankName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Bank Account Number</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.BankAccountNumber)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>IFSC Code</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.IfscCode)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>PAN Number</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.PANCardNo)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Aadhaar Number</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.AadhaarNo)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Passport Number</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.PassportNumber)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Passport Expiry</label>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(Model => Model.PassportExpiry)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+
+            <button id="button4" onclick="toggle(4);" class="nav-tabs">Contact Details</button>
+            <div id="tab4" style="display:none;" class="formConInner">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr><td><label>Home Address</label></td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.HomeAddressLine1)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.HomeAddressLine2)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.HomeCity)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.HomeState)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.HomeCountry)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.HomePincode)</td></tr>
+
+                    <tr><td>&nbsp;</td></tr>
+                    <tr><td><label>Office Address</label></td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.OfficeAddressLine1)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.OfficeAddressLine2)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.OfficeCity)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.OfficeState)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.OfficeCountry)</td></tr>
+                    <tr><td>@Html.DisplayTextFor(Model => Model.OfficePincode)</td></tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr><td><label>Contact Details</label></td></tr>
+                    <tr><td>Office Phone 1 </td><td>@Html.DisplayTextFor(Model => Model.OfficePhone1)</td></tr>
+                    <tr><td>Office Phone 2 </td><td>@Html.DisplayTextFor(Model => Model.OfficePhone2)</td></tr>
+                    <tr><td>Mobile Phone </td><td>@Html.DisplayTextFor(Model => Model.MobileNumber)</td></tr>
+                    <tr><td>Home Phone </td><td>@Html.DisplayTextFor(Model => Model.HomePhone)</td></tr>
+                    <tr><td>Fax </td><td>@Html.DisplayTextFor(Model => Model.Fax)</td></tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="formCon">
+        <div class="formConInner">
+            <h3>Achievement Details</h3>
+            <div class="form">
+                <p class="note">Fields with <span class="required">*</span> are required.</p>
+                <input id="AchieveId" style="display:none;" value="" />
+                <div class="txtfld-col-box">
+                    <div class="txtfld-col">
+                        <label>Achievement Title<span class="required">*</span></label>
+                        <input name="Achievements[achievement_title]" id="Achievements_achievement_title" type="text" maxlength="220" />                      <div id="title_error" style="color:#F00"></div>
+                    </div>
+                    <div class="txtfld-col-box">
+                        <div class="text-fild-block-full">
+                            <label>Description<span class="required">*</span></label>
+                            <textarea rows="6" cols="48" class="txt_area" name="Achievements[description]" id="Achievements_description"></textarea>                          <div id="description_error" style="color:#F00"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="txtfld-col-box">
+                    <div class="txtfld-col">
+                        <label>Document Name<span class="required">*</span></label>
+                        <input size="25" maxlength="225" name="Achievements[doc_title]" id="Achievements_doc_title" type="text" />                                  <div id="name_error" style="color:#F00"></div><br>
+                        <input id="ytAchievements_file" type="hidden" value="" name="Achievements[file]" /><input name="Achievements[file]" id="Achievements_file" type="file" />                                        <div id="file_error" style="color:#F00"></div>
+                    </div>
+                </div>
+                <div><br /></div>
+                <div class="row buttons">
+                    <input class="formbut" type="button" id="submit_button_form" onclick="saveAchievements(@Model.StaffId)" name="yt0" value="Save" />
+                </div>
+            </div><!-- form -->
+        </div>
+        <div id="employee-categories-grid" class="grid-view">
+            <table class="items" id="AchievementTable">
+            </table>
+        </div>
+    </div>
+
+
+        <div class="formCon">
+            <div class="formConInner">
+                <div class="txtfld-col-box">
+                    <div class="txtfld-col txtfld-col-height">
+                        <span id="txt_id" style="display:none;"></span>
+                        <select id="category" name="LogComment[category_id]">
+                        </select>
+                    </div>
+                </div>
+                <div class="txtfld-col-box">
+                    <div class="text-fild-block-full">
+                        <textarea rows="6" class="txt_area" id="comment_text" name="LogComment[comment]"></textarea>
+                    </div>
+                </div>
+                <input onclick="InsertLog(@Model.StaffId)" type="button" class="formbut" style="" value="Submit" />
+            </div>
+
+            <div id="outer_div">
+            </div>
+        </div>
+        <div class="formCon" style="clear:left;">
+            <div class="formConInner" id="innerDiv">
+                <table width="80%" border="0" cellspacing="0" cellpadding="0" id="documentTable">
+                    <tr>
+                        <td><label>Document Name<font color="#FF0000">*</font></label></td>
+                        <td><label>Choose The File Size Is Maximum 200 Kb</label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input size="25" maxlength="225" name="EmployeeDocument[title][]" id="EmployeeDocument_title" type="text" />
+                        </td>
+                        <td>
+                            <input name="EmployeeDocument[file][]" id="EmployeeDocument_file" type="file" />
+                        </td>
+
+                    </tr>
+                </table>
+                <br />
+                <input class="formbut" type="button" onclick="InsertDocument(@Model.StaffId)" value="Save" />
+            </div>
+            <div id="employee-categories-grid" class="grid-view">
+                <table class="items" id="DocumentTable">
+                </table>
+            </div>
+        </div>
+    </div>
+<script>
+    show("", 0);
+    function toggle(tabid) {
+        for (var i = 1; i <= 4; i++) {
+            if (i == tabid) continue
+            document.getElementById("tab" + i).style.display = "none";
+        }
+        var past = document.getElementById("tab" + tabid).style.display;
+        if (past == "none") { document.getElementById("tab" + tabid).style.display = ""; }
+        else if (past == "") { document.getElementById("tab" + tabid).style.display = "none"; }
+    }
+    function show(trav, id) {
+        if (trav == "Prev") {
+            id = id - 1;
+        }
+        if (trav == "Next") {
+            id = id + 1;
+        }
+        tabs = document.getElementsByClassName("formCon");
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = "none";
+        }
+        tabs[id].style.display = "";
+        tabPane = document.getElementsByClassName("tab-pane");
+        for (var i = 0; i < tabPane.length; i++) {
+            tabPane[i].style.background = "#50d8af";
+        }
+        tabPane[id].style.background = "#808080";
+    }
+    function saveAchievements(TeacherId) {
+        var request = new XMLHttpRequest();
+        var id = document.getElementById("AchieveId").value;
+        if (id == "") id = 0;
+        var title = document.getElementById("Achievements_achievement_title").value;
+        var desc = document.getElementById("Achievements_description").value;
+        var docName = document.getElementById("Achievements_doc_title").value;
+        request.open('GET', "/Teachers/InsertAchievement?TeacherId=" + TeacherId + "&Id=" + id + "&title=" + title + "&desc=" + desc + "&docName=" + docName, true)
+        request.send();
+        if (request.status == 0) {
+            document.getElementById("Achievements_achievement_title").value = "";
+            document.getElementById("Achievements_description").value = "";
+            document.getElementById("Achievements_doc_title").value = "";
+            tableLoad(TeacherId);
+        }
+    }
+    function DeleteAchievement(TeacherId, Id) {
+        if (confirm("are you sure want to delete?")) {
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Teachers/DeleteAchievement?Id=" + Id, true)
+            request.send();
+            if ((request.status == 0) || (request.status == 200)) {
+                tableLoad(TeacherId);
+            }
+        }
+
+    }
+    function LoadLogCategory() {
+        var request = new XMLHttpRequest();
+        console.log("start");
+        request.open('GET', "/Teachers/GetLogCategories", true)
+        console.log("end");
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var cat = document.getElementById("category");
+                cat.textContent = "";
+                var opt = document.createElement("option");
+                opt.setAttribute("value", "");
+                opt.textContent = "Select Category";
+                cat.appendChild(opt);
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var Name = data[i].Name;
+                    var opt = document.createElement("option");
+                    opt.setAttribute("value", Id);
+                    opt.textContent = Name;
+                    cat.appendChild(opt);
+                }
+            }
+        }
+        request.send();
+    }
+    function DeleteLog(TeacherId, id) {
+        if (confirm("are you sure want to Delete?")) {
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Teachers/DeleteLog?Id=" + id, true);
+            request.send();
+            if ((request.status == 0) || (request.status == 200)) {
+                LoadLogs(TeacherId);
+            }
+
+        }
+
+    }
+    function EditLog(TeacherId,id) {
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/GetLog?Id=" + id, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                document.getElementById("txt_id").value = data.Id;
+                document.getElementById("category").value = data.CategoryName;
+                document.getElementById("comment_text").value = data.LogDetails;
+            }
+        }
+        request.send();
+    }
+    function InsertLog(TeacherId) {
+        var Id = document.getElementById("txt_id").value;
+        if (Id == "") Id = 0;
+        var CategoryId = document.getElementById("category").value;
+        var comment = document.getElementById("comment_text").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/InsertLog?TeacherId=" + TeacherId + "&Id=" +Id+"&CategoryId=" + CategoryId + "&LogDetails=" + comment, true)
+        request.send();
+        if ((request.status == 0)|| (request.status == 200)) {
+            LoadLogs(TeacherId);
+            document.getElementById("category").value = "";
+            document.getElementById("comment_text").value = "";
+        }
+    }
+    function LoadLogs(id) {
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/GetAllLogs?Id=" + id, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var outerDiv = document.getElementById('outer_div');
+                outerDiv.textContent = "";
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var CategoryName = data[i].CategoryName;
+                    var LogDetails = data[i].LogDetails;
+                    var UserName = data[i].UserName;
+                    var UserRole = data[i].UserRole;
+                    var LoggedDateTime = data[i].LoggedDateTime;
+                    var DivElement = document.createElement('div');
+                    DivElement.setAttribute('class', 'log_comment_box');
+                    var h1Element = document.createElement('h1');
+                    h1Element.textContent = CategoryName;
+                    h1Element.setAttribute("style", "color:Red;");
+                    DivElement.appendChild(h1Element);
+                    var ptag = document.createElement('p');
+                    ptag.setAttribute("style", "text-align:right;");
+                    var atag = document.createElement('button');
+                    atag.setAttribute('id', Id);
+                    atag.setAttribute('onclick', 'EditLog(' + id + ',' + Id + ');');
+                    atag.textContent = "Edit";
+                    ptag.appendChild(atag);
+                    var atag = document.createElement('button');
+                    atag.setAttribute('id', Id);
+                    atag.setAttribute('onclick', 'DeleteLog(' + id + ',' + Id + ');');
+                    atag.textContent = "Delete";
+                    ptag.appendChild(atag);
+                    DivElement.appendChild(ptag);
+                    var sep = document.createElement('div');
+                    sep.setAttribute("class", "clear");
+                    DivElement.appendChild(sep);
+                    var pElement = document.createElement('p');
+                    pElement.textContent = LogDetails;
+                    DivElement.appendChild(pElement);
+                    var sep = document.createElement('div');
+                    sep.setAttribute("class", "clear");
+                    DivElement.appendChild(sep);
+                    var h1Element = document.createElement('h1');
+                    h1Element.textContent = UserName;
+                    var spantag = document.createElement('span');
+                    spantag.textContent = UserRole;
+                    h1Element.appendChild(spantag);
+                    DivElement.appendChild(h1Element);
+                    var pElement = document.createElement('p');
+                    pElement.textContent = LoggedDateTime;
+                    pElement.setAttribute("style", "text-align:right;");
+                    DivElement.appendChild(pElement);
+                    outerDiv.appendChild(DivElement);
+                }
+            }
+        }
+        request.send();
+    }
+    function tableLoad(id) {
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/GetAllAchievements?Id=" + id, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var tbl = document.getElementById("AchievementTable");
+                tbl.textContent = "";
+                var row = document.createElement('tr');
+                row.setAttribute('class', 'pdtab-h');
+                var cell = document.createElement('td');
+                cell.setAttribute('align', 'center');
+                cell.setAttribute('width', '30%');
+                cell.textContent = 'Achievement Title';
+                row.appendChild(cell);
+                var cell = document.createElement('td');
+                cell.setAttribute('align', 'center');
+                cell.setAttribute('width', '30%');
+                cell.textContent = 'Description';
+                row.appendChild(cell);
+                var cell = document.createElement('td');
+                cell.setAttribute('align', 'center');
+                cell.setAttribute('width', '30%');
+                cell.textContent = 'Document Name';
+                row.appendChild(cell);
+                var cell = document.createElement('td');
+                cell.setAttribute('align', 'center');
+                cell.setAttribute('width', '15%');
+                cell.textContent = 'Action';
+                row.appendChild(cell);
+                tbl.appendChild(row);
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i].Id);
+                    var Id = data[i].Id;
+                    var Title = data[i].Title;
+                    var Description = data[i].Description;
+                    var DocumentName = data[i].DocumentName;
+                    var row = document.createElement('tr');
+                    row.setAttribute('id', 'subrow' + i);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.textContent = Title
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.textContent = Description
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.textContent = DocumentName
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.setAttribute('class', 'sub_act');
+                    var atag = document.createElement('a');
+                    atag.setAttribute('id', Id);
+                    atag.setAttribute('onclick', 'DeleteAchievement(' + id + ',' + Id + ');');
+                    atag.textContent = "Delete";
+                    cell.appendChild(atag);
+                    row.appendChild(cell);
+                    tbl.appendChild(row);
+
+                }
+            }
+        }
+        request.send()
+    }
+    function InsertDocument(TeacherId) {
+        var Name = document.getElementById("EmployeeDocument_title").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/InsertDocument?DocumentName=" + Name + "&TeacherId=" + TeacherId, true);
+        request.send();
+        if ((request.status == 0) || (request.status == 200)) {
+            LoadDocuments(TeacherId);
+            document.getElementById("EmployeeDocument_title").value = "";
+        }
+    }
+    function DeleteDocument(TeacherId, id) {
+        if (confirm("are you sure want to Delete?"))
+        {
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Teachers/DeleteDocument?Id=" + id, true);
+            request.send();
+            if ((request.status == 0) || (request.status == 200)) {
+                LoadDocuments(TeacherId);
+            }
+
+        }
+        
+    }
+    function LoadDocuments(id) {
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Teachers/GetAllDocuments?Id=" + id, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var tbl = document.getElementById("DocumentTable");
+                tbl.textContent = "";
+                var row = document.createElement('tr');
+                row.setAttribute('class', 'pdtab-h');
+                var cell = document.createElement('td');
+                cell.setAttribute('align', 'center');
+                cell.setAttribute('width', '30%');
+                cell.textContent = 'Document Name';
+                row.appendChild(cell);
+                var cell = document.createElement('td');
+                cell.setAttribute('align', 'center');
+                cell.setAttribute('width', '15%');
+                cell.textContent = 'Action';
+                row.appendChild(cell);
+                tbl.appendChild(row);
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i].Id);
+                    var Id = data[i].Id;
+                    var DocumentName = data[i].DocumentName;
+                    var row = document.createElement('tr');
+                    row.setAttribute('id', 'subrow' + i);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.textContent = DocumentName;
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    var atag = document.createElement('a');
+                    atag.setAttribute('id', Id);
+                    atag.setAttribute('onclick', 'DeleteDocument(' + id + ',' + Id + ');');
+                    atag.textContent = "Delete";
+                    cell.appendChild(atag);
+                    row.appendChild(cell);
+                    tbl.appendChild(row);
+
+                }
+            }
+        }
+        request.send()
+    }
+</script>

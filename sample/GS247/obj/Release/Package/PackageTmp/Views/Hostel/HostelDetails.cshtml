@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+<div class="cont_right">
+    <h1>Manage Hostel Details</h1>
+    <!-- END div class="edit_bttns" -->
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li> <a class="a_tag-btn" href="@Url.Action("CreateHostelDetails", "Hostel")"><span>Enter Hostel Details</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="pdtab_Con table-padding" style="padding-top:0px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="pdtab-h">
+                <td align="center" width="30%">Name</td>
+                <td align="center" width="60%">Address</td>
+                <td align="center" width="10%">Action</td>
+            </tr>
+            @foreach (var item in ViewBag.HostelList)
+            {
+                <tr>
+                    <td align="center"><a href="#">@item.Name</a></td>
+                    <td align="center"><a href="#">@item.Address</a></td>
+                    <td align="center">
+                        <div class="tt-wrapper-new">
+                            <a class="makeedit" href="@Url.Action("EditHostelDetails", "Hostel", new { HostelDetailsId = item.HostelDetailsId })"><img src="~/gridview/update.png" /><span>Edit</span></a>
+                            <a class="makedelete" href="javascript:DeleteHostelDetails(@item.HostelDetailsId);" id="yt0"><img src="~/gridview/delete.png" /><span>Delete</span></a>
+                        </div>
+                    </td>
+                </tr>
+            }           
+        </table>
+    </div>
+</div> <!-- END div class="cont_right" -->
+
+<script type="text/javascript">
+    $(".hostel-details_ico").attr('active', '1').closest('li').addClass('list_active');
+
+
+    function DeleteHostelDetails(HostelDetailsId) {
+        if (confirm("Are you sure you want to delete this hostel?")) {
+            $.ajax({
+                type: "POST",
+                url: "/Hostel/DeleteHostelDetails",
+                data: '{HostelDetailsId: ' + HostelDetailsId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.Message == "")
+                        location.reload(true);
+                    else
+                        alert(response.Message);
+                }
+            });
+        }
+    }
+
+</script>
+ 
+
+

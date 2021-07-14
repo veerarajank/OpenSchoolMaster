@@ -1,0 +1,552 @@
+﻿@model GS247.Models.Teachers.StaffDetails
+
+@{
+    ViewBag.Title = "CreateStaff";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+<style>
+    .tab-pane,.formbut {
+        background:#50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        /*if (validatePart(1, 0) == false) return false;
+        if (validatePart(2, 0) == false) return false;
+        if (validatePart(3, 0) == false) return false;*/
+        return validatePart(4,1);
+    }
+    function validatePart(flag1, flag2) {
+        if (flag1 == 1) {
+            if (document.getElementById("JoiningDate").value == '') return false;
+            if (document.getElementById("FirstName").value == '') return false;
+            if (document.getElementById("LastName").value == '') return false;
+            if (document.getElementById("GenderId").value == '') return false;
+            if (document.getElementById("DateOfBirth").value == '') return false;
+            if (document.getElementById("DepartmentId").value == '') return false;
+            if (document.getElementById("Qualification").value == '') return false;
+            if (document.getElementById("StaffRoleId").value == '') return false;
+            if (document.getElementById("TotalExpYears").value == '') return false;
+            if (document.getElementById("TotalExpMonths").value == '') return false;
+            if (flag2 == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (flag1 == 2) {
+            if (document.getElementById("Email").value == '') return false;
+            if (flag2 == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (flag1 == 3) {
+            if (document.getElementById("BasicPay").value == '') return false;
+            if (document.getElementById("BankName").value == '') return false;
+            if (document.getElementById("BankAccountNumber").value == '') return false;
+            if (document.getElementById("IfscCode").value == '') return false;
+            if (document.getElementById("PANCardNo").value == '') return false;
+            if (document.getElementById("AadhaarNo").value == '') return false;
+            if (flag2 == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (flag1 == 4) {
+            if (document.getElementById("HomeAddressLine1").value == '') return false;
+            if (document.getElementById("HomeCity").value == '') return false;
+            if (document.getElementById("HomeState").value == '') return false;
+            if (document.getElementById("HomeCountry").value == '') return false;
+            if (document.getElementById("HomePincode").value == '') return false;
+            if (document.getElementById("MobileNumber").value == '') return false; 
+            if (flag2 == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+        
+    }
+    function NextPage(value1, value2, value3) {
+        if (validatePart(value3,1) == true) { show(value1, value2);}
+    }
+</script>
+
+<div class="cont_right formWrapper">
+    <h1>Create Staff</h1>
+
+    <div id="configurations" class="Summary">
+        <p class="note">Fields with <span class="required">*</span>are required.</p>
+    </div>
+
+    <div id="tabs">
+        <button id="button1" onclick="NextPage('', 0, 0);" class="tab-pane">Staff General Details</button>
+        <button id="button2" onclick="NextPage('', 1, 1);" class="tab-pane">Staff Personal Details</button>
+        <button id="button3" onclick="NextPage('', 2, 2);" class="tab-pane">Staff Salary Details</button>
+        <button id="button4" onclick="NextPage('', 3, 3);" class="tab-pane">Staff Contact Details</button>
+    </div>
+    <!-- School Information -->
+
+    @using (Html.BeginForm("InsertStaff", "Teachers", FormMethod.Post, new { onsubmit = "return validate();" }))
+    {
+
+        <div style="background-color:#808080;">
+            <div class="formConInner">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        @Html.HiddenFor(Model => Model.StaffId)
+                        <td>
+                            <label>Staff Number</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.StaffNumber, new { @readonly = "readonly" })
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Joining Date<span style="color:red"> * </span></label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.JoiningDate, new { type = "Date", required = "required" })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="formCon">
+            <div class="formConInner">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            <label>First Name<span style="color:red"> * </span></label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Middle Name</label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Last Name<span style="color:red"> * </span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.FirstName, new { required = "required" })
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.MiddleName)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.LastName, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Gender<span style="color:red"> * </span></label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Date Of Birth <span style="color:red"> * </span> </label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Staff Department <span style="color:red"> * </span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.GenderId, new SelectList(ViewBag.Genders, "Value", "Text"), "Select Gender", new { required = "required" })
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.DateOfBirth, new { type = "date", required = "required" })
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"), "Select Department", new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Staff Category</label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Staff Position</label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Staff Grade</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.CategoryId, new SelectList(ViewBag.Categories, "Value", "Text"), "Select Category")
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.PositionId, new SelectList(ViewBag.Positions, "Value", "Text"), "Select Position")
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.GradeId, new SelectList(ViewBag.Grades, "Value", "Text"), "Select Grade")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Job Title</label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Qualification <span style="color:red"> * </span></label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Staff Type <span style="color:red"> * </span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.JobTitle)
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.TextBoxFor(Model => Model.Qualification, new { required = "required" })
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.StaffRoleId, new SelectList(ViewBag.RoleList, "Value", "Text"), new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Total Experience<span style="color:red"> * </span></label>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <label>Month</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.TotalExpYears, new SelectList(ViewBag.TotalExpYearsList, "Value", "Text"), new { required = "required" })
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.TotalExpMonths, new SelectList(ViewBag.TotalExpMonthsList, "Value", "Text"), new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Experience Details</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.TextAreaFor(Model => Model.ExpDetails)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <input id="submit_button_form" onclick="NextPage('Next',0,1);" class="formbut" style="width:10%;" name="submit" type="submit" value="Next" />
+        </div>
+        <!-- End Staff General Details -->
+        <!-- Start Staff Personal Details -->
+           <div class="formCon">
+                <div class="formConInner">
+                    <h3>Personal Details</h3>
+
+                    <div class="txtfld-col-box">
+                        <div class="txtfld-col">
+                            <label for="Employees_marital_status">Marital Status</label>
+                            @Html.DropDownListFor(Model => Model.isMarried, new SelectList(ViewBag.MaritalStatus, "Value", "Text"))
+                        </div>
+                        <div class="txtfld-col">
+                            <label for="Employees_children_count">Children Count</label>
+                            @Html.TextBoxFor(Model => Model.ChildrenCount)
+                        </div>
+                        <div class="txtfld-col">
+                            <label for="Employees_father_name">Father Name</label>
+                            @Html.TextBoxFor(Model => Model.FatherName)
+                        </div>
+                    </div>
+                    <div class="txtfld-col-box">
+                        <div class="txtfld-col">
+                            <label for="Employees_mother_name">Mother Name</label>
+                            @Html.TextBoxFor(Model => Model.MotherName)
+                        </div>
+                        <div class="txtfld-col">
+                            <label for="Employees_husband_name">Spouse Name</label>
+                            @Html.TextBoxFor(Model => Model.SpouseName)
+                        </div>
+                        <div class="txtfld-col">
+                            <label for="Employees_blood_group">Blood Group</label>
+                            @Html.DropDownListFor(Model => Model.BloodGroupId, new SelectList(ViewBag.BloodGroup, "Value", "Text"))
+                        </div>
+                    </div>
+                    <div class="txtfld-col-box">
+                        <div class="txtfld-col">
+                            <label for="Employees_nationality_id">Nationality</label>
+                            @Html.DropDownListFor(Model => Model.NationalityId, new SelectList(ViewBag.Nationality, "Value", "Text"))
+                        </div>
+                        <div class="txtfld-col">
+                            <label for="Employees_email" class="required">Email <span class="required">*</span></label>
+                            @Html.TextBoxFor(Model => Model.Email, new { required = "required" })
+                        </div>
+                    </div>
+                </div>
+
+                <input id="submit_button_form" onclick="show('Prev', 1);" class="formbut" style="width:10%;" name="submit" value="Prev" />
+                <input id="submit_button_form" onclick="NextPage('Next',1,2);" class="formbut" style="width:10%;" name="submit" type="submit" value="Next" />
+            </div>
+        <!-- End Staff Personal Details -->
+        <!-- Start Staff Contact Details -->
+        
+            <div class="formCon">
+                <div class="formConInner">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>Basic Pay<span style="color:red"> * </span> </td>
+                            <td>&nbsp;</td>
+                            <td> EPF </td>
+                            <td>&nbsp;</td>
+                            <td> ESI </td>
+                        </tr>
+                        <tr>
+                            <td>@Html.TextBoxFor(Model => Model.BasicPay, new { required = "required" }) </td>
+                            <td>&nbsp;</td>
+                            <td> @Html.TextBoxFor(Model => Model.EPF)  </td>
+                            <td>&nbsp;</td>
+                            <td> @Html.TextBoxFor(Model => Model.ESI)  </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                    </table>
+                    <h3>Bank Details</h3>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>Bank Name<span style="color:red"> * </span> </td>
+                            <td>&nbsp;</td>
+                            <td> Bank Account Number <span style="color:red"> * </span> </td>
+                            <td>&nbsp;</td>
+                            <td> IFSC Code <span style="color:red"> * </span>  </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>@Html.TextBoxFor(Model => Model.BankName, new { required = "required" }) </td>
+                            <td>&nbsp;</td>
+                            <td> @Html.TextBoxFor(Model => Model.BankAccountNumber, new { required = "required" })  </td>
+                            <td>&nbsp;</td>
+                            <td> @Html.TextBoxFor(Model => Model.IfscCode, new { required = "required" })  </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>PAN Number<span style="color:red"> * </span> </td>
+                            <td>&nbsp;</td>
+                            <td> Aadhaar Number <span style="color:red"> * </span> </td>
+                        </tr>
+                        <tr>
+                            <td>@Html.TextBoxFor(Model => Model.PANCardNo, new { required = "required" }) </td>
+                            <td>&nbsp;</td>
+                            <td> @Html.TextBoxFor(Model => Model.AadhaarNo, new { required = "required" })  </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                    <h3>Passport Details</h3>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label>Passport Number</label></td>
+                            <td>&nbsp;</td>
+                            <td><label>Passport Expiry</label> </td>
+                        </tr>
+                        <tr>
+                            <td>@Html.TextBoxFor(Model => Model.PassportNumber) </td>
+                            <td>&nbsp;</td>
+                            <td>@Html.TextBoxFor(Model => Model.PassportExpiry) </td>
+                        </tr>
+                    </table>
+                </div>
+                <input id="submit_button_form" onclick="show('Prev', 2);" class="formbut" style="width:10%;" name="submit" value="Prev" />
+                <input id="submit_button_form" onclick="NextPage('Next',2,3);" class="formbut" style="width:10%;" name="submit" type="submit" value="Next" />
+            </div>
+        
+        <!-- End Staff Contact Details -->
+        <!-- Start Staff Contact Details -->
+
+        <div class="formCon">
+
+            <div class="formConInner">
+                <h3>Home Address</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="135"><label for="Employees_home_address_line1" class="required">Home Address Line 1 <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.HomeAddressLine1, new { required = "required" })</td>
+                        <td><label for="Employees_home_address_line2">Home Address Line 2</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.HomeAddressLine2)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Employees_home_city" class="required">Home City <span class="required">*</span></label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.HomeCity, new { required = "required" })</td>
+                        <td><label for="Employees_home_state" class="required">Home State <span class="required">*</span></label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.HomeState, new { required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Employees_home_country_id" class="required">Home Country <span class="required">*</span></label>		</td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.HomeCountry, new SelectList(ViewBag.CountryList), "Select Country", new { required = "required" })
+                        </td>
+                        <td><label for="Employees_home_pin_code" class="required">Home Pin Code <span class="required">*</span></label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.HomePincode, new { required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <h3>Office Address</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="Employees_office_address_line1">Office Address Line 1</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.OfficeAddressLine1)</td>
+                        <td><label for="Employees_office_address_line2">Office Address Line 2</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.OfficeAddressLine2)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Employees_office_city">Office City</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.OfficeCity)</td>
+                        <td><label for="Employees_office_state">Office State</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.OfficeState)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Employees_office_country_id">Office Country</label>		</td>
+                        <td>
+                            @Html.DropDownListFor(Model => Model.OfficeCountry, new SelectList(ViewBag.CountryList), "Select Country")
+                        </td>
+                        <td><label for="Employees_office_pin_code">Office Pin Code</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.OfficePincode)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <h3>Contact Details</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="Employees_office_phone1">Office Phone 1</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.OfficePhone1)</td>
+                        <td><label for="Employees_office_phone2">Office Phone 2</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.OfficePhone2)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Employees_mobile_phone" class="required">Mobile Phone <span class="required">*</span></label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.MobileNumber, new { required = "required" })</td>
+                        <td><label for="Employees_home_phone">Home Phone</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.HomePhone)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Employees_fax">Fax</label>		</td>
+                        <td>@Html.TextBoxFor(Model => Model.Fax)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+
+            </div>
+            <input id="submit_button_form" onclick="show('Prev', 3);" class="formbut" style="width:10%;" name="submit" value="Prev" />
+            <input id="submit_button_form" class="formbut" style="width:10%;" name="submit" type="submit" value="Save" />
+        </div>
+    }
+    <!-- End Staff Contact Details -->
+
+</div>
+    <script>
+        show("", 0);
+        function show(trav, id) {
+            if (trav == "Prev") {
+                id = id - 1;
+            }
+            if (trav == "Next") {
+                id = id + 1;
+            }
+            tabs = document.getElementsByClassName("formCon");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = "none";
+            }
+            tabs[id].style.display = "";
+            tabPane = document.getElementsByClassName("tab-pane");
+            for (var i = 0; i < tabPane.length; i++) {
+                tabPane[i].style.background = "#50d8af";
+            }
+            tabPane[id].style.background = "#808080";
+        }
+    </script>

@@ -1,0 +1,117 @@
+﻿@model GS247.Models.GatewaySetting
+@{
+    ViewBag.Title = "Gateway";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+      <div class="cont_right formWrapper">
+                                                <h1>Gateway Settings</h1>
+                                               
+
+                                                    @if (Model != null)
+                                                    {
+                                                        <form id="paypal-config-_paypals-form" action="Gateway" method="post">
+                                                            <div class='formCon'>
+                                                                <div class='formConInner '>
+                                                                    <h3>Paypal Settings</h3>
+                                                                    <div class="txtfld-col-bg">
+                                                                        <div class="txtfld-col">
+                                                                            <label for="APIUserName" class="required">API Username <span class="required">*</span></label>
+                                                                            <input name="APIUserName" id="APIUserName" value="@Model.APIUserName" type="text" required />
+                                                                        </div>
+                                                                        <div class="txtfld-col">
+                                                                            <label for="APIPassword" class="required">API Password <span class="required">*</span></label>
+                                                                            <input name="APIPassword" id="APIPassword" type="password" required value="@Model.APIPassword" />
+                                                                        </div>
+                                                                        <div class="txtfld-col">
+                                                                            <label for="APISignature" class="required">API Signature <span class="required">*</span></label>
+                                                                            <input name="APISignature" id="APISignature" type="text" value="@Model.APISignature" required />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="txtfld-col-bg">
+                                                                        <div class="txtfld-col">
+                                                                            <label for="PaypalConfig_apicurrency" class="required">Currency <span class="required">*</span></label>	
+                                                                            <select name="Currency" id="Currency">
+
+                                                                           @foreach (var item in ViewBag.currencyDetails)
+                                                                           {
+                                                                               if (@Model.Currency == @item.ID)
+                                                                               {
+                                                                                <option value="@item.ID" selected="selected">@item.Name</option>
+                                                                               }
+                                                                               else
+                                                                               {
+                                                                                <option value="@item.ID">@item.Name</option>
+                                                                               }
+
+                                                                           }                                                                               
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="txtfld-col-bg">
+                                                                        <div class="os_btn">
+                                                                            <div class="div_1"></div>
+                                                                            <div class="div_1">
+                                                                                <input class="formbut-n" type="submit" name="yt0" value="Save Settings" style="height:30px" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <form id="paypal-config-_paypals-form" action="Gateway" method="post">
+                                                            <div class='formCon'>
+                                                                <div class='formConInner '>
+                                                                    <h3>Paypal Settings</h3>
+                                                                    <div class="txtfld-col-bg">
+                                                                        <div class="txtfld-col">
+                                                                            <label for="APIUserName" class="required">API Username <span class="required">*</span></label>    
+                                                                            <input name="APIUserName" id="APIUserName" type="text" required />
+                                                                        </div>
+                                                                        <div class="txtfld-col">
+                                                                            <label for="APIPassword" class="required">API Password <span class="required">*</span></label>
+                                                                            <input name="APIPassword" id="APIPassword" type="password" required />
+                                                                        </div>
+                                                                        <div class="txtfld-col">
+                                                                            <label for="APISignature" class="required">API Signature <span class="required">*</span></label>
+                                                                            <input name="APISignature" id="APISignature" type="text" required />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="txtfld-col-bg">
+                                                                        <div class="txtfld-col">
+                                                                            <label for="Currency" class="required">Currency <span class="required">*</span></label>					
+                                                                            <select name="Currency" id="Currency">
+                                                                                @foreach (var item in ViewBag.currencyDetails)
+                                                                                {
+                                                                                    <option value="@item.ID">@item.Name</option>
+                                                                                }
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="txtfld-col-bg">
+                                                                        <div class="os_btn">
+                                                                            <div class="div_1"></div>
+                                                                            <div class="div_1">
+                                                                                <input class="formbut-n" type="submit" name="yt0" value="Save Settings" style="height:30px" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    }
+                                                </div>
+                                           
+                                       
+                          

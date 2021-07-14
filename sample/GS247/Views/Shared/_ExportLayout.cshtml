@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "_ExportLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+</head>
+<body style="background-color:">
+
+    <div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+        <div class="wrap_container_admin wrap_container_flex">
+            <script>
+                $(document).ready(function () {
+                    window.history.pushState(null, "", window.location.href);
+                    window.onpopstate = function () {
+                        window.history.pushState(null, "", window.location.href);
+                    };
+                });
+                function setDefault(Id) {
+                    var tag = document.getElementById(Id);
+                    tag.setAttribute("class", "list_active");
+                }
+            </script>
+
+            <div class="midnav" style="background-color: ; color: ">
+                <div class="breadcrumbs">
+
+                </div>
+            </div>
+            <div class="container">
+                <div class="container">
+                    <div class="span-19">
+                        <div id="content">
+
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="247" valign="top">
+                                        <div id="othleft-sidebar">
+                                            <h1>Export Database</h1>
+                                            <ul id="yw0">
+                                                <li><a class="gradebook_ico" active="1" href="@Url.Action("Export_Database","Export")" onclick="setDefault(this.parentNode.id)"><span>Export Data</span></a></li>
+                                            </ul>
+                                            <div id="subject-name-ajax-grid"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div class="content" style="        background-color: white">
+                                            @RenderBody()
+                                            <!-- Content Header (Page header) -->
+                                            <!-- /.content -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

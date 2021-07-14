@@ -1,0 +1,323 @@
+﻿@{
+    ViewBag.Title = "Student Category";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+</style>
+
+<div class="cont_right formWrapper">
+    <h1>Manage Student Categories</h1>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+
+            <td valign="top">
+
+                <div class="formWrapper">
+                    <div class="edit_bttns" style="right:15px; top:12px;">
+
+                        <ul>
+                            <li>
+
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="button-bg">
+                        <div class="top-hed-btn-left"> </div>
+                        <div class="top-hed-btn-right">
+                            <ul>
+                                <li> <a id="add_student-categories" class="a_tag-btn" onclick="addNewCategory();"><span>Create New Category</span></a>                                         </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="student-categories-grid">
+                        <div class="grid_table_con">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="example">
+                                <tr>
+                                    <th width="45%">Category Name<a href="#"></a></th>
+                                    <th width="19%">No. of Students<a href="#"></a></th>
+                                    <th width="16%">Actions</th>
+                                </tr>
+                                @foreach (var item in ViewBag.StudentCategoriesList)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td align="center" class="ns">
+                                            <div style="position:relative" id="d1">
+
+                                                @if (@item.SchoolCO.NumberOfStudents > 0)
+                                                {
+                                                    <span class="s_no">@item.SchoolCO.NumberOfStudents<a href="#" class="s_no_but" onclick="onClickView(@item.StudentCategoryID);"></a></span>
+                                                    <div class="ns_drop" id="@item.StudentCategoryID" style="display:none">
+                                                        <ul>
+                                                            <li><a href="javascript:GetStudentDetails(@item.StudentCategoryID);" class="view">View Students</a></li>
+                                                        </ul>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span class="s_no">
+                                                        @item.SchoolCO.NumberOfStudents
+                                                    </span>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td align="center">
+                                            <div class="tt-wrapper-new">
+                                                <a class="makeedit" title="Update" href="javascript:updateStudentCategory(@item.StudentCategoryID,'@item.Name');"><img src="/gridview/update.png" alt="Update"><span>Edit</span></a>
+                                                <a class="makedelete" title="Delete" href="javascript:deleteStudentCategory(@item.StudentCategoryID);"><img src="/gridview/delete.png" alt="Delete"><span>Delete</span></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+
+                        <div class="pagecon">
+                        </div>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Create Student Category</span>
+                    <span id="Span_id1" style="color: black;display:none">Update Student Category</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <input id="StudentCategoryID" type="hidden" name="StudentCategoryID">
+                    <p class="note">Fields with<span class="required">*</span> are required.</p>
+                    <div>
+                        <label style="color:#444444;" for="Name" class="required">Name <span class="required">*</span></label> <br>
+                        <span>
+                            <input maxlength="255" style="width:200px;height:30px" name="Name" id="Name" type="text" onkeyup="onNamekeyUp();" required>
+                        </span>
+                        <div class="popup_btn">
+                            <input id="closeJobDialog" name="Submit" class="formbut-n" type="submit" value="Save" onclick="addStudentCategory();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal1" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span style="color: black">Students List</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <div class="grid_table_con">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="items" id="studentList">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function addNewCategory() {
+        var modal = document.getElementById("myModal");
+        $('#Span_id').css('display', 'block');
+        $('#Span_id1').css('display', 'none');
+        modal.style.display = "block";
+        $('#Name').val('');
+        $('#StudentCategoryID').val(0);
+    };
+
+    function updateStudentCategory(StudentCategoryID, Name) {
+        var modal = document.getElementById("myModal");
+        $('#Name').val(Name);
+        $('#StudentCategoryID').val(StudentCategoryID);
+        $('#Span_id').css('display', 'none');
+        $('#Span_id1').css('display', 'block');
+        modal.style.display = "block";
+    };
+
+    function onClose() {
+        $("#myModal").css('display', 'none');
+        $("#myModal1").css('display', 'none');
+    };
+
+    function onClickView(StudentCategoryID) {
+        $("#" + StudentCategoryID).css('display', 'block');
+    };
+
+    function GetStudentDetails(StudentCategoryID) {
+        $.ajax({
+            type: "GET",
+            url: "/Student/getStudentDetails",
+            data: { StudentCategoryID: StudentCategoryID },
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (index, StudentList) {
+                    for (var i = 0; i < StudentList.length; i++) {
+                        $("#studentList").append(
+    "<tr>"
+      + "<td>" + StudentList[i].FirstName + " " + StudentList[i].LastName + "</td>"
+    + "</tr>");
+                    }
+                });
+                $("#" + StudentCategoryID).css('display', 'none');
+                $("#myModal1").css('display', 'block');
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    }
+
+    function deleteStudentCategory(StudentCategoryID) {
+        if (confirm("Are you sure you want to delete this student category?")) {
+            $.ajax({
+                type: "POST",
+                url: "/Student/DeleteStudentCategory",
+                data: '{StudentCategoryID: ' + StudentCategoryID + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.Message == "")
+                        location.reload(true);
+                    else
+                        alert(response.Message);
+                }
+            });
+        }
+    }
+
+    function onNamekeyUp() {
+        $('#Name').css("border", "1px solid blue");
+    };
+
+    function addStudentCategory(){
+        var Name = $('#Name').val();
+        var StudentCategoryID = $('#StudentCategoryID').val();
+        if(Name != "")
+        {
+            $('#Name').css("border", "1px solid blue");
+            if($('#StudentCategoryID').val() == "")
+                StudentCategoryID = 0;
+            var d = { Name: Name, StudentCategoryID : parseInt(StudentCategoryID) };
+
+            $.ajax({
+                type: "POST",
+                url: "/Student/CreateStudentCategory",
+                data: JSON.stringify(d),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.Message == "")
+                        location.reload(true);
+                    else
+                        alert(response.Message);
+                }
+            });
+        }
+        else
+        {
+            $('#Name').css("border", "1px solid red");
+            return false;
+        }
+    };
+
+</script>

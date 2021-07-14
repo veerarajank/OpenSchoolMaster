@@ -1,0 +1,49 @@
+﻿@model GS247.Models.Category
+@{
+    
+    Layout = "~/Views/Shared/_DownloadLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div>
+        <h1>@ViewBag.Title</h1>
+        <div class="col-md-2"></div>
+        <div class=" form col-md-8">
+            <div class="formCon">
+                <div class="formConInner">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    <a href="/Download/Category_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                    @using (Html.BeginForm())
+                    {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+                    <tr>
+                        <td><label for="Semester_name" class="required">Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.CategoryName, new { required = "required" }) </td>
+                    </tr>
+
+                    <tr>
+                        <td height="10px">&nbsp;</td>
+                        <td>
+                            @Html.HiddenFor(m => m.CategoryId)
+                            <input class="formbut" type="submit" value="Add" />
+                        </td>
+                    </tr>
+                </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        @if (TempData["AddCategory"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("AddCategory").ToString()");
+            </script>
+        }
+    </div>
+    
+

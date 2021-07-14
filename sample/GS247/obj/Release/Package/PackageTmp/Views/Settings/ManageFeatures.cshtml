@@ -1,0 +1,50 @@
+﻿@model GS247.Models.Settings.Feature
+
+@{
+    ViewBag.Title = "ManageFeatures";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+    .formCon {
+        width: 30%;
+    }
+</style>
+<div class="cont_right formWrapper">
+    <h1>Manage Features</h1>
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("UpdateFeatures", "Settings", FormMethod.Post))
+            {
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    @Html.HiddenFor(Model => Model.Id)
+
+                    <td>
+                        @Html.CheckBoxFor(Model => Model.IsAchievements)
+                        Achievements
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(Model => Model.IsComplaints)
+                        Complaints
+                    </td>
+
+
+                </tr>
+            </table>
+            <div style="padding-top:20px;">
+                 <input class="formbut" type="submit" name="yt0" value="Apply" />
+            </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>
+
+
+

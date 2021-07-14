@@ -1,0 +1,373 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<body>
+    <div class="container">
+        <div class="container">
+            <div class="span-19">
+                <div id="content">
+
+                    <style>
+                        .formbut-n {
+                            background-color: #50d8af;
+                        }
+
+                        .formbut {
+                            background-color: #50d8af;
+                        }
+
+                        .a_tag-btn {
+                            background-color: #50d8af;
+                        }
+                    </style>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="247" valign="top">
+                                <style>
+                                    a.add {
+                                        display: block;
+                                        margin: 10px 0 0;
+                                        padding: 2px 5px;
+                                        width: 60px;
+                                        height: 30px;
+                                        background-color: #379bc9;
+                                        border-radius: 3px;
+                                        color: #fff;
+                                    }
+
+                                        a.add:hover {
+                                            background-color: #318db7;
+                                        }
+
+                                    .add img {
+                                        color: #98adb5;
+                                        display: inline;
+                                        font-size: 14px;
+                                        margin-right: 5px;
+                                        width: 19px;
+                                        height: 20px;
+                                        float: left;
+                                        margin-left: 0px;
+                                        background: none;
+                                    }
+
+                                    .add span.fcount {
+                                        display: inline-block;
+                                        padding-top: 8px;
+                                        padding-left: 4px;
+                                        color: #FFF;
+                                        font-weight: bold;
+                                        font-size: 16px;
+                                    }
+                                </style>
+
+                                @foreach (var item in ViewBag.StudentList)
+                                {
+                                    <div class="empleftbx-profile">
+                                        <div class="empimgbx-profile">
+                                            <img src="/UploadedFiles/@item.Data" />
+                                        </div>
+
+                                        <div class="left-profile-name-sctn">
+                                            <div class="left-profile-blk">
+                                                <p>
+                                                    @item.FirstName @item.LastName
+                                                </p>
+                                                <a href="#">@item.Email</a>
+                                            </div>
+
+                                            <div id="jobDialog"></div>
+                                            <div class="clear"></div>
+                                            <div class="prof_detail-blk">
+                                                <ul>
+                                                    <li>
+                                                        <span><strong>Admission No&nbsp;:</strong>&nbsp;@item.AdmissionNo</span>
+                                                    </li>
+                                                </ul>
+                                            </div> <!-- END div class="prof_detail" -->
+                                        </div>
+
+                                    </div>
+                                }
+
+                            </td>
+                            <td valign="top">
+                                <div class="cont_right formWrapper">
+
+                                    <h1>Student Profile</h1>
+
+                                    <!-- END div class="edit_bttns last" -->
+                                    <div class="clear"></div>
+
+                                    <div class="emp_right_contner">
+
+
+
+                                        <div class="emp_tabwrapper">
+
+
+                                            <div class="button-bg">
+                                                <div class="top-hed-btn-left">
+                                                    <a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Back</span></a>
+                                                </div>
+                                                <div class="top-hed-btn-right">
+                                                    <ul>
+                                                        <li><a class="a_tag-btn" href="javascript:editStudent(@ViewBag.StudentDetailsId);" "><span>Edit</span></a> </li>
+                                                        <li><a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Students</span></a> </li>
+                                                    </ul>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="pagetab-bg-tag-a">
+                                                <ul>
+
+                                                    <li><a href="@Url.Action("ViewProfile", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Profile</a></li>
+                                                    <li><a href="@Url.Action("ViewCourses", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Courses</a></li>
+                                                    <li><a href="@Url.Action("ViewAssessments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Assessments</a></li>
+                                                    <li><a href="@Url.Action("ViewAttendance", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Attendance</a></li>
+                                                    <li class="active"><a href="@Url.Action("ViewDocuments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Documents</a></li>
+                                                    <li><a href="@Url.Action("ViewElectives", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Electives</a></li>
+                                                    <li><a href="@Url.Action("ViewAchievements", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Achievements</a></li>
+                                                    <li><a href="@Url.Action("ViewLog", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Log</a></li>
+                                                    @*<li><a href="@Url.Action("ViewAppraisal", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Appraisal</a></li>*@
+                                                </ul>
+                                            </div>                        <div class="clear"></div>
+
+
+                                            <style type="text/css">
+                                                .document_table {
+                                                    margin-top: 10px;
+                                                }
+                                            </style>
+                                            <style type="text/css">
+                                                .formbut {
+                                                    padding: 10px 15px;
+                                                }
+
+                                                a.classname {
+                                                    background: url(../gridview/delete.png) no-repeat top left;
+                                                    display: block;
+                                                    width: 150px;
+                                                    height: 150px;
+                                                    text-indent: -9999px; /* hides the link text */
+                                                }
+                                            </style>
+
+
+                                            <div class="document_table">
+                                                <table width="100%" cellspacing="0" cellpadding="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Document Name</th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top:none;">
+
+                                                    @foreach (var item in ViewBag.StudentDocumentsList)
+                                                    {
+                                                        <tr>
+                                                            <td width="40%">
+                                                                @item.SchoolCO.DocumentName
+                                                            </td>
+                                                            <td width="30%">
+                                                                @if (@item.StatusFlag == 1)
+                                                                {
+                                                                    <div class='tag_approved'>Approved</div>
+                                                                }
+                                                                else if (@item.StatusFlag == 0)
+                                                                {
+                                                                    <div class='tag_pending'>Pending</div>
+                                                                }
+                                                                else if (@item.StatusFlag == 3)
+                                                                {
+                                                                    <div class='tag_disapproved'>Disapproved</div>
+                                                                }
+                                                            </td>
+                                                            @if (item.StatusFlag == 1)
+                                                            {
+                                                                <td width="30%">
+                                                                    <ul class="tt-wrapper">
+                                                                        <li>
+                                                                            <a class="tt-approved-disabled" onclick="return false;" href="#"><span>Approved</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                            @Html.ActionLink("D", "Download", new { ImageName = @item.Data }, new { @class = "tt-download" })
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            }
+                                                            else if (item.StatusFlag == 3)
+                                                            {
+                                                                <td width="30%">
+                                                                    <ul class="tt-wrapper">
+                                                                        <li>
+                                                                            <a class="tt-approved" href="javascript:statusChanged(@item.StudentDocumentsId,1)"><span>Approved</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="tt-delete" href="javascript:deleteStudentDocument(@item.StudentDocumentsId);" id="yt1"><span>Delete</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                            @Html.ActionLink("D", "Download", new { ImageName = @item.Data }, new { @class = "tt-download" })
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td width="30%">
+                                                                    <ul class="tt-wrapper">
+                                                                        <li>
+                                                                            <a class="tt-approved" href="javascript:statusChanged(@item.StudentDocumentsId,1)"><span>Approved</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="tt-disapproved" href="javascript:statusChanged(@item.StudentDocumentsId,3)"><span>Disapprove</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="tt-delete" href="javascript:deleteStudentDocument(@item.StudentDocumentsId);" id="yt1"><span>Delete</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                            @Html.ActionLink("D", "Download", new { ImageName = @item.Data }, new { @class = "tt-download" })
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                    }
+
+                                                </table>
+                                            </div>
+
+                                            <div class="form" style="display:block">
+                                                <form enctype="multipart/form-data" id="student-document-form" action="ProfileCreateStudentDocument" method="post">
+
+                                                    <input type="hidden" value="@ViewBag.StudentDetailsId" name="StudentDetailsId" id="StudentDetailsId" />
+
+                                                    <p class="note" style="float:left">Fields with <span class="required">*</span> are required.</p>
+
+                                                    <div class="formCon" style="clear:left;">
+                                                        <div class="formConInner" id="innerDiv">
+                                                            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="documentTable">
+                                                                <tr>
+                                                                    <td class="DocumentTypeId" width="33%">
+                                                                        <select class="" name="DocumentTypeId" id="DocumentTypeId">
+                                                                            <option value="">Select Document</option>
+                                                                            @foreach (var item in ViewBag.DocumentsList)
+                                                                            {
+                                                                                <option value="@item.Id">@item.DocumentName</option>
+                                                                            }
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="33%">
+                                                                        <input id="FileName" type="hidden" value="" name="FileName" />
+                                                                        <input name="DataString" id="DataString" type="file" />
+                                                                    </td>
+                                                                    <td width="33%"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="button-bg">
+                                                        <div class="top-hed-btn-right">
+                                                            <ul>
+                                                                <li>
+                                                                    <input class="formbut-n" id="addAnother" name="yt0" type="submit" value="Add Another" />&nbsp;
+                                                                    <div style="float:right">
+                                                                        <input class="formbut-n" id="saveContinue" type="submit" name="yt1" value="Save" />&nbsp;
+                                                                    </div>
+                                                                    <input type="hidden" name="AddFlag" id="AddFlag" />
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="top-hed-btn-left"> </div>
+                                                    </div>
+                                                    <input name="Data" id="Data" type="hidden" />
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div><!-- content -->
+            </div>
+            <div class="span-5 last">
+                <div id="sidebar">
+                </div><!-- sidebar -->
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <script type="text/javascript">
+        function deleteStudentDocument(StudentDocumentsId) {
+            $.ajax({
+                type: "POST",
+                url: "/Student/DeleteStudentDocument",
+                data: '{StudentDocumentsId: ' + StudentDocumentsId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+
+        $('#addAnother').click(function (ev) {
+            if ($('#DocumentTypeId').val() == null || $('#DocumentTypeId').val() == "") {
+                $('#DocumentTypeId').css("border", "1px solid red");
+                return false;
+            }
+            if ($('#DataString').val() == null || $('#DataString').val() == "") {
+                $('#DocumentTypeId').css("border", "1px solid red");
+                return false;
+            }
+
+            $('#AddFlag').val(2);
+        });
+
+        $('#saveContinue').click(function (ev) {
+            if ($('#DocumentTypeId').val() == null || $('#DocumentTypeId').val() == "") {
+                $('#DocumentTypeId').css("border", "1px solid red");
+                return false;
+            }
+            if ($('#DataString').val() == null || $('#DataString').val() == "") {
+                $('#DataString').css("border", "1px solid red");
+                return false;
+            }
+            $('#AddFlag').val(1);
+        });
+
+        function editStudent(StudentDetailsId) {
+            window.location.href = '/Student/UpdateStudent?StudentDetailsId=' + StudentDetailsId;
+        };
+
+        function statusChanged(StudentDocumentsId, Status) {
+            $.ajax({
+                type: "POST",
+                url: "/Student/StudentDocumentStatusUpdate",
+                data: '{StudentDocumentsId: ' + StudentDocumentsId + ',Status:' + Status + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                },
+                error: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
+

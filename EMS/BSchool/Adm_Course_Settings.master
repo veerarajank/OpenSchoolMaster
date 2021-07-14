@@ -1,0 +1,59 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/GS247.master" AutoEventWireup="true" CodeFile="Adm_Course_Settings.master.cs" Inherits="Adm_Course_Settings" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+
+    <div class="midnav">
+        <span onclick="Goto('Settings.aspx')">Teacher Settings</span>
+    </div>
+
+
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-md-3" style="vertical-align: top; border: 1px solid #b9c7d0">
+
+                    <div id="othleft-sidebar">
+                        <h1>Manage Course / Batch</h1>
+                        <ul id="yw0">
+                            <li class=""><a class="list-cours_ico" href="Adm_Current_Year_Course.aspx">List Course / Batch<span>Current Courses and Batch Details</span></a></li>
+                            
+                            <li><span>
+                          <h1>Manage Previous Year Course / Batch</h1>
+                                </span></li>
+                            <li><a class="previous-courses_ico" href="Adm_Previous_Year_Course.aspx">Previous Year Courses<span>All Courses and Batch Details</span></a></li>
+                            <li><a class="deactive-course_ico" href="Adm_Batch_Inactive_List.aspx">Deactivated Batch<span>Deactivated Batch Details</span></a></li>
+                            
+                         <li><span>
+                                <h1>Manage Course</h1>
+                            </span></li>
+                            <li><a class="create-courses_ico" href="Adm_CreateCourses.aspx">Create Courses<span>Add New Course Details</span></a></li>
+                            <li><a class="common-pool-course_ico" href="Adm_Course_Subjects.aspx">Subjects Common Pool<span>Common Subject Details</span></a></li>
+
+                             <li class="">
+                                <a class="previous-courses_ico" href="Adm_Courses_Batch.aspx">Manage Batches<span>Batches for the Courses </span></a></li>
+
+                            <li class="">
+                                <a class="gradebook_ico" active href="Adm_Course_Semester.aspx">Manage Semesters<span>Semesters for the Courses </span></a></li>
+
+                            <li><span>
+                                <h1>General Settings</h1></span></li>
+                            <li id="menu_1"><a class="genaral-setting_ico" href="Settings.aspx">General Settings<span>Manage Configurations</span></a></li>
+
+                            </ul>
+                        <div id="Div1"></div>
+
+                    </div>
+                    <div id="subject-name-ajax-grid"></div>
+
+                </td>
+                <td class="col-md-9" style="vertical-align: top; border: 1px solid #b9c7d0">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</asp:Content>
+

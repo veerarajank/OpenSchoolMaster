@@ -1,0 +1,233 @@
+﻿@model GS247.Models.LibraryBook
+
+@{
+    ViewBag.Title = "EditBook";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<script type="text/css">
+    .formConInner {
+    padding: 15px 15px;
+    position: relative;
+    }
+</script>
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<link href="~/Content/jquery-ui-1.11.4.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(function () {
+            var flag = true;
+            if (flag)
+                $('#SubjectId').val(0);
+            $("#SubjectName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Library/AutoFill/',
+                        data: "{ 'Prefix': '" + request.term + "' }",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            flag = true;
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    flag = false;
+                    $('#SubjectId').val(ui.item.val);
+                },
+                minLength: 3
+            });
+        });
+        $(function () {
+            $("#AuthorName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Library/AutoFillAuthor/',
+                        data: "{ 'Prefix': '" + request.term + "' }",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('#AuthorId').val(ui.item.val);
+                },
+                minLength: 3
+            });
+        });
+    });
+</script>
+<div class="cont_right formWrapper" style="padding:15px 20px 80px 20px;">
+    <h1>Edit Book</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="formbut" href="@Url.Action("ManageBooks","Library")"><span>Back</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="form">
+        <div class="formCon">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="formConInner">
+                    <div style="background:none;">
+                        <p>Fields with <span class="required"> * </span> are required.</p>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="isbn" class="required">Isbn <span class="required">*</span></label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.ISBN, new { id = "isbn", maxlength = 100 })
+                                    @Html.HiddenFor(model => model.Id)
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="title" class="required">Title <span class="required">*</span></label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Title, new { id = "title" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="subjectname" class="required">Subject<span class="required">*</span></label></td>
+                                <td>
+                                    @*@Html.DropDownListFor(model => model.SubjectId, ViewBag.Subjects as IEnumerable<SelectListItem>, "--Select--")*@
+                                    @Html.Editor("SubjectName", new { htmlAttributes = new { @class = "form -control", @Value = ViewBag.SubjectName } })
+                                    @Html.HiddenFor(model => model.SubjectId)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="categoryname" class="required">Category<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.CategoryId, ViewBag.CategoryList as IEnumerable<SelectListItem>, "--Select--")
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="authorname" class="required">Author<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.AuthorId, ViewBag.Authors as IEnumerable<SelectListItem>, "--Select--")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="edition" class="required">Edition<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Edition, new { id = "edition" })
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="publisher" class="required">Publisher<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Publisher, new { id = "publisher" })
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="copy" class="required">Copy<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Copy, new { id = "copy" })
+                                    @Html.HiddenFor(model => model.CopiesAvailable)
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="bookposition" class="required">Book Position<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.BookPosition, new { id = "bookposition" })
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="shelfno" class="required">Shelf No<span class="required">*</span></label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.ShelfNo, new { id = "shelfno" })
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                                <td><input class="formbut" type="submit" value="Update" /></td>
+                            </tr>
+                        </table>
+                    </div><!-- form -->
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

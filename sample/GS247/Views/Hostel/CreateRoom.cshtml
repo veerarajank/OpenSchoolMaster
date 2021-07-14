@@ -1,0 +1,234 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+<div id="loading">
+    <img id="loading-image" src="~/gridview/loading.gif" alt="Loading..." />
+</div>
+
+<style>
+    #loading {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 1;
+        text-align: center;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 250px;
+        left: 775px;
+        z-index: 100;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+
+    .alphabrtic {
+        background-color: #F60;
+    }
+</style>
+
+<div class="cont_right">
+    <h1>Create Room</h1>
+    <div class="formCon" style="width:100%; border:0px #fac94a solid; color:#000; ">
+        <div class="formConInner">
+            <div class="button-bg">
+                <div class="top-hed-btn-left">
+                    <div class="mn_wrap_1"><p><span style="color:red">Hostel Name : </span>@ViewBag.HostelName</p></div>
+                </div>
+                <div class="top-hed-btn-right">
+                    <div class="mn_wrap_1"><p><span style="color:red">Floor No : </span>@ViewBag.FloorNo</p></div>
+                </div>
+            </div>
+            </div>
+        </div>
+    <div class="form">
+
+                <p class="note">Fields with&nbsp;<span class="required">*</span> &nbsp;are required.</p>
+
+                <div id="NumberRoomsList">
+
+                </div>
+                <input id="HostelDetailsId" type="hidden" value="@ViewBag.HostelDetailsId" name="HostelDetailsId">
+                <input id="HostelFloorId" type="hidden" value="@ViewBag.HostelFloorId" name="HostelFloorId">
+                <div>
+                    <input class="formbut-n" type="submit" onclick="SaveRoom();" name="yt0" value="Create" />
+                </div>
+            </div>
+</div>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $('#loading').show();
+                var NumberOfRooms = @Html.Raw(Json.Encode(ViewBag.NumberOfRooms));
+                var value ="";
+                for(var i = 0; i < NumberOfRooms; i++ )
+                {
+                    value +="<div class=\"formCon\" style=\"margin-bottom:8px; border:1px #e6e8e9 solid;\"><div class=\"formConInner\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td><label for=\"RoomNo\" class=\"required\">Room No <span class=\"required\">*</span></label></td><td><input size=\"20\" value=\"\" name=\"RoomNo"+i+"\" id=\"RoomNo"+i+"\" type=\"text\" required/></td><td><label for=\"NumberOfBeds\" class=\"required\">No. of Bed (s) <span class=\"required\">*</span></label></td><td><input size=\"20\" value=\"\" name=\"NumberOfBeds"+i+"\" id=\"NumberOfBeds"+i+"\" type=\"text\" required/></td></tr></table></div></div>";
+                }
+                $("#NumberRoomsList").append(value);
+                $('#loading').hide();
+            });
+
+
+            function SaveRoom() {
+                $('#loading').show();
+                var _tempcomlist = [];
+
+                var NumberOfRooms = @Html.Raw(Json.Encode(ViewBag.NumberOfRooms));
+
+                var vFlag = true;
+
+                for(var i = 0; i < NumberOfRooms; i++ )
+                {
+                    if($('#RoomNo'+i).val() == "" || $('#RoomNo'+i).val() == null)
+                    {
+                        $('#RoomNo'+i).css("border", "1px solid red");
+                        vFlag = false;
+                        $('#loading').hide();
+                        return false;
+                    }
+                    else
+                    {
+                        $('#RoomNo'+i).css("border", "1px solid blue");
+                    }
+
+                    if($('#NumberOfBeds'+i).val() == "" || $('#RoomNo'+i).val() == null)
+                    {
+                        $('#NumberOfBeds'+i).css("border", "1px solid red");
+                        vFlag = false;
+                        $('#loading').hide();
+                        return false;
+                    }
+                    else
+                    {
+                        $('#NumberOfBeds'+i).css("border", "1px solid blue");
+                    }
+                }
+
+                if(vFlag)
+                {
+                    for(var i = 0; i < NumberOfRooms; i++ )
+                    {
+                        for(var j = 0; j < NumberOfRooms; j++ )
+                        {
+                            if(i != j)
+                            {
+                                if($('#RoomNo'+i).val() == $('#RoomNo'+j).val())
+                                {
+                                    $('#RoomNo'+j).css("border", "1px solid red");
+                                    vFlag = false;
+                                    $('#loading').hide();
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(vFlag)
+                {
+                    for(var i = 0; i < NumberOfRooms; i++ )
+                    {
+                        var myObject = new Object();
+                        myObject.HostelFloorId = @ViewBag.HostelFloorId;
+                        myObject.HostelDetailsId =@ViewBag.HostelDetailsId;
+                        myObject.RoomNo = $('#RoomNo'+i).val();
+                        myObject.NumberOfBeds = $('#NumberOfBeds'+i).val();
+                        _tempcomlist.push(myObject);
+                    }
+                    var d = { collection: _tempcomlist };
+
+                    $.ajax({
+                        url: "/Hostel/CreateRoom",
+                        type:'POST',
+                        data: JSON.stringify(d),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            window.location.href = '/Hostel/ManageRoomDetails';
+                               
+                        },
+                        error: function(){
+                        }
+                    });
+                }
+                else
+                    $('#loading').hide();
+                return false;
+            };
+
+        </script>
+
+

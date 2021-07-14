@@ -1,0 +1,294 @@
+﻿@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+
+
+<div class="cont_right">
+    <h1>Due Report</h1>
+    <div class="formCon">
+        <div class="formConInner">
+            <div class="txtfld-col-box">
+                <h3>Due Report</h3>
+                <table>
+                    <tr>
+                        <td>Select Course</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                            <select class="form-control" name="courseid" id="courseid" onchange="onChangeCourse(this);">                                
+                                <option value="">Select Course</option>
+                                @foreach (var item in ViewBag.CoursesList)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;&nbsp;</td></tr>
+                    <tr>
+                        <td>Select Batch</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                            <select name="batchid" id="batchid"></select>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;&nbsp;</td></tr>
+                    <tr>
+                        <td>
+                            <input class="formbut-n" id="search_btn" name="submit" type="submit" value="Submit" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="pdtab_Con">
+        <div>
+            <a target="_blank" class="xl-but" href="#">Generate EXCEL</a>
+            <a target="_blank" class="pdf_but" href="#">Generate PDF</a>
+        </div>
+        <br>
+        <div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="FeesReportListGrid">
+                <tbody></tbody>
+            </table>
+        </div>
+        <br />
+        <div class="pagecon">
+            <div class="">
+                <div align="center" id="pageNation">
+                </div> <!-- END div class="pagecon" 2 -->
+                <div class="clear"></div>
+            </div>
+        </div>
+        <input type="hidden" name="CurrentPageIndex" id="CurrentPageIndex" />
+    </div>   
+</div>
+
+<script type="text/javascript">
+
+    function onChangeCourse(ele) {
+
+        if (ele.value != "") {
+
+            var d = { Id: ele.value };
+
+            $.ajax({
+                type: "POST",
+                url: "/Student/BatchListLoad",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (index, BatchList) {
+                        var Table = document.getElementById("batchid");
+                        Table.innerHTML = "";
+                        if (BatchList.length > 0) {
+                            var value = "<option value=\"0\">All</option>";
+
+                            for (var i = 0; i < BatchList.length; i++) {
+                                value += "<option value=\"" + BatchList[i].Id + "\">" + BatchList[i].Name + "</option>";
+                            }
+
+                            $("#batchid").append(value);
+                        }
+
+                    });
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });            
+        }
+        else {
+            var Table = document.getElementById("batchid");
+            Table.innerHTML = "";
+        }
+    };
+
+
+    $('#search_btn').click(function (ev) {
+        var course = $('#courseid').val();
+        var batch = $('#batchid').val();        
+        var flag = 0;
+        if (course == '') {
+            $('#courseid').css("border", "1px solid red");
+            flag = 1;
+        }
+        else
+            $('#courseid').css("border", "1px solid blue");
+        if (batch == '') {
+            $('#batchid').css("border", "1px solid red");
+            flag = 1;
+        }
+        else
+            $('#batchid').css("border", "1px solid blue");
+        if (flag == 1) {
+            return false;
+        }
+        else
+        {
+            $('#CurrentPageIndex').val(1);
+            GetSaleList();
+        }
+    });
+
+    function GetSaleList() {
+
+        var d = { courseId: $('#courseid').val(), batchId: $('#batchid').val(), currentPageIndex: $('#CurrentPageIndex').val() };
+
+        $.ajax({
+            type: "POST",
+            url: "/Fees/DueReportList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableClearValue();
+                $.each(result, function (index, TransactionDetailsList) {
+
+                    if (index == "TransactionDetailsList") {
+                        var j = 1;
+                        for (var i = 0; i < TransactionDetailsList.length; i++) {
+                            $("#FeesReportListGrid").append(
+                        "<tr>"
+                            + "<td>" + j + "</td>"
+                       + "<td>" + TransactionDetailsList[i].StudentName + "</td>"
+                             + "<td>" + TransactionDetailsList[i].AdmissionNo + "</td>"
+                        + "<td>" + TransactionDetailsList[i].FeeCategoryName + "</td>"
+                             + "<td>" + TransactionDetailsList[i].TransactionDateStr + "</td>"
+                        + "<td>" + TransactionDetailsList[i].TotalAmount + "</td>"
+                        + "<td>" + TransactionDetailsList[i].InvoiceBalanceAmount + "</td>"                       
+                            + "</tr>");
+                            j++;
+                        }
+                    }
+                });
+                                                                                     -
+                pagenationApply(result.TotalPages);
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    }
+
+    function tableClearValue() {
+        var Table = document.getElementById("FeesReportListGrid");
+        Table.innerHTML = "";
+        $("#FeesReportListGrid").append(
+                        "<tr class=\"tablebx_topbg\">"
+                        + "<td>Sl No</td><td width=\"10%\">Student Name</td><td>Admission No</td><td>Category</td><td>Due Date</td><td>Total Amount</td><td>Due Amount</td>"
+                        + "</tr>");
+    };
+
+    function pageclicktest(ele) {
+        $("#CurrentPageIndex").val(ele.value);
+        GetSaleList();
+    };
+
+    function pageclickNext(ele) {
+        var nextPage = parseInt($("#CurrentPageIndex").val()) + 1;
+        $("#CurrentPageIndex").val(nextPage);
+        GetSaleList();
+    };
+
+    function pageclickPrevious(ele) {
+        var prevPage = parseInt($("#CurrentPageIndex").val()) - 1;
+        $("#CurrentPageIndex").val(prevPage);
+        GetSaleList();
+    };
+
+    function pagenationApply(PageCount) {
+
+        var Table = document.getElementById("pageNation");
+        Table.innerHTML = "";
+        var currentPageIndex = $('#CurrentPageIndex').val();
+        var pageCutLow = (parseInt(currentPageIndex)) - parseInt(1);
+        var pageCutHigh = parseInt(1) + (parseInt(currentPageIndex));
+
+        var value = "<div class=\"\">";
+
+        if (parseInt(currentPageIndex) > 1) {
+            value += "<input type=\"submit\" onclick=\"pageclickPrevious(this);\" value=\"Previous\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white;\"/>";
+        }
+
+        if (parseInt(PageCount) < 6) {
+            for (var i = 1; i <= parseInt(PageCount) ; i++) {
+                if (i != parseInt(currentPageIndex)) {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+            }
+        }
+        else {
+            if (parseInt(currentPageIndex) > 2) {
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"1\" />";
+
+                if (parseInt(currentPageIndex) > 3) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\" />";
+                }
+            }
+            if (parseInt(currentPageIndex) == 1) {
+                pageCutHigh += 2;
+            }
+            else if (parseInt(currentPageIndex) == 2) {
+                pageCutHigh += 1;
+            }
+
+            if (parseInt(currentPageIndex) == parseInt(PageCount)) {
+                pageCutLow -= 2;
+            }
+            else if (parseInt(currentPageIndex) == parseInt(PageCount) - 1) {
+                pageCutLow -= 1;
+            }
+
+            for (var i = pageCutLow; i <= pageCutHigh; i++) {
+                if (i == 0) {
+                    i += 1;
+                }
+                if (i > parseInt(PageCount)) {
+                    continue;
+                }
+
+                if (parseInt(currentPageIndex) == i) {
+                    value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                }
+                else {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                }
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount) - 1) {
+                if (parseInt(currentPageIndex) < parseInt(PageCount) - 2) {
+                    value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\"/>";
+                }
+
+                value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + parseInt(PageCount) + "\" />";
+            }
+
+            if (parseInt(currentPageIndex) < parseInt(PageCount)) {
+                value += "<input type=\"submit\" onclick=\"pageclickNext(this);\" value=\"Next\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white\" />";
+            }
+
+        }
+
+        value += "</div>";
+
+        $("#pageNation").append(value);
+
+    };
+</script>

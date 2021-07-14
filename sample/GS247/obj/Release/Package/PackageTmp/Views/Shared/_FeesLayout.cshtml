@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "_FeesLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<body style="background-color:">
+
+    <div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+        <div class="wrap_container_admin wrap_container_flex">
+            <script>
+                $(document).ready(function () {
+                    window.history.pushState(null, "", window.location.href);
+                    window.onpopstate = function () {
+                        window.history.pushState(null, "", window.location.href);
+                    };
+                });
+            </script>
+
+            <div class="midnav" style="background-color: ; color: ">
+                <div class="breadcrumbs">
+                </div>
+            </div>
+            <div class="container">
+                <div class="container">
+                    <div class="span-19">
+                        <div id="content">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="247" valign="top">
+                                        <div id="othleft-sidebar">
+                                            <h1>Manage Fees</h1>
+                                            <ul id="yw0">
+                                                <li><a class="fee-dashboad_ico" href="@Url.Action("Index","Fees")">Dashboard<span>Fees dashboard</span></a></li>
+                                                <li class=""><a class="create-fee_ico" href="@Url.Action("CreateFees","Fees")">Create Fees<span>Create Fees</span></a></li>
+                                                <li><a class="manageinvoice_ico" href="@Url.Action("ManageInvoices","Fees")">Manage Invoices <span>Manage Generated Invoices</span></a></li>
+                                                <li><a class="setting-passwors_ico" href="@Url.Action("Configurations","Fees")">Configurations <span>Fees Configurations</span></a></li>
+                                                <li><span><h1>Manage Transportation Fees</h1></span></li>
+                                                <li><a class="fee-dashboad_ico" href="@Url.Action("TransportationFee","Fees")">Transportation Fee<span>Transportation Fee</span></a></li>
+                                                <li><span><h1>Payment Types</h1></span></li>
+                                                <li><a class="managfile-upload_ico" href="@Url.Action("CreatePayment","Fees")">Create Payment Type<span>Create a Payment Type</span></a></li>
+                                                <li><a class="m-paymnt_ico" href="@Url.Action("ManagePayment","Fees")">Manage Payment Types<span>Manage all Payment Types</span></a></li>
+                                                <li><span><h1>Tax Settings</h1></span></li>
+                                                <li><a class="creat-task_ico" href="@Url.Action("CreateTax","Fees")">Create Tax<span>Create a new Tax value</span></a></li>
+                                                <li><a class="manage-task_ico" href="@Url.Action("ManageTax","Fees")">Manage Tax<span>Manage all Tax values</span></a></li>
+                                                <li><span><h1>Reports</h1></span></li>
+                                                <li><a class="manage-grade_ico" href="@Url.Action("DailyReport","Fees")">Daily Collection Report<span>Daily Collection Report</span></a></li>
+                                                <li><a class="mg_ico" href="@Url.Action("DueReport","Fees")">Due Report<span>Due Report</span></a></li>
+                                                <li><span><h1>Payment Gateway</h1></span></li>
+                                                <li><a class="setting-ap_ico" href="@Url.Action("Gateway","Fees")">Settings<span>Gateway settings</span></a></li>
+                                            </ul>                                            
+                                        </div>
+                                    </td>
+                                    <td valign="top">
+                                        <div class="content" style="background-color: white">
+                                            <style>
+                                                .formbut-n{
+                                                    background-color:#50d8af;
+                                                }
+                                                  .formbut{
+                                                    background-color:#50d8af;
+                                                }
+                                                    .a_tag-btn{
+                                                    background-color:#50d8af;
+                                                }
+                                            </style>
+                                            @RenderBody()
+                                            <!-- Content Header (Page header) -->
+                                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                            </asp:ContentPlaceHolder>
+                                            <!-- /.content -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

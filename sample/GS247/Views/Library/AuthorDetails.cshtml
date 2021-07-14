@@ -1,0 +1,65 @@
+﻿@model IEnumerable<GS247.Models.Library.ViewBooks>
+
+@{
+    ViewBag.Title = "AuthorDetails";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+    <style>
+        .formbut {
+            background: #50d8af;
+        }
+    </style>
+
+    <div class="cont_right formWrapper" style="padding:15px 20px 180px 20px;">
+        <h1>Author Details</h1>
+        <style>
+            .sem-view-block th, td {
+                border: none;
+            }
+        </style>
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li>
+                        <a class="formbut" href="@Url.Action("ManageBooks","Library")"><span>Back</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div id="authordet-grid" class="grid-view">
+            <table class="items" id="myTable">
+                <thead>
+                    <tr>
+                        <th id="authordet-grid_c0">Author Name</th>
+                        <th id="authordet-grid_c1">Subject</th>
+                        <th id="authordet-grid_c2">Book Title</th>
+                        <th id="authordet-grid_c3">ISBN</th>
+                        <th id="authordet-grid_c4">Publication</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="odd">
+                            <td> @Html.DisplayFor(modelItem => item.AuthorName)</td>
+                            <td>  @Html.DisplayFor(modelItem => item.SubjectName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>  @Html.DisplayFor(modelItem => item.ISBN)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Publisher)</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+
+

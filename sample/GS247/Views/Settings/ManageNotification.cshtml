@@ -1,0 +1,183 @@
+﻿@model GS247.Models.Settings.NotificationList
+    
+@{
+    ViewBag.Title = "ManageNotification";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+
+    <style>
+        .formbut {
+            background: #50d8af;
+        }
+    </style>
+    <script>
+        function SelectAllSMS(id) {
+            if (id == "sms_all") {
+                if (document.getElementById(id).checked == true) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsSMS").checked = true;
+                    }
+
+                }
+                if (document.getElementById(id).checked == false) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsSMS").checked = false;
+                    }
+
+                }
+            }
+            if (id == "mail_all") {
+                if (document.getElementById(id).checked == true) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsEMail").checked = true;
+                    }
+
+                }
+                if (document.getElementById(id).checked == false) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsEMail").checked = false;
+                    }
+
+                }
+            }
+            if (id == "msg_all") {
+                if (document.getElementById(id).checked == true) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsMessage").checked = true;
+                    }
+
+                }
+                if (document.getElementById(id).checked == false) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsMessage").checked = false;
+                    }
+
+                }
+            }
+            if (id == "student_all") {
+                if (document.getElementById(id).checked == true) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsStudent").checked = true;
+                    }
+
+                }
+                if (document.getElementById(id).checked == false) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsStudent").checked = false;
+                    }
+
+                }
+            }
+            if (id == "parent_all") {
+                if (document.getElementById(id).checked == true) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsGuardian").checked = true;
+                    }
+
+                }
+                if (document.getElementById(id).checked == false) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsGuardian").checked = false;
+                    }
+
+                }
+            }
+            if (id == "employee_all") {
+                if (document.getElementById(id).checked == true) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsTeacher").checked = true;
+                    }
+
+                }
+                if (document.getElementById(id).checked == false) {
+                    for (var i = 0; i < 16; i++) {
+                        document.getElementById("Notifications_" + i + "__IsTeacher").checked = false;
+                    }
+
+                }
+            }
+            
+            
+        }
+        
+    </script>
+    <div class="cont_right formWrapper">
+        <h1>Notification Settings</h1>
+        <div class="form">
+            <span style="color:#F00">*Please select recipients (Student, Guardians, Teacher) for SMS / Email / Message function.</span>
+               @using (Html.BeginForm("UpdateNotification", "Settings", FormMethod.Post))
+               {
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr class="pdtab-h">
+                                <td style="padding-left:20px ;">Function</td>
+                                <td>
+                                    <div style="float:left; padding-left:5px;">
+                                        <input id="ytsms_all" type="hidden" value="0" name="NotificationSettings[sms_all]" /><input id="sms_all" onchange="SelectAllSMS(this.id);" class="check_sms" name="NotificationSettings[sms_all]" value="1" type="checkbox" />
+                                    </div>
+                                    <div style="float:left; padding-top:2px;padding-left:5px; text-align:center;">SMS</div>
+                                </td>
+                                <td>
+                                    <div style="float:left; padding-left:5px;">
+                                        <input id="ytmail_all" type="hidden" value="0" name="NotificationSettings[mail_all]" /><input id="mail_all" onchange="SelectAllSMS(this.id);" class="check_mail" name="NotificationSettings[mail_all]" value="1" type="checkbox" />
+                                    </div>
+                                    <div style="float:left; padding-top:2px;padding-left:5px;">Email</div>
+                                </td>
+                                <td>
+                                    <div style="float:left; padding-left:5px;">
+                                        <input id="ytmsg_all" type="hidden" value="0" name="NotificationSettings[msg_all]" /><input id="msg_all" onchange="SelectAllSMS(this.id);" class="check_msg" name="NotificationSettings[msg_all]" value="1" type="checkbox" />
+                                    </div>
+                                    <div style="float:left; padding-top:2px;padding-left:5px;">Message</div>
+                                </td>
+                                <td>
+                                    <div style="float:left; padding-left:5px;">
+                                        <input id="ytstudent_all" type="hidden" value="0" name="NotificationSettings[student_all]" /><input id="student_all" onchange="SelectAllSMS(this.id);" name="NotificationSettings[student_all]" value="1" type="checkbox" />
+                                    </div>
+                                    <div style="float:left; padding-top:2px;padding-left:5px;">Student</div>
+                                </td>
+                                <td>
+                                    <div style="float:left; padding-left:5px;">
+                                        <input id="ytparent_1_all" type="hidden" value="0" name="NotificationSettings[parent_1_all]" /><input id="parent_all" onchange="SelectAllSMS(this.id);" name="NotificationSettings[parent_1_all]" value="1" type="checkbox" />
+                                    </div>
+                                    <div style="float:left; padding-top:2px;padding-left:5px;">Guardian</div>
+                                </td>
+                                <td>
+                                    <div style="float:left; padding-left:5px;">
+                                        <input id="ytemployee_all" type="hidden" value="0" name="NotificationSettings[employee_all]" /><input id="employee_all" onchange="SelectAllSMS(this.id);" name="NotificationSettings[employee_all]" value="1" type="checkbox" />
+                                    </div>
+                                    <div style="float:left; padding-top:2px;padding-left:5px;">Teacher</div>
+                                </td>
+                            </tr>
+                            @for (int i = 0; i < Model.Notifications.Count; i++)
+                            {
+                            <tr>
+                                @Html.HiddenFor(M=>M.Notifications[i].Id)
+                                <td style="padding-left:20px;"><strong><label>@Model.Notifications[i].Name</label></strong></td>
+                                <td style="text-align:center;">
+                                   @Html.CheckBoxFor(M => M.Notifications[i].IsSMS)
+                                </td>
+                                <td style="text-align:center;">
+                                    @Html.CheckBoxFor(M => M.Notifications[i].IsEMail)
+                                </td>
+                                <td style="text-align:center;">
+                                    @Html.CheckBoxFor(M => M.Notifications[i].IsMessage)
+                                </td>
+                                <td style="text-align:center;">
+                                    @Html.CheckBoxFor(M => M.Notifications[i].IsStudent)
+                                </td>
+                                <td style="text-align:center;">
+                                    @Html.CheckBoxFor(M => M.Notifications[i].IsGuardian)
+                                </td>
+                                <td style="text-align:center;">
+                                   @Html.CheckBoxFor(M => M.Notifications[i].IsTeacher)
+                                </td>
+                            
+                            </tr>
+                                }
+                            </tbody>
+                    </table>
+                    <br />
+                    <div class="row buttons"> <input class="formbut" type="submit" name="yt0" value="Save Settings" /> </div>
+            }
+        </div>
+    </div>

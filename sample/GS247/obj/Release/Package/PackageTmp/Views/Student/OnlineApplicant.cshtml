@@ -1,0 +1,731 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        height: 470px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+</style>
+
+<div class="cont_right formWrapper">
+    <h1>Online Registered Profiles</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left">           
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="a_tag-btn" href="@Url.Action("OnlineCreateStudent","Student")"><span>Add New Admission</span></a>
+                </li>
+                <li><a class="a_tag-btn" href="javascript:onClickSearch();"><span>Clear All</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="list_contner_hdng" id="">
+        <div class="letterNavCon" id="letterNavCon">
+            <ul class="" id="">
+                <li><a class="alphabrtic" style="width:30px;height:25px" onclick="onClickAlphabetic('All');">All</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('A');">A</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('B');">B</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('C');">C</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('D');">D</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('E');">E</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('F');">F</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('G');">G</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('H');">H</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('I');">I</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('J');">J</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('K');">K</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('L');">L</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('M');">M</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('N');">N</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('O');">O</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('P');">P</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Q');">Q</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('R');">R</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('S');">S</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('T');">T</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('U');">U</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('V');">V</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('W');">W</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('X');">X</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Y');">Y</a></li>
+                <li><a class="vtip" style="width:20px;height:25px" href="javascript:onClickAlphabetic('Z');">Z</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<form id="myform" action="OnlineApplicantSearch" method="GET">
+
+    @*<div class="filter_ul filterbxcntnt-new">
+            <ul>
+                <li class="Text_area_Box-two">
+                    <input type="text" placeholder="Application ID" id="AdmissionId" style="width:250px;height:25px" />
+                </li>
+                <li class="Text_area_Box-two">
+                    <select id="StatusFlag" name="StatusFlag" style="width:250px;">
+                        <option value="">All</option>
+                        <option value="1">Approved</option>
+                        <option value="0">Pending</option>
+                        <option value="2">Disapproved</option>
+                        <option value="3">Waiting List</option>
+                    </select>
+                </li>
+                <li class="Btn_area_Box"><input type="submit" value="Apply"></li>
+            </ul>
+        </div>*@
+
+
+    <div class="formCon">
+        <div class="formConInner">
+            <div class="a_feed_cntnr" id="a_feed_cntnr">
+                <center><div class="online_academic_yr">Academic Year - AY 2020-2021</div></center>
+                @foreach (var item in ViewBag.StudentList)
+                        {
+                        <div class="individual_feed">
+                            <div class="a_feed_online">
+                                <div class="a_boy"></div>
+                                <div class="a_feed_innercntnt">
+                                    <div class="onln-adm-list" style="width:100%">
+                                        <div class="onln-adm-date">
+                                            <strong>@item.AdmissionDate.ToString("dd MMM yyyy")</strong>
+                                        </div>
+                                    </div>
+                                    <div class="onln-adm-list">
+                                        <div class="onln-adm-table">
+                                            <table class="reg_bx" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td width="30%">
+                                                            <p>Name</p>
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td>
+                                                            <strong>
+                                                                <a href="@Url.Action("OnlineViewProfile", "Student", new { StudentDetailsId = @item.StudentDetailsId })">
+                                                                    @item.FirstName @item.LastName
+                                                                </a>
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="30%">
+                                                            <p>App ID</p>
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td>@item.AdmissionNo</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>Email</p>
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td>@item.Email</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>Phone</p>
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td>@item.PhoneNumber1</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <p>Course</p>
+                                                        </td>
+                                                        <td>:</td>
+                                                        <td>@item.SchoolCO.CourseBatchName</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="onln-adm-table-icon">
+                                            <div class="online_time onln-adm-stus">
+                                                <div class="tt-wrapper">
+                                                    @if (@item.Status == 1)
+                                                        {
+                                                        <div class='tag_approved'>Approved</div>
+                                                        }
+                                                        else if (@item.Status == 0)
+                                                        {
+                                                        <div class='tag_pending'>Pending</div>
+                                                        }
+                                                        else if (@item.Status == 2)
+                                                        {
+                                                        <div class='tag_waiting'>Waiting</div>
+                                                        }
+                                                        else if (@item.Status == 3)
+                                                        {
+                                                        <div class='tag_disapproved'>Disapproved</div>
+                                                        }
+
+                                                </div>
+                                            </div>
+                                            <div class="online_but onln-adm-stus">
+                                                @if (@item.Status == 1)
+                                                    {
+                                                    <ul class="tt-wrapper">
+                                                        <li>
+                                                            <a class="tt-approved-disabled">Approved</a>
+                                                        </li>
+                                                    </ul>
+                                                    }
+                                                    else if (@item.Status == 2)
+                                                    {
+                                                    <ul class="tt-wrapper">
+                                                        <li>
+                                                            <a class="tt-approved" href="javascript:approvalChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Approve</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="tt-edit" href="javascript:editWaitingStudent(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Edit</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="tt-delete" href="javascript:deleteStudent(@item.StudentDetailsId)"><span>Delete</span></a>
+                                                        </li>
+                                                    </ul>
+                                                    }
+                                                    else if (@item.Status == 3)
+                                                    {
+                                                    <ul class="tt-wrapper">
+                                                        <li>
+                                                            <a class="tt-approved" href="javascript:approvalChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Approve</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="tt-delete" href="javascript:deleteStudent(@item.StudentDetailsId)"><span>Delete</span></a>
+                                                        </li>
+                                                    </ul>
+                                                    }
+                                                    else
+                                                    {
+                                                    <ul class="tt-wrapper">
+                                                        <li>
+
+                                                            <a class="tt-approved" href="javascript:approvalChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Approve</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="tt-disapproved" href="javascript:statusChanged(@item.StudentDetailsId,3)"><span>Disapprove</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="tt-delete" href="javascript:deleteStudent(@item.StudentDetailsId)"><span>Delete</span></a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="tt-waiting" href="javascript:waitingListChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Waiting List</span></a>
+                                                        </li>
+                                                    </ul>
+                                                    }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                <br />
+                @{var pageCutLow = ViewBag.CurrentPageIndex - 1;}
+                @{var pageCutHigh = ViewBag.CurrentPageIndex + 1;}
+
+                @if (ViewBag.PageCount > 0)
+                        {
+                        <div class="">
+                            <div align="center">
+                                <div class="">
+
+                                    @if (ViewBag.CurrentPageIndex > 1)
+                                        {
+                                        <input type="submit" class="pageclickPrevious" value="Previous" style="border:none;width:50px;height:20px;font-size:10px;background-color:white;" />
+                                        }
+
+                                    @if (ViewBag.PageCount < 6)
+                                        {
+                                            for (int i = 1; i <= ViewBag.PageCount; i++)
+                                            {
+                                                if (i != ViewBag.CurrentPageIndex)
+                                                {
+                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                                }
+                                                else
+                                                {
+                                        <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (ViewBag.CurrentPageIndex > 2)
+                                            {
+                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="1" />
+
+                                                if (ViewBag.CurrentPageIndex > 3)
+                                                {
+                                        <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                                }
+                                            }
+
+                                            if (ViewBag.CurrentPageIndex == 1)
+                                            {
+                                                pageCutHigh += 2;
+                                            }
+                                            else if (ViewBag.CurrentPageIndex == 2)
+                                            {
+                                                pageCutHigh += 1;
+                                            }
+
+                                            if (ViewBag.CurrentPageIndex == ViewBag.PageCount)
+                                            {
+                                                pageCutLow -= 2;
+                                            }
+                                            else if (ViewBag.CurrentPageIndex == ViewBag.PageCount - 1)
+                                            {
+                                                pageCutLow -= 1;
+                                            }
+
+                                            for (int i = (int)pageCutLow; i <= pageCutHigh; i++)
+                                            {
+                                                if (i == 0)
+                                                {
+                                                    i += 1;
+                                                }
+                                                if (i > ViewBag.PageCount)
+                                                {
+                                                    continue;
+                                                }
+
+                                                if (ViewBag.CurrentPageIndex == i)
+                                                {
+                                        <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                                }
+                                                else
+                                                {
+                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                                }
+                                            }
+
+                                            if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 1)
+                                            {
+                                                if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 2)
+                                                {
+                                        <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                                }
+
+                                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@ViewBag.PageCount" />
+                                            }
+                                        }
+
+                                    @if (ViewBag.CurrentPageIndex < ViewBag.PageCount)
+                                        {
+                                        <input type="submit" class="pageclickNext" value="Next" style="border:none;width:30px;height:20px;font-size:10px;background-color:white" />
+                                        }
+
+                                </div>
+                            </div>
+                        </div>
+                        }
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="@ViewBag.CurrentPageIndex" name="CurrentPage" id="CurrentPage" />
+    <input type="hidden" name="AdmissionId" id="AdmissionId" />
+    <input type="hidden" name="alphaValue" id="alphaValue" />
+
+</form>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Student Approval</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <input id="StudentDetailsId" type="hidden" name="StudentDetailsId">
+                    <input id="Status" type="hidden" name="Status" value="1">
+                    <div>
+                        <br />
+                        <table>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name">Full Name</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="Name" id="Name" type="text" disabled />
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Registration Id</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="rId" id="rId" type="text" disabled>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Date Of Birth</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="dob" id="dob" type="text" disabled>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Course/Batch</label> <br>
+                                    <span>
+                                        <select id="Batch" name="Batch">
+                                            @foreach (var item in ViewBag.BatchList)
+                                            {
+                                            <option value="@item.Id">@item.Name </option>
+                                            }
+                                        </select>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <div class="row" align="center">
+                            <input id="closeJobDialog" name="Submit" class="formbut-n" style="width:200px" type="submit" value="Approve" onclick="statusApproveChanged(1);" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal1" class="modal">
+        ----
+
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Student Waiting List</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <input id="StudentDetailsId" type="hidden" name="StudentDetailsId">
+                    <input id="Status" type="hidden" name="Status" value="1">
+                    <div>
+                        <br />
+                        <table>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name">Full Name</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="Name1" id="Name1" type="text" disabled />
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Registration Id</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="rId1" id="rId1" type="text" disabled>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Date Of Birth</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="dob1" id="dob1" type="text" disabled>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Course/Batch</label> <br>
+                                    <span>
+                                        <select id="Batch1" name="Batch1">
+                                            @foreach (var item in ViewBag.BatchList)
+                                            {
+                                            <option value="@item.Id">@item.Name </option>
+                                            }
+                                        </select>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Priority</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="Priority" id="Priority" type="text" required>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <div class="row" align="center">
+                            <input id="closeJobDialog" name="Submit" class="formbut-n" style="width:200px" type="submit" value="Waiting List" onclick="waitingStatusChanged();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(".online-registration_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function statusChanged(StudentDetailsId, status) {
+        $.ajax({
+            type: "POST",
+            url: "/Student/OnlineUpdateStudentStatus",
+            data: '{StudentDetailsId: ' + StudentDetailsId + ',status : ' + status + ',BatchId:null}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    function deleteStudent(StudentDetailsId) {
+        if (confirm("Are you sure you want to delete this student?")) {
+            $('#loading').show();
+            $.ajax({
+                type: "POST",
+                url: "/Student/DeleteStudent",
+                data: '{StudentDetailsId: ' + StudentDetailsId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+            $('#loading').hide();
+        }
+    }
+
+    $(".pageclicktest").click(function () {
+        $("#CurrentPage").val($(this).val());
+    });
+
+    $(".pageclickNext").click(function () {
+        var nextPage = parseInt($("#CurrentPage").val()) + 1;
+        $("#CurrentPage").val(nextPage);
+    });
+
+    $(".pageclickPrevious").click(function () {
+        var prevPage = parseInt($("#CurrentPage").val()) - 1;
+        $("#CurrentPage").val(prevPage);
+    });
+
+    function onClickAlphabetic(alphaValue) {
+        $("#CurrentPage").val('1');
+        $('#alphaValue').val(alphaValue);
+        document.getElementById("myform").submit();
+    };
+
+    function onClickSearch() {
+        $("#CurrentPage").val('1');
+        $("#alphaValue").val('All');
+        document.getElementById("myform").submit();
+    };
+
+    function approvalChanged(StudentDetailsId, FirstName, LastName, AdmissionNo, DOB, Batch) {
+        var name = FirstName + " " + LastName;
+        $('#Name').val(name);
+        $('#rId').val(AdmissionNo);
+        $('#dob').val(DOB);
+        $('#Batch').val(Batch);
+        $('#StudentDetailsId').val(StudentDetailsId);
+        $('#myModal').css('display', 'block');
+    };
+
+    function waitingListChanged(StudentDetailsId, FirstName, LastName, AdmissionNo, DOB, Batch) {
+        var name = FirstName + " " + LastName;
+        $('#Name1').val(name);
+        $('#rId1').val(AdmissionNo);
+        $('#dob1').val(DOB);
+        $('#Batch1').val(Batch);
+        $('#StudentDetailsId').val(StudentDetailsId);
+        $('#myModal1').css('display', 'block');
+    };
+
+    function onClose() {
+        $('#myModal').css('display', 'none');
+        $('#myModal1').css('display', 'none');
+    };
+
+    function statusApproveChanged(status) {
+        $.ajax({
+            type: "POST",
+            url: "/Student/OnlineUpdateStudentStatus",
+            data: '{StudentDetailsId: ' + $('#StudentDetailsId').val() + ',status : ' + status + ',BatchId:' + $('#Batch').val() + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    function waitingStatusChanged() {
+
+        var myObject = new Object();
+        myObject.StudentDetailsId = $('#StudentDetailsId').val()
+        myObject.StarusFlag = 0;
+        myObject.Priority = $('#Priority').val()
+        myObject.BatchId = $('#Batch1').val()
+
+        var d = { collection: myObject };
+
+        $.ajax({
+            type: "POST",
+            url: "/Student/OnlineCreateStudentWaiting",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    function editWaitingStudent(StudentDetailsId, FirstName, LastName, AdmissionNo, DOB, Batch) {
+
+        var d = { StudentDetailsId: StudentDetailsId };
+
+        $.ajax({
+            type: "POST",
+            url: "/Student/EditStudentWaiting",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.WaitingData != null) {
+                    var name = FirstName + " " + LastName;
+                    $('#Name1').val(name);
+                    $('#rId1').val(AdmissionNo);
+                    $('#dob1').val(DOB);
+                    $('#Batch1').val(Batch);
+                    $('#Priority').val(result.WaitingData.Priority);
+                    $('#StudentDetailsId').val(StudentDetailsId);
+                    $('#myModal1').css('display', 'block');
+                }
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+</script>
+

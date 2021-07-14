@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+
+    <style type="text/css">
+        .pagetab-bg .li_hide {
+            display: none !important;
+        }
+
+        .student-postn {
+            top: 16px;
+            right: 19px;
+        }
+    </style>
+    <div class="right-pg-hd">
+
+
+        <h1>Enrolment</h1>
+    </div>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Back</span></a>
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("ViewProfile", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">View Profile</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-tab">
+        <div class="pagetab-bg">
+            <ul>
+                <li class=" ">
+                    <h2 class="hvr-syle"><a href="@Url.Action("UpdateStudent", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Student Details</a></h2>
+                </li>
+                <li class=" ">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreateGuardian", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Guardian Details</a></h2>
+                </li>
+                <li class=" ">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreatePreviousDetail", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Previous Details</a></h2>
+                </li>
+                <li class="active">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreateStudentDocument", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Student Documents</a></h2>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .document_table {
+            margin-top: 10px;
+        }
+    </style>
+    <style type="text/css">
+                                                .formbut {
+                                                    padding: 10px 15px;
+                                                }
+                                                a.classname
+        {
+            background: url(../gridview/delete.png) no-repeat top left;
+             display: block;
+             width: 150px;
+             height: 150px;
+             text-indent: -9999px; /* hides the link text */
+        }
+    </style>
+
+
+    <div class="document_table">
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <th>Document Name</th>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top:none;">
+
+            @foreach (var item in ViewBag.StudentDocumentsList)
+            {
+                <tr>
+                    <td width="40%">
+                        @item.SchoolCO.DocumentName
+                    </td>
+                    <td width="30%">
+                        @if (@item.StatusFlag == 1)
+                        {
+                            <div class='tag_approved'>Approved</div>
+                        }
+                        else if (@item.StatusFlag == 0)
+                        {
+                            <div class='tag_pending'>Pending</div>
+                        }
+                        else if (@item.StatusFlag == 3)
+                        {
+                            <div class='tag_disapproved'>Disapproved</div>
+                        }
+                    </td>
+                    @if (item.StatusFlag == 1)
+                    {
+                        <td width="30%">
+                            <ul class="tt-wrapper">
+                                <li>
+                                    <a class="tt-approved-disabled" onclick="return false;" href="#"><span>Approved</span></a>
+                                </li>
+                                <li>
+                                    @Html.ActionLink("D", "Download", new { ImageName = @item.Data }, new { @class = "tt-download" })
+                                </li>
+                            </ul>
+                        </td>
+                    }
+                    else if (item.StatusFlag == 3)
+                    {
+                        <td width="30%">
+                            <ul class="tt-wrapper">
+                                <li>
+                                    <a class="tt-approved" href="javascript:statusChanged(@item.StudentDocumentsId,1)"><span>Approved</span></a>
+                                </li>                               
+                                <li>
+                                    <a class="tt-delete" href="javascript:deleteStudentDocument(@item.StudentDocumentsId);" id="yt1"><span>Delete</span></a>
+                                </li>
+                                <li>
+                                    @Html.ActionLink("D", "Download", new { ImageName = @item.Data }, new { @class = "tt-download" })
+                                </li>
+                            </ul>
+                        </td>
+                    }
+                    else
+                    {
+                        <td width="30%">
+                            <ul class="tt-wrapper">
+                                <li>
+                                    <a class="tt-approved" href="javascript:statusChanged(@item.StudentDocumentsId,1)"><span>Approved</span></a>
+                                </li>
+                                <li>
+                                    <a class="tt-disapproved" href="javascript:statusChanged(@item.StudentDocumentsId,3)"><span>Disapprove</span></a>
+                                </li>
+                                <li>
+                                    <a class="tt-delete" href="javascript:deleteStudentDocument(@item.StudentDocumentsId);" id="yt1"><span>Delete</span></a>
+                                </li>
+                                <li>
+                                    @Html.ActionLink("D", "Download", new { ImageName = @item.Data }, new { @class = "tt-download" })
+                                </li>
+                            </ul>
+                        </td>
+                    }
+                </tr>
+            }
+
+        </table>
+    </div>
+
+    <div class="form" style="display:block">
+        <form enctype="multipart/form-data" id="student-document-form" action="CreateStudentDocument" method="post">
+
+            <input type="hidden" value="@ViewBag.StudentDetailsId" name="StudentDetailsId" id="StudentDetailsId" />
+
+            <p class="note" style="float:left">Fields with <span class="required">*</span> are required.</p>
+
+            <div class="formCon" style="clear:left;">
+                <div class="formConInner" id="innerDiv">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="documentTable">
+                        <tr>
+                            <td class="DocumentTypeId" width="33%">
+                                <select class="" name="DocumentTypeId" id="DocumentTypeId">
+                                    <option value="">Select Document</option>
+                                    @foreach (var item in ViewBag.DocumentsList)
+                                                                    {
+                                    <option value="@item.Id">@item.DocumentName</option>
+                                                                    }
+                                </select>
+                            </td>
+                            <td width="33%">
+                                <input id="FileName" type="hidden" value="" name="FileName" />
+                                <input name="DataString" id="DataString" type="file" />
+                            </td>
+                            <td width="33%"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="button-bg">
+                <div class="top-hed-btn-right">
+                    <ul>
+                        <li>
+                            <input class="formbut-n" id="addAnother" name="yt0" type="submit" value="Save and Add Another" />&nbsp;
+                            <div style="float:right">
+                                <input class="formbut-n" id="saveContinue" type="submit" name="yt1" value="Save and Continue" />&nbsp;
+                            </div>
+                            <input type="hidden" name="AddFlag" id="AddFlag" />
+                        </li>
+                    </ul>
+                </div>
+                <div class="top-hed-btn-left"> </div>
+            </div>
+            <input name="Data" id="Data" type="hidden" />
+        </form>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+<script type="text/javascript">
+
+    function deleteStudentDocument(StudentDocumentsId) {
+        $.ajax({
+            type: "POST",
+            url: "/Student/DeleteStudentDocument",
+            data: '{StudentDocumentsId: ' + StudentDocumentsId + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            },
+            error: function (response) {
+                location.reload(true);
+            }
+        });
+    }
+
+    $('#addAnother').click(function (ev) {
+        if ($('#DocumentTypeId').val() == null || $('#DocumentTypeId').val() == "") {
+            $('#DocumentTypeId').css("border", "1px solid red");
+            return false;
+        }
+        if ($('#DataString').val() == null || $('#DataString').val() == "") {
+            $('#DocumentTypeId').css("border", "1px solid red");
+            return false;
+        }
+
+        $('#AddFlag').val(2);
+    });
+
+    $('#saveContinue').click(function (ev) {
+        if ($('#DocumentTypeId').val() == null || $('#DocumentTypeId').val() == "") {
+            $('#DocumentTypeId').css("border", "1px solid red");
+            return false;
+        }
+        if ($('#DataString').val() == null || $('#DataString').val() == "") {
+            $('#DataString').css("border", "1px solid red");
+            return false;
+        }
+        $('#AddFlag').val(1);
+    });
+
+    function statusChanged(StudentDocumentsId,Status) {
+        $.ajax({
+            type: "POST",
+            url: "/Student/StudentDocumentStatusUpdate",
+            data: '{StudentDocumentsId: ' + StudentDocumentsId + ',Status:' + Status + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            },
+            error: function (response) {
+                location.reload(true);
+        }
+        });
+    }
+
+</script>
+

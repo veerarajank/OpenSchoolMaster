@@ -1,0 +1,148 @@
+﻿@model GS247.Models.Export.ExportClass
+@{
+
+    Layout = "~/Views/Shared/_ExportLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+
+    #Fields {
+        height: 320px;
+    }
+
+    #SelectedFields {
+        height: 320px;
+    }
+</style>
+
+<div class="cont_right formWrapper">
+
+    <h1>Export Data</h1>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    @using (Html.BeginForm("GetFields", "Export"))
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="myTable">
+                            <tr>
+                                <th style="text-align:center;">Model <span class="required">*</span></th>
+                                <th style="text-align:center;">Course</th>
+                                <th style="text-align:center;">Batch</th>
+                                <th style="text-align:center;">Action</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DropDownListFor(m => m.Model, new List<SelectListItem> { new SelectListItem { Text="Student",Value="Student"},
+                   new SelectListItem { Text="Teacher",Value="Teacher"},
+                   new SelectListItem { Text="Guardian",Value="Guardian"},
+                   new SelectListItem { Text="HR",Value="HR"},
+                   }, "-Select Model-", new { required = "required" })
+                            </td>
+
+
+                            <td>@Html.DropDownListFor(m => m.Course, (IEnumerable<SelectListItem>)ViewBag.Courses, "-Select Course-") </td>
+
+                            <td>@Html.DropDownListFor(m => m.Batch, (IEnumerable<SelectListItem>)ViewBag.Batches, "-Select Batch-") </td>
+
+                            <td style="text-align:center;">
+                                <input class="formbut" type="submit" value="Get" />
+                            </td>
+                        </tr>
+                    </table>
+                }
+                    @using (Html.BeginForm("Export", "Export", FormMethod.Post))
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <th style="text-align:center;">Remaining(<label id="Remaining"></label>)</th>
+                                <th></th>
+                                <th style="text-align:center;">Remaining(<label id="Selected"></label>)</th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div>
+                                        @Html.ListBoxFor(m => m.Fields, (IEnumerable<SelectListItem>)ViewBag.Columns, new { @class = "form-control", @id = "Fields" })
+                                    </div>
+                                </th>
+                                <td>
+                                    <table class="table">
+                                        <tr><th style="text-align:center;"><button id="right" type="button" class="formbut"><strong>&nbsp;>&nbsp;</strong></button></th></tr>
+                                        <tr><th style="text-align:center;"><button id="rightAll" type="button" class="formbut">>></button></th></tr>
+                                        <tr><th style="text-align:center;"><button id="left" type="button" class="formbut"><strong>&nbsp;< &nbsp;</strong></button></th></tr>
+                                        <tr><th style="text-align:center;"><button id="leftAll" type="button" class="formbut"><<</button></th></tr>
+                                    </table>
+                                </td>
+                                <th>
+                                    @Html.ListBoxFor(m => m.SelectedFields, (IEnumerable<SelectListItem>)ViewBag.SelectedColumns, new { @class = "form-control", @id = "SelectedFields" })
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align:center;">
+                                    @Html.HiddenFor(m => m.Model)@Html.HiddenFor(m => m.Course)@Html.HiddenFor(m => m.Batch)
+                                    <input class="formbut" type="submit" value="Export" onclick="SelectAll();" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+    @if (TempData["ExportDatabase"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("ExportDatabase").ToString()");
+        </script>
+    }
+</div>
+
+
+<script>
+    function SelectAll() {
+        $("#SelectedFields option").attr('selected', 'selected');
+        //$("#SelectedFields option").prop("selected", true);
+    };
+    function GetCount() {
+        $('#Remaining').text($('#Fields option').length);
+        $('#Selected').text($('#SelectedFields option').length);
+    };
+    $(document).ready(
+        function () {
+
+            GetCount();
+            $('#right').click(
+
+                function (e) {
+                    $('#Fields > option:selected').appendTo('#SelectedFields');
+                    GetCount();
+                    e.preventDefault();
+                });
+
+            $('#rightAll').click(
+                function (e) {
+                    $('#Fields > option').appendTo('#SelectedFields');
+                    GetCount();
+                    e.preventDefault();
+                });
+
+            $('#left').click(
+                function (e) {
+                    $('#SelectedFields > option:selected').appendTo('#Fields');
+                    GetCount();
+                    e.preventDefault();
+                });
+
+            $('#leftAll').click(
+                function (e) {
+                    $('#SelectedFields > option').appendTo('#Fields');
+                    GetCount();
+                    e.preventDefault();
+                });
+
+        });
+</script>

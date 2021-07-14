@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+
+<div id="loading">
+    <img id="loading-image" src="~/gridview/loading.gif" alt="Loading..." />
+</div>
+
+<style>
+    #loading {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 1;
+        text-align: center;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 250px;
+        left: 775px;
+        z-index: 100;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+
+    .alphabrtic {
+        background-color: #F60;
+    }
+</style>
+
+<div class="cont_right">
+
+    <h1>Manage Room Details</h1>
+
+    <div>
+        <div class="formCon">
+            <div class="formConInner">
+                Sort Rooms by&nbsp;<select id="search_id" name="search" onchange="onChange();">                   
+                    <option value="1">All</option>
+                    <option value="2">Occupied</option>
+                    <option value="3">Vacant</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="pdtab_Con" style="padding-top:0px;">
+            <input type="hidden" name="CurrentPageIndex" id="CurrentPageIndex" />
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" id="RoomGrid">
+
+                <tr class="pdtab-h">
+
+                    <td align="center">Hostel</td>
+
+                    <td align="center">Floor</td>
+
+                    <td align="center">Room No</td>
+
+                    <td align="center">Availability</td>
+
+                    <td align="center">Action</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="pagecon">
+            <div class="">
+                <div align="center" id="pageNation">
+                </div> <!-- END div class="pagecon" 2 -->
+                <div class="clear"></div>
+            </div>
+        </div>
+        <br />
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(".hostel-roomlist_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    $(document).ready(function () {
+        $('#loading').show();
+        $('#CurrentPageIndex').val('1');
+        GetRoomList();
+    });
+ 
+    function GetRoomList() {               
+        $('#loading').show();
+        var RoomType = $('#search_id').val();
+
+        var d = { RoomType: RoomType, currentPage: $('#CurrentPageIndex').val() };
+
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/ManageRoomList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableClearValue();
+                $.each(result, function (index, HostelDetailsList) {
+                    for (var i = 0; i < HostelDetailsList.length; i++) {
+
+                        $("#RoomGrid").append(
+        "<tr>"       
+        + "<td>" + HostelDetailsList[i].Name + "</td>"
+        + "<td>" + HostelDetailsList[i].SchoolCO.FloorNo + "</td>"
+        + "<td>" + HostelDetailsList[i].SchoolCO.RoomNo + "<br/>Bed(s)" + HostelDetailsList[i].SchoolCO.Beds + "</td>"
+        + "<td>" + HostelDetailsList[i].SchoolCO.Availabilty + "/" + HostelDetailsList[i].SchoolCO.NumberOfBets + "</td>"
+        + "<td align=\"center\"><div class=\"tt-wrapper-new\"><a class=\"makeedit\" title=\"Update\" href=\"javascript:editRoomDetails(" + HostelDetailsList[i].SchoolCO.HostelRoomId + ");\"><img src=\"/gridview/update.png\"><span>Edit</span></a>"
+        + "<a class=\"makedelete\" title=\"Delete\" href=\"javascript:deleteRoomDetails(" + HostelDetailsList[i].SchoolCO.HostelRoomId + ");\"><img src=\"/gridview/delete.png\"><span>Delete</span></a></div></td>"
+        + "</tr>");
+                    }
+                    pagenationApply(result.TotalPages);
+                });
+                $('#loading').hide();
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    }
+
+    function tableClearValue() {
+        var Table = document.getElementById("RoomGrid");
+        Table.innerHTML = "";
+        $("#RoomGrid").append(
+            "<tr class=\"tablebx_topbg\">"
+            + "<td>Hostel</td><td width=\"10%\">Floor</td><td width=\"30%\">Room No</td><td>Availability</td><td>Action</td>"
+            + "</tr>");
+    };
+
+    function onChange() {
+        GetRoomList();
+    };
+
+    function editRoomDetails(HostelRoomId) {
+        window.location.href = '/Hostel/UpdateRoom?HostelRoomId=' + HostelRoomId;
+    };
+
+    function deleteRoomDetails(HostelRoomId) {
+        $('#loading').show();
+        if (confirm("Are you sure you want to delete this room?")) {
+            $('#loading').show();
+            $.ajax({
+                type: "POST",
+                url: "/Hostel/DeleteHostelRoomDetails",
+                data: '{HostelRoomId: ' + HostelRoomId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.Message == "")
+                        location.reload(true);
+                    else
+                        alert(response.Message);
+                }
+            });
+            $('#loading').hide();
+        }
+    };
+
+    function pagenationApply(PageCount) {        
+        var Table = document.getElementById("pageNation");
+        Table.innerHTML = "";
+        var currentPageIndex = $('#CurrentPageIndex').val();
+        var pageCutLow = (parseInt(currentPageIndex)) - parseInt(1);
+        var pageCutHigh = parseInt(1) + (parseInt(currentPageIndex));
+
+        if (PageCount > 0)
+        {
+            var value = "<div class=\"\">";
+
+            if (parseInt(currentPageIndex) > 1) {
+                value += "<input type=\"submit\" onclick=\"pageclickPrevious(this);\" value=\"Previous\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white;\"/>";
+            }
+
+            if (parseInt(PageCount) < 6) {
+                for (var i = 1; i <= parseInt(PageCount) ; i++) {
+                    if (i != parseInt(currentPageIndex)) {
+                        value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                    }
+                    else {
+                        value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                    }
+                }
+            }
+            else {
+                if (parseInt(currentPageIndex) > 2) {
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"1\" />";
+
+                    if (parseInt(currentPageIndex) > 3) {
+                        value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\" />";
+                    }
+                }
+                if (parseInt(currentPageIndex) == 1) {
+                    pageCutHigh += 2;
+                }
+                else if (parseInt(currentPageIndex) == 2) {
+                    pageCutHigh += 1;
+                }
+
+                if (parseInt(currentPageIndex) == parseInt(PageCount)) {
+                    pageCutLow -= 2;
+                }
+                else if (parseInt(currentPageIndex) == parseInt(PageCount) - 1) {
+                    pageCutLow -= 1;
+                }
+
+                for (var i = pageCutLow; i <= pageCutHigh; i++) {
+                    if (i == 0) {
+                        i += 1;
+                    }
+                    if (i > parseInt(PageCount)) {
+                        continue;
+                    }
+
+                    if (parseInt(currentPageIndex) == i) {
+                        value += "<input disabled=\"disabled\" type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:#f38108;color:white\" value=\"" + i + "\" />";
+                    }
+                    else {
+                        value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + i + "\" />";
+                    }
+                }
+
+                if (parseInt(currentPageIndex) < parseInt(PageCount) - 1) {
+                    if (parseInt(currentPageIndex) < parseInt(PageCount) - 2) {
+                        value += "<input type=\"submit\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"...\"/>";
+                    }
+
+                    value += "<input type=\"submit\" onclick=\"pageclicktest(this);\" style=\"border:none;width:40px;height:30px;font-size:15px;background-color:white\" value=\"" + parseInt(PageCount) + "\" />";
+                }
+
+                if (parseInt(currentPageIndex) < parseInt(PageCount)) {
+                    value += "<input type=\"submit\" onclick=\"pageclickNext(this);\" value=\"Next\" style=\"border:none;width:70px;height:30px;font-size:15px;background-color:white\" />";
+                }
+
+            }
+
+            value += "</div>";
+
+            $("#pageNation").append(value);
+        }
+
+    };
+
+    function pageclicktest(ele) {
+        $("#CurrentPageIndex").val(ele.value);
+        var listsize = $('#listsize').val();
+        GetRoomList();
+    };
+
+    function pageclickNext(ele) {
+        var nextPage = parseInt($("#CurrentPageIndex").val()) + 1;
+        $("#CurrentPageIndex").val(nextPage);
+        var listsize = $('#listsize').val();
+        GetRoomList();
+    };
+
+    function pageclickPrevious(ele) {
+        var prevPage = parseInt($("#CurrentPageIndex").val()) - 1;
+        $("#CurrentPageIndex").val(prevPage);
+        var listsize = $('#listsize').val();
+        GetRoomList();
+    };
+
+</script>

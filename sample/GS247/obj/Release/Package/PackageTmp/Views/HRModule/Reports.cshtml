@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_LeaveTypesLayout.cshtml";
+}
+
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function Reportgrid() {
+
+        var BasicPay = null;
+        var TDS = null;
+        var ESI = null;
+        var EPF = null;
+        var Empno = null;
+
+        var serviceUrl = '/HRModule/UpdateSalary_Details'
+        var flag = "GetReports";
+
+
+        $.ajax({
+
+            type: "POST",
+            url: serviceUrl,
+            data: JSON.stringify({ "flag": flag, "BasicPay": BasicPay, "TDS": TDS, "ESI": ESI, "EPF": EPF, "staff_Id": Empno }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                
+                console.log(data);
+                if (data != null) {
+                    var j = 1;
+
+                    //$('#Report_Detailsgrid').html("");
+
+                    var tbody = "";
+
+                    for (i = 0; i < data.length; i++) {
+
+                        tbody += "<tr style='text-align: center;'><td>" + j++ + "</td><td>" + data[i].EmpNo + "</td><td>" + data[i].Name + "</td><td>" + data[i].SalaryDate + "</td><td>" + data[i].BasicPay + "</td><td>" + data[i].EarnTotal + "</td><td>" + data[i].TotalDeduction + "</td><td>" + data[i].NetSalary + "</td></tr>";
+                    }
+
+                    tbody += "<tr style='text-align: center;'><td colspan='4'> Total </td><td>" + data[0].CountBasicPay + "</td><td>" + data[0].CountEarnTotal + "</td><td>" + data[0].CountDeduction + "</td><td>" + data[0].CountNetSalary + "</td></tr>";
+                    
+
+                    $('#Report_Detailsgrid').append(tbody);
+
+                }
+            }
+        });
+
+    }
+
+
+    $(document).ready(function () {
+
+
+        Reportgrid();
+
+        $("body").on("click", "#btnExport", function () {
+            html2canvas($('#Report_Detailsgrid')[0], {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        });
+
+
+       
+
+    });
+</script>
+
+
+
+        <div class="cont_right formWrapper">
+            <div id="div_salaryDetails">
+                <h1>Reports</h1>
+                <div class="box-two" style="margin-bottom:10px;">
+                    <div class="pdf-div">
+
+                        <button type="button" id="btnExport" class="pdf_but-input" name="print" formtarget="_blank" style="outline:none;">
+                            Generate PDF
+                        </button>
+
+                    </div>
+                </div>
+                <div id="semester-grid" class="grid-view">
+                    <table id="Report_Detailsgrid" class="table table-striped table-bordered nowrap dataTable no-footer dtr-inline" style="width:100%">
+                        <thead style="background: #EAF5FD;color: #3E719B;">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Employee Number</th>
+                                <th>Month</th>
+                                <th>BasicPay</th>
+                                <th>Earn Total</th>
+                                <th>Deduction Total</th>
+                                <th>Net Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+

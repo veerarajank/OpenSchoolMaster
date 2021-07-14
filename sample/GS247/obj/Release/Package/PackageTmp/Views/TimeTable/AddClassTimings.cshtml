@@ -1,0 +1,68 @@
+﻿@model GS247.Models.TimeTable.TimetableClassTiming
+
+@{
+    Layout = "~/Views/Shared/_TimeTableLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("UserName").value == '') return false;
+        if (document.getElementById("StartTime").value == '') return false;
+        if (document.getElementById("EndTime").value == '') return false;
+        return true;
+    }
+</script>
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="button-bg">
+        <table class="table">
+            <tr>
+                <td><strong>Coures:</strong>@Session["Course"]</td>
+                <td><strong>Batch:</strong>@Session["Batch"]</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="top-hed-btn-right">
+        <a href="/TimeTable/ManageClassTimings" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+    </div>
+
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm(new { onsubmit = "return validate()" }))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="myTable">
+                    <tr>
+                        <td><label class="required">Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(m => m.Name, new { id = "UserName", required = "required", size = "30", maxlength = "255" })</td>
+                        <td><label class="required">Start Time <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(m => m.StartTime, new { id = "StartTime", type = "time", required = "required", maxlength = "255" })</td>
+                        <td><label class="required">End Time<span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(m => m.EndTime, new { id = "EndTime", type = "time", required = "required", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(m => m.IsBreak)
+                            <span>Is Break</span>
+                        </td>
+                    </tr>
+                </table>
+                <div style="padding-top:20px;">
+                    @Html.HiddenFor(m => m.Id)
+                    <input class="formbut" type="submit" name="yt0" value="Save" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

@@ -1,0 +1,278 @@
+﻿@{
+    ViewBag.Title = "PublishNews";
+    Layout = "~/Views/Shared/_MyAccountLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+
+    .formbut {
+        padding: 0px 20px;
+        margin: 0px;
+        background: none repeat scroll 0 0 #f38108;
+        height: 30px !important;
+        font-size: 13px !important;
+        border: none;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer !important;
+    }
+</style>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@*<script src="~/Scripts/MyAccounts/datepicker/jquery-1.11.1.min.js"></script>*@
+
+<script src="~/Scripts/MyAccounts/datepicker/bootstrap-datepicker.js"></script>
+<link href="~/Scripts/MyAccounts/datepicker/datepicker3.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery-ui.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+
+
+
+    function GetPublished() {
+
+        var serviceUrl = '/MyAccount/GetNewsFeed'
+        var flag = "GetPublished";
+
+
+        $.ajax({
+
+            type: "POST",
+            url: serviceUrl,
+            data: JSON.stringify({ "flag": flag }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null) {
+
+
+                    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    const d = new Date();
+                    var month = monthNames[d.getMonth()];
+                    var curr_day = d.getDate();
+                    var curr_year = d.getFullYear();
+
+
+                    var tbody = "";
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        tbody += "<div class='' style='padding: 0px;margin: 10px 0px;border: 1px #d3dde6 solid;'><div class='' style='padding: 10px 20px;margin: 0px;position: relative;border-bottom: 1px #d3dde6 dashed;'><h4 class='cls_topic'>" + data[i].NewsTopic + "</h4></div><div class='kcal'>" + curr_day + " " + month + " " + curr_year + "</div>";
+                        tbody += "<div class='' style='    padding: 0px 20px 0px 20px;margin: 0px; position: relative; min-height: 50px; color: #666;font-size: 13px; line-height: 20px;'><p><article class='cls_desc'>" + data[i].NewsDescription + "</article></p><span class='cls_Id' style='display:none;'>" + data[i].Id + "</span></div><div class='footercls' style='padding: 5px 20px;margin: 0px;background: #f5f8fc;'>";
+                        tbody += "<button type='button' class='cls_edit' value=" + data[i].Id + "|" + data[i].NewsTopic + "|" + data[i].NewsDescription + "  style='background: #14b12e;color: #FFF;padding: 6px 13px;border-radius: 2px;cursor: pointer;border-color: #14b12e;'>Edit</button>"
+                        // tbody += "<bu class='cls_edit' value=" + data[i].Id + " style='background: #14b12e;color: #FFF;padding: 8px 13px;border-radius: 2px;cursor: pointer;'>Edit</span>";
+                        tbody += "<button type='button' class='publish cls_publish' value=" + data[i].Id + " style='background: #099; color: #FFF;  float: right; display: block;  padding: 8px 13px;  font-weight: bold; border-radius: 2px;border-color: #099;'>Publish</button><div class='clear'></div></div>";
+
+                        tbody += "</div>";
+                    }
+                    $('#divpublish_append').append(tbody);
+
+                }
+            }
+        });
+    }
+
+    $(document).on('click', '.cls_edit', function () {
+
+        var value = $(this).val();
+        var split_val = value.split("|");
+        var Id = split_val[0];
+        var NewsTopic = split_val[1];
+        var NewsDescription = split_val[2];
+
+        $('#hdn_Id').val(Id);
+        $('#Publish_title').val(NewsTopic);
+        $('#Publish_content').val(NewsDescription);
+
+        $('#div_PublishNews').css("display", "none");
+        $('#div_UpdateNews').css("display", "block");
+
+
+
+    });
+
+    $(document).on('click', '.cls_publish', function () {
+
+        var Id = $(this).val();
+        var title = null;
+        var content = null;
+        var serviceUrl = '/MyAccount/NewsFeedDetails'
+        var flag = "PublishedNews";
+        var IsPublish = 1;
+        var userId = "Raaj";
+
+
+        $.ajax({
+
+            type: "POST",
+            url: serviceUrl,
+            data: JSON.stringify({ "Id": Id, "flag": flag, "NewsTopic": title, "NewsDescription": content, "userId": userId, "IsPublish": IsPublish }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null) {
+
+                    if (data[0].Result == "Success") {
+                        location.href = "/MyAccount/News";
+                    }
+                }
+            }
+        });
+
+    });
+
+    $(document).ready(function () {
+
+
+
+        GetPublished();
+
+        $('#btn_newsUpdate').click(function () {
+
+            var title = $('#Publish_title').val();
+            if (title == "" || title == null || title == '') {
+                $('#create_errmsg').text("Title cannot be blank.");
+                return false;
+            }
+            else {
+                $('#create_errmsg').text("");
+            }
+
+            var content = $('#Publish_content').val();
+            if (content == "" || content == null || content == '') {
+                $('#create_errmsg').text("Description cannot be blank.");
+                return false;
+            }
+            else {
+                $('#create_errmsg').text("");
+            }
+
+            var serviceUrl = '/MyAccount/NewsFeedDetails'
+            var flag = "UpdateNews";
+            var IsPublish = 0;
+            var userId = "Raaj";
+            var Id = $('#hdn_Id').val();
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "Id": Id, "flag": flag, "NewsTopic": title, "NewsDescription": content, "userId": userId, "IsPublish": IsPublish }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "Success") {
+                            location.href = "/MyAccount/PublishNews";
+                        }
+                    }
+                }
+            });
+
+        });
+
+
+
+
+    });
+</script>
+
+
+
+
+<div class="cont_right formWrapper">
+
+    <div style="display:block;">
+
+
+        <div id="div_PublishNews" style="display:block">
+
+            <h1><b>News to be Published</b></h1>
+            <div class="button-bg">
+                <div class="top-hed-btn-left"> </div>
+                <div class="top-hed-btn-right">
+                    <ul>
+                        <li> <a class="a_tag-btn" href="@Url.Action("CreateNews", "MyAccount")"><span>Create News</span></a></li>
+                        <li> <a class="a_tag-btn" href="@Url.Action("News", "MyAccount")"><span>View News</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <center>
+            </center>
+            <br>
+            <div class="knewscon" id="divpublish_append">
+
+            </div>
+        </div>
+
+        <div id="div_UpdateNews" style="display:none;">
+            <div class="cont_right formWrapper">
+                <h1><b>Update News</b></h1>
+
+                <style type="text/css">
+                    td.rah textarea {
+                        width: 100% !important;
+                        height: auto;
+                    }
+                </style>
+
+                <p class="note">Fields with<span class="required">*</span> are required.</p>
+                <div class="formCon">
+                    <div class="formConInner">
+                        <form id="config-sms-form" action="#" method="post">
+                            <table width="80%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td><label for="Publish_title" class="required">Title <span class="required">*</span></label></td>
+                                    <td><input size="32" maxlength="255" name="Publish[title]" id="Publish_title" type="text" autocomplete="off" /> </td>
+                                    <input type="text" id="hdn_Id" style="display:none;" />
+
+                                </tr>
+                                <tr>
+                                    <td colspan="2">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><label for="Publish_content" class="required">Description <span class="required">*</span></label></td>
+                                    <td class="rah"><textarea rows="5" name="Publish[content]" id="Publish_content"></textarea> </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td><span id="create_errmsg" style="color:red;"></span></td>
+                                </tr>
+                            </table>
+                            <div style="padding-top:20px;"> <input class="formbut" type="button" name="yt0" value="Update" id="btn_newsUpdate" /> </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- form -->
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+

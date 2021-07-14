@@ -1,0 +1,146 @@
+﻿@model GS247.Models.HRModule.LeaveRequest
+@{
+    /**/
+
+    ViewBag.Title = "ApprovedLeave";
+    Layout = "~/Views/Shared/_LeaveTypesLayout.cshtml";
+}
+
+<h2>Approved Leave Requests</h2>
+<style>
+
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+</style>
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+    function Search() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<div class="cont_right formWrapper">
+    <style>
+        .sem-view-block th, td {
+            border: none;
+        }
+    </style>
+
+    <div id="semester-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="semester-grid_c0" onclick="sortTable(0);">#</th>
+                    <th id="semester-grid_c1" onclick="sortTable(1);">Type</th>
+                    <th id="semester-grid_c2" onclick="sortTable(2);">RequestedBy</th>
+                    <th id="semester-grid_c2" onclick="sortTable(2);">From</th>
+                    <th id="semester-grid_c2" onclick="sortTable(2);">To</th>
+                    <th id="semester-grid_c2" onclick="sortTable(2);">Approved By</th>
+                    <th class="button-column" id="semester-grid_c3">Actions</th>
+                </tr>
+                @*<tr class="filters">
+                        <td><input id="myInput" onkeyup="Search();" name="Semester[name]" type="text" maxlength="225" value="" /></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>*@
+            </thead>
+            <tbody>
+                @foreach (var item in Model.LeaverequestInfo)
+                {
+                    <tr class="odd">
+                        <td><a href="@Url.Action("ApprovedLeave","HRModule")?id=@item.Id">@Html.DisplayFor(x => item.Id)</a></td>
+                        <td>@Html.DisplayFor(x => item.LeaveType)</td>
+                        <td>@Html.DisplayFor(x => item.RequestedBy)</td>
+                        <td>@Html.DisplayFor(x => item.FromDate)</td>
+                        <td>@Html.DisplayFor(x => item.ToDate)</td>
+                        <td>@Html.DisplayFor(x => item.ApprovedBy)</td>
+                        <td class="button-column">
+                            <a class="view" title="View" href="@Url.Action("ViewLeaverequest","HRModule")?id=@item.Id">
+                                <img src="../gridview/view.png" alt="View" />
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="keys" style="display:none" title="/index.php?r=courses/semester"><span>1</span><span>7</span></div>
+    </div>
+</div>

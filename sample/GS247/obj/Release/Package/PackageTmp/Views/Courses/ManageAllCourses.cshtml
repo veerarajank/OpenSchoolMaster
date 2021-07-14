@@ -1,0 +1,871 @@
+﻿@model GS247.Models.Courses.AllObjects
+@{
+    ViewBag.Title = "ManageAllCourses";
+    Layout = "~/Views/Shared/_CoursesLayout.cshtml";
+}
+<style>
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        G top: 0;
+        fill width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .modal1 {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .modal2 {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 35%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    .modal-content1 {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 35%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    .modal-content2 {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 35%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+    /* The Close Button */
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close1 {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close2 {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .close1:hover,
+    .close1:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .close2:hover,
+    .close2:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header1 {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .modal-header2 {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .modal-body1 {
+        padding: 2px 16px;
+    }
+
+    .modal-body2 {
+        padding: 2px 16px;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+</style>
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    console.log(btn);
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        //modal.style.display = "block";
+        //AddSubject();
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onClick = function () {
+        modal.style.display = "none";
+
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onClick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    function Close(id) {
+        var modal = document.getElementById(id);
+        modal.style.display = "none";
+    }
+    function AddBatch(CourseId) {
+        var modal = document.getElementById("myModal1");
+        modal.style.display = "block";
+        var span = document.getElementById("Span_id1");
+        span.textContent = "Add Batch";
+        document.getElementById("Course_Id").value = CourseId;
+        document.getElementById("Batch_Id").value = 0;
+
+    }
+    function EditCourse(CourseId) {
+        var modal = document.getElementById("myModal2");
+        modal.style.display = "block";
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Courses/GetAllCourses?CourseId=" + CourseId, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            for (var i = 0; i < data.length; i++) {
+                document.getElementById("Course_Name").value = data[i].Name;
+                document.getElementById("Course_Id").value = data[i].Id;
+            }
+        }
+        request.send();
+    }
+    function saveCourse(CourseId) {
+        var CourseId = document.getElementById("Course_Id").value;
+        var CourseName = document.getElementById("Course_Name").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Courses/GetAllCourses?CourseId=" + CourseId, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            for (var i = 0; i < data.length; i++) {
+                document.getElementById("Course_Name").value = data[i].Name;
+                document.getElementById("Course_Id").value = data[i].Id;
+            }
+        }
+        request.send();
+    }
+    function DeleteCourse(id) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Courses/DeleteCourse?CourseId=" + id, true)
+            request.onload = function () {
+                var data = this.response;
+            }
+            request.send();
+
+        }
+
+    }
+    function EditBatch(CourseId, BatchId) {
+        var modal = document.getElementById("myModal1");
+        modal.style.display = "block";
+        var span = document.getElementById("Span_id1");
+        span.textContent = "Edit Batch";
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Courses/GetBatch?BatchId=" + id, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            document.getElementById("Course_Id").value = CourseId;
+            document.getElementById("Batches_employee_id").value = "Teacher-A";
+            document.getElementById("Batches_name").value = data.Name;
+            document.getElementById("Batches_start_date").value = data.StartDate;
+            document.getElementById("Batches_end_date").value = data.EndDate;
+            document.getElementById("Batch_Id").value = data.Id;
+        }
+        request.send();
+    }
+    function DeleteBatch(id) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Courses/DeleteBatch?BatchId=" + id, true)
+            request.onload = function () {
+                var data = this.response;
+            }
+            request.send();
+
+        }
+
+    }
+    function SaveBatch() {
+        var CourseId = document.getElementById("Course_Id").value;
+        var ClassTeacher = document.getElementById("Batches_employee_id").value;
+        var BatchName = document.getElementById("Batches_name").value;
+        var StartDate = document.getElementById("Batches_start_date").value;
+        var EndDate = document.getElementById("Batches_end_date").value;
+        var BatchId = document.getElementById("Batch_Id").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Courses/InsertBatch?CourseId=" + CourseId + "&Name=" + BatchName + "&StartDate=" + StartDate + "&EndDate=" + EndDate + "&BatchId=" + BatchId + "&Class=" + ClassTeacher, true)
+        request.onload = function () {
+            var data = this.response;
+        }
+        request.send()
+    }
+    function AddSubject(CourseId) {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        var span = document.getElementById("Span_id");
+        span.textContent = "Add Subject";
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Courses/GetAllCourses?CourseId=" + CourseId, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                var select = document.getElementById("SubjectsCommonPool_course_id");
+                document.getElementById("lbl_id").value = 0;
+                select.textContent = "";
+                for (var i = 0; i < data.length; i++) {
+                    var Id = data[i].Id;
+                    var Name = data[i].Name;
+                    var option = document.createElement("option");
+                    option.setAttribute("value", Id);
+                    option.textContent = Name;
+                    select.appendChild(option);
+                }
+            }
+        }
+        request.send()
+    }
+    function EditSubject(id) {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        var span = document.getElementById("Span_id");
+        span.textContent = "Edit Subject";
+
+
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Courses/GetCourseWithSubject?SubjectId=" + id, true)
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status >= 200 && request.status < 400) {
+                console.log(data);
+                var select = document.getElementById("SubjectsCommonPool_course_id");
+                select.textContent = "";
+                document.getElementById("lbl_id").value = id;
+                console.log(data.Subjects.Name);
+                if (data.Subjects.Name != '') {
+                    document.getElementById("SubjectsCommonPool_subject_name").value = data.Subjects.Name;
+
+                }
+                if (data.Subjects.Weekly != '') {
+                    document.getElementById("SubjectsCommonPool_max_weekly_classes").value = data.Subjects.Weekly;
+                }
+                if ((data.Subjects.FirstSub != '') || (data.Subjects.SecondSub != '')) {
+                    toggle();
+
+                }
+                if (data.Subjects.FirstSub != '') {
+                    document.getElementById("SubjectsCommonPool_subject_tilte1").value = data.Subjects.FirstSub;
+
+                }
+                if (data.Subjects.SecondSub != '') {
+                    document.getElementById("SubjectsCommonPool_subject_tilte2").value = data.Subjects.SecondSub;
+
+                }
+                if (data.Course.Name != '') {
+
+                    var option = document.createElement("option");
+                    option.setAttribute("value", data.Course.Id);
+                    option.textContent = data.Course.Name;
+                    select.appendChild(option);
+                }
+
+            }
+        }
+        request.send();
+    }
+    function DeleteSubject(id) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Courses/DeleteSubject?SubjectId=" + id, true)
+            request.onload = function () {
+            }
+            request.send();
+
+        }
+    }
+    function SaveSubject() {
+        var select = document.getElementById("SubjectsCommonPool_course_id").value;
+        var subjectName = document.getElementById("SubjectsCommonPool_subject_name").value;
+        var weekly = document.getElementById("SubjectsCommonPool_max_weekly_classes").value;
+        var FirstSub = document.getElementById("SubjectsCommonPool_subject_tilte1").value;
+        var SecondSub = document.getElementById("SubjectsCommonPool_subject_tilte2").value;
+        var SubjectId = document.getElementById("lbl_id").value;
+        var request = new XMLHttpRequest();
+        request.open('GET', "/Courses/InsertSubject?CourseId=" + select + "&Name=" + subjectName + "&FirstSub=" + FirstSub + "&SecondSub=" + SecondSub + "&weekly=" + weekly + "&SubjectId=" + SubjectId, true)
+        request.onload = function () {
+            var data = this.response;
+        }
+        request.send()
+    }
+    function toggle() {
+
+        if (document.getElementById("split-tr1").style.display == 'none') {
+            document.getElementById("split-tr1").style.display = '';
+            document.getElementById("split-tr2").style.display = '';
+            document.getElementById("split-tr3").style.display = '';
+            document.getElementById("split-tr4").style.display = '';
+            document.getElementById("split-tr5").style.display = '';
+        }
+        else {
+            document.getElementById("split-tr1").style.display = 'none';
+            document.getElementById("split-tr2").style.display = 'none';
+            document.getElementById("split-tr3").style.display = 'none';
+            document.getElementById("split-tr4").style.display = 'none';
+            document.getElementById("split-tr5").style.display = 'none';
+        }
+
+
+    }
+    function show(i) {
+
+        console.log(i);
+        if (document.getElementById("dropwin" + i).style.display == 'none') {
+            document.getElementById("dropwin" + i).style.display = '';
+        }
+        else {
+            document.getElementById("dropwin" + i).style.display = 'none';
+        }
+
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Manage All Courses and Batch</h1>
+
+    <!-- Flash Message -->
+    <!-- Academic Year Drop Down -->
+    <div class="formCon">
+        <div class="formConInner">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="s_search">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="width:100px;"><strong>Academic Year</strong></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <select style="width:190px;" onchange="getyear()" name="yid" id="yid">
+                            <option value="">Select</option>
+                            <option value="1" selected="selected">test</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- END Academic Year Drop Down -->
+
+    <div class="del_sub_err"></div>
+    <div class="del_err"> </div>
+    <div id="jobDialog">
+        <div id="jobDialog1">
+        </div>
+    </div>
+    <div id="jobDialogs">
+        <div id="jobDialog1s">
+        </div>
+    </div>
+
+
+
+
+    <div class="pdf-box">
+        <div class="box-one"></div>
+        <div class="box-two">
+            <div class="add-new-cours">
+                <a class=" formbut-n" href="@Url.Action("CreateCourse","Courses")"><span>Add Course</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="mcb_Con">
+        <!--<div class="mcbrow hd_bg">
+        <ul>
+        <li class="col1">Course Name</li>
+        <li class="col2">Edit</li>
+        <li class="col3">Delete</li>
+        <li class="col4">Add Batch</li>
+        <li class="col5">View Batch</li>
+        </ul>
+        <div class="clear"></div>
+        </div>-->
+
+
+        @for (int i = 0; i < Model.Items.Count; i++)
+        {
+            <div class="according-bg">
+                <div class="mcb-strip-bg" id="jobDialog1">
+                    <ul class="posctn-ul2">
+                        <li class="gtcol1" onclick="show(@(i+1));" id="@(i+1)" style="cursor:pointer;">
+                            @Model.Items[i].Course.Name
+                            <span>
+                                @if (@Model.Items[i].Batch == null)
+                                {
+                                    <div style="float:left" id="batchcount1">0</div>
+                                }
+                                @if (@Model.Items[i].Batch != null)
+                                {
+                                    <div style="float:left" id="batchcount1">@Model.Items[i].Batch.Count</div>
+                                }
+
+                                <div style="float:left"> - Batch(s), </div>
+                                <div style="float:left" id="subcount1"> @Model.Items[i].Subjects.Count</div>
+                                <div style="float:left">  - Subject(s)</div>
+                                <div style="float:left" id="semcount1"> @Model.Items[i].Semester.Count</div>
+                                <div style="float:left">  - Semester(s)</div>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <ul class="posctn-ul1">
+
+                        <li class="e-gtcol1">
+                            <a id="showJobDialogcourseedit1" class="edit" onclick="EditCourse(@Model.Items[i].Course.Id);" href="#">Edit</a>
+                        </li>
+                        <li class="e-gtcol1">
+                            <a href="#" id="yt0" onclick="DeleteCourse(@Model.Items[i].Course.Id);">Delete</a>
+                        </li>
+                        <li class="e-gtcol1">
+                            <a id="myBtn" class="add edit-subject" onclick="AddSubject(@Model.Items[i].Course.Id);">Add Subject</a>
+                        </li>
+                        <li class="e-gtcol1">
+                            <a id="myBtn1" class="add" onclick="AddBatch();" href="#">Add Batch</a>
+                        </li>
+
+                    </ul>
+
+                    <div class="clear"></div>
+                </div> <!-- END div class="mcbrow" id="jobDialog1" -->
+
+            </div>
+
+            <div class="cours-strip" id="dropwin@(i+1)" style="display: none;">
+                <div class="semester-block">
+                    <div class="cours-table-hed"><h3>Batch</h3></div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="cours-inner-table">
+                        <thead>
+                            <!--class="cbtablebx_topbg"  class="sub_act"-->
+                            <tr>
+                                <th width="15%">Batch Name</th>
+                                <th width="25%">Class Teacher</th>
+                                <th width="15%">Start Date</th>
+                                <th width="15%">End Date</th>
+                                <th width="30%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Items[i].Batch != null)
+                            {
+                                for (int j = 0; j < Model.Items[i].Batch.Count; j++)
+                                {
+                                    <tr id="batchrow1">
+                                        <td style="text-align:left; padding-left:10px; font-weight:bold;"><a href="/index.php?r=courses/batches/batchstudents&amp;id=1">@Model.Items[i].Batch[i].Name</a></td>
+                                        <td align="center">@Model.Items[i].Batch[j].Teacher.Name</td>
+                                        <td align="center">@Model.Items[i].Batch[j].StartDate</td>
+                                        <td align="center">@Model.Items[i].Batch[j].EndDate</td>
+                                        <td align="center" class="sub_act">
+                                            <a id="showJobDialog1batchesedit1" class="add" href="#" onclick="EditBatch(@Model.Items[i].Course.Id,@Model.Items[i].Batch[j].Id);">Edit</a>
+                                            <a href="#" onclick="DeleteBatch(@Model.Items[i].Batch[j].Id);" id="yt1">Delete</a>
+                                            <a href="/index.php?r=students/students/create&amp;bid=1">Add Student</a>
+                                        </td>
+                                    </tr>
+                                    <div id="jobDialogbatches"></div>
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                    <div class="cours-subject-tbl cours-strip">
+                        <div class="cours-table-hed"><h3>Subjects</h3></div>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="cours-inner-table">
+                            <tbody>
+                                <!--class="cbtablebx_topbg"  class="sub_act"-->
+                                <tr>
+                                    <th width="8%">Sl No.</th>
+                                    <th width="30%">Subject Name</th>
+                                    <th width="25%">Maximum Weekly Classes</th>
+                                    <th width="15%">Action</th>
+                                </tr>
+                            <tbody>
+                                @for (int k = 0; k < Model.Items[i].Subjects.Count; k++)
+                                {
+                                    <tr id="subrow1">
+                                        <td align="center">@(k+1)</td>
+                                        <td align="center">@Model.Items[i].Subjects[k].Name</td>
+                                        <td align="center">@Model.Items[i].Subjects[k].Weekly</td>
+                                        <td align="center" class="sub_act">
+                                            <a id="showJobDialogsub1" class="add edit-subject" onclick="EditSubject(@Model.Items[i].Subjects[k].Id)" href="#">Edit</a>
+                                            <a id="showJobDialogdelete1" onclick="DeleteSubject(@Model.Items[i].Subjects[k].Id)" href="">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <div id="jobDialogsub"></div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cours-subject-tbl cours-strip">
+                        <div class="cours-table-hed"><h3>Semesters</h3></div>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="cours-inner-table">
+                            <tbody>
+                                <!--class="cbtablebx_topbg"  class="sub_act"-->
+                                <tr>
+                                    <th width="8%">Sl No.</th>
+                                    <th width="30%">Semester Name</th>
+                                    <!--<th width="25%">Maximum Weekly Classes</th>-->
+                                    <th width="15%">Action</th>
+                                </tr>
+                            <tbody>
+                                @for (int l = 0; l < Model.Items[i].Semester.Count; l++)
+                                {
+                                    <tr id="subrow1">
+                                        <td align="center">@(l+1)</td>
+                                        <td align="center">@Model.Items[i].Semester[l].Name</td>
+                                        <!--<td align="center">@Model.Items[i].Semester[l].Id</td>-->
+                                        <td align="center" class="sub_act">
+                                            <a id="showJobDialogsub1" class="add edit-subject" href="#">Edit</a>
+                                            <a id="showJobDialogdelete1" href="#">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <div id="jobDialogsub"></div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div> <!-- END div class="mcb_Con" -->
+</div>
+<!-- Trigger/Open The Modal -->
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="Close('myModal');">&times;</span>
+                <h3><span id="Span_id">Add Subject</span></h3>
+            </div>
+            <div class="modal-body">
+
+                <div class="popup-input" onload="">
+                    <form id="subjects-common-pool-form" action="" method="post">
+                        <div style="display:none"><input type="hidden" value="62a17bc274fe7457488722b967bd1ac3f43427e9" name="YII_CSRF_TOKEN" /></div>		<p class="note">Fields with<span class="required">*</span> are required.</p>
+                        <div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <select onchange="checksplit()" class="form-control" name="SubjectsCommonPool[course_id]" id="SubjectsCommonPool_course_id">
+                                        <option value="">Select Course</option>
+                                        <option value="1">Class 10</option>
+                                        <option value="2">Bachelor Degree</option>
+                                    </select>
+                                </tr>
+                                <tr>
+                                    <td style="display:none"><span id="lbl_id"></span></td>
+                                    <td><label for="SubjectsCommonPool_subject_name" class="required">Subject Name <span class="required">*</span></label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[subject_name]" id="SubjectsCommonPool_subject_name" type="text" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="SubjectsCommonPool_max_weekly_classes" class="required">Maximum Weekly Classes <span class="required">*</span></label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[max_weekly_classes]" id="SubjectsCommonPool_max_weekly_classes" type="text" value="" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr class="split-check-tr">
+                                    <td>
+                                        <input id="ytSubjectsCommonPool_split_subject" type="hidden" value="0" name="SubjectsCommonPool[split_subject]" />
+                                        <input name="SubjectsCommonPool[split_subject]" onchange="toggle()" id="SubjectsCommonPool_split_subject" value="1" type="checkbox" />						Split Subject
+                                    </td>
+                                </tr>
+                                <tr class="split-tr" id="split-tr1" style="display:none">
+                                    <td>
+                                        <label>First Sub Category&nbsp;<span class="required" id="category_tr">*</span></label>
+                                    </td>
+                                </tr>
+                                <tr class="split-tr" id="split-tr2" style="display:none">
+                                    <td>
+                                        <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[subject_tilte1]" id="SubjectsCommonPool_subject_tilte1" type="text" />
+                                    </td>
+
+                                </tr>
+                                <tr class="split-tr" id="split-tr3" style="display:none">
+                                    <td>
+                                        <label>Second Sub Category&nbsp;<span class="required" id="category_tr">*</span></label>
+                                    </td>
+                                </tr>
+                                <tr class="split-tr" id="split-tr4" style="display:none">
+                                    <td>
+                                        <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[subject_tilte2]" id="SubjectsCommonPool_subject_tilte2" type="text" />
+                                    </td>
+
+                                </tr>
+                                <tr class="split-tr" id="split-tr5" style="display:none">
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input id="ytSubjectsCommonPool_all_batches" type="hidden" value="0" name="SubjectsCommonPool[all_batches]" /><input checked="checked" name="SubjectsCommonPool[all_batches]" id="SubjectsCommonPool_all_batches" value="1" type="checkbox" />
+                                        All Batch
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div class="popup_btn">
+                                <input id="closeJobDialog" onclick="SaveSubject();" name="Submit" type="submit" value="Save" />
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- END div class="cont_right formWrapper" -->
+
+</div>
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal1" class="modal1">
+
+        <!-- Modal content -->
+        <div class="modal-content1">
+            <div class="modal-header1">
+                <span class="close1" onclick="Close('myModal1');">&times;</span>
+                <h3><span id="Span_id1">Add Batch</span></h3>
+            </div>
+            <div class="modal-body1">
+                <div class="popup-input">
+
+                    <form id="batches-form" action="/open-school-CE-master/index.php?r=courses/batches/Addnew" method="post">
+                        <div style="display:none"><input type="hidden" value="9f56c68aa60c24a8146f884c029f92e846430a46" name="YII_CSRF_TOKEN" /></div>
+                        <p>Fields with<span class="required">*</span>are required.</p>
+                        <div style="width:100%">
+                            <div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td><label for="Batches_name" class="required">Name <span class="required">*</span></label></td>
+                                        <td id="Course_Id" style="display:none;"></td>
+                                        <td id="Batch_Id" style="display:none;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div><input maxlength="255" name="Batches[name]" id="Batches_name" type="text" />		</div></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><label for="Batches_start_date" class="required">Start Date <span class="required">*</span></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <input readonly="readonly" id="Batches_start_date" name="Batches[start_date]" type="text" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="Batches_end_date" class="required">End Date <span class="required">*</span></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <input readonly="readonly" id="Batches_end_date" name="Batches[end_date]" type="text" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="Batches_employee_id">Class Teacher</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <select name="Batches[employee_id]" id="Batches_employee_id">
+                                                    <option value="">Select Class Teacher</option>
+                                                    <option value=1>Teacher-A</option>
+                                                    <option value=2>Teacher-B</option>
+                                                    <option value=3>Teacher-C</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input id="closeJobDialog" onclick="SaveBatch();" name="Submit" type="submit" value="Save" />
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <input name="Batches[course_id]" id="Batches_course_id" type="hidden" />
+                        <input name="Batches[academic_yr_id]" id="Batches_academic_yr_id" type="hidden" />
+                        <input name="Batches[is_active]" id="Batches_is_active" type="hidden" value="1" />
+                        <input name="Batches[is_deleted]" id="Batches_is_deleted" type="hidden" value="0" />
+                        <div class="row buttons">
+
+                        </div>
+
+                    </form>
+                </div><!-- form -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal2" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content2">
+            <div class="modal-header2">
+                <span class="close2" onclick="Close('myModal2');">&times;</span>
+                <h3><span id="Span_id">Add Subject</span></h3>
+            </div>
+            <div class="modal-body2">
+                <div class="popup-input2" onload="">
+                    <div class="cont_right formWrapper">
+                        <h3>Edit Course</h3>
+                        <form id="course-edit-form" action="" method="post">
+                            <div style="display:none"><input type="hidden" value="32b8c8478cd27c7eb0da0c1d8ce4290c05917305" name="YII_CSRF_TOKEN" /></div>
+                            <p class="note">Fields with <span class="required"> * </span> are required.</p>
+                            <table width="80%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="200"><label for="Courses_course_name" class="required">Arm Name <span class="required">*</span></label></td>
+                                    <td><input id="Course_Name" name="Courses[course_name]" size="40" maxlength="100" type="text"></td>
+                                    <td id="Course_Id" style="display:none;"></td>
+                                </tr>
+
+                                <tr><td colspan="2">&nbsp;</td></tr>
+                                <tr>
+                                    <td width="200"><label for="Courses_semester_enabled">Enable semester system</label></td>
+                                    <td><input id="Course_IsEnable" name="Courses[course_name]" size="40" maxlength="100" type="checkbox"></td>
+                                </tr>
+                                <tr><td colspan="2">&nbsp;</td></tr>
+                                <tr>
+                                    <td><label for="Courses_exam_format">Exam Format</label></td>
+                                    <td>
+                                        <input id="Course_ExamFormat" name="Courses[course_name]" size="40" maxlength="100" type="radio">
+                                    </td>
+                                </tr>
+                                <tr><td colspan="2">&nbsp;</td></tr>
+
+                            </table>
+                            <input name="Courses[is_deleted]" id="Courses_is_deleted" type="hidden" value="0" /><input value="2020-03-25" name="Courses[created_at]" id="Courses_created_at" type="hidden" /><input value="2020-03-25" name="Courses[updated_at]" id="Courses_updated_at" type="hidden" />
+                            <!-- Batch Form Ends -->
+                            <div style="padding:0px 0 0 0px; text-align:left">
+                                <input class="formbut" onclick="saveCourse();" type="submit" value="Save" />
+                            </div>
+                        </form>>
+                    </div>
+                </div><!-- form -->
+            </div>
+        </div>
+    </div>
+</div>

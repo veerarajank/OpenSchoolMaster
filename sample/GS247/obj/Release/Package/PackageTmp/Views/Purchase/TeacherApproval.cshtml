@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+    <h1>Material Requistion</h1>    
+
+    <div class="pdtab_Con" style="width:100%">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr class="pdtab-h">
+                    <th>Student Name</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Status</th>                   
+                    <td align="center">Action</td>
+                </tr>
+                @foreach (var item in ViewBag.RequestMaterialDetails)
+                {
+                    <tr>
+                        <td align="center">@item.SchoolCO.StudentName</td>
+                        <td align="center">@item.SchoolCO.Name</td>
+                        <td align="center">@item.Quantity</td>
+                        <td align="center">@item.SchoolCO.StatusFlagDesc</td>
+                        @if (item.StatusFlag == 0 && item.TeacherApprovedFlag == 0)
+                        {
+                            <td>
+                                <a style="color:orangered" href="javascript:StatusUpdate(@item.MaterialId,0);"><span>Approve</span></a>
+                                <a style="color:orangered" href="javascript:StatusUpdate(@item.MaterialId,3);"><span>Reject</span></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="pagecon">
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".student-approval_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function StatusUpdate(MaterialId, StatusFlag) {
+        var msg = "Are you sure you want to approve this order?";
+        if (StatusFlag == 3)
+            msg = "Are you sure you want to reject this order?";
+
+        if (confirm(msg)) {            
+            $.ajax({
+                type: "POST",
+                url: "/Purchase/TeacherMaterialStatusUpdate",
+                data: '{MaterialId: ' + MaterialId + ',StatusFlag:' + StatusFlag + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    };
+
+</script>
+
+

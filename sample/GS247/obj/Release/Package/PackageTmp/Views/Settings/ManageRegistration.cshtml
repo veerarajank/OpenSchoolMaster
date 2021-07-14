@@ -1,0 +1,45 @@
+﻿@model GS247.Models.Settings.ManageRegistration
+@{
+    ViewBag.Title = "ManageOnlineRegistrationSettings";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div class="cont_right formWrapper">
+    <h1>Online Registration Settings</h1>
+    <div class="formCon">
+        <div class="formConInner">
+            @using (Html.BeginForm("UpdateRegistration", "Settings", FormMethod.Post))
+            {
+                <table>
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(Model => Model.Id)
+                            @Html.HiddenFor(Model => Model.AcademicYearId)
+                            @Html.LabelFor(Model => Model.AcademicYear)
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.CheckBoxFor(Model => Model.AllowOnlineAdmission)
+                            <Span>Allow Online Admission</Span>
+                        </td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.CheckBoxFor(Model => Model.ShowLink)
+                            <Span>Show Online Admission Link</Span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayTextFor(Model => Model.AcademicYear)</td>
+                    </tr>
+                </table>
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Apply" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

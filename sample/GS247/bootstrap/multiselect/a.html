@@ -1,0 +1,33 @@
+  <script type="text/javascript" src="jquery-2.2.3.min.js"></script>
+      <!-- Include Twitter Bootstrap and jQuery: -->
+<link rel="stylesheet" href="bootstrap-3.3.2.min.css" type="text/css"/>
+    <link rel="stylesheet" href="prettify.css" type="text/css"/>
+    <link rel="stylesheet" href="bootstrap-multiselect.css" type="text/css"/>
+    
+<script type="text/javascript" src="bootstrap-3.3.2.min.js"></script>
+    
+ 
+<!-- Include the plugin's CSS and JS: -->
+    
+<script type="text/javascript" src="prettify.js"></script>
+    <script type="text/javascript" src="bootstrap-multiselect.js"></script>
+
+     <select id="example-getting-started" multiple="multiple">
+    <option value="cheese">Cheese</option>
+    <option value="tomatoes">Tomatoes</option>
+    <option value="mozarella">Mozzarella</option>
+    <option value="mushrooms">Mushrooms</option>
+    <option value="pepperoni">Pepperoni</option>
+    <option value="onions">Onions</option>
+</select>
+
+     <script type="text/javascript">
+         $(document).ready(function () {
+             $('#example-getting-started').multiselect({
+                 enableClickableOptGroups: true,
+                 enableCollapsibleOptGroups: true,
+                 enableFiltering: true,
+                 includeSelectAllOption: true
+             });
+         });
+</script>

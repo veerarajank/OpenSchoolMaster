@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+
+<div class="cont_right formWrapper">
+    <h1>Material Requistion</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("TeacherRequestMaterial","Purchase")">Request Material</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="pdtab_Con" style="width:100%">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr class="pdtab-h">
+                    <th>Department</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Status</th>                    
+                    <td align="center">Action</td>
+                </tr>
+                @foreach (var item in ViewBag.RequestMaterialDetails)
+                {
+                    <tr>
+                        <td align="center">@item.SchoolCO.RelationName</td>
+                        <td align="center">@item.SchoolCO.Name</td>
+                        <td align="center">@item.Quantity</td>
+                        <td align="center">@item.SchoolCO.StatusFlagDesc</td>
+                        @if (item.StatusFlag == 0)
+                        {
+                            <td>
+                                <a style="color:orangered" href="javascript:StatusUpdate(@item.MaterialId,4);"><span>Withdraw</span></a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="pagecon">
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".addleave-type_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function StatusUpdate(MaterialId, StatusFlag) {
+        if (confirm("Are you sure you want to withdraw this item?")) {            
+            $.ajax({
+                type: "POST",
+                url: "/Purchase/TeacherStatusMaterialUpdate",
+                data: '{ItemId: ' + ItemId + ',StatusFlag:' + StatusFlag + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    };
+
+</script>
+
+
+
+
+
+
+
+

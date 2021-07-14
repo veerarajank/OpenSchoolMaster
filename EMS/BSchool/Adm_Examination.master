@@ -1,0 +1,61 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/GS247.master" AutoEventWireup="true" CodeFile="Adm_Examination.master.cs" Inherits="Adm_Examination" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div class="midnav">
+        <span onclick="Goto('Settings.aspx')">Examination Settings</span>
+    </div>
+
+
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-md-3" style="vertical-align: top; border: 1px solid #b9c7d0">
+
+                    <div id="othleft-sidebar">
+                        <h1>Online Examination</h1>
+                        <ul>
+                            <li class=""><a class="exame-result_ico" active="" href="Adm_Common_Exam_Online_Dashboard.aspx">Dashboard<span>Online Examination List</span></a></li>
+                            <li class=""><a class="exame-result_ico" active="" href="Adm_Common_Exam_Online.aspx">Online Exams<span>Online Examination List</span></a></li>
+                        </ul>
+                        <h1>Exam Management</h1>
+                        <ul>
+                            <li>
+                                <a id="explorer_gradingLevels" class="exm-gradebook_ico " href="Adm_Common_Exam_Batches_Grade.aspx">Set grading levels<span>Grading Levels for the Batch</span></a>                </li>
+                            <li>
+                                <a id="explorer_coScholastic" class="co-scholastic-skill_ico" href="#">Co-Scholastic Skills<span>Co-Scholastic for the Batch</span></a>                </li>
+                            <li>
+                                <a id="explorer_exam" class="list-cours_ico" href="Adm_Common_Exam_Batches_Result.aspx">Select Course / Batch<span>Select Batch and exam</span></a>              	</li>
+                            <li class="">
+                                <a class="exm-gradebook_ico" href="Adm_Common_Exam.aspx">Common Exams<span>Create Common Exams</span></a>                </li>
+
+                            <li class="">
+                                <a class="gradinglevels_ico" active="" href="Adm_DefaultGradeLevel.aspx">Default Grading Levels<span>Set Default Grading Level</span></a>                </li>
+                        </ul>
+
+
+
+                        <h1>Grade Book</h1>
+                        <ul>
+                            <li class=""><a class="grade-book_ico" active="" href="Adm_Common_Exam_Grade_Book.aspx">Grade book<span>View Grade book</span></a></li>
+                        </ul>
+                        <ul>
+                            <h1>Settings</h1>
+                            <li class=""><a class="cbscgrad-exmsetng_ico" href="Adm_Common_Exam_Grade_Weight.aspx">Exam Settings<span>View Exam Settings</span></a></li>
+
+                        </ul>
+                    </div>
+                    <div id="subject-name-ajax-grid"></div>
+
+                </td>
+                <td class="col-md-9" style="vertical-align: top; border: 1px solid #b9c7d0">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+</asp:Content>
+

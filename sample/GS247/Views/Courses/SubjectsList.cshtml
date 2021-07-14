@@ -1,0 +1,509 @@
+﻿@model GS247.Models.Courses.CourseList
+@{
+    ViewBag.Title = "SubjectsList";
+    Layout = "~/Views/Shared/_CoursesLayout.cshtml";
+}
+ <style>
+     .formbut-n {
+         background: #50d8af;
+     }
+     .sub_act a:hover {
+         background: #50d8af;
+     }
+     /* The Modal (background) */
+     .modal {
+         display: none; /* Hidden by default */
+         position: fixed; /* Stay in place */
+         z-index: 1; /* Sit on top */
+         padding-top: 100px; /* Location of the box */
+         left: 0;
+         top: 0;
+         width: 100%; /* Full width */
+         height: 100%; /* Full height */
+         overflow: auto; /* Enable scroll if needed */
+         background-color: rgb(0,0,0); /* Fallback color */
+         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+     }
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  margin-top:0px;
+
+  border: 1px solid #888;
+  width: 35%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+     .modal-header {
+         padding: 2px 16px;
+         background-color: #50d8af;
+         color: white;
+     }
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+</style>
+ <script>
+     function errorValidate() {
+         var ret = 0;
+         if (document.getElementById("SubjectsCommonPool_subject_name").value == '') { ret = 1; }
+         if (document.getElementById("SubjectsCommonPool_max_weekly_classes").value == '') { ret = 1; };
+         
+         
+         if (document.getElementById("split-tr1").style.display == "") {
+             if (document.getElementById("SubjectsCommonPool_subject_tilte1").value == '') { ret = 1;}
+             if (document.getElementById("SubjectsCommonPool_subject_tilte2").value == '') { ret = 1;}
+         }
+         return ret;
+         
+     }
+     function subjectload(favorite) {
+         if (favorite == 0) {
+             var favorite = $('#course').val();
+         }
+            var request = new XMLHttpRequest();
+            request.open('GET', "/Courses/GetResults?Id="+favorite, true)
+            request.onload = function () {
+                var data = JSON.parse(this.response);
+                if (request.status >= 200 && request.status < 400) {
+                    var tbl = document.getElementById("SubjectTable");
+                    tbl.textContent = "";
+                    var row = document.createElement('tr');
+                    row.setAttribute('class', 'pdtab-h');
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.setAttribute('width', '8%');
+                    cell.textContent = 'Sl No.';
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.setAttribute('width', '30%');
+                    cell.textContent = 'Subject Name';
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.setAttribute('width', '30%');
+                    cell.textContent = 'First Sub Category';
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.setAttribute('width', '30%');
+                    cell.textContent = 'Second Sub Category';
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.setAttribute('width', '25%');
+                    cell.textContent = 'Maximum Weekly Classes';
+                    row.appendChild(cell);
+                    var cell = document.createElement('td');
+                    cell.setAttribute('align', 'center');
+                    cell.setAttribute('width', '15%');
+                    cell.textContent = 'Action';
+                    row.appendChild(cell);
+                    tbl.appendChild(row);
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i].Id);
+                        var Id = data[i].Id;
+                        var Name = data[i].Name;
+                        var FirstSub = data[i].FirstSub;
+                        var SecondSub = data[i].SecondSub;
+                        var Weekly = data[i].Weekly;
+                        var row = document.createElement('tr');
+                        row.setAttribute('id', 'subrow' + i);
+                        var cell = document.createElement('td');
+                        cell.setAttribute('align', 'center');
+                        cell.textContent = i + 1;
+                        row.appendChild(cell);
+                        var cell = document.createElement('td');
+                        cell.setAttribute('align', 'center');
+                        cell.textContent = Name
+                        row.appendChild(cell);
+                        var cell = document.createElement('td');
+                        cell.setAttribute('align', 'center');
+                        cell.textContent = FirstSub
+                        row.appendChild(cell);
+                        var cell = document.createElement('td');
+                        cell.setAttribute('align', 'center');
+                        cell.textContent = SecondSub
+                        row.appendChild(cell);
+                        var cell = document.createElement('td');
+                        cell.setAttribute('align', 'center');
+                        cell.textContent = Weekly
+                        row.appendChild(cell);
+                        var cell = document.createElement('td');
+                        cell.setAttribute('align', 'center');
+                        cell.setAttribute('class', 'sub_act');
+                        var atag = document.createElement('a');
+                        atag.setAttribute('id', Id);
+                        atag.setAttribute('class', 'add edit-subject');
+                        atag.setAttribute('onclick','EditSubject(this.id);')
+                        //atag.setAttribute('href', "@Url.Action("EditSubject","Courses")?Id=" + Id + "&CourseId=" + favorite);
+                        atag.textContent = "Edit";
+                        cell.appendChild(atag);
+                        var atag = document.createElement('a');
+                        atag.setAttribute('id', Id);
+                        atag.setAttribute('onclick', 'DeleteSubject(this.id);')
+                        //atag.setAttribute('href', "@Url.Action("DeleteSubject","Courses")?Id=" + Id);
+                        atag.textContent = "Delete";
+                        cell.appendChild(atag);
+                        row.appendChild(cell);
+                        tbl.appendChild(row);
+
+                    }
+                }
+            }
+            request.send()
+        }
+        function onload1() {
+
+            document.getElementById("split-tr1").style.visibility = 'hidden';
+            document.getElementById("split-tr2").style.visibility = 'hidden';
+            document.getElementById("split-tr3").style.visibility = 'hidden';
+            document.getElementById("split-tr4").style.visibility = 'hidden';
+            document.getElementById("split-tr5").style.visibility = 'hidden';
+        }
+        function toggle() {
+            
+            if (document.getElementById("split-tr1").style.display == 'none') {
+                document.getElementById("split-tr1").style.display = '';  
+                document.getElementById("split-tr2").style.display = '';
+                document.getElementById("split-tr3").style.display = '';
+                document.getElementById("split-tr4").style.display = '';
+                document.getElementById("split-tr5").style.display = '';
+            }
+            else {
+                document.getElementById("split-tr1").style.display = 'none';
+                document.getElementById("split-tr2").style.display = 'none';
+                document.getElementById("split-tr3").style.display = 'none';
+                document.getElementById("split-tr4").style.display = 'none';
+                document.getElementById("split-tr5").style.display = 'none';
+            }
+
+
+        }
+        function AddSubject() {
+            var favorite = $('#course').val();
+            
+            var span = document.getElementById("Span_id");
+            span.textContent = "Add Subject";
+            if (favorite == "") { favorite = 0; }
+            var request = new XMLHttpRequest();
+            
+            request.open('GET', "/Courses/GetAllCourses?CourseId="+favorite, true)
+            request.onload = function () {
+                var data = JSON.parse(this.response);
+                if (request.status >= 200 && request.status < 400) {
+                    console.log(data);
+                    var select = document.getElementById("SubjectsCommonPool_course_id");
+                    document.getElementById("lbl_id").value = 0;
+                    select.textContent = "";
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i].Id);
+                        var Id = data[i].Id;
+                        var Name = data[i].Name;
+                        var option = document.createElement("option");
+                        option.setAttribute("value", Id);
+                        option.textContent = Name;
+                        select.appendChild(option);
+                    }
+                }
+            }
+            request.send()
+     }
+     function SaveSubject() {
+         var favorite = $('#course').val();
+         var select = document.getElementById("SubjectsCommonPool_course_id").value;
+         var subjectName = document.getElementById("SubjectsCommonPool_subject_name").value;
+         var weekly = document.getElementById("SubjectsCommonPool_max_weekly_classes").value;
+         var FirstSub = document.getElementById("SubjectsCommonPool_subject_tilte1").value;
+         var SecondSub = document.getElementById("SubjectsCommonPool_subject_tilte2").value;
+         var SubjectId = document.getElementById("lbl_id").value;
+         if (errorValidate() != 1) {
+             var request = new XMLHttpRequest();
+             request.open('GET', "/Courses/InsertSubject?CourseId=" + select + "&Name=" + subjectName + "&FirstSub=" + FirstSub + "&SecondSub=" + SecondSub + "&weekly=" + weekly + "&SubjectId=" + SubjectId, false)
+             request.send();
+             if (request.status == 200) {
+                 //window.location.reload(true);
+                 var modal = document.getElementById("myModal");
+                 modal.style.display = "none";
+                 subjectload(favorite);
+             }
+             
+         }
+         
+     }
+     function EditSubject(id) {
+         modal.style.display = "block";
+         var span = document.getElementById("Span_id");
+         span.textContent = "Edit Subject";
+         
+         
+         var request = new XMLHttpRequest();
+         request.open('GET', "/Courses/GetCourseWithSubject?SubjectId=" + id, true)
+         request.onload = function () {
+             var data = JSON.parse(this.response);
+             if (request.status >= 200 && request.status < 400) {
+                 console.log(data);
+                 var select = document.getElementById("SubjectsCommonPool_course_id");
+                 select.textContent = "";
+                 document.getElementById("lbl_id").value = id;
+                 console.log(data.Subjects.Name);
+                 if (data.Subjects.Name != '') {
+                     document.getElementById("SubjectsCommonPool_subject_name").value = data.Subjects.Name;
+                     
+                 }
+                 if (data.Subjects.Weekly != '') {
+                     document.getElementById("SubjectsCommonPool_max_weekly_classes").value = data.Subjects.Weekly;
+                 }
+                 if ((data.Subjects.FirstSub != '') || (data.Subjects.SecondSub != '')) {
+                     toggle();
+
+                 }
+                 if (data.Subjects.FirstSub != '') {
+                     document.getElementById("SubjectsCommonPool_subject_tilte1").value = data.Subjects.FirstSub;
+                     
+                 }
+                 if (data.Subjects.SecondSub != '') {
+                     document.getElementById("SubjectsCommonPool_subject_tilte2").value = data.Subjects.SecondSub;
+                     
+                 }
+                 if (data.Course.Name != '') {
+
+                     var option = document.createElement("option");
+                 option.setAttribute("value", data.Course.Id);
+                 option.textContent = data.Course.Name;
+                 select.appendChild(option);
+                 }
+                 
+             }
+         }
+         request.send();
+     }
+     function DeleteSubject(id) {
+         var favorite = $('#course').val();
+         if (confirm('Are you sure you want to delete this item?')) {
+             var request = new XMLHttpRequest();
+             request.open('GET', "/Courses/DeleteSubject?SubjectId=" + id, true)
+             request.onload = function () {
+             }
+             request.send();
+             subjectload(favorite);
+         }
+     }
+ </script>
+    <div class="cont_right formWrapper">
+        <h1>Subjects Common Pool</h1>
+
+        <div class="formCon">
+            <div class="formConInner">
+                <div class="c_batch_tbar-subwise">
+                    <div class="filter-box-table">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="s_search">
+                            <tr>
+                                <td width="13%"><strong>Select Course</strong></td>
+                                <td width="25%">
+                                    <select onchange="subjectload(0)" id="course" class="form-control chosen-select" name="course">
+                                        <option value="">Select Course</option>
+                                        @for (int i = 0; i < Model.Course.Count; i++)
+                                        {
+                                            <option value=@Model.Course[i].Id>@Model.Course[i].Name</option>
+                                            <option hidden>@Model.Course[i].Id</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td width="2%"></td>
+                                <td width="23%">
+                                    <button class="formbut-n" id="myBtn">Add Subject</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pdtab_Con" id="dropwin1" style="padding:0px 0px 10px 0px; ">
+            <br />
+
+            <strong>Subjects</strong>
+            <br />
+            <table width="100%" id="SubjectTable" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <!--class="cbtablebx_topbg"  class="sub_act"-->
+                    <tr class="pdtab-h">
+                        <td align="center" width="8%">Sl No.</td>
+                        <td align="center" width="30%">Subject Name</td>
+                        <td align="center" width="30%">First Sub Category</td>
+                        <td align="center" width="30%">Second Sub Category</td>
+                        <td align="center" width="25%">Maximum Weekly Classes</td>
+                        <td align="center" width="15%">Action</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="del_sub_err"></div>
+
+        </div>
+        <!-- Trigger/Open The Modal -->
+        <div class="formConInner">
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close" id="close1">&times;</span>
+                        <h3><span id="Span_id">Add Subject</span></h3>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="popup-input">
+                            <form id="subjects-common-pool-form" action="" method="post">
+                                <div style="display:none"><input type="hidden" value="62a17bc274fe7457488722b967bd1ac3f43427e9" name="YII_CSRF_TOKEN" /></div>		<p class="note">Fields with<span class="required">*</span> are required.</p>
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <select onchange="checksplit()" class="form-control" name="SubjectsCommonPool[course_id]" id="SubjectsCommonPool_course_id">
+                                                <option value="">Select Course</option>
+                                                <option value="1">Class 10</option>
+                                                <option value="2">Bachelor Degree</option>
+                                            </select>
+                                        </tr>
+                                        <tr>
+                                            <td style="display:none"><span id="lbl_id"></span></td>
+                                            <td><label for="SubjectsCommonPool_subject_name" class="required">Subject Name <span class="required">*</span></label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[subject_name]" id="SubjectsCommonPool_subject_name" type="text" required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="SubjectsCommonPool_max_weekly_classes" class="required">Maximum Weekly Classes <span class="required">*</span></label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[max_weekly_classes]" id="SubjectsCommonPool_max_weekly_classes" type="text" value="" required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr class="split-check-tr">
+                                            <td>
+                                                <input id="ytSubjectsCommonPool_split_subject" type="hidden" value="0" name="SubjectsCommonPool[split_subject]" />
+                                                <input name="SubjectsCommonPool[split_subject]" onchange="toggle();" id="SubjectsCommonPool_split_subject" value="1" type="checkbox" />						Split Subject
+                                            </td>
+                                        </tr>
+                                        <tr class="split-tr" id="split-tr1" style="display:none">
+                                            <td>
+                                                <label>First Sub Category&nbsp;<span class="required" id="category_tr">*</span></label>
+                                            </td>
+                                        </tr>
+                                        <tr class="split-tr" id="split-tr2" style="display:none">
+                                            <td>
+                                                <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[subject_tilte1]" id="SubjectsCommonPool_subject_tilte1" type="text" required />
+                                            </td>
+
+                                        </tr>
+                                        <tr class="split-tr" id="split-tr3" style="display:none">
+                                            <td>
+                                                <label>Second Sub Category&nbsp;<span class="required" id="category_tr">*</span></label>
+                                            </td>
+                                        </tr>
+                                        <tr class="split-tr" id="split-tr4" style="display:none">
+                                            <td>
+                                                <input size="20" maxlength="255" style="width:100%" name="SubjectsCommonPool[subject_tilte2]" id="SubjectsCommonPool_subject_tilte2" type="text" required />
+                                            </td>
+
+                                        </tr>
+                                        <tr class="split-tr" id="split-tr5" style="display:none">
+                                            <td>&nbsp;</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <input id="SubjectsCommonPool_all_batches" type="hidden" value="0" name="SubjectsCommonPool[all_batches]" /><input checked="checked" name="SubjectsCommonPool[all_batches]" id="SubjectsCommonPool_all_batches" value="1" type="checkbox" />
+                                                All Batch
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                    <div class="popup_btn">
+                                        <input id="closeJobDialog" onclick="SaveSubject();" name="Submit" type="submit" value="Save" />
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                            
+                        
+             </div>
+
+         </div>
+     </div>
+        
+
+            <script>
+                // Get the modal
+                var modal = document.getElementById("myModal");
+
+                // Get the button that opens the modal
+                var btn = document.getElementById("myBtn");
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks the button, open the modal
+                btn.onclick = function () {
+                    modal.style.display = "block";
+                    AddSubject();
+                }
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+
+        </div>
+

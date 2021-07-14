@@ -1,0 +1,111 @@
+﻿@model GS247.Models.Courses.CourseSubject
+@{
+    ViewBag.Title = "EditSubject";
+    Layout = "~/Views/Shared/_CoursesLayout.cshtml";
+}
+<script>
+    function checksplit() {
+        var tag = document.getElementsByClassName("split-tr");
+        if (tag.getAttribute("style") = "display: none;") {
+            tag.setAttribute("style", "");
+        }
+        if (tag.getAttribute("style") = "") {
+            tag.setAttribute("style","display: none;")
+        }
+        
+     }
+</script>
+<div class="popup-input">
+    @using (Html.BeginForm("UpdateSubject", "Courses", FormMethod.Post))
+    {
+        <p class="note">Fields with <span class="required"> * </span> are required.</p>
+        <div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <select onchange="checksplit()" class="form-control" name="SubjectsCommonPool[course_id]" id="SubjectsCommonPool_course_id">
+                        
+                        @for (int i = 0; i < Model.Course.Count; i++)
+                        {
+                            @if(Model.Course[i].Id=Model.CourseId)
+                            {
+                                <option value="">@Model.Course[i].Name</option>
+                            }
+                            @else
+                            {
+                                <option value=@(i + 1)>@Model.Course[i].Name</option>
+                            }
+                            <option hidden>@Model.Course[i].Id</option>
+                        }
+                    </select>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="SubjectsCommonPool_subject_name" class="required">Subject Name <span class="required">*</span></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            @Html.EditorFor(Model => Model.Subjects.Name, new { @size = "20", @maxlength = "255", @style = "width:100%", @name = "SubjectsCommonPool[subject_name]", @id = "SubjectsCommonPool_subject_name" })
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="SubjectsCommonPool_max_weekly_classes" class="required">Maximum Weekly Classes <span class="required">*</span></label></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            @Html.EditorFor(Model => Model.Subjects.Weekly, new { @size = "20", @maxlength = "255", @style = "width:100%", @name = "SubjectsCommonPool[max_weekly_classes]", @id = "SubjectsCommonPool_max_weekly_classes" })
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr class="split-check-tr">
+                    <td>
+                        <input name="SubjectsCommonPool[split_subject]" id="SubjectsCommonPool_split_subject" onchange="checksplit()" value="1" type="checkbox" />						Split Subject
+                    </td>
+                </tr>
+                <tr class="split-tr" style="display: none;">
+                    <td>
+                        <label>First Sub Category&nbsp;<span class="required" id="category_tr">*</span></label>
+
+                    </td>
+                </tr>
+                <tr class="split-tr" style="display: none;">
+                    <td>
+                        @Html.EditorFor(Model => Model.Subjects.FirstSub, new { @size = "20", @maxlength = "225", @style = "width:100%", @name = "SubjectsCommonPool[subject_tilte1]", @id = "SubjectsCommonPool_subject_tilte1" })
+                    </td>
+                </tr>
+                <tr class="split-tr" style="display: none;">
+                    <td>
+                        <label>Second Sub Category&nbsp;<span class="required" id="category_tr">*</span></label>
+                    </td>
+                </tr>
+                <tr class="split-tr" style="display: none;">
+                    <td>
+                        @Html.EditorFor(Model => Model.Subjects.SecondSub, new { @size = "20", @maxlength = "225", @style = "width:100%", @name = "SubjectsCommonPool[subject_tilte2]", @id = "SubjectsCommonPool_subject_tilte2" })
+                    </td>
+
+                </tr>
+                <tr class="split-tr" style="display: none;">
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input id="ytSubjectsCommonPool_all_batches" type="hidden" value="0" name="SubjectsCommonPool[all_batches]" />
+                        <input checked="checked" name="SubjectsCommonPool[all_batches]" id="SubjectsCommonPool_all_batches" value="1" type="checkbox" />
+                        All Batch
+                    </td>
+                </tr>
+            </table>
+            <div class="popup_btn">
+                <input id="closeJobDialog" type="submit" value="Save" />
+            </div>
+        </div>
+    }
+</div>
+

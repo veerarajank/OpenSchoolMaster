@@ -1,0 +1,134 @@
+﻿@model GS247.Models.StudentLogCategory
+@{
+    ViewBag.Title = "Student Log";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@if (Model == null)
+{
+    <h1>Create Log Category</h1><br />
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("ManageLog", "Student")"><span>Back</span></a>
+        </div>
+        <div class="top-hed-btn-right">           
+        </div>
+    </div>
+    <div class="form">
+        <form id="courses-form" action="CreateLog" method="post">
+            <div class="formCon">
+                <div class="formConInner">
+                    <p class="note">Fields with <span class="required">*</span> are required.</p>
+                    <table width="60%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label for="Name" class="required">Name <span class="required">*</span></label></td>
+                            <td>
+                                <input name="Name" id="Name" type="text" maxlength="50" required />
+                                <br />
+                                <label style="display:none" id="lbl"><span class="required" id="span"></span></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="AllowStatusFlag">Allow Teachers to Manage</label></td>
+                            <td><input name="AllowStatusFlag" id="AllowStatusFlag" value="0" type="checkbox" />		</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+            <div style="padding:0px 0 0 0px; text-align:left">
+                <input class="formbut-n" type="submit" name="yt0" value="Save" />
+            </div>
+
+        </form><!-- form -->
+    </div>
+}
+else
+{
+    <h1>Update Log Category</h1><br />
+    <div class="form">
+        <form id="courses-form" action="UpdateStudentLog" method="post">
+            <div class="formCon">
+                <div class="formConInner">
+                    <input id="StudentLogCategoryID" type="hidden" value="@Model.StudentLogCategoryID" name="StudentLogCategoryID">
+                    <p class="note">Fields with <span class="required">*</span> are required.</p>
+                    <table width="60%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label for="Name" class="required">Name <span class="required">*</span></label></td>
+                            <td>
+                                <input name="Name" id="Name" type="text" maxlength="50" required value="@Model.Name" />
+                                <br />
+                                <label style="display:none" id="lbl"><span class="required" id="span"></span></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="AllowStatusFlag">Allow Teachers to Manage</label></td>
+                            <td><input name="AllowStatusFlag" id="AllowStatusFlag" value="@Model.AllowStatusFlag" type="checkbox" @(Model.AllowStatusFlag == 1 ? "checked='checked'" : string.Empty) />		</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+            <div style="padding:0px 0 0 0px; text-align:left">
+                <input class="formbut-n" type="submit" name="yt0" value="Update" />
+            </div>
+
+        </form><!-- form -->
+    </div>
+}
+                            
+    <script type="text/javascript">
+        $(':checkbox#AllowStatusFlag').change(function (e) {
+            if ($(this).is(':checked')) {
+                $(':checkbox#AllowStatusFlag').attr('value', '1');
+            }
+            else {
+                $(':checkbox#AllowStatusFlag').attr('value', '0');
+            }
+        });
+
+       
+    </script>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $('#span').html('@ViewBag.Message');
+        $('#lbl').css('display', 'block');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#span').html('');
+        $('#lbl').css('display', 'none');
+    </script>
+}

@@ -1,0 +1,56 @@
+﻿@model List<GS247.Models.TimeTable.TimetableWeekdays>
+
+@{
+    ViewBag.Title = "WeekDays Setup";
+    Layout = "~/Views/Shared/_TimeTableLayout.cshtml";
+}
+<style>
+    .formCon
+    {
+        width:30%;
+    }
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div>
+    <h1>@ViewBag.Title</h1>
+    @Html.Partial("_Batch")
+    @if (Session["BatchId"].ToString() != "0" && Model.Count != 0)
+    {
+        <div class="formCon">
+
+            <div class="formConInner">
+
+                @using (Html.BeginForm("UpdateWeekDays", "TimeTable", FormMethod.Post))
+                {
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.HiddenFor(m => Model[i].Id)
+                                    @Html.HiddenFor(m => Model[i].Weekday)
+                                    @Html.CheckBoxFor(m => Model[i].IsEnable)@Html.DisplayFor(m => Model[i].Weekday)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                    <div style="padding-top:20px;">
+                        <input class="formbut" type="submit" name="yt0" value="Save" />
+                    </div>
+                }
+
+            </div>
+        </div><!-- form -->
+    }
+    @if (TempData["WeekDaysSetup"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("WeekDaysSetup").ToString()");
+        </script>
+    }
+</div>
+
+

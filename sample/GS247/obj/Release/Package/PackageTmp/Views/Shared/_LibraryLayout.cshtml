@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "_LibraryLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+</head>
+<body style="background-color:">
+
+    <div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+        <div class="wrap_container_admin wrap_container_flex">
+            <script>
+                $(document).ready(function () {
+                    window.history.pushState(null, "", window.location.href);
+                    window.onpopstate = function () {
+                        window.history.pushState(null, "", window.location.href);
+                    };
+                });
+                function setDefault(Id) {
+                    var tag = document.getElementById(Id);
+                    tag.setAttribute("class", "list_active");
+                }
+            </script>
+
+            <div class="midnav" style="background-color: ; color: ">
+                <div class="breadcrumbs">
+
+                </div>
+            </div>
+            <div class="container">
+                <div class="container">
+                    <div class="span-19">
+                        <div id="content">
+
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="247" valign="top">
+                                        <div id="othleft-sidebar">
+                                           
+                                            <h1>Manage Library</h1>
+                                            <ul id="yw0">
+                                                <li><a class="list-lib_ico" onload="setDefault(this.parentNode.id)" href="@Url.Action("ManageAuthors","Library")">View Authors<span>Author Names of Books</span></a></li>
+                                                <li><a class="category-lib_ico" href="@Url.Action("ManageBookCategories","Library")">Manage Book Category<span>Book Category Details</span></a></li>
+                                                <li><a class="list-books_ico" href="@Url.Action("ManageBooks","Library")">List Books<span>View list of Books</span></a></li>
+                                                <li><a class="search-books_ico" href="@Url.Action("SearchBooks","Library")">Search Books<span>View Searched Book Details</span></a></li>
+                                                <li><a class="borrow-books_ico" href="@Url.Action("CreateBorrowBook","Library")">Borrow Book<span>Add Details of Books Issued to Students</span></a></li>
+                                                <li><a class="return-books_ico" href="@Url.Action("SearchReturnBooks","Library")">Return Book Details<span>Search Return Books</span></a></li>
+                                                <li><a class="view-books_ico" href="@Url.Action("ViewBookDetails","Library")">View Book Details<span>View Borrowed Book Details</span></a></li>
+                                                <li><a class="due-dates_ico" href="@Url.Action("DueDates","Library")">Due Dates<span>View Book Details that are Due</span></a></li>
+                                            </ul>
+                                           
+
+
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="content" style="        background-color: white">
+                                            @RenderBody()
+                                            <!-- Content Header (Page header) -->
+                                            <!-- /.content -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+</html>

@@ -1,0 +1,221 @@
+﻿@model dynamic
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<style>
+    .reslt ul {
+        padding-left: 0px;
+    }
+
+        .reslt ul li label {
+            color: #6f83a9;
+        }
+
+        .reslt ul li {
+            color: #f38108;
+            margin: 0;
+            font-size: 13px;
+            list-style: none;
+            padding: 3px 0;
+            font-weight: 600;
+        }
+
+    .pdtab_Con {
+        padding: 8px 0;
+    }
+</style>
+
+<div class="cont_right formWrapper">
+    <h1>Exam Verification</h1>
+    <input type="hidden" value="@ViewBag.StudentExamDetailsId" name="StudentExamDetailsId" id="StudentExamDetailsId" />
+    <input type="hidden" value="@ViewBag.ExamId" name="ExamId" id="ExamId" />
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <div class="reslt">
+                <ul>
+                    <li><label>Student Name : </label>@ViewBag.StudentName</li>
+                    <li><label>Exam Name : </label>@ViewBag.ExamName</li>
+                    <li><label>Batch : </label>@ViewBag.CourseName/@ViewBag.BatchName</li>
+                </ul>
+            </div>
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("OnlineExams", "Examination")"><span>Back</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="" id="qp_questions">
+        @if (ViewBag.StudentAnswerSheetList.Count > 0)
+        {
+            foreach (var item in ViewBag.StudentAnswerSheetList)
+            {
+                <div class="row" data-qtype="@item.QuestionType">
+                    <div class="col-md-12 question_class" id="@item.StudentExamAnswerDetailsId">
+                        <div class="online-Q-list-bg">
+                            <div class="online-Q-list">
+                                <h3><span class="qp_number">@item.QuestionNo. </span>@item.QuestionName</h3>
+                                <div class="Q-ansr-block">
+                                    <div class="online-q-aType">
+                                        <textarea class="form-control" name="OnlineExamQuestions[exam_answer]" style="height:100px;" id="@item.StudentExamAnswerDetailsId">@item.Answer</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer-verify-ans">
+                            <div class="online-ans-list answer-div" style="display: none;">
+                                <h3>
+                                    @item.QuestionAnswer
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="online-Q-list-action">
+                            <div class="Qstn-actn-ul Qstn-actn-posion-left">
+                                <ul>
+                                    <li><span class="input-icon"><input title="Show Answer" class="show-answer Q-show-icon" name="yt1" type="button" value="Show Answer" /></span></li>
+                                    <li><span>Enter Score</span></li>
+                                    <li><input type="text" placeholder="Score" style="width:100px;height:20px" id="Mark_@item.StudentExamAnswerDetailsId" name="OnlineExamQuestions[exam_mark]" /></li>
+                                </ul>
+                            </div>
+                            <div class="Qstn-actn-ul Qstn-actn-posion-right">
+                                <ul>
+                                    <li><p><span>@item.QuestionMark</span> Mark</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="top-hed-btn-right">
+                    <ul>
+                        <li><a class="formbut-n" onclick="submit();"><span>Submit</span></a></li>
+                    </ul>
+                </div>
+            }
+        }
+        else
+        {  
+            <div align="center">
+                <label style="color:red;height:30px">No question answer available.Please click submit</label>
+                <br />
+                <a class="formbut-n" onclick="saveSubmit();"><span>Submit</span></a>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        show_hide();
+    });
+
+    var show_hide = function () {
+        $(".show-answer").unbind("click").bind("click", function () {
+            var that = this,
+                    $answer_block = $(that).closest(".col-md-12").find(".answer-div");
+
+            if ($answer_block.is(":visible")) {
+                $answer_block.slideUp('slow');
+                $(that).attr('value', 'Show Answer');
+                $(that).attr('title', 'Show Answer');
+            }
+            else {
+                $answer_block.slideDown('slow');
+                $(that).attr('value', 'Hide Answer');
+                $(that).attr('title', 'Hide Answer');
+            }
+        });
+    };
+
+    function scroll_div(element) {
+        $('html,body').animate({
+            scrollTop: $(element).offset().top
+        }, 'slow');
+    };
+
+    function arrange_questions_order() {
+        var start = 1;
+        $('#qp_questions .question_class').each(function (index, element) {
+            $(element).find('.online-Q-list-bg .online-Q-list .qp_number').text(start + '.');
+            start++;
+        });
+    };
+
+    function submit() {
+        var answerList = [];
+
+        var finalObject = new Object();
+
+        $("#qp_questions .row").each(function (index, element) {
+            var qtype = $(this).attr('data-qtype');
+
+            var myObject = new Object();
+
+            switch (qtype) {
+                case '3':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    var mark = $('#Mark_' + examQuesId).val();
+                    myObject.StudentExamAnswerDetailsId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.Mark = mark;
+                    break;
+                case '4':
+                    var optionValue = $(this).find('.online-q-aType textarea').val();
+                    var examQuesId = $(this).find('.question_class').attr('id');
+                    var mark = $('#Mark_' + examQuesId).val();
+                    myObject.StudentExamAnswerDetailsId = examQuesId;
+                    myObject.Answer = optionValue;
+                    myObject.Mark = mark;
+                    break;
+            }
+            answerList.push(myObject);
+        });
+
+        finalObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+        finalObject.StudentExamAnswerDetailsCO = answerList;
+
+        var d = { examAnswerSheet: finalObject };
+
+        $.ajax({
+            type: "POST",
+            url: "/Examination/StudentOnlineExamAnswerEvaluate",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = '/Examination/AnswerSheetList?ExamId=' + @ViewBag.ExamId;
+            },
+            error: function () {
+                window.location.href = '/Examination/AnswerSheetList?ExamId=' + @ViewBag.ExamId;
+            }
+        });
+    };
+
+    function saveSubmit() {
+
+        var finalObject = new Object();
+
+        finalObject.StudentExamDetailsId = $('#StudentExamDetailsId').val();
+        finalObject.StudentExamAnswerDetailsCO = null;
+
+        var d = { examAnswerSheet: finalObject };
+
+        $.ajax({
+            type: "POST",
+            url: "/Examination/StudentOnlineExamAnswerEvaluate",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = '/Examination/AnswerSheetList?ExamId=' + @ViewBag.ExamId;
+            },
+            error: function () {
+                window.location.href = '/Examination/AnswerSheetList?ExamId=' + @ViewBag.ExamId;
+            }
+        });
+    };
+
+</script>

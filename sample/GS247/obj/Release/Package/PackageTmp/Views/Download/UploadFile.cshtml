@@ -1,0 +1,80 @@
+﻿@model GS247.Models.FileUpload
+@{
+    ViewBag.Title = "Upload File";
+    Layout = "~/Views/Shared/_DownloadLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+   
+</style>
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="col-md-2"></div>
+    <div class=" form col-md-8">
+        <div class="formCon">
+            <div class="formConInner">
+                <p>Fields with<span class="required"> * </span> are required.</p>
+                <a href="/Download/FileUpload_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                <form asp-controller="Download" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+                        <tr>
+                            <th>Title<span class="required">*</span></th>
+                            <td>
+                                @Html.TextBoxFor(Model => Model.Title, new { @class = "form-control", @id = "title", required = "required" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Category<span class="required">*</span></th>
+                            <td>
+                                @Html.DropDownListFor(Model => Model.CategoryName, (IEnumerable<SelectListItem>)ViewBag.Categories, "-Select Category-", new { @class = "form-control", required = "required", @id = "categoryName" })
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width:150px;">Placeholder</th>
+                            <td>
+                                @Html.DropDownListFor(Model => Model.Placeholder, (IEnumerable<SelectListItem>)ViewBag.Placeholders, "-Select Place Holder-", new { @class = "form-control", @id = "placeholder" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Course</th>
+                            <td>
+                                @Html.DropDownListFor(Model => Model.Course, (IEnumerable<SelectListItem>)ViewBag.Courses, "-Select Course-", new { @class = "form-control", @id = "course" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Batch</th>
+                            <td>
+                                @Html.DropDownListFor(Model => Model.Batch, (IEnumerable<SelectListItem>)ViewBag.Batches, "-Select Batch-", new { @class = "form-control", @id = "batch" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>File<span class="required">*</span></th>
+                            <td>
+                                <input type="file" name="FileUpload" required />
+                                (Maximum file size is 10 MB. Only files with these extensions are allowed:jpg,jpeg,png,gif,pdf,mp4,doc,docx,ppt,txt)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th height="10px">&nbsp;</th>
+                            <td><input class="formbut" type="submit" value="Add" /></td>
+                        </tr>
+                    </table>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    @if (TempData["UploadFile"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("UploadFile").ToString()");
+        </script>
+    }
+</div>
+
+

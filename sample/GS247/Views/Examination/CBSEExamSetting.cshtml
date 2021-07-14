@@ -1,0 +1,92 @@
+﻿@model GS247.Models.CBSEExamSetting
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+@if (Model != null)
+{
+
+    <div class="cont_right formWrapper">
+        <h1 style="margin-top:.67em;">CBSE Exam Settings <br></h1>
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li><a class="a_tag-btn" href="@Url.Action("CreateCBSEExamSetting", "Examination", new { CBSEExamSettingId = Model.CBSEExamSettingId })"><span>Edit</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="emp_right_contner">
+            <div class="table_listbx">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr class="listbxtop_hdng">
+                            <td>Weightage Settings</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="listbx_subhdng">FA 1 Weightage</td>
+                            <td class="subhdng_nrmal">@Model.FA1Weightage%</td>
+                            <td class="listbx_subhdng">FA 2 Weightage</td>
+                            <td class="subhdng_nrmal">@Model.FA2Weightage%</td>
+                        </tr>
+                        <tr>
+                            <td class="listbx_subhdng">SA 1 Weightage</td>
+                            <td class="subhdng_nrmal">@Model.SA1Weightage%</td>
+                            <td class="listbx_subhdng">SA 2 Weightage</td>
+                            <td class="subhdng_nrmal">@Model.SA2Weightage%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+
+    <div class="cont_right formWrapper">
+        <h1 style="margin-top:.67em;">CBSE Exam Settings <br></h1>
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li><a class="a_tag-btn" href="@Url.Action("CreateCBSEExamSetting","Examination")"><span>Add</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="emp_right_contner">
+            <div class="table_listbx">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr class="listbxtop_hdng">
+                            <td>Weightage Settings</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}     
+
+<script>
+    $(document).ready(function () {
+        //Hide the second level menu
+        $('#othleft-sidebar ul li ul').hide();
+        //Show the second level menu if an item inside it active
+        $('li.list_active').parent("ul").show();
+
+        $('#othleft-sidebar').children('ul').children('li').children('a').click(function () {
+
+            if ($(this).parent().children('ul').length > 0) {
+                $(this).parent().children('ul').toggle();
+            }
+        });
+    });
+</script>

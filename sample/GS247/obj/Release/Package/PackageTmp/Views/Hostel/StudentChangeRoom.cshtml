@@ -1,0 +1,198 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+
+<div class="cont_right">
+    <h1>Request Room</h1>
+    <div class="formCon">
+        <div class="formConInner">
+            <div id="studentname">
+                <table width="30%" border="0" cellspacing="0" cellpadding="0" id="id1">
+                    <tr>
+                        <td><label for="HostelDetailsId">Select  Hostel</label></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <select name="HostelDetailsId" id="HostelDetailsId" onchange="onChangeHostel(this);">
+                                <option value="">Select</option>
+                                @foreach (var item in ViewBag.HostelList)
+                                {
+                                    <option value="@item.HostelDetailsId">@item.Name </option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="HostelFloorId">Select  Floor</label></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <select id="HostelFloorId" name="HostelFloorId">
+                                <option value="">Select</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><input name="search" class="formbut-n" type="submit" value="Search" onclick="onClickSearch();" /></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <table width="30%" border="0" cellspacing="0" cellpadding="0" id="id2">
+                                      
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><input name="search" class="formbut-n" type="submit" value="Request Room" onclick="onRequestClick();" /></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pdtab_Con">
+        <div class="clear"></div>        
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="StudentHostelListGrid"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    $(".students_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function onChangeHostel(ele) {
+        if (ele.value != "") {
+            var d = { HostelDetailsId: ele.value };
+
+            $.ajax({
+                type: "POST",
+                url: "/Hostel/HostelFloorLoad",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (index, BatchList) {
+                        var Table = document.getElementById("HostelFloorId");
+                        Table.innerHTML = "";
+                        if (BatchList.length > 0) {
+                            var value = "<option value=\"0\">Select Floor</option>";
+                            for (var i = 0; i < BatchList.length; i++) {
+                                value += "<option value=\"" + BatchList[i].HostelFloorId + "\">" + BatchList[i].FloorNo + "</option>";
+                            }
+                            $("#HostelFloorId").append(value);
+                        }
+                    });
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });
+        }
+        else {
+            var Table = document.getElementById("HostelFloorId");
+            Table.innerHTML = "";
+        }
+    };
+
+    function onClickSearch() {
+        GetHostelStudentList();
+    };
+
+    function GetHostelStudentList() {
+
+        var d = { HostelDetailsId: $('#HostelDetailsId').val(), HostelFloorId: $('#HostelFloorId').val() };
+
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/GetPendingRoomList",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                tableSearchStudentClearValue();
+                $.each(result, function (index, HostelRoomBedList) {
+                    for (var i = 0; i < HostelRoomBedList.length; i++) {
+
+                        $("#StudentHostelListGrid").append(
+        "<tr>"
+        + "<td>" + HostelRoomBedList[i].Name + "</td>"
+        + "<td>" + HostelRoomBedList[i].FloorNo + "</td>"
+        + "<td>" + HostelRoomBedList[i].RoomNo + "</td>"
+        + "<td>" + HostelRoomBedList[i].BedName + "</td>"
+        + "<td><a style=\"color:darkorange\" href=\"javascript:RequestRoom(" + HostelRoomBedList[i].HostelRoomBedId + ");\">Request</a></td>"
+        + "</tr>");
+                    }
+                });
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+    function tableSearchStudentClearValue() {
+        var Table = document.getElementById("StudentHostelListGrid");
+        Table.innerHTML = "";
+        $("#StudentHostelListGrid").append(
+            "<tr class=\"tablebx_topbg\">"
+            + "<td>Hostel</td><td>Floor</td><td>Room No</td><td>Bed</td><td>Action</td>"
+            + "</tr>");
+    };
+
+    function RequestRoom(HostelRoomBedId) {
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/StudentChangeRequest",
+            data: '{StudentDetailsId:0,HostelDetailsId:' + $('#HostelDetailsId').val() + ',HostelFloorId : ' + $('#HostelFloorId').val() + ',HostelRoomBedId:' + HostelRoomBedId + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    function onRequestClick() {
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/StudentRoomRequest",
+            data: '',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+</script>
+
+@if(ViewBag.RequestFlag == true)
+{
+    <script type="text/javascript">
+        $('#id1').css('display', 'block');
+        $('#id2').css('display', 'none');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#id2').css('display', 'block');
+        $('#id1').css('display', 'none');
+    </script>
+}
+
+

@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+                                <div class="cont_right formWrapper">
+                                    <h1>New Purchase Order</h1>
+                                    <div class="formCon">
+                                        <div class="form">
+                                            <div class="formConInner">
+                                                <form id="purchase-items-form" action="CreatePurchaseSupply" method="post">
+
+                                                    <p class="note">Fields with<span class="required">*</span> are required.</p>
+
+                                                    <div class="txtfld-col-box">
+                                                        <div class="txtfld-col">
+                                                            <label for="ItemId" class="required">Item <span class="required">*</span></label>
+                                                            <select name="ItemId" id="ItemId" onchange="onChangeItem(this);">
+                                                                <option value="">Select Item</option>
+                                                                @foreach (var item1 in ViewBag.PurchaseItemsList)
+                                                                {
+                                                                    <option value="@item1.ItemId">@item1.ItemName </option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div class="txtfld-col">
+                                                            <label for="VendorDetailId" class="required">
+                                                                Vendor <span class="required">*</span>
+                                                            </label><select name="VendorDetailId" id="VendorDetailId">
+                                                               
+                                                            </select>
+                                                        </div>
+                                                        <div class="txtfld-col">
+                                                            <label for="Quantity" class="required">Quantity <span class="required">*</span></label>
+                                                            <input maxlength="255" name="Quantity" id="Quantity" type="text" required>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="txtfld-col-btn">
+                                                        <input class="formbut-n" type="submit" name="yt0" value="Create">
+                                                    </div>
+
+                                                </form>
+                                            </div><!-- form -->
+                                        </div>
+
+                                        <div class="formConInner"></div>
+                                    </div>
+                                </div>
+
+                        
+    <script type="text/javascript">
+        $(".purcs-supply_ico").attr('active', '1').closest('li').addClass('list_active');
+
+        function onChangeItem(ele) {
+
+            if (ele.value != "") {
+
+                $('#loading').show();
+
+                var d = { Id: ele.value };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/VendorListLoad",
+                    data: JSON.stringify(d),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $.each(result, function (index, VendorList) {
+                            var Table = document.getElementById("VendorDetailId");
+                            Table.innerHTML = "";
+                            if (VendorList.length > 0) {
+                                var value = "<option value=\"\">Select Vendor</option>";
+
+                                for (var i = 0; i < VendorList.length ; i++) {
+                                    value += "<option value=\"" + VendorList[i].VendorDetailId + "\">" + VendorList[i].FirstName+ " " + VendorList[i].LastName + "</option>";
+                                }
+
+                                $("#VendorDetailId").append(value);
+                            }
+
+                        });
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });                
+            }
+            else {
+                var Table = document.getElementById("VendorDetailId");
+                Table.innerHTML = "";
+            }
+        };
+
+    </script>

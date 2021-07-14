@@ -1,0 +1,294 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<body>
+    <div class="container">
+        <div class="container">
+            <div class="span-19">
+                <div id="content">
+                    <style>
+                        .tt-wrapper {
+                            width: 150px;
+                        }
+
+                        .document_table td {
+                            line-height: 18px;
+                            font-size: 12px;
+                        }
+                    </style>
+                    <style>
+                        .formbut-n {
+                            background-color: #50d8af;
+                        }
+
+                        .formbut {
+                            background-color: #50d8af;
+                        }
+
+                        .a_tag-btn {
+                            background-color: #50d8af;
+                        }
+                    </style>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="247" valign="top">
+                                <style>
+                                    a.add {
+                                        display: block;
+                                        margin: 10px 0 0;
+                                        padding: 2px 5px;
+                                        width: 60px;
+                                        height: 30px;
+                                        background-color: #379bc9;
+                                        border-radius: 3px;
+                                        color: #fff;
+                                    }
+
+                                        a.add:hover {
+                                            background-color: #318db7;
+                                        }
+
+                                    .add img {
+                                        color: #98adb5;
+                                        display: inline;
+                                        font-size: 14px;
+                                        margin-right: 5px;
+                                        width: 19px;
+                                        height: 20px;
+                                        float: left;
+                                        margin-left: 0px;
+                                        background: none;
+                                    }
+
+                                    .add span.fcount {
+                                        display: inline-block;
+                                        padding-top: 8px;
+                                        padding-left: 4px;
+                                        color: #FFF;
+                                        font-weight: bold;
+                                        font-size: 16px;
+                                    }
+                                </style>
+
+                                @foreach (var item in ViewBag.StudentList)
+                                {
+                                    <div class="empleftbx-profile">
+                                        <div class="empimgbx-profile">
+                                            <img src="/UploadedFiles/@item.Data" />
+                                        </div>
+
+                                        <div class="left-profile-name-sctn">
+                                            <div class="left-profile-blk">
+                                                <p>
+                                                    @item.FirstName @item.LastName
+                                                </p>
+                                                <a href="#">@item.Email</a>
+                                            </div>
+
+                                            <div id="jobDialog"></div>
+                                            <div class="clear"></div>
+                                            <div class="prof_detail-blk">
+                                                <ul>
+                                                    <li>
+                                                        <span><strong>Admission No&nbsp;:</strong>&nbsp;@item.AdmissionNo</span>
+                                                    </li>
+                                                </ul>
+                                            </div> <!-- END div class="prof_detail" -->
+                                        </div>
+
+                                    </div>
+                                }
+
+
+                            </td>
+                            <td valign="top">
+                                <div class="cont_right formWrapper">
+                                    <h1>Student Profile</h1>
+
+                                    <!-- END div class="edit_bttns last" -->
+
+                                    <div class="clear"></div>
+                                    <!-- END div class="emp_right_contner" -->
+                                    <div class="emp_right_contner">
+                                        <div class="emp_tabwrapper">
+
+
+                                            <div class="button-bg">
+                                                <div class="top-hed-btn-left">
+                                                    <a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Back</span></a>
+                                                </div>
+                                                <div class="top-hed-btn-right">
+                                                    <ul>
+                                                        <li><a class="a_tag-btn" href="javascript:editStudent(@ViewBag.StudentDetailsId);" "><span>Edit</span></a> </li>
+                                                        <li><a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Students</span></a> </li>
+                                                    </ul>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="pagetab-bg-tag-a">
+                                                <ul>
+
+                                                    <li><a href="@Url.Action("ViewProfile", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Profile</a></li>
+                                                    <li><a href="@Url.Action("ViewCourses", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Courses</a></li>
+                                                    <li><a href="@Url.Action("ViewAssessments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Assessments</a></li>
+                                                    <li><a href="@Url.Action("ViewAttendance", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Attendance</a></li>
+                                                    <li><a href="@Url.Action("ViewDocuments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Documents</a></li>
+                                                    <li><a href="@Url.Action("ViewElectives", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Electives</a></li>
+                                                    <li class="active"><a href="@Url.Action("ViewAchievements", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Achievements</a></li>
+                                                    <li><a href="@Url.Action("ViewLog", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Log</a></li>
+                                                    @*<li><a href="@Url.Action("ViewAppraisal", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Appraisal</a></li>*@
+                                                </ul>
+                                            </div>                         <div class="clear"></div>
+                                            <div class="emp_cntntbx">
+                                                <div class="document_table">
+                                                    <table width="100%" cellspacing="0" cellpadding="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="center"><h2>Achievement Details</h2></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top:none;">
+                                                        <tr>
+                                                            <td align="left" width="30%"><strong>Achievement Title</strong></td>
+                                                            <td align="left" width="30%"><strong>Description</strong></td>
+                                                            <td align="left" width="20%"><strong>Document Name</strong></td>
+                                                            <td width="20%">&nbsp;</td>
+                                                        </tr>
+                                                        @foreach (var item in ViewBag.StudentList1)
+                                                        {
+                                                            <tr>                                                                
+                                                                <td>@item.Name</td>
+                                                                <td>@item.Description</td>
+                                                                <td>@item.DocumentName</td>
+                                                                <td width="10%">
+                                                                    <ul class="tt-wrapper">
+                                                                        <li>
+                                                                            @Html.ActionLink("D", "Download", new { ImageName = @item.Data }, new { @class = "tt-download" })
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="tt-delete" href="javascript:deleteStudentAchievement(@item.AchievementID);" id="yt1"><span>Delete</span></a>
+                                                                        </li>
+                                                                        <li>
+                                                                            @*<a class="tt-edit" href="javascript:editStudentAchievement(@item.AchievementID);"><span>Edit</span></a>*@
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>                                                             
+                                                            </tr>
+                                                        }
+                                                    </table>
+
+                                                </div>
+                                            </div> <!-- END div class="emp_cntntbx" -->
+                                            <div style="width:712px;">
+                                                <div class="form">
+                                                    <form enctype="multipart/form-data" id="students-form" action="SaveStudentAchievements" method="post">
+                                                        <input name="StudentDetailsId" id="StudentDetailsId" type="hidden" value="@ViewBag.StudentDetailsId" />
+                                                        <p class="note" style="float:left">Fields with <span class="required">*</span> are required.</p>
+                                                        <div class="formCon" style="clear:left;">
+                                                            <div class="formConInner" id="innerDiv">
+                                                                <div class="txtfld-col-box">
+                                                                    <div class="txtfld-col">
+                                                                        <label>Achievement Title<font color="#FF0000"> *</font></label>
+                                                                        <input name="Name" id="Name" type="text" maxlength="220" required />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="txtfld-col-box">
+                                                                    <div class="text-fild-block-full">
+                                                                        <label>Description<font color="#FF0000"> *</font></label>
+                                                                        <textarea name="Description" id="Description" style="height:200px" required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="txtfld-col-box">
+                                                                    <div class="txtfld-col">
+                                                                        <label>Document Name<font color="#FF0000"> *</font></label>
+                                                                        <input size="25" maxlength="225" name="DocumentName" id="DocumentName" type="text" required />
+                                                                        <br />
+                                                                        <br />
+                                                                        <input name="DataString" id="DataString" type="file">                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="txtfld-col-box">
+                                                                    <div class="text-fild-block-full">
+                                                                        <label>Choose The File Size Is Maximum 2MB</label><br>
+                                                                        <label>Choose The File Types doc,pdf,text,jpeg,png,excel</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row buttons">
+                                                            <input class="formbut-n" id="submit_button_form" type="submit" name="yt0" value="Save" />
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div> <!-- END div class="emp_tabwrapper" -->
+                                    </div> <!-- END div class="emp_right_contner" -->
+                                </div> <!-- END div class="cont_right formWrapper" -->
+                            </td>
+                        </tr>
+                    </table>
+
+                </div><!-- content -->
+            </div>
+            <div class="span-5 last">
+                <div id="sidebar">
+                </div><!-- sidebar -->
+            </div>
+        </div>
+        <div class="clear"></div>
+        <script type="text/javascript">
+
+            $('#submit_button_form').click(function (ev) {
+
+                if ($('#DataString').val() == null || $('#DataString').val() == "") {
+                    $('#DataString').css("border", "1px solid red");
+                    return false;
+                }                
+                else
+                {
+                    var file_size = $('#DataString')[0].files[0].size;
+                    if (file_size > 2097152) { //File upload size limit to 2mb    
+                        alert("File size is greater than 2MB");
+                        return false;
+                    }
+                }
+            });            
+
+            function editStudentAchievement(AchievementID, Name, Description, DocumentName) {
+                $('#Name').val(Name);
+                $('#Description').val(Description);
+                $('#DocumentName').val(DocumentName);
+                $('#AchievementID').val(AchievementID);
+            };
+
+            function deleteStudentAchievement(AchievementID) {
+                if (confirm("Are you sure you want to delete?")) {
+                    $('#loading').show();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Student/DeleteStudentAchievements",
+                        data: '{AchievementID: ' + AchievementID + '}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            location.reload(true);
+                        }
+                    });
+                }
+            }
+
+            function editStudent(StudentDetailsId) {
+                window.location.href = '/Student/UpdateStudent?StudentDetailsId=' + StudentDetailsId;
+            };
+
+
+        </script>
+    </div>   
+</body>
+</html>

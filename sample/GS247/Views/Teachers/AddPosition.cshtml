@@ -1,0 +1,47 @@
+﻿@model GS247.Models.Teachers.MPosition
+@{
+    ViewBag.Title = "AddPosition";
+    Layout = "~/Views/Shared/_TeachersLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        alert(document.getElementById("SelectedCategory").value);
+        if (document.getElementById("Name").value == '') return false;
+        if (document.getElementById("SelectedCategory").value == 0) { alert("Priority is required Field"); return false; }
+        return true;
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Create New Teacher Position</h1>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertPosition", "Teachers", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <table width="90%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="EmployeePositions_name" class="required">Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Name, new { required = "required" })</td>
+                        <td><label for="EmployeePositions_employee_category_id" class="required">Teacher Category <span class="required">*</span></label></td>
+                        <td>@Html.DropDownListFor(Model => Model.SelectedCategory, new SelectList(Model.Categories, "Value", "Text"), "Select Category")</td>
+                    </tr>
+                </table>
+                <div style="padding-top:10px;">
+                    <input class="formbut" type="submit" name="yt0" value="Create" />
+                </div>
+
+            }
+        </div>
+
+    </div><!-- form -->
+</div>
+
+

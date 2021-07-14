@@ -1,0 +1,303 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+    <h1>Create New Form Field</h1>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+
+            <td valign="top">
+                <div class="formWrapper">
+                    <div class="button-bg">
+                        <div class="top-hed-btn-left">
+
+                        </div>
+                        <div class="top-hed-btn-right">
+                            <ul>
+                                <li> <a id="add_student-categories" class="a_tag-btn" href="@Url.Action("ManageStudentFields", "Student")"><span>Settings</span></a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="formCon">
+                        <div class="formConInner">
+                            <form id="fee-taxes-form" action="StudentFieldSettings" method="post">
+
+                                <p class="note">Fields with <span class="required"> * </span>are required.</p>
+
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td>
+                                            <label for="Title" class="required">Title<span class="required">*</span></label><br />
+                                            <input size="30" maxlength="200" name="Title" id="Title" type="text" required />
+                                        </td>
+                                        <td>
+                                            <label for="Required" class="required">Required<span class="required">*</span></label><br />
+                                            <select style="width:210px;" name="Required" id="Required">
+                                                <option value="0" selected="selected">No</option>
+                                                <option value="1">Yes</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label for="FieldTypeFlag" class="required">Field Type<span class="required">*</span></label><br />
+                                            <select style="width:210px;" name="FieldTypeFlag" id="FieldTypeFlag">
+                                                <option value="1">Text Field</option>
+                                                <option value="2">Text Area</option>
+                                                <option value="3">Drop Down</option>
+                                                <option value="4">Radio Button</option>
+                                                <option value="5">Check Box</option>
+                                                <option value="6">Date Picker</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"> <h3>Select Visible Areas</h3></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3">
+                                            <ul>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" name="CheckAllFlag" id="CheckAllFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="CheckAllFlag">Check All</label>
+                                                </li>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" name="AdminStudentRegistrationFormFlag" id="AdminStudentRegistrationFormFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="AdminStudentRegistrationFormFlag">Admin Student Registration Form</label>
+                                                </li>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" name="OnlineAdmissionFormFlag" id="OnlineAdmissionFormFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="OnlineAdmissionFormFlag">Online Admission Form</label>
+                                                </li>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" disabled="disabled" name="ParentPortalFlag" id="ParentPortalFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="ParentPortalFlag">Parent Portal</label>
+                                                </li>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" disabled="disabled" name="StudentProfileFlag" id="StudentProfileFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="StudentProfileFlag">Student Profile</label>
+                                                </li>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" disabled="disabled" name="StudentProfilePDFFlag" id="StudentProfilePDFFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="StudentProfilePDFFlag">Student Profile PDF</label>
+                                                </li>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" disabled="disabled" name="StudentPortalFlag" id="StudentPortalFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="StudentPortalFlag">Student Portal</label>
+                                                </li>
+                                                <li style="list-style-type:none">
+                                                    <input size="60" maxlength="200" disabled="disabled" name="TeacherPortalFlag" id="TeacherPortalFlag" value="0" type="checkbox">&nbsp;&nbsp;
+                                                    <label for="TeacherPortalFlag">Teacher Portal</label>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label for="TabSelection" class="required">Tab Selection<span class="required">*</span></label><br />
+                                            <select style="width:210px;" name="TabSelection" id="TabSelection">
+                                                <option value="1">Student Details</option>
+                                                <option value="2">Guardian Details</option>
+                                                <option value="4">Previous Details</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label for="TabSubSelection" class="required">Tab Sub Selection<span class="required">*</span></label><br />
+                                            <select style="width:210px;" name="TabSubSelection" id="TabSubSelection">
+                                                <option value="1">Personal Details</option>
+                                                <option value="2">Contact Details</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"><input class="formbut" type="submit" name="yt0" value="Create" style="height:30px" /></td>
+                                    </tr>
+                                </table>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+
+                                    $(':checkbox#CheckAllFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#CheckAllFlag').attr('value', '1');
+                                            $(':checkbox#AdminStudentRegistrationFormFlag').attr('value', '1');
+                                            $(':checkbox#OnlineAdmissionFormFlag').attr('value', '1');
+                                            $(':checkbox#ParentPortalFlag').removeAttr('disabled');
+                                            $(':checkbox#StudentProfileFlag').removeAttr('disabled');
+                                            $(':checkbox#StudentProfilePDFFlag').removeAttr('disabled');
+                                            $(':checkbox#StudentPortalFlag').removeAttr('disabled');
+                                            $(':checkbox#TeacherPortalFlag').removeAttr('disabled');
+                                            $(':checkbox#ParentPortalFlag').attr('value', '1');
+                                            $(':checkbox#StudentProfileFlag').attr('value', '1');
+                                            $(':checkbox#StudentProfilePDFFlag').attr('value', '1');
+                                            $(':checkbox#StudentPortalFlag').attr('value', '1');
+                                            $(':checkbox#TeacherPortalFlag').attr('value', '1');
+                                            $(':checkbox#AdminStudentRegistrationFormFlag').attr('checked', 'true');
+                                            $(':checkbox#OnlineAdmissionFormFlag').attr('checked', 'true');
+                                            $(':checkbox#ParentPortalFlag').attr('checked', 'true');
+                                            $(':checkbox#StudentProfileFlag').attr('checked', 'true');
+                                            $(':checkbox#StudentProfilePDFFlag').attr('checked', 'true');
+                                            $(':checkbox#StudentPortalFlag').attr('checked', 'true');
+                                            $(':checkbox#TeacherPortalFlag').attr('checked', 'true');
+                                        }
+                                        else {
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#AdminStudentRegistrationFormFlag').attr('value', '0');
+                                            $(':checkbox#OnlineAdmissionFormFlag').attr('value', '0');
+                                            $(':checkbox#ParentPortalFlag').attr('value', '0');
+                                            $(':checkbox#StudentProfileFlag').attr('value', '0');
+                                            $(':checkbox#StudentProfilePDFFlag').attr('value', '0');
+                                            $(':checkbox#StudentPortalFlag').attr('value', '0');
+                                            $(':checkbox#TeacherPortalFlag').attr('value', '0');
+                                            $(':checkbox#AdminStudentRegistrationFormFlag').removeAttr('checked');
+                                            $(':checkbox#OnlineAdmissionFormFlag').removeAttr('checked');
+                                            $(':checkbox#ParentPortalFlag').removeAttr('checked');
+                                            $(':checkbox#StudentProfileFlag').removeAttr('checked');
+                                            $(':checkbox#StudentProfilePDFFlag').removeAttr('checked');
+                                            $(':checkbox#StudentPortalFlag').removeAttr('checked');
+                                            $(':checkbox#TeacherPortalFlag').removeAttr('checked');
+                                            $(':checkbox#ParentPortalFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#StudentProfileFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#StudentProfilePDFFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#StudentPortalFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#TeacherPortalFlag').attr('disabled', 'disabled');
+                                        }
+                                    });
+
+                                    $(':checkbox#AdminStudentRegistrationFormFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#AdminStudentRegistrationFormFlag').attr('value', '1');
+                                            allcheckBoxCheckValidate();
+                                        }
+                                        else {
+                                            $(':checkbox#AdminStudentRegistrationFormFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').removeAttr('checked');
+                                        }
+                                    });
+
+                                    $(':checkbox#OnlineAdmissionFormFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#OnlineAdmissionFormFlag').attr('value', '1');
+                                            $(':checkbox#ParentPortalFlag').removeAttr('disabled');
+                                            $(':checkbox#StudentProfileFlag').removeAttr('disabled');
+                                            $(':checkbox#StudentProfilePDFFlag').removeAttr('disabled');
+                                            $(':checkbox#StudentPortalFlag').removeAttr('disabled');
+                                            $(':checkbox#TeacherPortalFlag').removeAttr('disabled');
+                                            allcheckBoxCheckValidate();
+                                        }
+                                        else {
+                                            $(':checkbox#OnlineAdmissionFormFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').removeAttr('checked');
+                                            $(':checkbox#ParentPortalFlag').attr('value', '0');
+                                            $(':checkbox#ParentPortalFlag').attr("checked", false);
+                                            $(':checkbox#ParentPortalFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#StudentProfileFlag').attr('value', '0');
+                                            $(':checkbox#StudentProfileFlag').attr("checked", false);
+                                            $(':checkbox#StudentProfileFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#StudentProfilePDFFlag').attr('value', '0');
+                                            $(':checkbox#StudentProfilePDFFlag').attr("checked", false);
+                                            $(':checkbox#StudentProfilePDFFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#StudentPortalFlag').attr('value', '0');
+                                            $(':checkbox#StudentPortalFlag').attr("checked", false);
+                                            $(':checkbox#StudentPortalFlag').attr('disabled', 'disabled');
+                                            $(':checkbox#TeacherPortalFlag').attr('value', '0');
+                                            $(':checkbox#TeacherPortalFlag').attr("checked", false);
+                                            $(':checkbox#TeacherPortalFlag').attr('disabled', 'disabled');
+                                        }
+                                    });
+
+                                    $(':checkbox#ParentPortalFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#ParentPortalFlag').attr('value', '1');
+                                            allcheckBoxCheckValidate();
+                                        }
+                                        else {
+                                            $(':checkbox#ParentPortalFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').removeAttr('checked');
+                                        }
+                                    });
+
+                                    $(':checkbox#StudentProfileFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#StudentProfileFlag').attr('value', '1');
+                                            allcheckBoxCheckValidate();
+                                        }
+                                        else {
+                                            $(':checkbox#StudentProfileFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').removeAttr('checked');
+                                        }
+                                    });
+
+                                    $(':checkbox#StudentProfilePDFFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#StudentProfilePDFFlag').attr('value', '1');
+                                            allcheckBoxCheckValidate();
+                                        }
+                                        else {
+                                            $(':checkbox#StudentProfilePDFFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').removeAttr('checked');
+                                        }
+                                    });
+
+                                    $(':checkbox#StudentPortalFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#StudentPortalFlag').attr('value', '1');
+                                            allcheckBoxCheckValidate();
+                                        }
+                                        else {
+                                            $(':checkbox#StudentPortalFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').removeAttr('checked');
+                                        }
+                                    });
+
+                                    $(':checkbox#TeacherPortalFlag').change(function (e) {
+                                        if ($(this).is(':checked')) {
+                                            $(':checkbox#TeacherPortalFlag').attr('value', '1');
+                                            allcheckBoxCheckValidate();
+                                        }
+                                        else {
+                                            $(':checkbox#TeacherPortalFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').attr('value', '0');
+                                            $(':checkbox#CheckAllFlag').removeAttr('checked');
+                                        }
+                                    });
+
+
+                                    function allcheckBoxCheckValidate() {
+                                        if ($(':checkbox#AdminStudentRegistrationFormFlag').is(':checked') && $(':checkbox#OnlineAdmissionFormFlag').is(':checked') && $(':checkbox#ParentPortalFlag').is(':checked')
+                                            && $(':checkbox#StudentProfileFlag').is(':checked') && $(':checkbox#StudentProfilePDFFlag').is(':checked') && $(':checkbox#StudentPortalFlag').is(':checked')
+                                            && $(':checkbox#TeacherPortalFlag').is(':checked')) {
+                                            $(':checkbox#CheckAllFlag').attr('value', '1');
+                                            $(':checkbox#CheckAllFlag').attr('checked', 'true');
+                                        }
+                                    };
+
+</script>
+

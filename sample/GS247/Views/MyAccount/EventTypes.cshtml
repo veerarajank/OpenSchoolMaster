@@ -1,0 +1,433 @@
+﻿@{
+    ViewBag.Title = "EventTypes";
+    Layout = "~/Views/Shared/_MyAccountLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+
+    .formbut {
+        padding: 0px 20px;
+        margin: 0px;
+        background: none repeat scroll 0 0 #f38108;
+        height: 30px !important;
+        font-size: 13px !important;
+        border: none;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer !important;
+    }
+</style>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@*<script src="~/Scripts/MyAccounts/datepicker/jquery-1.11.1.min.js"></script>*@
+
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link href="~/Scripts/MyAccounts/datepicker/jquery-ui.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/MyAccounts/Events/jquery.drawrpalette-min.js"></script>
+
+
+<script type="text/javascript">
+
+
+    function GetEventType() {
+
+        var serviceUrl = '/MyAccount/GetNewsFeed'
+        var flag = "GetEventTypes";
+
+
+        $.ajax({
+
+            type: "POST",
+            url: serviceUrl,
+            data: JSON.stringify({ "flag": flag }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null) {
+                    //data = JSON.parse(data.d);
+                    $('#EventType_grid').DataTable().destroy();
+
+                    for (i = 0; i < data.length; i++) {
+                        data[i]["Action"] = "<i class='fa fa-edit fa-lg Eventbl_row_edit' style='cursor:pointer;color:orange;margin-left: 30px;'></i><i class='fa fa-trash fa-lg Eventbl_row_delete' style='cursor:pointer;color:orange;margin-left: 30px;'></i>";
+                        data[i]["Code"] = data[i]["ColorCode"];
+                        data[i]["ColorCode"] = data[i]["ColorCode"] + "&nbsp;&nbsp;<span style='background-color:" + data[i]["ColorCode"] + ";'>&nbsp;&nbsp;&nbsp;<span>&nbsp;</span></span>";
+
+
+                    }
+
+                    $('#EventType_grid').DataTable({
+                        data: data,
+                        columns: [
+                                    { 'data': 'Id', 'visible': false },
+                                    { 'data': 'EventType' },
+                                    { 'data': 'ColorCode' },
+                                    { 'data': 'Code', 'visible': false },
+                                    { 'data': 'Action' }
+
+                        ],
+
+                        fixedHeader: true,
+                        "aaSorting": [[1, "asc"]],
+                        scrollY: 400,
+                        scrollX: true,
+                        iDisplayLength: 25,
+                        bPaginate: true
+
+                    });
+
+                }
+            }
+        });
+    }
+
+
+
+
+    $(document).ready(function () {
+
+
+        GetEventType();
+
+        $(function () {
+            $("#picker").drawrpalette();
+            $("#Update_picker").drawrpalette();
+        });
+
+
+        $('#btn_submit').click(function () {
+
+            var Eventname = $('#EventsType_name').val();
+            if (Eventname == "" || Eventname == null || Eventname == '') {
+                $('#EventsType_err_msg').text("Name cannot be blank.");
+                return false;
+            }
+            else {
+                $('#EventsType_err_msg').text("");
+            }
+
+            var ColorCode = $('#picker').val();
+            if (ColorCode == "" || ColorCode == null || ColorCode == '') {
+                $('#EventsType_err_msg').text("Please select the ColorCode.");
+                return false;
+            }
+            else {
+                $('#EventsType_err_msg').text("");
+            }
+
+            var serviceUrl = '/MyAccount/EventDetails'
+            var flag = "InsertEventTypes";
+            var Id = null;
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "Id": Id, "flag": flag, "Eventname": Eventname, "ColorCode": ColorCode}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "Success") {
+
+                            $('#create_modalbody').css('display', 'none');
+                            $('#success-note').css('display', 'block');
+
+                            location.href = "/MyAccount/EventTypes";
+                        }
+                    }
+                }
+            });
+
+
+
+        });
+
+
+        $('#EventType_grid').on("click", "td .Eventbl_row_delete", function () {
+
+            var currentRow = $(this).closest("tr");
+
+            var data = $('#EventType_grid').DataTable().row(currentRow).data();
+            var Id = data['Id'];
+
+            var Eventname = null;
+            var ColorCode = null;
+            var serviceUrl = '/MyAccount/EventDetails'
+            var flag = "DeleteEventTypes";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "Id": Id, "flag": flag, "Eventname": Eventname, "ColorCode": ColorCode }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "Success") {
+                            location.href = "/MyAccount/EventTypes";
+                        }
+                    }
+                }
+            });
+
+        });
+
+        $('#EventType_grid').on("click", "td .Eventbl_row_edit", function () {
+
+            var currentRow = $(this).closest("tr");
+
+            var data = $('#EventType_grid').DataTable().row(currentRow).data();
+            var Id = data['Id'];
+            var Eventname = data['EventType'];
+            var ColorCode = data['Code'];
+
+            $('#Update_EventsType_name').val(Eventname);
+            $("#Update_picker").drawrpalette("set", ColorCode);
+            $('#hdnevent_id').val(Id);
+
+            $('#Update_myModal').modal('show');
+        });
+
+
+        $('#btn_update').click(function () {
+
+            var Eventname = $('#Update_EventsType_name').val();
+            if (Eventname == "" || Eventname == null || Eventname == '') {
+                $('#EventsType_err_msg').text("Name cannot be blank.");
+                return false;
+            }
+            else {
+                $('#EventsType_err_msg').text("");
+            }
+
+            var ColorCode = $('#Update_picker').val();
+            if (ColorCode == "" || ColorCode == null || ColorCode == '') {
+                $('#EventsType_err_msg').text("Please select the ColorCode.");
+                return false;
+            }
+            else {
+                $('#EventsType_err_msg').text("");
+            }
+
+            var serviceUrl = '/MyAccount/EventDetails'
+            var flag = "UpdateEventTypes";
+            var Id = $('#hdnevent_id').val();
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "Id": Id, "flag": flag, "Eventname": Eventname, "ColorCode": ColorCode }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "Success") {
+
+                            $('#update_modalbody').css('display', 'none');
+                            $('#Update_success-note').css('display', 'block');
+
+                            location.href = "/MyAccount/EventTypes";
+                        }
+                    }
+                }
+            });
+
+
+
+        });
+
+
+    });
+</script>
+
+
+
+
+<div class="cont_right formWrapper">
+
+    <div style="display:block;">
+        <div id="div_sitenews" class="cont_right formWrapper" style="padding:0px; width:753px;">
+            <div id="parent_rightSect">
+                <div class="parentright_innercon">
+                    <div class="mail_head"><h1 style="margin:0px;"><b>Events Types</b></h1></div>
+
+                    <div class="button-bg" style=" padding:8px">
+                        <div class="top-hed-btn-left"> </div>
+                        <div class="top-hed-btn-right">
+                            <ul>
+                                <li data-toggle="modal" data-target="#myModal"> <a class="a_tag-btn" href="#"><span>Create Events Types</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="news-list ui-helper-clearfix" sortby="modified.desc">
+                        <style type="text/css">
+                            .flash-notice {
+                                right: 35%;
+                                font-size: 11px;
+                                top: 26px;
+                                width: 342px;
+                                right: 30%;
+                            }
+
+                            .flash-success {
+                                top: 32px;
+                                font-size: 11px;
+                                right: 230px;
+                                width: 339px;
+                            }
+                        </style>
+
+                        <form id="message-list-form" action="#" method="post">
+                            <div class="mailbox-clistview-container ui-helper-clearfix">
+                                <div id="mailbox" class="list-view">
+
+                                    <div id="mailbox-items" class="ui-helper-clearfix">
+
+                                        <table id="EventType_grid" class="table table-striped table-bordered" style="width:100%">
+                                            <thead style="background: #EAF5FD;color: #3E719B;">
+                                                <tr>
+                                                    <th style="display:none;">Id</th>
+                                                    <th>EventType</th>
+                                                    <th>ColourCode</th>
+                                                    <th style="display:none;">Code</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border: 7px #000 solid;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create New Event Type</h4>
+            </div>
+            <div class="modal-body" id="create_modalbody">
+                <div class="row ">
+                    <label style="color:#222222;margin-left: 40px;" for="EventsType_name" class="required">Name <span class="required">*</span></label>
+                    <input size="60" maxlength="120" name="EventsType[name]" id="EventsType_name" type="text">
+
+                </div>
+                <div class="row ">
+                    <label style="color:#222222;margin-left: 40px;" for="EventsType_name" class="required">Colour Code <span class="required">*</span></label>
+
+                    <input type="text" id="picker" value="#8E44AD" />
+                    <button onclick='$("#picker").drawrpalette("destroy");' class="btn btn-danger">Set</button>
+                    <button onclick='$("#picker").drawrpalette();' class="btn btn-primary">Init</button>
+
+                </div>
+                <div>
+                    <small></small>
+                </div>
+                <div class="input-notification-error  error-simple png_bg" id="EventsType_err_msg" style="margin-left: 85px;"></div>
+            </div>
+            <div>
+                <div id="success-note" class="notification success-fancy" style="display:none;">
+                    <div>
+                        Event Type created successfully.
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn_submit" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="Update_myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border: 7px #000 solid;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Event Type</h4>
+            </div>
+            <div class="modal-body" id="update_modalbody">
+                <div class="row ">
+                    <label style="color:#222222;margin-left: 40px;" for="EventsType_name" class="required">Name <span class="required">*</span></label>
+                    <input size="60" maxlength="120" name="EventsType[name]" id="Update_EventsType_name" type="text">
+                    <input type="text" id="hdnevent_id" style="display:none;" />
+                </div>
+                <div class="row ">
+                    <label style="color:#222222;margin-left: 40px;" for="EventsType_name" class="required">Colour Code <span class="required">*</span></label>
+
+                    <input type="text" id="Update_picker" value="#8E44AD" />
+                    <button onclick='$("#Update_picker").drawrpalette("destroy");' class="btn btn-danger">Set</button>
+                    <button onclick='$("#Update_picker").drawrpalette();' class="btn btn-primary">Init</button>
+
+                </div>
+                <div>
+                    <small></small>
+                </div>
+                <div class="input-notification-error  error-simple png_bg" id="Update_EventsType_err_msg" style="margin-left: 85px;"></div>
+            </div>
+            <div>
+                <div id="Update_success-note" class="notification success-fancy" style="display:none;">
+                    <div>
+                        Event Type Updated successfully.
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn_update" class="btn btn-success">Update</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

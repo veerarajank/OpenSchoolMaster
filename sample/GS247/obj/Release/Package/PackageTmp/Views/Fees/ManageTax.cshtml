@@ -1,0 +1,92 @@
+﻿@model GS247.Models.Tax
+@{
+    ViewBag.Title = "Tax";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+ <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td valign="top" width="247">
+                                            <div class="cont_right formWrapper">
+                                                <h1>Taxes</h1>
+                                                <div class="edit_bttns" style="top:20px; right:20px;">
+                                                    <ul>
+                                                        <li><a class="a_tag-btn" href="@Url.Action("CreateTax","Fees")"><span>Create</span></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div id="fee-taxes-grid" class="grid-view">
+
+                                                    <table class="items" id="taxtable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th id="fee-taxes-grid_c0"><a href="/index.php?r=fees/taxes/admin&amp;FeeTaxes_sort=label">Label</a></th>
+                                                                <th id="fee-taxes-grid_c1"><a href="/index.php?r=fees/taxes/admin&amp;FeeTaxes_sort=value">Value ( % )</a></th>
+                                                                <th id="fee-taxes-grid_c2"><a href="/index.php?r=fees/taxes/admin&amp;FeeTaxes_sort=created_by">Created By</a></th>
+                                                                <th id="fee-taxes-grid_c3"><a href="/index.php?r=fees/taxes/admin&amp;FeeTaxes_sort=created_at">Created At</a></th>
+                                                                <th id="fee-taxes-grid_c4"><a href="/index.php?r=fees/taxes/admin&amp;FeeTaxes_sort=is_active">Is Active</a></th>
+                                                                <th class="button-column" id="fee-taxes-grid_c5">Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @foreach (var item in ViewBag.taxdetails)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.TaxName</td>
+                                                                    <td>@item.Value</td>
+                                                                    <td>@item.CreatedBy</td>
+                                                                    <td>@item.CreatedDate.ToString("dd MMM yyyy")</td>
+                                                                    @if (item.StatusFlag == 1)
+                                                                    {
+                                                                        <td align="center">Active</td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td align="center">Inactive</td>
+                                                                    }
+                                                                    <td align="center">
+                                                                        <a class="update" title="Update" href="@Url.Action("EditTax", "Fees", new { taxID = item.TaxID })"><img src="/gridview/update.png" alt="Update"></a>
+                                                                        <a class="delete" title="Delete" href="javascript:deleteTax(@item.TaxID);"><img src="/gridview/delete.png" alt="Delete"></a>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="keys" style="display:none" title="@Url.Action("ManageTax","Fees")"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                         
+
+    <script type="text/javascript">
+       
+        function deleteTax(TaxID) {
+            if (confirm("Do you want to delete this row?")) {                             
+                $.ajax({
+                    type: "POST",
+                    url: "/Fees/DeleteTax",
+                    data: '{taxID: ' + TaxID + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+
+                        location.reload(true);
+                    }
+                });
+            }
+        }      
+
+    </script>
+
+

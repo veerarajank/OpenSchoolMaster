@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Add Question";
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<script type="text/javascript" src="/js/justgage.1.0.1.min.js"></script>
+<script type="text/javascript" src="/js/raphael.2.1.0.min.js"></script>
+<script>
+    var g1, g2, g3, g4;
+    window.onload = function () {
+
+        var g1 = new JustGage({
+            id: "g1",
+            value: 0,
+            levelColors: Array("#fd2600", "#fc4f00", "#b0e108"),
+            min: 0,
+            max: 100,
+            title: "Annual Exam Pass",
+            titleFontColor: "#464646",
+            label: "percentage"
+        });
+
+        var g2 = new JustGage({
+            id: "g2",
+            value: 0,
+            min: 0,
+            max: 100,
+            titleFontColor: "#464646",
+            title: "Annual Exam Average Marks",
+            label: "marks"
+        });
+
+    };
+</script>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td valign="top" width="75%">
+            <div class="cont_right">
+                <h1>Assessments Dashboard</h1>
+                <div class="clear"></div>
+                <div id="g1"><svg height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative; left: -0.5px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Rapha�l 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><filter id="g1-inner-shadow"><feOffset dx="0" dy="3"></feOffset><feGaussianBlur result="offset-blur" stdDeviation="5"></feGaussianBlur><feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"></feComposite><feFlood flood-color="black" flood-opacity="0.2" result="color"></feFlood><feComposite operator="in" in="color" in2="inverse" result="shadow"></feComposite><feComposite operator="over" in="shadow" in2="SourceGraphic"></feComposite></filter></defs><path fill="#edebeb" stroke="none" d="M71.875,136L40,136A85,85,0,0,1,210,136L178.125,136A53.125,53.125,0,0,0,71.875,136Z" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" filter="url(#g1-inner-shadow)"></path><path fill="#fd2600" stroke="none" d="M71.875,136L40,136A85,85,0,0,1,40,136L71.875,136A53.125,53.125,0,0,0,71.875,136Z" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" filter="url(#g1-inner-shadow)"></path><text x="125" y="26.153846153846153" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#464646" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: bold 17px Arial; fill-opacity: 1;" font-size="17px" font-weight="bold" font-family="Arial" fill-opacity="1"><tspan dy="5.505408653846153" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Annual Exam Pass</tspan></text><text x="125" y="121.42857142857143" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#010101" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: bold 26px Arial; fill-opacity: 1;" font-size="26px" font-weight="bold" font-family="Arial" fill-opacity="1"><tspan dy="8.99888392857143" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><text x="125" y="140.70982142857144" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 10px Arial; fill-opacity: 1;" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan dy="3.498883928571445" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">percentage</tspan></text><text x="55.9375" y="150.87499999999997" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 10px Arial; fill-opacity: 1;" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan dy="3.4999999999999716" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><text x="194.0625" y="150.87499999999997" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 10px Arial; fill-opacity: 1;" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan dy="3.4999999999999716" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">100</tspan></text></svg></div>
+                <div id="g2"><svg height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative; left: -0.84375px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Rapha�l 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><filter id="g2-inner-shadow"><feOffset dx="0" dy="3"></feOffset><feGaussianBlur result="offset-blur" stdDeviation="5"></feGaussianBlur><feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"></feComposite><feFlood flood-color="black" flood-opacity="0.2" result="color"></feFlood><feComposite operator="in" in="color" in2="inverse" result="shadow"></feComposite><feComposite operator="over" in="shadow" in2="SourceGraphic"></feComposite></filter></defs><path fill="#edebeb" stroke="none" d="M71.875,136L40,136A85,85,0,0,1,210,136L178.125,136A53.125,53.125,0,0,0,71.875,136Z" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" filter="url(#g2-inner-shadow)"></path><path fill="#a9d70b" stroke="none" d="M71.875,136L40,136A85,85,0,0,1,40,136L71.875,136A53.125,53.125,0,0,0,71.875,136Z" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" filter="url(#g2-inner-shadow)"></path><text x="125" y="26.153846153846153" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#464646" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: bold 17px Arial; fill-opacity: 1;" font-size="17px" font-weight="bold" font-family="Arial" fill-opacity="1"><tspan dy="5.505408653846153" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Annual Exam Average Marks</tspan></text><text x="125" y="121.42857142857143" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#010101" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: bold 26px Arial; fill-opacity: 1;" font-size="26px" font-weight="bold" font-family="Arial" fill-opacity="1"><tspan dy="8.99888392857143" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><text x="125" y="140.70982142857144" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 10px Arial; fill-opacity: 1;" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan dy="3.498883928571445" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">marks</tspan></text><text x="55.9375" y="150.87499999999997" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 10px Arial; fill-opacity: 1;" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan dy="3.4999999999999716" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><text x="194.0625" y="150.87499999999997" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 10px Arial; fill-opacity: 1;" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan dy="3.4999999999999716" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">100</tspan></text></svg></div>
+                <!--<div class="clear"></div>
+                <div id="g3"></div>
+                <div id="g4"></div>-->
+                <div class="clear"></div>
+                <div class="pdtab_Con" style="width:97%">
+                    <div style="font-size:13px; padding:5px 0px"><strong>Recent Exams</strong></div>
+                    <div class="pdtab_Con">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr class="pdtab-h">
+                                <td align="center">
+                                    Date
+                                </td>
+                                <td align="center">
+                                    Assessment
+                                </td>
+                                <td align="center">
+                                    Class Teacher
+                                </td>
+                                <td align="center">
+                                    Batch
+                                </td>
+                                <td align="center">
+                                    Average
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="5" align="center"><strong>No Recent Exams!</strong></td>
+                                <!--<td align="center"> </td>
+                                    <td align="center"> </td>
+                                    <td align="center">   </td>
+                                    <td align="center">  </td>
+                                    <td align="center"> % </td>
+                                </tr>-->
+
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+
+    
+

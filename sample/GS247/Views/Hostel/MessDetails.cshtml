@@ -1,0 +1,207 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+
+<div class="cont_right">
+    <h1>Mess Manage</h1>
+    <form id="search-form" action="MessManageSearch" method="GET">
+        <div class="pdtab_Con" style="padding:0px;">
+            <input type="hidden" value="@ViewBag.CurrentPageIndex" name="CurrentPage" id="CurrentPage" />
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr class="pdtab-h">
+                    <td align="center">Student Name</td>
+                    <td align="center">Hostel</td>
+                    <td align="center">Room No</td>
+                    <td align="center">Bed No</td>
+                    <td align="center">Food Preference</td>
+                    <td align="center">Amount</td>
+                    <td align="center">Action</td>
+                </tr>
+                @foreach (var item in ViewBag.studentList)
+                {
+                <tr>
+                    <td align="center"><a href="#">@item.SchoolCO.StudentName</a></td>
+                    <td align="center"><a href="#">@item.SchoolCO.Name</a></td>
+                    <td align="center"><a href="#">@item.RoomNo</a></td>
+                    <td align="center"><a href="#">@item.BedName</a></td>
+                    @if (@item.VacateFlag == 1)
+                        {
+                        <td align="center">
+                            <a href="#">@item.SchoolCO.FoodPreference</a><br />
+                        </td>
+                        }
+                        else
+                        {
+                        <td align="center">
+                            <a href="#">@item.SchoolCO.FoodPreference</a><br />
+                            @*<a style="color:orangered" href="javascript:ChangeFood(@item.StudentRoomDetailsId);" id="yt0"><span>Change</span></a>*@
+                        </td>
+                        }
+                    <td align="center"><a href="#">@item.Amount</a></td>
+                    @if (@item.PaidStatusFlag == 1)
+                        {
+                        <td align="center">
+                            <a id="yt0"><span>Paid</span></a> |
+                            <a style="color:orangered" href="javascript:PrintReceipt(@item.StudentRoomDetailsId);" id="yt0"><span>Print Receipt</span></a>
+                        </td>
+                        }
+                        else if (@item.PaidStatusFlag == 2)
+                        {
+                        <td align="center">
+                            <a style="color:darkseagreen" id="yt0"><span>Fees Generated</span></a>
+                        </td>
+                        }
+                        else
+                        {
+                        <td align="center">
+                            <a style="color:orangered" href="javascript:Paynow(@item.StudentRoomDetailsId);" id="yt0"><span>Pay Fees</span></a>
+                        </td>
+                        }
+                </tr>
+                }
+            </table>
+        </div>
+        <br />
+        @{var pageCutLow = ViewBag.CurrentPageIndex - 1;}
+        @{var pageCutHigh = ViewBag.CurrentPageIndex + 1;}
+
+        @if (ViewBag.PageCount > 0)
+        {
+            <div class="">
+                <div align="center">
+                    <div class="">
+
+                        @if (ViewBag.CurrentPageIndex > 1)
+                        {
+                        <input type="submit" class="pageclickPrevious" value="Previous" style="border:none;width:50px;height:20px;font-size:10px;background-color:white;" />
+                        }
+
+                        @if (ViewBag.PageCount < 6)
+                        {
+                            for (int i = 1; i <= ViewBag.PageCount; i++)
+                            {
+                                if (i != ViewBag.CurrentPageIndex)
+                                {
+                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                                else
+                                {
+                        <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ViewBag.CurrentPageIndex > 2)
+                            {
+                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="1" />
+
+                                if (ViewBag.CurrentPageIndex > 3)
+                                {
+                        <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex == 1)
+                            {
+                                pageCutHigh += 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == 2)
+                            {
+                                pageCutHigh += 1;
+                            }
+
+                            if (ViewBag.CurrentPageIndex == ViewBag.PageCount)
+                            {
+                                pageCutLow -= 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == ViewBag.PageCount - 1)
+                            {
+                                pageCutLow -= 1;
+                            }
+
+                            for (int i = (int)pageCutLow; i <= pageCutHigh; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    i += 1;
+                                }
+                                if (i > ViewBag.PageCount)
+                                {
+                                    continue;
+                                }
+
+                                if (ViewBag.CurrentPageIndex == i)
+                                {
+                        <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                                else
+                                {
+                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 1)
+                            {
+                                if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 2)
+                                {
+                        <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+
+                        <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@ViewBag.PageCount" />
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPageIndex < ViewBag.PageCount)
+                        {
+                        <input type="submit" class="pageclickNext" value="Next" style="border:none;width:30px;height:20px;font-size:10px;background-color:white" />
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    $(".hostel-mass-message_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function Paynow(StudentRoomDetailsId) {
+
+        var d = { StudentRoomDetailsId: StudentRoomDetailsId };
+        $.ajax({
+            type: "POST",
+            url: "/Hostel/HostelMessFees",
+            data: JSON.stringify(d),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                location.reload(true);
+            },
+            error: function (response) {
+                alert(response);
+            }
+        });
+    };
+    
+    $(".pageclicktest").click(function () {
+        $("#CurrentPage").val($(this).val());
+    });
+
+    $(".pageclickNext").click(function () {
+        var nextPage = parseInt($("#CurrentPage").val()) + 1;
+        $("#CurrentPage").val(nextPage);
+    });
+
+    $(".pageclickPrevious").click(function () {
+        var prevPage = parseInt($("#CurrentPage").val()) - 1;
+        $("#CurrentPage").val(prevPage);
+    });
+
+    function ChangeFood(StudentRoomDetailsId) {
+        window.location.href = '/Hostel/ChangeFood?StudentRoomDetailsId=' + StudentRoomDetailsId;
+    }
+</script>

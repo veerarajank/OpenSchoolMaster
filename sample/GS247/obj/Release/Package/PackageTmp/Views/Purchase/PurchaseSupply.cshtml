@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+<div class="cont_right formWrapper">
+    <h1>Manage Supply Order</h1>
+    <div class="pdtab_Con" style="width:100%">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr class="pdtab-h">
+                    <td align="center" height="18" width="50">#</td>
+                    <td align="center" height="18" width="175">Item</td>
+                    <td align="center" height="18" width="150">Vendor</td>
+                    <td align="center" height="18" width="150">Quantity</td>
+                    <td align="center" height="18" width="150">Action</td>
+                    <td align="center" height="18" width="150">Verify</td>
+                </tr>
+                @{ int rowNo = 0; }
+                @foreach (var item in ViewBag.PurchaseOrderItemsList)
+                {
+                    <tr>
+                        <td>@(rowNo += 1)</td>
+                        <td align="center"><a href="#">@item.SchoolCO.Name</a></td>
+                        <td align="center"><a href="#">@item.SchoolCO.RelationName</a></td>
+                        <td align="center">@item.SchoolCO.Quantity</td>
+                        @if (item.StatusFlag == 0)
+                        {
+                            <td align="center">
+                                <a style="color:orangered" href="javascript:statusUpdate(@item.ApplyOrderId,1,1);" id="yt0"><span>Send Order</span></a>
+                            </td>
+                            <td></td>
+                        }
+                        else if (item.StatusFlag == 1)
+                        {
+                            <td align="center">
+                                <a href="#" style="color:darkgreen" id="yt0"><span>Order Sent</span></a>
+                            </td>
+
+                            if (item.VerifiedFlag == 0)
+                            {
+                                <td>
+                                    <a href="javascript:statusUpdate(@item.ApplyOrderId,1,2);" style="color:orangered" id="yt0"><span>Verify Order</span></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <a href="#" style="color:lightgreen" id="yt0"><span>Order Verified</span></a>
+                                </td>
+                            }
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="pagecon">
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(".hr-salry-dtls-icon").attr('active', '1').closest('li').addClass('list_active');
+
+    function statusUpdate(ApplyOrderId, Status, flag) {
+        var msg = "Are you sure you want to send order to vendor?";
+        if (Status == 2)
+            msg = "Are you sure you verified this?";
+
+        if (confirm(msg)) {
+            $.ajax({
+                type: "POST",
+                url: "/Purchase/StatusApplyUpdate",
+                data: '{ApplyOrderId: ' + ApplyOrderId + ',StatusFlag : ' + Status + ',Flag:' + flag + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    };
+
+</script>

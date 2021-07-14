@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+
+
+                                <div class="cont_right">
+                                    <h1>Generate Invoice For All Students</h1>
+
+                                    <div class="button-bg">
+                                        <div class="top-hed-btn-left">
+                                            <a class="a_tag-btn" href="@Url.Action("TransportationFee", "Fees")"><span>Back</span></a>
+                                        </div>
+                                        <div class="top-hed-btn-right">                                           
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="formCon">
+                                        <div class="formConInner">
+                                            <div class="txtfld-col-box">
+                                                <div class="txtfld-col">
+                                                    <label>Select Month</label>
+                                                    <select id="monthId">
+                                                        <option value="">Select Month</option>
+                                                        <option value="1">Jan</option>
+                                                        <option value="2">Feb</option>
+                                                        <option value="3">Mar</option>
+                                                        <option value="4">Apr</option>
+                                                        <option value="5">May</option>
+                                                        <option value="6">Jun</option>
+                                                        <option value="7">Jul</option>
+                                                        <option value="8">Aug</option>
+                                                        <option value="9">Sep</option>
+                                                        <option value="10">Oct</option>
+                                                        <option value="11">Nov</option>
+                                                        <option value="12">Dec</option>
+                                                    </select>
+                                                </div>
+                                                <div class="txtfld-col">
+                                                    <label>Select Year</label>
+                                                    <select id="yearId">
+                                                        <option value="">Select Year</option>
+                                                        @foreach (var item in ViewBag.Years)
+                                                        {
+                                                            <option value="@item">@item</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="txtfld-col">
+                                                    <br /><br />
+                                                    <input id="submit_button_form" class="formbut-n" onclick="generateInvoice();" type="submit" name="yt0" value="Generate" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                           
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+
+
+    <script type="text/javascript">
+
+        var j = jQuery.noConflict();
+        j(function () {
+            j("#invoice_month").datepicker({
+                format: "mm-yyyy",
+                viewMode: "months",
+                minViewMode: "months"
+            });
+
+
+            return false;
+        });
+
+        function generateInvoice() {
+            
+            if ($('#monthId').val() == null || $('#monthId').val() == "") {
+                $('#monthId').css("border", "1px solid red");
+                return false;
+            }
+
+            if ($('#yearId').val() == null || $('#yearId').val() == "") {
+                $('#yearId').css("border", "1px solid red");
+                return false;
+            }
+
+            var d = { month: $('#monthId').val(),year:$('#yearId').val() };
+
+            $.ajax({
+                type: "POST",
+                url: "/Fees/GenerateIAllnvoice",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {                   
+                        window.location.href = '/Fees/TransportationFee';                   
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });
+        };
+
+    </script>
+
+
+
+    

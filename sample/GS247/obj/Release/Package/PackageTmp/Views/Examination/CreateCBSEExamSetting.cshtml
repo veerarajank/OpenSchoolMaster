@@ -1,0 +1,151 @@
+﻿@model GS247.Models.CBSEExamSetting
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+
+@if (Model != null)
+{
+
+    <div class="cont_right formWrapper">
+        <h1>Create CBSE Exam Settings</h1><br>
+
+        <div class="button-bg">
+            <div class="top-hed-btn-left">
+                <a class="a_tag-btn" href="@Url.Action("CBSEExamSetting", "Examination")"><span>Back</span></a>
+            </div>
+            <div class="top-hed-btn-right">
+            </div>
+        </div>
+
+        <div class="formCon">
+
+            <div class="formConInner">
+
+                <form id="grade_settings-form" action="UpdateCBSEExamSetting" method="post">
+
+                    <input type="hidden" value="@Model.CBSEExamSettingId" name="CBSEExamSettingId" id="CBSEExamSettingId" />
+                    <p class="note">Fields with <span class="required">*</span> are required.</p>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td colspan="4"><h3>Weightage Settings</h3></td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="FA1Weightage" class="required">
+                                        FA 1 Weightage <span class="required">*</span>
+                                    </label>
+                                </td>
+                                <td><input name="FA1Weightage" id="FA1Weightage" type="text" required value="@Model.FA1Weightage">            </td>
+                                <td>
+                                    <label for="FA2Weightage" class="required">
+                                        FA 2 Weightage <span class="required">
+                                            *
+                                        </span>
+                                    </label>
+                                </td>
+                                <td><input name="FA2Weightage" id="FA2Weightage" type="text" required value="@Model.FA2Weightage">        </td>
+
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="SA1Weightage" class="required">SA 1 Weightage <span class="required">*</span></label></td>
+                                <td><input name="SA1Weightage" id="SA1Weightage" type="text" required value="@Model.SA1Weightage">            </td>
+                                <td><label for="SA2Weightage" class="required">SA 2 Weightage <span class="required">*</span></label></td>
+                                <td><input name="SA2Weightage" id="SA2Weightage" type="text" required value="@Model.SA2Weightage">        </td>
+                            </tr>
+                            <tr></tr>
+
+                        </tbody>
+                    </table>
+
+                    <div style="padding:20px 0 0 0px;">
+                        <input class="formbut-n" type="submit" name="yt0" value="Update">
+                    </div>
+
+                </form>
+            </div>
+        </div><!-- form -->
+    </div>
+
+}
+else
+{
+
+    <div class="cont_right formWrapper">
+        <h1>Create CBSE Exam Settings</h1>
+
+        <div class="button-bg">
+            <div class="top-hed-btn-left">
+                <a class="a_tag-btn" href="@Url.Action("CBSEExamSetting", "Examination")"><span>Back</span></a>
+            </div>
+            <div class="top-hed-btn-right">
+            </div>
+        </div>
+
+        <div class="formCon">
+
+            <div class="formConInner">
+
+                <form id="grade_settings-form" action="CreateCBSEExamSetting" method="post">
+
+                    <p class="note">Fields with <span class="required">*</span> are required.</p>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td colspan="4"><h3>Weightage Settings</h3></td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="FA1Weightage" class="required">
+                                        FA 1 Weightage <span class="required">*</span>
+                                    </label>
+                                </td>
+                                <td><input name="FA1Weightage" id="FA1Weightage" type="text" required>            </td>
+                                <td>
+                                    <label for="FA2Weightage" class="required">
+                                        FA 2 Weightage <span class="required">
+                                            *
+                                        </span>
+                                    </label>
+                                </td>
+                                <td><input name="FA2Weightage" id="FA2Weightage" type="text" required>        </td>
+
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="SA1Weightage" class="required">SA 1 Weightage <span class="required">*</span></label></td>
+                                <td><input name="SA1Weightage" id="SA1Weightage" type="text" required>            </td>
+                                <td><label for="SA2Weightage" class="required">SA 2 Weightage <span class="required">*</span></label></td>
+                                <td><input name="SA2Weightage" id="SA2Weightage" type="text" required>        </td>
+                            </tr>
+                            <tr></tr>
+
+                        </tbody>
+                    </table>
+
+                    <div style="padding:20px 0 0 0px;">
+                        <input class="formbut-n" type="submit" name="yt0" value="Save">
+                    </div>
+
+                </form>
+            </div>
+        </div><!-- form -->
+    </div>
+
+}

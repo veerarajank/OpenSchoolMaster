@@ -1,0 +1,230 @@
+﻿@model GS247.Models.LibraryBook
+
+@{
+    ViewBag.Title = "CreateBook";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<link href="~/Content/jquery-ui-1.11.4.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(function () {
+            $("#SubjectName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Library/AutoFill/',
+                        data: "{ 'Prefix': '" + request.term + "' }",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('#SubjectId').val(ui.item.val);
+                },
+                minLength: 3
+            });
+        });
+        $(function () {
+            $("#AuthorName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Library/AutoFillAuthor/',
+                        data: "{ 'Prefix': '" + request.term + "' }",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('#AuthorId').val(ui.item.val);
+                },
+                minLength: 3
+            });
+        });
+    });
+</script>
+
+<div class="cont_right formWrapper">
+    <h1>Create Book</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="formbut" href="@Url.Action("ManageBooks","Library")"><span>Back</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    <p>Fields with<span class="required"> * </span>are required.</p>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="Book_isbn" class="required">Isbn<span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(model => model.ISBN, new { required = "required" }) </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_title" class="required">Title<span class="required">*</span></label></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.Title, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_subject" class="required">Subject <span class="required"> * </span></label></td>
+                        <td>
+                           @* @Html.DropDownListFor(m => m.SubjectId, ViewBag.Subjects as IEnumerable<SelectListItem>, "--Select--", new { @class = "select2-arrow", required = "required" })*@
+                            @Html.TextBox("SubjectName", "", new { required = "required" })
+                            @Html.HiddenFor(model => model.SubjectId)
+                            <br />
+                            <label style="display:none" id="lbl"><span class="required" id="span"></span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_category" class="required">Category<span class="required">*</span></label></td>
+                        <td>
+                            @Html.DropDownListFor(m => m.CategoryId, ViewBag.Categories as IEnumerable<SelectListItem>, "--Select--", new { @class = "select2-arrow", required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="Book_author" class="required">Author<span class="required">*</span></label></td>
+                        <td>
+                            @Html.DropDownListFor(m => m.AuthorId, ViewBag.Authors as IEnumerable<SelectListItem>, "--Select--", new { @class = "select2-arrow", required = "required" })                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_edition" class="required">Edition<span class="required">*</span></label></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.Edition, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_publisher" class="required">Publisher<span class="required">*</span></label></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.Publisher, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_copy" class="required">Copy<span class="required">*</span></label></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.Copy, new { required = "required" })
+                            @Html.HiddenFor(model => model.CopiesAvailable)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_bookposition" class="required">Book Posiiton<span class="required">*</span></label></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.BookPosition, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><label for="Book_shelfno" class="required">Shelf No<span class="required">*</span></label></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.ShelfNo, new { required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="10px">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td height="10px">&nbsp;</td>
+                        <td><input class="formbut" type="submit" name="Book_submit" value="Create" /></td>
+                    </tr>
+                </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $('#span').html('@ViewBag.Message');
+        $('#lbl').css('display', 'block');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#span').html('');
+        $('#lbl').css('display', 'none');
+    </script>
+}

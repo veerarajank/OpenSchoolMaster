@@ -1,0 +1,634 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<body>
+    <div class="container">
+        <div class="container">
+            <div class="span-19">
+                <div id="content">
+                    <script type="text/javascript" src="/js/woco.accordion.min.js"></script>
+                    <style>
+                        .formbut-n {
+                            background-color: #50d8af;
+                        }
+
+                        .formbut {
+                            background-color: #50d8af;
+                        }
+
+                        .a_tag-btn {
+                            background-color: #50d8af;
+                        }
+                    </style>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="247" valign="top">
+                                <style>
+                                    a.add {
+                                        display: block;
+                                        margin: 10px 0 0;
+                                        padding: 2px 5px;
+                                        width: 60px;
+                                        height: 30px;
+                                        background-color: #379bc9;
+                                        border-radius: 3px;
+                                        color: #fff;
+                                    }
+
+                                        a.add:hover {
+                                            background-color: #318db7;
+                                        }
+
+                                    .add img {
+                                        color: #98adb5;
+                                        display: inline;
+                                        font-size: 14px;
+                                        margin-right: 5px;
+                                        width: 19px;
+                                        height: 20px;
+                                        float: left;
+                                        margin-left: 0px;
+                                        background: none;
+                                    }
+
+                                    .add span.fcount {
+                                        display: inline-block;
+                                        padding-top: 8px;
+                                        padding-left: 4px;
+                                        color: #FFF;
+                                        font-weight: bold;
+                                        font-size: 16px;
+                                    }
+                                </style>
+
+                                @foreach (var item in ViewBag.StudentList)
+                                {
+                                    <div class="empleftbx-profile">
+                                        <div class="empimgbx-profile">
+                                            <img src="/UploadedFiles/@item.Data" />                                   
+                                        </div>
+
+                                        <div class="left-profile-name-sctn">
+                                            <div class="left-profile-blk">
+                                                <p>
+                                                    @item.FirstName @item.LastName
+                                                </p>
+                                                <a href="#">@item.Email</a>
+                                            </div>
+
+                                            <div id="jobDialog"></div>
+                                            <div class="clear"></div>
+                                            <div class="prof_detail-blk">
+                                                <ul>
+                                                    <li>
+                                                        <span><strong>Admission No&nbsp;:</strong>&nbsp;@item.AdmissionNo</span>
+                                                    </li>
+                                                </ul>
+                                            </div> <!-- END div class="prof_detail" -->
+                                        </div>
+
+                                    </div>
+                                }
+
+                                
+                            </td>
+                            <td valign="top">
+                                <div class="cont_right formWrapper">
+                                    <h1>STUDENT PROFILE</h1>
+                                    <div class="emp_right_contner">
+                                        <div class="emp_tabwrapper">
+
+
+                                            <div class="button-bg">
+                                                <div class="top-hed-btn-left">
+                                                    <a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Back</span></a>
+                                                </div>
+                                                <div class="top-hed-btn-right">
+                                                    <ul>
+                                                        <li><a class="a_tag-btn" href="@Url.Action("UpdateStudent", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })"><span>Edit</span></a> </li>
+                                                        <li><a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Students</span></a> </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="pagetab-bg-tag-a">
+                                                <ul>
+                                                    <li class="active"><a href="@Url.Action("ViewProfile", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Profile</a></li>
+                                                    <li><a href="@Url.Action("ViewCourses", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Courses</a></li>
+                                                    <li><a href="@Url.Action("ViewAssessments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Assessments</a></li>
+                                                    <li><a href="@Url.Action("ViewAttendance", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Attendance</a></li>
+                                                    <li><a href="@Url.Action("ViewDocuments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Documents</a></li>
+                                                    <li><a href="@Url.Action("ViewElectives", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Electives</a></li>
+                                                    <li><a href="@Url.Action("ViewAchievements", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Achievements</a></li>
+                                                    <li><a href="@Url.Action("ViewLog", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Log</a></li>
+                                                    @*<li><a href="@Url.Action("ViewAppraisal", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Appraisal</a></li>*@
+                                                </ul>
+                                            </div>					<div class="clear"></div>
+
+                                            <div class="pdf-box">
+                                                <div class="box-one"></div>
+                                                <div class="box-two">
+                                                    <div class="pdf-div">
+                                                        <a target="_blank" class="pdf_but" href="#">Generate PDF</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="emp_cntntbx">
+                                                <div class="cordn-h3">
+                                                    <h3> STUDENT DETAILS </h3>
+                                                    <div class="accordion">
+                                                        <h1>Personal details</h1>
+
+                                                        <div>
+                                                            @foreach (var item in ViewBag.StudentList)
+                                                            {
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Roll No</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.RollNumber
+                                                                    </div>
+                                                                </div>
+
+                                                                @*<div class="tabl">
+                                                                        <div class="fist-sections" style="text-transform:uppercase;">Rfid</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+
+                                                                        </div>
+                                                                    </div>*@
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Admission Date</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.AdmissionDate.ToString("dd MMM yyyy")
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Student ID</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.StudentId
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Date Of Birth</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.DOB.ToString("dd MMM yyyy")
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Gender</div>
+                                                                    <div class="midl-sections">:</div>
+
+                                                                    @if (@item.Gender == 1)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            Male
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Gender == 2)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            Female
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            Unknown
+                                                                        </div>
+                                                                    }
+
+                                                                </div>
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Blood </div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    @if (@item.Blood == 1)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            A+
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Blood == 2)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            A-
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Blood == 3)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            B+
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Blood == 4)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            B-
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Blood == 5)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            O+
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Blood == 6)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            O-
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Blood == 7)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            AB+
+                                                                        </div>
+                                                                    }
+                                                                    else if (@item.Blood == 8)
+                                                                    {
+                                                                        <div class="last-sections">
+                                                                            AB-
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="last-sections">
+
+                                                                        </div>
+                                                                    }
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Birth Place</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.BirthPlace
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Nationality</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.SchoolCO.CountryName
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Language</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Language
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Religion</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Religion
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Student Category</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.SchoolCO.StudentCategoryName
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Willing to use student details for promotional purposes</div>                                       						<div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.PromitionalFlag
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <h1>Contact details</h1>
+                                                                <div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">Address Line 1</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.AddressLine1
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">Address Line 2</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.AddressLine2
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">City</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.City
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">State</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.State
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">Pin Code</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.PinCode
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">Country</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.SchoolCO.CountryName1
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">Phone Number</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.PhoneNumber1
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">Phone 2</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.PhoneNumber2
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tabl">
+                                                                        <div class="fist-sections">Email</div>
+                                                                        <div class="midl-sections">:</div>
+                                                                        <div class="last-sections">
+                                                                            @item.Email
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- DYNAMIC FIELDS START -->
+                                                                    <!-- DYNAMIC FIELDS END -->
+                                                                </div>
+                                                                <div class="section_div"></div>
+                                                            }
+                                                        </div>
+                                                        <div class="box-div">
+                                                            <h3>
+                                                                GUARDIAN DETAILS
+                                                            </h3>
+                                                        </div>
+
+                                                        @foreach (var item in ViewBag.GuardianList)
+                                                        {
+
+                                                            <h1>@item.SchoolCO.RelationName</h1>
+
+                                                            <div>
+                                                                <div class="prnt-head"><h4>Personal Details</h4></div>                               							                                        <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">First Name</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">@item.FirstName</div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Last Name</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">@item.LastName</div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Relation</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.SchoolCO.RelationName
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Date Of Birth</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.DOB
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Education</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Education
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Occupation</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Occupation
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Income</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Income
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="prnt-head"><h4>Contact Details</h4></div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Email</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Email
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Mobile Phone</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.MobilePhone
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Office Phone 1</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.OfficePhone1
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Office Phone 2</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.OfficePhone2
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Office Address Line 1</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.AddressLine1
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Office Address Line 2</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.AddressLine2
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">City </div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.City
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">State</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.State
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">Country</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.SchoolCO.CountryName
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- DYNAMIC FIELDS START -->
+
+                                                                <div class="tabl parnt-bottm">
+                                                                    <div class="fist-sections">ZIP Code</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.PinCode
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="section_div"></div>
+                                                        }
+
+                                                        <div class="box-div">
+                                                            <h3>PREVIOUS DETAILS</h3>
+                                                        </div>
+                                                        @{ int rowNo = 0; }
+                                                        @foreach (var item in ViewBag.InstitutionList)
+                                                        {
+                                                            <h1>Previous Detail #@(rowNo += 1)</h1>
+                                                            <div>
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Institution</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Instution
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Year</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Year
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Course</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.Course
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tabl">
+                                                                    <div class="fist-sections">Total Mark</div>
+                                                                    <div class="midl-sections">:</div>
+                                                                    <div class="last-sections">
+                                                                        @item.TotalMark
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="section_div"></div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div><!-- content -->
+            </div>
+            <div class="span-5 last">
+                <div id="sidebar">
+                </div><!-- sidebar -->
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <script>
+        function editStudent(StudentDetailsId) {
+            window.location.href = '/Student/UpdateStudent?StudentDetailsId=' + StudentDetailsId;
+        };
+    </script>
+</body>
+</html>

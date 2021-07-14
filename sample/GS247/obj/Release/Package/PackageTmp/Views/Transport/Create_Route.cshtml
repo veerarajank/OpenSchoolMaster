@@ -1,0 +1,58 @@
+﻿@model GS247.Models.TransportRoute
+@{
+    
+    Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+    <style>
+       .formbut {
+           background: #50d8af;
+       }
+    </style>
+    <div>
+
+        <h1>@ViewBag.Title</h1>
+        <div class="col-md-2"></div>
+        <div class=" form col-md-8">
+            <div class="formCon">
+                <div class="formConInner">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    <a href="/Transport/ListAllRoutes_Index" class="btn btn-xs btn-danger" style="float:right;">Back</a>
+                    @using (Html.BeginForm())
+                    {
+                        <table class="table" style="font-size:small;">
+                            <tr>
+                                <td><label for="RouteName" class="required">Route Name <span class="required">*</span></label></td>
+                                <td>@Html.TextBoxFor(m => m.RouteName, new { @class="form-control",required = "required" }) </td>
+                            </tr>
+                            <tr>
+                                <td><label for="Stops" class="required">No of Stops <span class="required">*</span></label></td>
+                                <td>@Html.TextBoxFor(m => m.NoOfStops, new { @class = "form-control",required = "required" }) </td>
+                            </tr>
+                            <tr>
+                                <td><label for="VehicleCode" class="required">Vehicle Code <span class="required">*</span></label></td>
+                                <td>@Html.DropDownListFor(m => m.VehicleCode, (IEnumerable<SelectListItem>)ViewBag.VehicleCodes, "-Select Vehicle Code-", new { @class = "form-control",required = "required" }) </td>
+                            </tr>
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                                <td>
+                                    @Html.HiddenFor(m => m.RouteId)
+                                    <input class="formbut" type="submit" value="Add" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    
+        @if (TempData["Route"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("Route").ToString()");
+            </script>
+        }
+    </div>
+    
+

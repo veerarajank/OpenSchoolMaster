@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+                                <div class="cont_right formWrapper">
+                                    <h1>Manage Purchase Order</h1>
+
+                                    <div class="button-bg">
+                                        <div class="top-hed-btn-left"> </div>
+                                        <div class="top-hed-btn-right">
+                                            <ul>
+                                                <li><a class="a_tag-btn" href="@Url.Action("CreatePurchaseSupply","Purchase")"><span>Send Order</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="pdtab_Con" style="width:100%">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tbody>
+                                                <tr class="pdtab-h">
+                                                    <td align="center" height="18" width="25">#</td>
+                                                    <td align="center" height="18" width="150">Item</td>
+                                                    <td align="center" height="18" width="150">Vendor</td>
+                                                    <td align="center" height="18" width="150">Quantity</td>
+                                                    <td align="center" height="18" width="150">Price</td>
+                                                    <td align="center" height="18" width="150">Amount</td>
+                                                    <td align="center" height="18" width="150">Action</td>
+                                                </tr>
+                                                @{ int rowNo = 0; }
+                                                @foreach (var item in ViewBag.PurchaseOrderItemsList)
+                                                {
+                                                    <tr>
+                                                        <td>@(rowNo += 1)</td>
+                                                        <td align="center"><a href="#">@item.SchoolCO.Name</a></td>
+                                                        <td align="center"><a href="#">@item.SchoolCO.RelationName</a></td>
+                                                        <td align="center">@item.Quantity</td>
+                                                        <td align="center">@item.SchoolCO.FareAmount</td>
+                                                        <td align="center">@item.TotalPrice</td>
+                                                        @if (item.StatusFlag == 0)
+                                                        {
+                                                            <td align="center">
+                                                                <a style="color:orangered" href="javascript:statusUpdate(@item.OrderItemId,1);" id="yt0"><span>Approve</span></a>
+                                                                <a style="color:orangered" href="javascript:statusUpdate(@item.OrderItemId,2);" id="yt0"><span>Reject</span></a>                                                               
+                                                            </td>
+                                                        }
+                                                        else if (item.StatusFlag == 1)
+                                                        {
+                                                            <td align="center">
+                                                                <a href="#" style="color:lightgreen" id="yt0"><span>Approved</span></a>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td align="center">
+                                                                <a href="#" style="color:red" id="yt0"><span>Rejected</span></a>
+                                                            </td>
+                                                        }
+                                                        
+                                                    </tr>
+                                                }
+                                               
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+    <script type="text/javascript">
+        $(".purcs-supply_ico").attr('active', '1').closest('li').addClass('list_active');
+
+        function statusUpdate(OrderItemId, Status) {
+            var msg = "Are you sure you want to approve this order?";
+            if (Status == 2)
+                msg = "Are you sure you want to reject this order?";
+
+            if (confirm(msg)) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/StatusUpdate",
+                    data: '{OrderItemId: ' + OrderItemId + ',StatusFlag : ' + Status + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        location.reload(true);
+                    }
+                });
+            }
+        }
+
+    </script>

@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+    <h1>New Product</h1>
+    <style type="text/css">
+    </style>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("UpdateVendorDetails", "Purchase", new { VendorDetailId = @ViewBag.VendorDetailId })"><span>Back</span></a>
+        </div>
+    </div>
+
+    <div class="page-tab-atag">
+        <ul>
+            <li><h2 class="hvr-syle"><a href="@Url.Action("UpdateVendorDetails", "Purchase", new { VendorDetailId = @ViewBag.VendorDetailId })">Vendor Details</a></h2></li>
+            <li class="cur"><h2 class="hvr-syle"><a href="@Url.Action("CreateProductDetails", "Purchase", new { VendorDetailId = @ViewBag.VendorDetailId })">Product Details</a></h2></li>
+        </ul>
+    </div>
+    <div id="skill-grid" class="grid-view">        
+        <table class="items">
+            <thead>
+                <tr>
+                    <th id="skill-grid_c0"><a href="#">Item</a></th>
+                    <th id="skill-grid_c1"><a href="#">Description</a></th>
+                    <th id="skill-grid_c2"><a href="#">Price</a></th>
+                    <th style="font-size:12px; font-weight:bold;" id="skill-grid_c3">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.ProductList)
+                {
+                    <tr>                        
+                        <td align="center"><a style="color:orangered" href="#">@item.SchoolCO.Name</a></td>
+                        <td align="center"><a href="#">@item.Description</a></td>
+                        <td align="center">@item.Price</td>
+                        <td align="center">
+                            <div class="tt-wrapper-new">
+                                <a class="makeedit" href="javascript:EditProduct(@item.ProductId,@item.ItemId,'@item.SchoolCO.Name','@item.Description',@item.Price);"><img src="~/gridview/update.png" /><span>Edit</span></a>
+                                <a class="makedelete" href="javascript:DeleteProduct(@item.ProductId);" id="yt0"><img src="~/gridview/delete.png" /><span>Delete</span></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>        
+    </div>
+    <br />
+    <form id="product-details-form" action="CreateProductDetails" method="post">
+
+        <p class="note">Fields with <span class="required">*</span> are required.</p>
+        <input type="hidden" value="@ViewBag.VendorDetailId" name="VendorDetailId" id="VendorDetailId" />
+        <input type="hidden" name="ProductId" id="ProductId" />
+
+        <div class="formCon-block">
+            <div class="formConInner-block">
+
+                <h3>Product Details </h3>
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="ItemId" class="required">Item <span class="required">*</span></label>
+                        <select name="ItemId" id="ItemId">
+                            <option value="">Select Item</option>
+                            @foreach (var item1 in ViewBag.PurchaseItemsList)
+                            {
+                                <option value="@item1.ItemId">@item1.ItemName </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="text-fild-block inputstyle">
+                        <label for="Price" class="required">Price <span class="required">*</span></label>
+                        <input maxlength="255" name="Price" id="Price" type="text" required>
+                    </div>
+                </div>
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block-full inputstyle">
+                        <label for="Description" class="required">Description <span class="required">*</span></label>
+                        <textarea maxlength="255" name="Description" id="Description" required style="height:75px"></textarea>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+            </div>
+        </div>
+
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div id="newFormDiv" class="top-hed-btn-right">
+                <ul>
+                    <li>    <input class="formbut-n" id="add_another_btn" type="submit" onclick="onSaveButtonClick(1);" name="yt0" value="Save and Add Another"></li>
+                    <li>    	<input id="submit_button_form" class="formbut-n" type="submit" name="yt1" value="Save" onclick="onSaveButtonClick(2);">      </li>
+                    <li>        <a class="formbut-n" href="@Url.Action("ViewVendorDetails", "Purchase", new { VendorDetailId = @ViewBag.VendorDetailId })">Next</a></li>
+                </ul>
+            </div>
+            <div id="editFormDiv" style="padding:0px 0 0 0px;text-align:left;display:none">
+                <input class="formbut-n" type="submit" name="yt0" value="Update" onclick="onSaveButtonClick(1);" />
+            </div>
+        </div>
+        <input type="hidden" name="AddFlag" id="AddFlag" />
+    </form>
+    <script type="text/javascript">
+
+        $(".purcs_ico").attr('active', '1').closest('li').addClass('list_active');
+
+        function onSaveButtonClick(id) {
+            $('#AddFlag').val(id);
+        };
+
+        function EditProduct(ProductId, ItemId, Name, Description, Price) {
+            $('#ItemId').val(ItemId);
+            $('#Description').val(Description);
+            $('#Price').val(Price);
+            var value = "<option value=\"" + ItemId + "\" selected=\"selected\">" + Name + "</option>";
+            $('#ItemId').append(value);
+            $('#ItemId').attr('disabled', 'disabled');
+            $('#ProductId').val(ProductId);
+            $('#editFormDiv').css('display', 'block');
+            $('#newFormDiv').css('display', 'none');            
+        };
+
+        function DeleteProduct(ProductId) {
+            if (confirm("Are you sure you want to delete this product?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Purchase/DeleteProductDetails",
+                    data: '{ProductId: ' + ProductId + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        location.reload(true);
+                    }
+                });
+            }
+        }
+
+    </script>
+</div>
+
+

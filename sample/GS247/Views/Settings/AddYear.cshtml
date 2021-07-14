@@ -1,0 +1,69 @@
+﻿@model GS247.Models.Settings.MAcademicYear
+
+@{
+    ViewBag.Title = "AddAcademicYear";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("Year_Name").value == '') return false;
+        if (document.getElementById("Year_StartsOn").value == '') return false;
+        if (document.getElementById("Year_EndsOn").value == '') return false;
+        if (document.getElementById("Year_Desc").value == '') return false;
+        return true;
+    }
+</script>
+
+<div class="cont_right formWrapper">
+    <h1>Create New Academic Year Setup</h1>
+    <div class="top-hed-btn-right">
+        <a class="a_tag-btn" href="@Url.Action("ManageYears","Settings")"><span>Back</span></a>
+    </div>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertYear", "Settings", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Name, new { id = "Year_Name", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Starts On <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.StartsOn, new { id = "Year_StartsOn", type = "date", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Ends On <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.EndsOn, new { id = "Year_EndsOn", type = "date", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix">Description</label></td>
+                        <td>@Html.TextAreaFor(Model => Model.Description, new { id = "Year_Desc", size = "5", maxlength = "999" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Status <span class="required">*</span></label></td>
+                        <td>@Html.EnumDropDownListFor(Model => Model.OptStatus, new { id = "Year_Opt", required = "required", style = "width:20%" })</td>
+                    </tr>
+                </table>
+
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Create" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

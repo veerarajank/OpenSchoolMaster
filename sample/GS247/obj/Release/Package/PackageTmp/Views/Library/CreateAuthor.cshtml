@@ -1,0 +1,67 @@
+﻿@model GS247.Models.LibraryAuthor
+
+@{
+    ViewBag.Title = "CreateAuthor";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<div class="cont_right formWrapper" style="padding:15px 20px 80px 20px;">
+    <h1>Create New Author</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a class="formbut" href="@Url.Action("ManageAuthors","Library")"><span>Back</span></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="Author_name" class="required">Author Name <span class="required">*</span></label></td>
+                                <td>@Html.TextBoxFor(model => model.AuthorName, new { required = "required" }) </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="Author_desk">Desk</label></td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Desk)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td height="10px">&nbsp;</td>
+                                <td><input class="formbut" type="submit" name="Author_submit" value="Submit" /></td>
+                            </tr>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+</div>
+
+
+

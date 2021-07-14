@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+                                <div class="cont_right formWrapper">
+                                    <h1>Stock</h1>
+
+                                    <div class="pdtab_Con" style="width:100%">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tbody>
+                                                <tr class="pdtab-h">
+                                                    <td align="center" height="18">Item Name</td>
+                                                    <td align="center" height="18">Item Available</td>
+                                                    <td align="center" height="18">Action</td>
+                                                </tr>
+                                                @foreach (var item in ViewBag.PurchaseItemsStockDetailsList)
+                                                {
+                                                    <tr>
+                                                        <td align="center"><a href="#">@item.SchoolCO.Name</a></td>
+                                                        <td align="center"><a href="#">@item.ItemAvailable</a></td>
+                                                        <td align="center">
+                                                            <a style="color:orangered" href="@Url.Action("IssueDetails", "Purchase", new { ItemId = @item.ItemId })" id="yt0"><span>Issue Details</span></a>
+                                                            <a style="color:orangered" href="@Url.Action("StockVendorDetails", "Purchase", new { ItemId = @item.ItemId })" id="yt0"><span>Vendor Details</span></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="pagecon">
+
+                                    </div>
+
+                                </div>
+
+                          
+    <script type="text/javascript">
+          $(".hr-report-icon").attr('active', '1').closest('li').addClass('list_active');
+    </script>

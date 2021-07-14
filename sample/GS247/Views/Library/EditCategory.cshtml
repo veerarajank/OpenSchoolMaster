@@ -1,0 +1,78 @@
+﻿@model GS247.Models.LibraryCategory
+
+@{
+    ViewBag.Title = "EditCategory";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<head>
+    <script type="text/css">
+        .formConInner {
+        padding: 15px 15px;
+        position: relative;
+        }
+    </script>
+    <style>
+        .formbut {
+            background: #50d8af;
+        }
+    </style>
+</head>
+
+    <div class="cont_right formWrapper" style="padding:15px 20px 180px 20px;">
+        <h1>Edit Category</h1>
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li>
+                        <a class="formbut" href="@Url.Action("ManageBookCategories","Library")"><span>Back</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="form">
+            <div class="formCon">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="formConInner">
+                        <div style="background:none;">
+                            <p>Fields with <span class="required"> * </span> are required.</p>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td><label for="Category_name" class="required">Name <span class="required">*</span></label></td>
+                                    <td>
+                                        @Html.EditorFor(model => model.CategoryName, new { id = "Category_name", maxlength = 100 })
+                                        @Html.HiddenFor(model => model.Id)
+                                        <br />
+                                        <label style="display:none" id="lbl"><span class="required" id="span"></span></label>
+                                    </td>
+                                    <td><input class="formbut" type="submit" value="Update" /></td>
+                                </tr>
+
+
+                            </table>
+                        </div><!-- form -->
+                    </div>
+                }
+                </div>
+            </div>
+        </div>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $('#span').html('@ViewBag.Message');
+        $('#lbl').css('display', 'block');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#span').html('');
+        $('#lbl').css('display', 'none');
+    </script>
+}
+

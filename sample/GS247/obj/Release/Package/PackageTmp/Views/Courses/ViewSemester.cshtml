@@ -1,0 +1,37 @@
+﻿@model GS247.Models.Courses.SemesterClass
+
+@{
+    ViewBag.Title = "ViewSemester";
+    Layout = "~/Views/Shared/_CoursesLayout.cshtml";
+}
+
+    <div class="cont_right formWrapper">
+        <h1 style="color:#0c2e8a">View Semester</h1>
+        <div class="">
+            <table class="detail-view" width="60%">
+                <tr>
+                    <th width="100px">Name</th>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <th width="100px">Description</th>
+                <td>@Model.Description</td>
+                </tr>
+                <tr>
+                    <th width="100px">Start Date</th>
+                    <td>@Model.StartDate</td>
+                </tr>
+                <tr>
+                    <th width="100px">End Date</th>
+                    <td>@Model.EndDate</td>
+                </tr>
+                <tr>
+                    <th width="100px">Courses</th>
+                    <td>
+                        @Model.Courses
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+

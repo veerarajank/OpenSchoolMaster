@@ -1,0 +1,640 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<style>
+    #loading {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 1;
+        text-align: center;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 250px;
+        left: 775px;
+        z-index: 100;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 350px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+
+    .alphabrtic {
+        background-color: #F60;
+    }
+
+    .hide-modal {
+        width: 250px;
+        position: absolute;
+        margin: 0 auto;
+        right: 0;
+        left: 0;
+        bottom: 20px;
+        z-index: 9999;
+    }
+</style>
+
+
+<div class="cont_right formWrapper">
+
+    <style type="text/css">
+        .pagetab-bg .li_hide {
+            display: none !important;
+        }
+
+        .student-postn {
+            top: 16px;
+            right: 19px;
+        }
+    </style>
+    <div class="right-pg-hd">
+        <h1>Enrolment</h1>
+    </div>
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Back</span></a>
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("ViewProfile", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">View Profile</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-tab">
+        <div class="pagetab-bg">
+            <ul>
+                <li class="active">
+                    <h2 class="hvr-syle"><a>Student Details</a></h2>
+                </li>
+                <li class="">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreateGuardian", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Guardian Details</a></h2>
+                </li>
+                <li class="">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreatePreviousDetail", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Previous Details</a></h2>
+                </li>
+                <li class="">
+                    <h2 class="hvr-syle"><a href="@Url.Action("CreateStudentDocument", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Student Documents</a></h2>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <style>
+        .formCon input[type="text"], input[type="password"], textArea, select {
+            border-radius: 0px !important;
+            border: 1px #c2cfd8 solid;
+            padding: 7px 3px;
+            background: #fff;
+            box-shadow: none !important;
+            width: 100%;
+        }
+    </style>
+
+    <form enctype="multipart/form-data" id="students-form" action="UpdateStudent" method="post">
+        <br />
+        <p class="note">Fields with<span class="required">*</span>are required.</p>
+        <div class="formCon" style="width:100%; border:0px #fac94a solid; color:#000; ">
+            <div class="formConInner">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="AdmissionNo" class="required">Admission No <span class="required">*</span></label></td>
+                        <td><input size="20" maxlength="255" name="AdmissionNo1" value="@ViewBag.AdmissionNo" id="AdmissionNo1" type="text" disabled /></td>
+                        <td width="50"></td>
+                        <td><label for="Students_admission_date" class="required">Admission Date <span class="required">*</span></label></td>
+                        <td>
+                            <input readonly="readonly" id="AdmissionDate" value="@ViewBag.AdmissionDate.ToString("dd MMM yyyy")" name="AdmissionDate" type="text" class="datepicker" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <input type="hidden" value="@ViewBag.AdmissionNo" name="AdmissionNo" id="AdmissionNo" />
+
+        <div class="formCon">
+            <div class="formConInner opnsl_form_label">
+                <h3>Personal Details </h3>
+                <input type="hidden" value="@ViewBag.StudentDetailsId" name="StudentDetailsId" id="StudentDetailsId" />
+
+                @foreach (var item in ViewBag.managePersonalFieldsList)
+                {
+                    <div class="txtfld-col">
+                        <label for="Students_first_name">
+                            @item.Title
+
+                            @if (@item.Required == 1)
+                            {
+                                <span class="required">*</span>
+                            }
+                        </label>
+
+                        @if (@item.FieldTypeFlag == 1)
+                        {
+                            if (@item.ColumnMapping == "Email")
+                            {
+                                <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) type="text" onchange="emailValidation(this);" />
+                            }
+                            else if (@item.ColumnMapping == "StudentId")
+                            {
+                                <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" readonly name="@item.ColumnMapping" id="@item.ColumnMapping" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) type="text" />
+                            }
+                            else
+                            {
+                                <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) type="text" />
+                            }
+                        }
+                        else if (@item.FieldTypeFlag == 3)
+                        {
+                            if (@item.ColumnMapping == "Nationality")
+                            {
+                                <select name="Nationality" id="Nationality">
+                                    <option value="">Select Nationality</option>
+                                    @foreach (var item1 in ViewBag.CountryList)
+                                    {
+                                        if (item1.id.ToString() == item.SchoolCO.FieldValue)
+                                        {
+                                            <option selected="selected" value="@item1.id">@item1.country_name </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item1.id">@item1.country_name </option>
+                                        }
+                                    }
+                                </select>
+                            }
+                            else if (@item.ColumnMapping == "Blood")
+                            {
+                                <select name="Blood" id="Blood">
+                                    <option value="">Unknown</option>
+                                    <option value="1" @(item.SchoolCO.FieldValue == "1" ? "selected='selected'" : string.Empty)>A+</option>
+                                    <option value="2" @(item.SchoolCO.FieldValue == "2" ? "selected='selected'" : string.Empty)>A-</option>
+                                    <option value="3" @(item.SchoolCO.FieldValue == "3" ? "selected='selected'" : string.Empty)>B+</option>
+                                    <option value="4" @(item.SchoolCO.FieldValue == "4" ? "selected='selected'" : string.Empty)>B-</option>
+                                    <option value="5" @(item.SchoolCO.FieldValue == "5" ? "selected='selected'" : string.Empty)>O+</option>
+                                    <option value="6" @(item.SchoolCO.FieldValue == "6" ? "selected='selected'" : string.Empty)>O-</option>
+                                    <option value="7" @(item.SchoolCO.FieldValue == "7" ? "selected='selected'" : string.Empty)>AB+</option>
+                                    <option value="8" @(item.SchoolCO.FieldValue == "8" ? "selected='selected'" : string.Empty)>AB-</option>
+                                </select>
+                            }
+                            else if (@item.ColumnMapping == "Gender")
+                            {
+                                <select name="Gender" id="Gender">
+                                    <option value="1" @(item.SchoolCO.FieldValue == "1" ? "selected='selected'" : string.Empty)>Male</option>
+                                    <option value="2" @(item.SchoolCO.FieldValue == "2" ? "selected='selected'" : string.Empty)>Female</option>
+                                    <option value="3" @(item.SchoolCO.FieldValue == "3" ? "selected='selected'" : string.Empty)>Unknown</option>
+                                </select>
+                            }
+                            else if (@item.ColumnMapping == "Course")
+                            {
+                                <select name="Course" id="Course" onchange="onChangeCourse(this)">
+                                    <option value="">Select Course</option>
+                                    @foreach (var item1 in ViewBag.CourseList)
+                                    {
+                                        if (item1.Id.ToString() == item.SchoolCO.FieldValue)
+                                        {
+                                            <option selected="selected" value="@item1.Id">@item1.Name </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item1.Id">@item1.Name </option>
+                                        }
+                                    }
+                                </select>
+                            }
+                            else if (@item.ColumnMapping == "Batch")
+                            {
+                                <select name="Batch" id="Batch">
+                                    <option value="0">Select Batch</option>
+                                    @foreach (var item1 in ViewBag.BatchList)
+                                    {
+                                        if (item1.Id.ToString() == item.SchoolCO.FieldValue)
+                                        {
+                                            <option selected="selected" value="@item1.Id">@item1.Name </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item1.Id">@item1.Name </option>
+                                        }
+                                    }
+                                </select>
+                            }
+                            else if (@item.ColumnMapping == "StudentCategory")
+                            {
+                                <select name="StudentCategory" id="StudentCategory">
+                                    @foreach (var item1 in ViewBag.StudentCategoryList)
+                                    {
+                                        if (item1.StudentCategoryID.ToString() == item.SchoolCO.FieldValue)
+                                        {
+                                            <option selected="selected" value="@item1.StudentCategoryID">@item1.Name </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item1.StudentCategoryID">@item1.Name </option>
+                                        }
+                                    }
+                                </select>
+                            }
+                        }
+                        else if (@item.FieldTypeFlag == 6)
+                        {
+                            <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) class="datepicker" />
+                        }
+
+                    </div>
+                }
+
+                <!-- dynamic fields -->
+                <div class="txtfld-col txt-fld-bgg">
+                    <p><label for="PromitionalFlag">Willing to use student details for promotional purposes</label></p>
+                    <select name="PromitionalFlag" id="PromitionalFlag">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="formCon">
+            <div class="formConInner opnsl_form_label">
+                <h3>Contact Details</h3>
+
+                @foreach (var item in ViewBag.manageContactFieldsList)
+                {
+                    <div class="txtfld-col">
+                        <label for="Students_first_name" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty)>
+                            @item.Title
+
+                            @if (@item.Required == 1)
+                            {
+                                <span class="required">*</span>
+                            }
+                        </label>
+
+                        @if (@item.FieldTypeFlag == 1)
+                        {
+                            <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" type="text" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) />
+                        }
+                        else if (@item.FieldTypeFlag == 3)
+                        {
+                            if (@item.ColumnMapping == "Country")
+                            {
+                                <select name="Country" id="Country">
+                                    <option value="">Select Country</option>
+
+                                    @foreach (var item1 in ViewBag.CountryList)
+                                    {
+                                        if (item1.id.ToString() == item.SchoolCO.FieldValue)
+                                        {
+                                            <option selected="selected" value="@item1.id">@item1.country_name </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item1.id">@item1.country_name </option>
+                                        }
+                                    }
+                                </select>
+                            }
+                        }
+                        else if (@item.FieldTypeFlag == 6)
+                        {
+                            <input size="30" maxlength="50" value="@item.SchoolCO.FieldValue" name="@item.ColumnMapping" id="@item.ColumnMapping" @(Convert.ToBoolean(@item.Required) == true ? "class='required'" : string.Empty) type="text" class="datepicker" />
+                        }
+
+                    </div>
+                }
+
+                <!-- dynamic fields -->
+                <!-- dynamic fields -->
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="formCon">
+            <div class="formConInner" style="padding:10px 10px;">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            <h3>Upload Photo</h3>
+                            <input id="FileName" type="hidden" value="" name="FileName" />
+                            <input name="DataString" id="DataString" onchange="convertBase64();" type="file" />
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="image_size_error" style="color:#F00;"></div>
+                            <div> Maximum file size is 1MB. Allowed file types are png,gif,jpeg,jpg</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div><!-- form -->
+        <div class="clear"></div>
+
+        <div class="button-bg">
+            <div class="top-hed-btn-left"> </div>
+            <div class="top-hed-btn-right">
+                <ul>
+                    <li><input id="submit_button_form" class="formbut-n" type="submit" name="yt0" value="Update" /></li>
+                </ul>
+            </div>
+        </div>
+        <input name="Data" id="Data" type="hidden" />
+    </form>
+
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>
+                    <span id="Span_id" style="color: black">Alert</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <div>
+                        <label style="color:red;" id="labelmsg"></label> <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+<script type="text/javascript">
+
+    $('#submit_button_form').click(function (ev) {
+
+
+        if ($('#Batch').val() == null || $('#Batch').val() == "") {
+            $('#Batch').css("border", "1px solid red");
+            return false;
+        }
+
+        if ($('#Nationality').val() == null || $('#Nationality').val() == "") {
+            $('#Nationality').css("border", "1px solid red");
+            return false;
+        }
+
+        if ($('#PhoneNumber1').val() != null && $('#PhoneNumber1').val() != "") {
+            var bool = checkPhone($('#PhoneNumber1').val());
+            if (!bool) {
+                $('#PhoneNumber1').css("border", "1px solid red");
+                return false;
+            }
+        }
+
+        if ($('#PhoneNumber2').val() != null && $('#PhoneNumber2').val() != "") {
+            var bool = checkPhone($('#PhoneNumber2').val());
+            if (!bool) {
+                $('#PhoneNumber2').css("border", "1px solid red");
+                return false;
+            }
+        }
+
+        if ($('#Email').val() != null || $('#Email').val() != "") {
+
+            var reg = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (reg.test($('#Email').val()) == false) {
+                $('#Email').css("border", "1px solid red");
+                return false;
+            }
+        }
+
+        var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+        var fu1value = $('#DataString').val();
+        var sFileName = fu1value.split("\\").pop();
+        if (sFileName.length > 0) {
+
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions.length; j++) {
+                var sCurExtension = _validFileExtensions[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+            if (!blnValid) {
+                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+                return false;
+            }
+            else {
+                var file_size = $('#DataString')[0].files[0].size;
+                if (file_size > 1048576) { //File upload size limit to 1mb
+                    $('#image_size_error').html('File size is greater than 1MB');
+                    return false;
+                }
+            }
+        }
+
+    });
+
+    function convertBase64() {
+        var data = $('#DataString')[0].files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(data);
+        reader.onload = function () {
+            var base64data = reader.result;
+            $('#Data').val(base64data);
+        }
+    };
+
+    var j = jQuery.noConflict();
+
+    var today = new Date();
+
+    j(function () {
+        j("#AdmissionDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+        j("#DOB").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+    });
+
+    function checkPhone(val) {
+        var phoneNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        if (val.match(phoneNum)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function emailValidation(ele) {
+        var reg = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (reg.test(ele.value) == false) {
+            $('#Email').css("border", "1px solid red");
+            $('#Email').val('');
+            return false;
+        }
+        else {
+            var phone = "";
+            var d = { Email: ele.value, phone: phone };
+
+            $.ajax({
+                type: "POST",
+                url: "/Student/StudentValidation",
+                data: JSON.stringify(d),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.Message != "") {
+                        document.getElementById("labelmsg").innerHTML = result.Message;
+                        $('#myModal').show(0);
+                        setTimeout(function () { $('#myModal').hide(5000); }, 5000);
+                        $('#Email').val('');
+                    }
+                }
+            });
+        }
+    };
+
+    function phoneValidation(ele, fieldName) {
+        var bool = checkPhone(ele.value);
+        if (!bool) {
+            $('#' + fieldName).css("border", "1px solid red");
+            $('#' + fieldName).val('');
+            return false;
+        }
+        else {
+            var Email = "";
+            var d = { Email: Email, phone: ele.value };
+
+            $.ajax({
+                type: "POST",
+                url: "/Student/StudentValidation",
+                data: JSON.stringify(d),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.Message != "") {
+                        document.getElementById("labelmsg").innerHTML = result.Message;
+                        $('#myModal').show(0);
+                        setTimeout(function () { $('#myModal').hide(5000); }, 5000);
+                        $('#' + fieldName).val('');
+                    }
+                }
+            });
+        }
+    };
+
+    function onChangeCourse(ele) {
+
+        if (ele.value != "") {
+            var d = { Id: ele.value };
+
+            $.ajax({
+                type: "POST",
+                url: "/Student/BatchListLoad",
+                data: JSON.stringify(d),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result, function (index, BatchList) {
+                        var Table = document.getElementById("Batch");
+                        Table.innerHTML = "";
+                        if (BatchList.length > 0) {
+                            var value = "<option value=\"0\">Select Batch</option>";
+
+                            for (var i = 0; i < BatchList.length; i++) {
+                                value += "<option value=\"" + BatchList[i].Id + "\">" + BatchList[i].Name + "</option>";
+                            }
+
+                            $("#Batch").append(value);
+                        }
+
+                    });
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });
+        }
+        else {
+            var Table = document.getElementById("Batch");
+            Table.innerHTML = "";
+        }
+    };
+
+</script>
+

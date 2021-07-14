@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+
+<div class="cont_right">
+    <h1>Hostel Dashboard</h1>
+    <div class="overview" style="padding-top:0px;">
+        <div class="overviewbox ovbox1" style="margin-left:0px;">
+            <h1><strong>Vacant Beds</strong></h1>
+            <div class="ovrBtm">@ViewBag.Count</div>
+        </div>
+        <div class="overviewbox ovbox2">
+            <h1><strong>Room Requests</strong></h1>
+            <div class="ovrBtm">@ViewBag.RequestCount</div>
+        </div>
+        <div class="overviewbox ovbox3">
+            <h1><strong>Mess Dues</strong></h1>
+            <div class="ovrBtm">@ViewBag.MessDuesCount</div>
+        </div>
+        <div class="clear"></div>
+
+    </div>
+    <div class="pdtab_Con">
+        <div style="font-size:13px; padding:5px 0px"><strong>Recent Rooms</strong></div>
+        <div class="table-responsive">
+            <table class="table table-bordered mb30" width="100%" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Hostel</th>
+                        <th>Floor</th>
+                        <th>Room No</th>
+                        <th>Availability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in ViewBag.HostelDetailsList)
+                {
+                    <tr>
+                        <td align="center"><a href="#">@item.Name</a></td>
+                        <td align="center"><a href="#">@item.SchoolCO.FloorNo</a></td>    
+                        <td align="center">@item.SchoolCO.RoomNo<br>Bed(s)@item.SchoolCO.Beds</td>   
+                        <td align="center">@item.SchoolCO.Availabilty/@item.SchoolCO.NumberOfBets</td>                
+                    </tr>
+                }        
+             
+                </tbody>
+            </table>
+            <div class="pagecon">
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </div>
+

@@ -1,0 +1,256 @@
+﻿@model dynamic
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+    <h1>Manage Common Exams</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li>
+                    <a id="add_exam-groups" class="a_tag-btn" href="@Url.Action("CreateCommonExams","Examination")"><span>Create Exam</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="emp_right_contner">
+        <div class="emp_tabwrapper">
+            <div class="clear"></div>
+            <div>
+
+                <div class="grid-view clear" id="exam-groups-grid">
+
+                    <table class="items">
+                        <thead>
+                            <tr>
+                                <th align="center" width="7%">Sl No</th>
+                                <th>Name</th>                                                              
+                                <th>Exam Date</th>
+                                <th>Status</th>                                
+                                <th>Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int rowNo = 0; }
+                            @foreach (var item in ViewBag.ExaminationsList)
+                            {
+                                <tr>
+                                    <td>@(rowNo += 1)</td>
+                                    <td><a style="color:orangered" href="@Url.Action("ViewQuestionPaper", "Examination", new { ExamId = item.ExamId })">@item.Name</a></td>
+                                    <td>@item.StartTime.ToString("dd MMM yyyy")</td>
+                                    <td>
+                                        <select id="Status" onchange="onChangeStatus(this,@item.ExamId);">
+
+                                            @if (item.SubjectFlag == 0)
+                                            {
+                                                <option selected="selected" value="0">Default</option>
+                                            }
+                                            else
+                                            {
+                                                if (item.Ststus == 0)
+                                                {
+                                                    <option selected="selected" value="0">Default</option>
+                                                    <option value="1">Open</option>
+                                                }
+                                                else if (item.Ststus == 1)
+                                                {
+                                                    <option selected="selected" value="1">Open</option>
+                                                    <option value="2">Closed</option>
+                                                }
+                                                else if (item.Ststus == 2)
+                                                {
+                                                    <option selected="selected" value="2">Closed</option>
+                                                    <option value="3">Result Published</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="3">Result Published</option>
+                                                }
+                                            }                                         
+                                            
+                                        </select>
+                                    </td>
+                                    <td class="button-column">
+                                        <div class="tt-wrapper-new">
+                                            <a class="update" id="Add_@item.ExamId" @(item.Ststus == 0 ? "style=display:block" : "style=display:none") href="@Url.Action("AddQuestion", "Examination", new { ExamId = item.ExamId })"><img src="~/gridview/add.png"><span>Add Question</span></a>
+                                            <a class="delete" id="Result_@item.ExamId" @(item.Ststus == 3 ? "style=display:block" : "style=display:none") href="@Url.Action("ExamResult", "Examination", new { ExamId = item.ExamId })"><img src="~/gridview/view.png"><span>Exam Result</span></a>
+                                            <a class="delete" id="Start_@item.ExamId" @(item.Ststus == 1 ? "style=display:block" : "style=display:none") href="@Url.Action("ExamStart", "Examination", new { ExamId = item.ExamId })"><img src="~/gridview/restore.png"><span>Exam Start</span></a>
+                                            <a class="delete" id="Close_@item.ExamId" @(item.Ststus == 2 ? "style=display:block" : "style=display:none") href="@Url.Action("AnswerSheetList", "Examination", new { ExamId = item.ExamId })"><img src="~/gridview/mark_a.png"><span>Student List</span></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <br />
+                    @{var pageCutLow = ViewBag.CurrentPageIndex - 1;}
+                    @{var pageCutHigh = ViewBag.CurrentPageIndex + 1;}
+
+                    @if (ViewBag.PageCount > 0)
+                    {
+                        <div class="">
+                            <div align="center">
+                                <div class="">
+
+                                    @if (ViewBag.CurrentPageIndex > 1)
+                                    {
+                                        <input type="submit" class="pageclickPrevious" value="Previous" style="border:none;width:50px;height:20px;font-size:10px;background-color:white;" />
+                                    }
+
+                                    @if (ViewBag.PageCount < 6)
+                                    {
+                                        for (int i = 1; i <= ViewBag.PageCount; i++)
+                                        {
+                                            if (i != ViewBag.CurrentPageIndex)
+                                            {
+                                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                            }
+                                            else
+                                            {
+                                                <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ViewBag.CurrentPageIndex > 2)
+                                        {
+                                            <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="1" />
+
+                                            if (ViewBag.CurrentPageIndex > 3)
+                                            {
+                                                <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                            }
+                                        }
+
+                                        if (ViewBag.CurrentPageIndex == 1)
+                                        {
+                                            pageCutHigh += 2;
+                                        }
+                                        else if (ViewBag.CurrentPageIndex == 2)
+                                        {
+                                            pageCutHigh += 1;
+                                        }
+
+                                        if (ViewBag.CurrentPageIndex == ViewBag.PageCount)
+                                        {
+                                            pageCutLow -= 2;
+                                        }
+                                        else if (ViewBag.CurrentPageIndex == ViewBag.PageCount - 1)
+                                        {
+                                            pageCutLow -= 1;
+                                        }
+
+                                        for (int i = (int)pageCutLow; i <= pageCutHigh; i++)
+                                        {
+                                            if (i == 0)
+                                            {
+                                                i += 1;
+                                            }
+                                            if (i > ViewBag.PageCount)
+                                            {
+                                                continue;
+                                            }
+
+                                            if (ViewBag.CurrentPageIndex == i)
+                                            {
+                                                <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                            }
+                                            else
+                                            {
+                                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                            }
+                                        }
+
+                                        if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 1)
+                                        {
+                                            if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 2)
+                                            {
+                                                <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                            }
+
+                                            <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@ViewBag.PageCount" />
+                                        }
+                                    }
+
+                                    @if (ViewBag.CurrentPageIndex < ViewBag.PageCount)
+                                    {
+                                        <input type="submit" class="pageclickNext" value="Next" style="border:none;width:30px;height:20px;font-size:10px;background-color:white" />
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div> <!-- END div class="emp_tabwrapper" -->
+    </div> <!-- END div class="emp_right_contner" -->
+</div>
+
+<script type="text/javascript">
+
+    function onChangeStatus(ele, ExamId) {
+        $('#Add_' + ExamId).css('display', 'none');
+        $('#Result_' + ExamId).css('display', 'none');
+        $('#Start_' + ExamId).css('display', 'none');
+        $('#Close_' + ExamId).css('display', 'none');
+        
+        $.ajax({
+            type: "POST",
+            url: "/Examination/updateStatus",
+            data: '{ExamId: ' + ExamId + ',Status : ' + ele.value + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+            },
+            error: function (response) {
+            }
+        });
+
+        if (ele.value == "0") {
+            var Table3 = document.getElementById("Status");
+            Table3.innerHTML = "";
+            $('#Add_' + ExamId).css('display', 'block');
+        }
+        else if (ele.value == "3") {
+            var Table3 = document.getElementById("Status");
+            Table3.innerHTML = "";
+            $('#Status').append("<option value=\"3\">Result Published</option>");
+            $('#Result_' + ExamId).css('display', 'block');
+        }
+        else if (ele.value == "1") {
+            var Table3 = document.getElementById("Status");
+            Table3.innerHTML = "";
+            $('#Status').append("<option value=\"1\" selected=\"selected\">Open</option><option value=\"2\">Closed</option>");
+            $('#Start_' + ExamId).css('display', 'block');
+        }
+        else if (ele.value == "2") {
+            var Table3 = document.getElementById("Status");
+            Table3.innerHTML = "";
+            $('#Status').append("<option value=\"2\" selected=\"selected\">Closed</option><option value=\"3\">Result Published</option>");
+            $('#Close_' + ExamId).css('display', 'block');
+        }
+    }
+
+    $(".pageclicktest").click(function () {
+        $("#CurrentPage").val($(this).val());
+    });
+
+    $(".pageclickNext").click(function () {
+        var nextPage = parseInt($("#CurrentPage").val()) + 1;
+        $("#CurrentPage").val(nextPage);
+    });
+
+    $(".pageclickPrevious").click(function () {
+        var prevPage = parseInt($("#CurrentPage").val()) - 1;
+        $("#CurrentPage").val(prevPage);
+    });
+
+</script>

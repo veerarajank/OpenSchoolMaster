@@ -1,0 +1,180 @@
+﻿@model GS247.Models.Settings.ClassTimingsList
+
+@{
+    ViewBag.Title = "ManageClassTimings";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+</style>
+<div class="cont_right formWrapper">
+    <h1>Manage Common Class Timings</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <div id='buttons'></div>
+        </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li> <a class="a_tag-btn" href="@Url.Action("AddClassTimings","Settings")"><span>Create Common Class Timings</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="employee-categories-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="employee-categories-grid_c0">Name</th>
+                    <th id="employee-categories-grid_c1">Start Time</th>
+                    <th id="employee-categories-grid_c1">End Time</th>
+                    <th id="employee-categories-grid_c1">Is Break</th>
+                    <th id="employee-categories-grid_c1">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.ClassTimings.Count; i++)
+                {
+                <tr>
+                    <td id="data1"><Span>@Model.ClassTimings[i].Name</Span></td>
+                    <td id="data1"><Span>@Model.ClassTimings[i].StartTime</Span></td>
+                    <td id="data1"><Span>@Model.ClassTimings[i].EndTime</Span></td>
+                    <td id="data1"><Span>@Model.ClassTimings[i].IsBreak</Span></td>
+                    <td class="button-column"><a class="update" title="Update" href="@Url.Action("UpdateClassTimings","Settings")?Id=@Model.ClassTimings[i].Id"><img src="../gridview/update.png" alt="Update" /></a><a class="delete" title="Delete" onclick="return confirm('Are you sure you want to delete this item?')" href="@Url.Action("DeleteClassTimings","Settings")?Id=@Model.ClassTimings[i].Id"><img src="../gridview/delete.png" alt="Delete" /></a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    defaultLoad ();
+    function defaultLoad() {
+        $lastPage = 0;
+        loadPage($lastPage);
+
+    }
+    function loadPage(page) {
+        var table = document.getElementById("myTable"),
+            totstart = 2,
+            totend = table.rows.length,
+            nrows = 5,
+            pages = Math.ceil((totend - totstart) / nrows);
+        if ((page < 0) || (page >= pages)) {
+            return;
+        }
+        var start = totstart + (page * nrows);
+        var end = totstart + ((page * nrows) + nrows-1);
+        for (var i = totstart; i < totend; i++) {
+           if ((i >= start) && (i <= end)) {
+               table.rows[i].style.display = "";
+                //document.getElementById("row" + i).style.display = "";
+            }
+           else {
+               table.rows[i].style.display = "none";
+                //document.getElementById("row" + i).style.display = "none";
+            }
+
+
+        }
+        document.getElementById("buttons").innerHTML = pageButtons(pages, page);
+        document.getElementById("id" + (page + 1)).style.color = "#50d8af";
+        $lastPage = page;
+    }
+    function pageButtons(pCount, cur) {
+
+        buttons = "<input type='button' value='&lt;&lt; Prev' onclick='loadPage(" + (cur - 1) +");'>";
+        for (var i = 1; i <= pCount; i++) {
+            buttons += "<input type='button' id='id" + i + "' value='" + i + "' onclick='loadPage(" + (i - 1) + ");'>";
+        }
+        buttons += "<input type='button' value='Next &gt;&gt;' onclick='loadPage(" + (cur + 1) +");'>";
+        return buttons;
+
+    }
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+        loadPage(0);
+    }
+    function Search(tmp,inc) {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById(tmp);
+        if (input.value == '') {
+            loadPage($lastPage);
+            return;
+        }
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[inc];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+
+

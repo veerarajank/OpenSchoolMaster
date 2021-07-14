@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+<div class="cont_right formWrapper">
+    <h1>Item Vendors</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("StockList", "Purchase")"><span>Back</span></a>
+        </div>
+        <div class="top-hed-btn-right">
+        </div>
+    </div>
+    
+    <h3>Item Name : @ViewBag.ItemName</h3>
+
+    <div class="pdtab_Con" style="width:100%">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr class="pdtab-h">
+                    <td align="center" height="18">Vendor</td>
+                    <td align="center" height="18">Price</td>
+                </tr>
+                @foreach (var item in ViewBag.PurchaseVendorList)
+                {
+                    <tr>
+                        <td align="center">@item.SchoolCO.StudentName</td>
+                        <td align="center">@item.Price</td>                       
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="pagecon">
+    </div>
+</div>
+

@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "_TransportLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    
+   
+</head>
+<body style="background-color:">
+
+    <div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+        <div class="wrap_container_admin wrap_container_flex">
+            <script>
+                $(document).ready(function () {
+                    window.history.pushState(null, "", window.location.href);
+                    window.onpopstate = function () {
+                        window.history.pushState(null, "", window.location.href);
+                    };
+                });
+                function setDefault(Id) {
+                    var tag = document.getElementById(Id);
+                    tag.setAttribute("class", "list_active");
+                }
+            </script>
+
+            <div class="midnav" style="background-color: ; color: ">
+                <div class="breadcrumbs">
+
+                </div>
+            </div>
+            <div class="container">
+                <div class="container">
+                    <div class="span-19">
+                        <div id="content">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="247" valign="top">
+                                        <div id="othleft-sidebar">
+    
+                                            <ul id="yw0">
+                                                <li><h1>Manage Route</h1></li>
+                                                <li><a class="t-listrouter_ico" href="/Transport/ListAllRoutes_Index">List All Routes<span>All Route Details</span></a></li>
+                                                <li><a class="t-driverassociate_ico" href="/Transport/Driver_Vehicle_Association_Index">Driver - Vehicle Association<span>Assign driver to vehicle</span></a></li>
+                                                <li><a class="t-searchstudent_ico" href="/Transport/SearchStudents">Search Students<span>Search All Students</span></a></li>
+                                                <li><a class="t-timetable_ico" href="/Transport/Vehicle_Attendance">Vehicle Attendance<span>Vehicle Attendance</span></a></li>
+                                                <li><a class="set-timetable_ico" href="/Transport/AttendanceLog_Index">Attendance Log<span>Display attendance log</span></a></li>
+                                                <li><h1>Routes</h1></li>
+                                                <li><a class="t-allotment_ico" href="/Transport/Allotment_Index">Allotment<span>Allot Students</span></a></li>
+                                                <li><h1>Settings</h1></li>
+                                                <li><a class="t-vehicle-details_ico" href="/Transport/Vehicle_Index">Vehicle Details<span>All Vehicle Details</span></a></li>
+                                                <li><a class="t-driver-details_ico" href="/Transport/Driver_Index">Driver Details<span>All Driver Details</span></a></li>
+                                                <li><a class="t-transportation-fee_ico" href="/Transport/Transport_Fee_Index">Transport Fee Management<span>Fee Payment Details</span></a></li>
+                                                <li><a class="t-buslog_ico" href="/Transport/BusLog_Index">Bus Log<span>Bus Log</span></a></li>
+                                            </ul>
+
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        
+                                        <div class="content" style="background-color: white">
+                                            @RenderBody()
+                                            <!-- Content Header (Page header) -->
+                                            <!-- /.content -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

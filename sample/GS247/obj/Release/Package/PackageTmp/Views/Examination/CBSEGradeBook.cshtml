@@ -1,0 +1,47 @@
+﻿@model dynamic
+@{
+    Layout = "~/Views/Shared/_ExaminationLayout.cshtml";
+}
+
+
+
+<div class="cont_right">
+    <h1>CBSE Grade Book</h1>
+
+    <form id="gradebook-form" action="" method="post">
+        <div class="formCon">
+            <div class="formConInner">
+
+                <div class="txtfld-col-box">
+                    <div class="txtfld-col">
+                        Select Course            <select id="cid" name="cid">
+                            <option value="">Select</option>
+                            <option value="7" selected="selected">ECR</option>
+                        </select>
+                    </div>
+
+                    <div class="txtfld-col" style="display:none; padding-right: 10px" id="sem_div">
+                        Select Semester                <select id="semester_id" name="semester_id">
+                            <option value="">Select</option>
+                            <option value="0">Batch without semester</option>
+                        </select>
+                    </div>
+                    <div class="txtfld-col">
+                        Select Batch                <select id="batchid" style="width:190px;" onchange="displaytable()" name="batchid">
+                            <option value="">Select Batch</option>
+                            <option value="23" selected="selected">MECH</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <div class="formCon">
+        <div class="formConInner">
+            <center>Cannot manage CBSE gradebook for this batch.</center>
+        </div>
+    </div>
+
+
+</div>

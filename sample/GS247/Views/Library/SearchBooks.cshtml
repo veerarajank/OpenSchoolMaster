@@ -1,0 +1,98 @@
+﻿@model IEnumerable<GS247.Models.Library.ViewBooks>
+
+@{
+    ViewBag.Title = "SearchBooks";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+   
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+
+<div class="cont_right formWrapper" style="padding:15px 20px 80px 20px;">
+    <h1>Search Books</h1>
+    
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+                <div style="background:none;">
+                    @using (Html.BeginForm("SearchBooks", "Library", FormMethod.Get))
+                    {
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr class="filters">
+                                <td><label for="SearchBook_name" class="required">Search Book By</label></td>
+                                <td>
+                                    @Html.DropDownList("ddlSearchBy", new List<SelectListItem>()
+                                    {
+                                        new SelectListItem(){ Text= "Title", Value = "1"},
+                                        new SelectListItem(){ Text= "Author", Value = "2"},
+                                        new SelectListItem(){ Text= "Isbn", Value = "3"},
+
+                                    })
+                                </td>
+                                <td>@Html.TextBox("searchItem")</td>
+                                <td>
+                                    <input class="formbut" name="SearchBy_submit" type="submit" value="Search" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div><!-- form -->
+    <style>
+        .sem-view-block th, td {
+            border: none;
+        }
+    </style>
+    <div id="searchbook-grid" class="grid-view">
+        <table class="items" id="myTable">
+            <thead>
+                <tr>
+                    <th id="SearchBooks-grid_c0">Subject</th>
+                    <th id="SearchBooks-grid_c1">Book Title</th>
+                    <th id="SearchBooks-grid_c2">ISBN</th>
+                    <th id="SearchBooks-grid_c3">Author</th>
+                    <th id="SearchBooks-grid_c4">Copies Available</th>
+                    <th id="SearchBooks-grid_c5">Total Copies</th>
+                    <th id="SearchBooks-grid_c6">Book Position</th>
+                    <th id="SearchBooks-grid_c7">Shelf No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="odd">
+                        <td>@Html.DisplayFor(modelItem => item.SubjectName)</td>
+                        <td>  @Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ISBN)</td>
+                        <td>
+                            <span style="color:orange;">@Html.DisplayFor(modelItem => item.AuthorName)</span>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.CopiesAvailable)</td>
+                        <td>  @Html.DisplayFor(modelItem => item.Copy)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BookPosition)</td>
+                        <td>  @Html.DisplayFor(modelItem => item.ShelfNo)</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+
+

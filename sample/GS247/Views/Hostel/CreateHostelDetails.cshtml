@@ -1,0 +1,114 @@
+﻿@model GS247.Models.HostelDetail
+@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+
+<div class="cont_right">
+    <h1>Hostel Details</h1>
+    <div class="button-bg">
+        <div class="top-hed-btn-left">
+            <a class="a_tag-btn" href="@Url.Action("HostelDetails", "Hostel")"><span>Back</span></a>
+        </div>
+        <div class="top-hed-btn-right">           
+        </div>
+    </div>
+
+    @if (@Model != null)
+    {
+        <div class="form">
+            <form id="hosteldetails-form" action="CreateHostelDetails" method="post">
+
+                <p class="note">Fields with <span class="required">*</span> are required.</p>
+                <input id="HostelDetailsId" type="hidden" value="@Model.HostelDetailsId" name="HostelDetailsId">
+
+                <div class="formCon">
+                    <div class="formConInner">
+                        <table width="50%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="Name" class="required">Hostel Name <span class="required">*</span></label></td>
+                                <td>&nbsp;</td>
+                                <td><input style="width:100% !important;" name="Name" id="Name" value="@Model.Name" type="text" maxlength="120" required />		
+                                    <br />
+                                    <label style="display:none" id="lbl"><span class="required" id="span"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="Address">Address</label></td>
+                                <td>&nbsp;</td>
+                                <td><textarea style="width:100% !important; height:80px;" name="Address" id="Address">@Model.Address</textarea>		</td>
+                            </tr>
+
+                        </table>
+
+
+                        <div style="padding:20px 0 0 0px;">
+                            <input class="formbut-n" type="submit" name="yt0" value="Save" />
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div><!-- form -->
+    }
+    else
+    {
+        <div class="form">
+            <form id="hosteldetails-form" action="CreateHostelDetails" method="post">
+
+                <p class="note">Fields with <span class="required">*</span> are required.</p>
+                <div class="formCon">
+                    <div class="formConInner">
+                        <table width="50%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><label for="Name" class="required">Hostel Name <span class="required">*</span></label></td>
+                                <td>&nbsp;</td>
+                                <td><input style="width:100% !important;" name="Name" id="Name" type="text" maxlength="120" required />		
+                                    <br />
+                                    <label style="display:none" id="lbl"><span class="required" id="span"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td><label for="Address">Address</label></td>
+                                <td>&nbsp;</td>
+                                <td><textarea style="width:100% !important; height:80px;" name="Address" id="Address"></textarea>		</td>
+                            </tr>
+
+                        </table>
+
+
+                        <div style="padding:20px 0 0 0px;">
+                            <input class="formbut-n" type="submit" name="yt0" value="Create" />
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div><!-- form -->
+    }
+   
+</div>
+    
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $('#span').html('@ViewBag.Message');
+        $('#lbl').css('display', 'block');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#span').html('');
+        $('#lbl').css('display', 'none');
+    </script>
+}
+

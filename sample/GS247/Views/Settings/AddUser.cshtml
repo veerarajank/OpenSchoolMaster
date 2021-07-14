@@ -1,0 +1,84 @@
+﻿@model GS247.Models.Settings.NewUser
+
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_SettingsLayout.cshtml";
+}
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+<script>
+    function validate() {
+        if (document.getElementById("UserName").value == '') return false;
+        if (document.getElementById("Password").value == '') return false;
+        if (document.getElementById("Email").value == '') return false;
+        if (document.getElementById("Mobile").value == '') return false;
+        if (document.getElementById("FirstName").value == '') return false;
+        if (document.getElementById("LastName").value == '') return false;
+        return true;
+    }
+</script>
+<div class="cont_right formWrapper">
+    <h1>Create New User</h1>
+    <div class="top-hed-btn-right">
+        <a class="a_tag-btn" href="@Url.Action("ManageUsers","Settings")"><span>Back</span></a>
+    </div>
+    <p class="note">Fields with<span class="required">*</span> are required.</p>
+    <div class="formCon">
+
+        <div class="formConInner">
+
+            @using (Html.BeginForm("InsertUser", "Settings", FormMethod.Post, new { onsubmit = "return validate()" }))
+            {
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">UserName <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.UserName, new { id = "UserName", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Password <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Password, new { id = "Password", type = "password", required = "required", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">E-mail <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Email, new { id = "Email", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix">Mobile Number</label></td>
+                        <td>@Html.TextBoxFor(Model => Model.Mobile, new { id = "Mobile", maxlength = "999" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">SuperUser <span class="required">*</span></label></td>
+                        <td>@Html.EnumDropDownListFor(Model => Model.SuperUser, new { id = "Super", required = "required", style = "width:20%" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_prefix" class="required">Status <span class="required">*</span></label></td>
+                        <td>@Html.EnumDropDownListFor(Model => Model.Status, new { id = "Status", required = "required", style = "width:20%" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">First Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.FirstName, new { id = "FirstName", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td><label for="EmployeeCategories_name" class="required">Last Name <span class="required">*</span></label></td>
+                        <td>@Html.TextBoxFor(Model => Model.LastName, new { id = "LastName", required = "required", size = "30", maxlength = "255" })</td>
+                    </tr>
+                </table>
+
+                <div style="padding-top:20px;">
+                    <input class="formbut" type="submit" name="yt0" value="Create" />
+                </div>
+            }
+
+        </div>
+    </div><!-- form -->
+</div>

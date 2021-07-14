@@ -1,0 +1,980 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+
+   
+.third{
+    flex: 4;
+    width: 100%;
+    display: inline-block;
+    padding: 0px 0px 1px 50px;
+}
+
+    .col-md-4 {
+        width: 31.333333%;
+    }
+
+    .close {
+        float: right;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        color: #0c11b9;
+        text-shadow: 0 1px 0 #fff;
+        filter: alpha(opacity=20);
+        opacity: 1.2;
+    }
+
+    .panel-body {
+        height: 250px;
+        /*overflow:scroll;
+        overflow-x:hidden;*/
+    }
+
+    .content-wrapper {
+        height: 1100px;
+    }
+
+    .sidebar-menu {
+        height: 1100px;
+    }
+
+    #draggablePanelList .panel-heading {
+        cursor: move;
+    }
+
+    .container {
+        width: 1600px;
+    }
+
+    #chartdiv_student {
+        width: 100%;
+        height: 132px;
+    }
+
+    #chartdiv_exam {
+        width: 100%;
+        height: 200px;
+    }
+
+    #chartdiv_staff {
+        width: 100%;
+        height: 150px;
+        margin-top: -16px;
+    }
+
+    a:hover {
+        background-color: #337ab7 !important;
+    }
+
+    .panel-primary > .panel-heading {
+        color: #0c11b9;
+        background-color: white;
+        border-color: #0be6e6;
+    }
+
+    .panel-primary {
+        border-color: #0be6e6;
+    }
+
+    .btn-div {
+        border-color: #0c11b9;
+        color: #0c11b9;
+    }
+
+        .btn-div:hover {
+            color: #0c11b9;
+        }
+</style>
+
+
+<body>
+
+    <br />
+    <div id="draggablePanelList" class="">
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_News">
+            <div class="panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="News" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-newspaper-o" aria-hidden="true"></i> News</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="divNewsTopic" style="height:100%;width:100%;"></div>
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" id="btn_NewsView" />
+                    <input type="button" class="btn btn-div" value="Create" id="btn_Newscreate" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_Events">
+            <div class=" panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="Events" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-calendar" aria-hidden="true"></i> Events</h3>
+                </div>
+                <div class="panel-body" style="overflow: scroll;overflow-x: hidden;overflow-y: scroll;">
+                    <div class="tab">
+                        <button style="padding-top:0;padding-bottom:0;height:25px;background-color: #00c0ef;border-color: #00c0ef;color: white;" class="tablinks active" onclick="openCity(event, 'Today')">Today</button>
+                        <button style="padding-top:0;padding-bottom:0;height:25px;background-color: #00c0ef;border-color: #00c0ef;color: white;" class="tablinks" onclick="openCity(event, 'CurrentWeek')">Current.Week</button>
+                        <button style="padding-top:0;padding-bottom:0;height:25px;background-color: #00c0ef;border-color: #00c0ef;color: white;" class="tablinks" onclick="openCity(event, 'NextWeek')">Next.Week</button>
+                        <button style="padding-top:0;padding-bottom:0;height:25px;background-color: #00c0ef;border-color: #00c0ef;color: white;" class="tablinks" onclick="openCity(event, 'NextMonth')">Next.Month</button>
+                    </div>
+
+                    <div id="Today" class="tabcontent">
+
+                    </div>
+
+                    <div id="CurrentWeek" class="tabcontent" style="display:none;">
+
+                    </div>
+
+                    <div id="NextWeek" class="tabcontent" style="display:none;">
+
+                    </div>
+
+                    <div id="NextMonth" class="tabcontent" style="display:none;">
+
+                    </div>
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" id="btn_EventView" />
+                    <input type="button" class="btn btn-div" value="Create" id="btn_EventCreate" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_Student">
+            <div class="panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="Student" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Student</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="boxes" style=" width:100%;display: flex;margin-top: -10px;" @*style="margin-left: 50px;margin-top: -10px;"*@>
+                        <div id="div_totalstudent" style="width: 150px;height: 100px;background-color: #0c2e8a;border-color: #0c2e8a;color: white;font-size: 32px;text-align: center;"> </div>
+                        <div id="div_newadmission" style="width: 150px;height: 100px;background-color: #50d8af;border-color: #50d8af;color: white;font-size: 32px;text-align: center;margin: 0px 5px;"> </div>
+                        <div id="div_Inactivestudent" style="width: 150px;height: 100px;background-color: #e60b0b;border-color: #e60b0b;color: white;font-size: 32px;text-align: center;margin: 0px 0px;"> </div>
+                        @*<div id="div_totalstudent" style="width: 100px;height: 100px;background-color: #0c2e8a;border-color: #0c2e8a;color: white;font-size: 32px;text-align: center;"> </div>
+            <div id="div_newadmission" style="width: 100px;height: 100px;background-color: #50d8af;border-color: #50d8af;color: white;margin-top: -100px;margin-left: 110px;font-size: 32px;text-align: center;"> </div>
+            <div id="div_Inactivestudent" style="width: 100px;height: 100px;background-color: #e60b0b;border-color: #e60b0b;color: white;margin-top: -100px;margin-left: 220px;font-size: 32px;text-align: center;"> </div>*@
+                    </div>
+                    <br />
+                    <div id="chartdiv_student"></div>
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" />
+                    <input type="button" class="btn btn-div" value="Create" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_Teacher">
+            <div class="panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="Teacher" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-address-card-o" aria-hidden="true"></i> Teacher</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="width:100%;display: flex;margin-top: -12px;">
+                        <div id="div_totalstaff" style="width: 200px;height: 100px;background-color: #0c2e8a;border-color: #0c2e8a;color: white;font-size: 32px;text-align: center;border-radius: 20px;margin: 0 3px;"> </div>
+                        <div id="div_recentlyhired" style="width: 200px;height: 100px;background-color: #50d8af;border-color: #50d8af;color: white;font-size: 32px;text-align: center;border-radius: 20px;"> </div>
+                    </div>
+                    @*<div style="margin-left: 50px;margin-top: -10px;">
+                        <div id="div_totalstaff" style="width: 100px;height: 100px;background-color: #0c2e8a;border-color: #0c2e8a;color: white;font-size: 32px;text-align: center;border-radius: 20px;margin-left: 80px;"> </div>
+                        <div id="div_recentlyhired" style="width: 100px;height: 100px;background-color: #50d8af;border-color: #50d8af;color: white;margin-top: -100px;margin-left: 190px;font-size: 32px;text-align: center;border-radius: 20px;"> </div>
+                    </div>*@
+                    <br />
+                    <div id="chartdiv_staff"></div>
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" />
+                    <input type="button" class="btn btn-div" value="Create" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_Examination">
+            <div class="panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="Examination" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-book" aria-hidden="true"></i> Examination</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="chartdiv_exam"></div>
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" />
+                    <input type="button" class="btn btn-div" value="Create" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_Attendance">
+            <div class="panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="Attendance" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-file-text" aria-hidden="true"></i> Attendance</h3>
+                </div>
+                <div class="panel-body">
+                    <div style=" width:100%;display: contents;">
+                        <div id="div_totalstudentattendance" style="width: 100%;height: 100px;background-color: #e60b0b;border-color: #e60b0b;color: white;font-size: 32px;text-align: center;"> Total Students</div>
+                        <br />
+                        <div id="div_totalteacherattendance" style="width: 100%;height: 100px;background-color: #0be6e6;border-color: #0be6e6;color: white;font-size: 32px;text-align: center;"> Total Teachers </div>
+                    </div>
+                    @*<div style="margin-left: 60px;">
+                        <div id="div_totalstudentattendance" style="width: 250px;height: 100px;background-color: #e60b0b;border-color: #e60b0b;color: white;font-size: 32px;text-align: center;"> Total Students</div>
+                        <br />
+                        <div id="div_totalteacherattendance" style="width: 250px;height: 100px;background-color: #0be6e6;border-color: #0be6e6;color: white;font-size: 32px;text-align: center;"> Total Teachers </div>
+                    </div>*@
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" />
+                    <input type="button" class="btn btn-div" value="Create" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_Mailbox">
+            <div class="panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="Mailbox" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-envelope" aria-hidden="true"></i> Mailbox</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li style="background-color: #337ab7;">
+                                <a style="color: white;">
+                                    <i class="fa fa-inbox"></i> Inbox
+                                    <span class="label label-warning pull-right" id="span_inbox"></span>
+                                </a>
+                            </li>
+                            <li style="background-color: #337ab7;"><a style="color: white;"><i class="fa fa-envelope-o"></i> Sent <span class="label label-warning pull-right" id="span_Sent"></span></a></li>
+                            <li style="background-color: #337ab7;"><a style="color: white;"><i class="fa fa-file-text-o"></i> Drafts <span class="label label-warning pull-right" id="span_Drafts"></span></a></li>
+                            <li style="background-color: #337ab7;">
+                                <a style="color: white;"><i class="fa fa-filter"></i> Archive <span class="label label-warning pull-right" id="span_Archive"></span></a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" />
+                    <input type="button" class="btn btn-div" value="Create" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4" id="Panel_Fees">
+            <div class="panel panel-primary fade in collapse">
+                <div class="container"></div>
+                <div class="panel-heading">
+                    <a data-toggle="collapse" placeholder="Fees" class=" close div_close">&times;</a>
+                    <h3 class="panel-title"><i class="fa fa-rss-square" aria-hidden="true"></i> Fees</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="width:100%;display: flex;">
+                        <div id="div_TotalFee" style="width: 150px;height: 140px;background-color: #0c2e8a;border-color: #0c2e8a;color: white;font-size: 32px;text-align: center;border-radius: 20px;"></div>
+                        <div id="div_Invoicegenerated" style="width: 150px;height: 140px;background-color: #50d8af;border-color: #50d8af;color: white;font-size: 32px;text-align: center;border-radius: 20px;margin: 0 5px;"> </div>
+                        <div id="div_FeesCollected" style="width: 150px;height: 140px;background-color: #e60b0b;border-color: #e60b0b;color: white;font-size: 32px;text-align: center;border-radius: 20px;"> </div>
+                    </div>
+                    @*<div style="margin-left: 50px;">
+                        <div id="div_TotalFee" style="width: 100px;height: 140px;background-color: #0c2e8a;border-color: #0c2e8a;color: white;font-size: 32px;text-align: center;border-radius: 20px;"></div>
+                        <div id="div_Invoicegenerated" style="width: 100px;height: 140px;background-color: #50d8af;border-color: #50d8af;color: white;margin-top: -140px;margin-left: 110px;font-size: 32px;text-align: center;border-radius: 20px;"> </div>
+                        <div id="div_FeesCollected" style="width: 100px;height: 140px;background-color: #e60b0b;border-color: #e60b0b;color: white;margin-top: -140px;margin-left: 220px;font-size: 32px;text-align: center;border-radius: 20px;"> </div>
+                    </div>*@
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <input type="button" class="btn btn-div" value="View" />
+                    <input type="button" class="btn btn-div" value="Create" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/Dashboard/jquery-ui.js"></script>
+<script src="~/Scripts/Dashboard/bootstrap.min.js"></script>
+<script src="~/Scripts/Dashboard/core.js"></script>
+<script src="~/Scripts/Dashboard/charts.js"></script>
+<script src="~/Scripts/Dashboard/animated.js"></script>
+
+
+
+
+
+@*<script src="https://code.jquery.com/jquery-2.2.0.js"></script>*@
+@*<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>*@
+
+
+
+<script type="text/javascript">
+
+
+
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+
+        jQuery(function ($) {
+            var panelList = $('#draggablePanelList');
+
+            panelList.sortable({
+                // Only make the .panel-heading child elements support dragging.
+                // Omit this to make then entire <li>...</li> draggable.
+                handle: '.panel-heading',
+                update: function () {
+                    $('.panel', panelList).each(function (index, elem) {
+                        var $listItem = $(elem),
+                            newIndex = $listItem.index();
+
+                        // Persist the new indices.
+                    });
+                }
+            });
+        });
+
+
+        function GetAttendanceDetails() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetAttendance";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        $('#div_totalstudentattendance').append("<p style='font-size: 19px;'>" + data[0].PresentCount + "/" + data[0].TotalCount + "</p>");
+                        $('#div_totalteacherattendance').append("<p style='font-size: 19px;'>" + data[1].PresentCount + "/" + data[1].TotalCount + "</p>");
+
+                    }
+                }
+            });
+        }
+
+        function GetFeesDetails() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GETFEEDETAILS";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        $('#div_TotalFee').text(data[0].TotalFee);
+                        $('#div_TotalFee').append("<p style='font-size: 19px;'>Total <br /> Fees</p>");
+                        $('#div_Invoicegenerated').text(data[0].Invoicegenerated);
+                        $('#div_Invoicegenerated').append("<p style='font-size: 19px;'>Invoice <br />Generated</p>");
+                        $('#div_FeesCollected').text(data[0].FeesCollected);
+                        $('#div_FeesCollected').append("<p style='font-size: 19px;'>Fees <br />Collected</p>");
+
+                    }
+                }
+            });
+        }
+
+        function GetStaff() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetStaffDashboard";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].CountDescription == "Total Teachers") {
+                                $('#div_totalstaff').text(data[i].Count);
+                                $('#div_totalstaff').append("<p style='font-size: 19px;'>Total <br /> Teachers</p>");
+
+                            }
+                            if (data[i].CountDescription == "Recently Hired") {
+                                $('#div_recentlyhired').text(data[i].Count);
+                                $('#div_recentlyhired').append("<p style='font-size: 19px;'>Recently <br />Hired</p>");
+                            }
+
+                        }
+
+
+                        am4core.ready(function () {
+
+                            // Themes begin
+                            am4core.useTheme(am4themes_animated);
+                            // Themes end
+
+                            // Create chart instance
+                            var chart = am4core.create("chartdiv_staff", am4charts.PieChart);
+
+                            // Add data
+                            chart.data = [{
+                                "country": "Total Teachers",
+                                "litres": data[0].Count
+                            }, {
+                                "country": "Recently Hired",
+                                "litres": data[1].Count
+                            }];
+
+                            // Add and configure Series
+                            var pieSeries = chart.series.push(new am4charts.PieSeries());
+                            pieSeries.dataFields.value = "litres";
+                            pieSeries.dataFields.category = "country";
+                            pieSeries.slices.template.stroke = am4core.color("#fff");
+                            pieSeries.slices.template.strokeWidth = 2;
+                            pieSeries.slices.template.strokeOpacity = 1;
+
+                            // This creates initial animation
+                            pieSeries.hiddenState.properties.opacity = 1;
+                            pieSeries.hiddenState.properties.endAngle = -90;
+                            pieSeries.hiddenState.properties.startAngle = -90;
+
+                        });
+
+
+                    }
+                }
+            });
+        }
+
+        function GetMailDashboard() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetMailDashboard";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Category == "Archive") {
+                                $('#span_Archive').text(data[i].Count);
+
+                            }
+                            if (data[i].Category == "Draft") {
+                                $('#span_Drafts').text(data[i].Count);
+                            }
+                            if (data[i].Category == "Inbox") {
+                                $('#span_inbox').text(data[i].Count);
+                            }
+                            if (data[i].Category == "Outbox") {
+                                $('#span_Sent').text(data[i].Count);
+                            }
+                        }
+
+
+                    }
+                }
+            });
+        }
+
+        function GetExamDetails() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetExamDetails";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+
+                        am4core.ready(function () {
+
+                            // Themes begin
+                            am4core.useTheme(am4themes_animated);
+                            // Themes end
+
+                            var chart = am4core.create("chartdiv_exam", am4charts.PieChart);
+                            chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+                            chart.data = [
+                              {
+                                  country: "Total Pass",
+                                  value: data[0].Percentage
+                              },
+                              {
+                                  country: "Average Marks",
+                                  value: data[1].Percentage
+                              }
+                            ];
+                            chart.radius = am4core.percent(70);
+                            chart.innerRadius = am4core.percent(40);
+                            chart.startAngle = 180;
+                            chart.endAngle = 360;
+
+                            var series = chart.series.push(new am4charts.PieSeries());
+                            series.dataFields.value = "value";
+                            series.dataFields.category = "country";
+
+                            series.slices.template.cornerRadius = 10;
+                            series.slices.template.innerCornerRadius = 7;
+                            series.slices.template.draggable = true;
+                            series.slices.template.inert = true;
+                            series.alignLabels = false;
+
+                            series.hiddenState.properties.startAngle = 90;
+                            series.hiddenState.properties.endAngle = 90;
+
+                            chart.legend = new am4charts.Legend();
+
+                        }); // end am4core.ready()
+
+                    }
+                }
+            });
+        }
+
+        function GetEvents() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetEvents";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Category == "Today") {
+                                $('#Today').append("<div style='border-color: #0c11b9; border-width: 1px; border-style: solid;color: #0c11b9;border-radius: 10px;'><h3 style='text-align: center;'>" + data[i].EventName + "</h3><p style='margin-left: 10px;'> " + data[i].EventDescription + "</p><p style='margin-left: 10px;'> FromDate : " + data[i].FromDate + "</p><p style='margin-left: 10px;'> ToDate : " + data[i].ToDate + "</p></div><br>");
+
+                            }
+                            if (data[i].Category == "CurrentWeek") {
+                                $('#CurrentWeek').append("<div style='border-color: #0c11b9; border-width: 1px; border-style: solid;color: #0c11b9;border-radius: 10px;'><h3 style='text-align: center;'>" + data[i].EventName + "</h3><p style='margin-left: 10px;'>" + data[i].EventDescription + "</p><p style='margin-left: 10px;'> FromDate :" + data[i].FromDate + "</p><p style='margin-left: 10px;'> ToDate :" + data[i].ToDate + "</p></div><br>");
+                            }
+                            if (data[i].Category == "NextWeek") {
+                                $('#NextWeek').append("<div style='border-color: #0c11b9; border-width: 1px; border-style: solid;color: #0c11b9;border-radius: 10px;'><h3 style='text-align: center;'>" + data[i].EventName + "</h3><p style='margin-left: 10px;'>" + data[i].EventDescription + "</p><p style='margin-left: 10px;'> FromDate :" + data[i].FromDate + "</p><p style='margin-left: 10px;'> ToDate :" + data[i].ToDate + "</p></div><br>");
+                            }
+                            if (data[i].Category == "NextMonth") {
+                                $('#NextMonth').append("<div style='border-color: #0c11b9; border-width: 1px; border-style: solid;color: #0c11b9;border-radius: 10px;'><h3 style='text-align: center;'>" + data[i].EventName + "</h3><p style='margin-left: 10px;'>" + data[i].EventDescription + "</p><p style='margin-left: 10px;'> FromDate :" + data[i].FromDate + "</p><p style='margin-left: 10px;'> ToDate :" + data[i].ToDate + "</p></div><br>");
+                            }
+                        }
+
+
+                    }
+                }
+            });
+        }
+
+        function GetStudent() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetStudentDashboard";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].CountDescription == "Total Students") {
+                                $('#div_totalstudent').text(data[i].Count);
+                                $('#div_totalstudent').append("<p style='font-size: 19px;'>Total <br /> Student</p>");
+
+                            }
+                            if (data[i].CountDescription == "New Admission") {
+                                $('#div_newadmission').text(data[i].Count);
+                                $('#div_newadmission').append("<p style='font-size: 19px;'>New <br />Admission</p>");
+                            }
+                            if (data[i].CountDescription == "InActive") {
+                                $('#div_Inactivestudent').text(data[i].Count);
+                                $('#div_Inactivestudent').append("<p style='font-size: 19px;'>InActive <br />Student</p>");
+                            }
+
+                        }
+
+
+                        am4core.ready(function () {
+
+                            // Themes begin
+                            am4core.useTheme(am4themes_animated);
+                            // Themes end
+
+                            // Create chart instance
+                            var chart = am4core.create("chartdiv_student", am4charts.XYChart);
+
+                            // Add data
+                            chart.data = [{
+                                "country": "Total Student",
+                                "visits": data[0].Count
+                            }, {
+                                "country": "New Admission",
+                                "visits": data[1].Count
+                            }, {
+                                "country": "InActive Student",
+                                "visits": data[2].Count
+                            }];
+
+
+                            // Create axes
+
+                            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                            categoryAxis.dataFields.category = "country";
+                            categoryAxis.renderer.grid.template.location = 0;
+                            categoryAxis.renderer.minGridDistance = 10;
+
+                            categoryAxis.renderer.labels.template.adapter.add("dy", function (dy, target) {
+                                if (target.dataItem && target.dataItem.index & 1 == 1) {
+                                    return dy + 10;
+                                }
+                                return dy;
+                            });
+
+                            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+                            // Create series
+                            var series = chart.series.push(new am4charts.ColumnSeries());
+                            series.dataFields.valueY = "visits";
+                            series.dataFields.categoryX = "country";
+                            series.name = "Visits";
+                            series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                            series.columns.template.fillOpacity = .8;
+
+                            var columnTemplate = series.columns.template;
+                            columnTemplate.strokeWidth = 1;
+                            columnTemplate.strokeOpacity = 1;
+
+                        }); // end am4core.ready()
+
+
+                    }
+                }
+            });
+        }
+
+        function GetNewsFeed() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetNewsFeed";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+                        //data = JSON.parse(data.d);
+
+                        var htmlNewsTopic = '';
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            htmlNewsTopic = htmlNewsTopic + '<li id="' + data[i].Id + '">' + data[i].NewsTopic + '</li>';
+                        }
+
+                        htmlNewsTopic = '<marquee direction="up" onmouseover="this.stop();" onmouseout="this.start();" scrolldelay="150" style="height:100%;width:100%;"><ul>' + htmlNewsTopic + '</ul></marquee>'
+                        $('#divNewsTopic').html("");
+                        $('#divNewsTopic').html(htmlNewsTopic);
+                    }
+                }
+            });
+        }
+
+        function GetDashboardpanel() {
+
+            var serviceUrl = '/Dashboard/GetNewsFeed'
+            var flag = "GetSettingsDashboard";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+                        //data = JSON.parse(data.d);
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            if (data[i].Name == "News") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_News').show();
+                                }
+                                else {
+                                    $('#Panel_News').hide();
+                                }
+                            }
+                            if (data[i].Name == "Events") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_Events').show();
+                                }
+                                else {
+                                    $('#Panel_Events').hide();
+                                }
+                            }
+                            if (data[i].Name == "Student") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_Student').show();
+                                }
+                                else {
+                                    $('#Panel_Student').hide();
+                                }
+                            }
+                            if (data[i].Name == "Teacher") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_Teacher').show();
+                                }
+                                else {
+                                    $('#Panel_Teacher').hide();
+                                }
+                            }
+                            if (data[i].Name == "Examination") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_Examination').show();
+                                }
+                                else {
+                                    $('#Panel_Examination').hide();
+                                }
+                            }
+                            if (data[i].Name == "Attendance") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_Attendance').show();
+                                }
+                                else {
+                                    $('#Panel_Attendance').hide();
+                                }
+                            }
+                            if (data[i].Name == "Mailbox") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_Mailbox').show();
+                                }
+                                else {
+                                    $('#Panel_Mailbox').hide();
+                                }
+                            }
+                            if (data[i].Name == "Fees") {
+                                if (data[i].IsEnable == "1") {
+                                    $('#Panel_Fees').show();
+                                }
+                                else {
+                                    $('#Panel_Fees').hide();
+                                }
+                            }
+
+
+
+                        }
+
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            GetAttendanceDetails();
+            GetDashboardpanel();
+            GetMailDashboard();
+            GetNewsFeed();
+            GetStudent();
+            GetEvents();
+            GetExamDetails();
+            GetStaff();
+            GetFeesDetails();
+
+
+            $('#btn_NewsView').click(function () {
+                location.href = "/MyAccount/News";
+            });
+            $('#btn_Newscreate').click(function () {
+                location.href = "/MyAccount/CreateNews";
+            });
+
+            $('#btn_EventView').click(function () {
+                location.href = "/MyAccount/Events";
+            });
+            $('#btn_EventCreate').click(function () {
+                location.href = "/MyAccount/Calendar";
+            });
+
+
+            $('.div_close').click(function () {
+
+                var value = $(this).attr("placeholder");
+                var Id = "";
+                if (value == "News") {
+                    Id = 1;
+                }
+                if (value == "Events") {
+                    Id = 2;
+                }
+                if (value == "Student") {
+                    Id = 3;
+                }
+                if (value == "Teacher") {
+                    Id = 4;
+                }
+                if (value == "Examination") {
+                    Id = 5;
+                }
+                if (value == "Attendance") {
+                    Id = 6;
+                }
+                if (value == "Mailbox") {
+                    Id = 7;
+                }
+                if (value == "Fees") {
+                    Id = 8;
+                }
+
+                var serviceUrl = '/Dashboard/GetDashBoard'
+                var flag = "UpdateSettingsDashboard";
+
+
+                $.ajax({
+
+                    type: "POST",
+                    url: serviceUrl,
+                    data: JSON.stringify({ "flag": flag, "Id": Id }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data != null) {
+
+                            //data = JSON.parse(data.d);
+                            if (data[0].Result == "success") {
+
+                                if (value == "News") {
+                                    $('#Panel_News').hide();
+                                }
+                                if (value == "Events") {
+                                    $('#Panel_Events').hide();
+                                }
+                                if (value == "Student") {
+                                    $('#Panel_Student').hide();
+                                }
+                                if (value == "Teacher") {
+                                    $('#Panel_Teacher').hide();
+                                }
+                                if (value == "Examination") {
+                                    $('#Panel_Examination').hide();
+                                }
+                                if (value == "Attendance") {
+                                    $('#Panel_Attendance').hide();
+                                }
+                                if (value == "Mailbox") {
+                                    $('#Panel_Mailbox').hide();
+                                }
+                                if (value == "Fees") {
+                                    $('#Panel_Fees').hide();
+                                }
+                            }
+
+                        }
+                    }
+                });
+
+
+            });
+
+
+
+        });
+
+</script>

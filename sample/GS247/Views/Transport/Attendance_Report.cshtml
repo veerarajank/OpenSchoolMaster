@@ -1,0 +1,131 @@
+﻿@model GS247.Models.Transport.AttendanceLogContext
+@{
+    GS247.Models.GS247Entities db = new GS247.Models.GS247Entities();
+    var company = db.SettingsSchoolSetups.FirstOrDefault();
+    //Layout = "~/Views/Shared/_TransportLayout.cshtml";
+}
+<div class="content-wrapper">
+
+    <a href="/Transport/AttendanceLog_Index" class="btn btn-xs btn-danger" id="btnBack">Back</a>
+    <input type="button" class="btn btn-xs btn-primary" value="Print" onclick="window.print()" id="btnPrint" />
+    @*<link href="../../Content/css/BillDesign.css" rel="stylesheet" />*@
+    <section class="content">
+        <div id="bill">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-xs-2">
+                        @*<img src="~/images/millennia.png" alt="Logo" style="width:80%;height:80%;" />*@
+                        <img src="" alt="Logo" style="width:100%;height:100%;" />
+                    </div>
+                    <div class="col-xs-10 text-center" style="font-size:Large;">
+                        <address>
+                            <b>@company.Name</b><br />
+                            @company.Address-@company.Pincode<br />
+                            Phone: @company.Phone|@company.AlternatePhone<br />
+                            Email: @company.Email<br />
+
+                        </address>
+
+                    </div>
+
+                    <div class="col-xs-12">
+                        <hr style="border-color:black;margin-top:0;" />
+                        <h3 style="text-align:center;">Students Transport Report</h3>
+                        <strong style="font-size:medium;">Route:@Model.RouteName</strong>
+                        <strong style="float:right;font-size:medium;">Date:@Convert.ToDateTime(Model.AttendanceDate).ToShortDateString()</strong>
+
+                        <table class="table table-bordered table-condensed" style="font-size:medium;" id="general-summary">
+                            <thead>
+                                <tr style="border-bottom:2px solid;">
+                                    <th style="text-align:center;" rowspan="2">S.No</th>
+                                    <th id="semester-grid_c0" onclick="sortTable(0);" rowspan="2">Student #-Name</th>
+                                    <th id="semester-grid_c1" onclick="sortTable(1);" rowspan="2">Date</th>
+                                    <th id="semester-grid_c2" onclick="sortTable(2);" colspan="2">Morning</th>
+                                    <th id="semester-grid_c3" onclick="sortTable(3);" colspan="2">Evening</th>
+                                </tr>
+                                <tr style="border-bottom:2px solid;">
+                                    <th>IN</th>
+                                    <th>OUT</th>
+                                    <th>IN</th>
+                                    <th>OUT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int i = 1; }
+                                @foreach (var item in Model.AttendanceLogs)
+                                {
+                                    <tr>
+                                        <th>
+                                            @i
+                                            @{ i++; }
+                                        </th>
+                                        <td>@item.StudentId-@item.StudentName</td>
+                                        <td>@Convert.ToDateTime(item.AttendanceDate).ToShortDateString()</td>
+                                        <td>@item.MorngStartTime</td>
+                                        <td>@item.MorngEndTime</td>
+                                        <td>@item.EvngStartTime</td>
+                                        <td>@item.EvngEndTime</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<style>
+    #btnPrint, #btnBack {
+        float: right;
+    }
+
+    .wrapper {
+        visibility: hidden;
+    }
+
+    #bill {
+        visibility: visible;
+    }
+
+    #bill-summary, #tax-summary, #general-summary {
+        border: 2px solid black;
+    }
+
+        #bill-summary > thead > tr {
+            background-color: darkgray;
+            color: white;
+        }
+        #general-summary > thead > tr > th, #general-summary > tbody > tr > td {
+            text-align: center;
+        }
+        #general-summary > thead > tr {
+            background-color: darkgray !important;
+            color: white;
+            -webkit-print-color-adjust: exact;
+        }
+
+        #tax-summary > thead > tr {
+            background-color: darkgray;
+            color: white;
+        }
+
+    .content-wrapper {
+        background-image: url('../images/CompanyLogo.png');
+        /*background:rgba(0,0,0,0.5);*/
+    }
+
+    @@media print {
+        #btnPrint,#btnBack {
+            visibility: hidden;
+        }
+
+        #general-summary > thead > tr {
+            background-color: #000000 !important;
+            color: white;
+            -webkit-print-color-adjust: exact;
+        }
+    }
+</style>

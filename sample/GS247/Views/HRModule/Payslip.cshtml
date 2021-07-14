@@ -1,0 +1,1009 @@
+﻿
+@{
+    ViewBag.Title = "CreateLeaveType";
+    Layout = "~/Views/Shared/_LeaveTypesLayout.cshtml";
+}
+
+
+<style>
+    /*.container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../image/cont_left_bg.png) left repeat-y;
+    }*/
+
+    /*#othleft-sidebar {
+        width: 247px;
+        margin-top: 0px;
+        min-height: 0px;
+        margin-left: -16px !important;
+    }*/
+</style>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+<script src="~/Scripts/HR/bootstrap-datepicker.js"></script>
+<link href="~/Scripts/HR/datepicker3.css" rel="stylesheet" />
+@*<link href="~/Scripts/HR/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/HR/jquery.dataTables.min.js"></script>*@
+@*<link href="~/Scripts/HR/dataTables.bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/HR/dataTables.bootstrap.js"></script>*@
+
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+@*<script src="https://cdn.datatables.net/1.10.21/js/dataTables.jqueryui.min.js"></script>*@
+
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+@*<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />*@
+
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+@*<link href="~/Scripts/HR/style.css" rel="stylesheet" />
+<link href="~/Scripts/HR/style-ltr.css" rel="stylesheet" />
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+        $('#li_salaryDetails').click(function () {
+
+            $('#div_salaryDetails').css("display", "block");
+            $('#div_GeneratesPayslip').css("display", "none");
+            GetSalary_Detailsgrid();
+        });
+
+        $('#li_GeneratesPayslip').click(function () {
+            $('#div_salaryDetails').css("display", "none");
+            $('#div_GeneratesPayslip').css("display", "block");
+            GetPayslip_grid();
+        });
+
+        GetSalary_Detailsgrid();
+
+        GetPayslip_grid();
+
+        $('#Salary_Detailsgrid').on("click", "td .tbl_row_Edit", function () {
+
+            var currentRow = $(this).closest("tr");
+            var data = $('#Salary_Detailsgrid').DataTable().row(currentRow).data();
+            var Name = data['Name'];
+            var BasicPay = data['BasicPay'];
+            var TDS = data['TDS'];
+            var ESI = data['ESI'];
+            var EPF = data['EPF'];
+            var staff_Id = data['TeacherNumber'];
+
+            $('#Salary_username').text(Name);
+            $('#Staff_basic_pay').val(BasicPay);
+            $('#Staff_TDS').val(TDS);
+            $('#Staff_ESI').val(ESI);
+            $('#Staff_EPF').val(EPF);
+            $('#staff_Id').val(staff_Id);
+
+
+            $('#myModal').modal('show');
+
+        });
+
+        $('#Update_staffsalary').click(function () {
+
+            var BasicPay = $('#Staff_basic_pay').val();
+            var TDS = $('#Staff_TDS').val();
+            var ESI = $('#Staff_ESI').val();
+            var EPF = $('#Staff_EPF').val();
+            var staff_Id = $('#staff_Id').val();
+
+            var serviceUrl = '/HRModule/UpdateSalary_Details'
+            var flag = "UpdateSalaryDetails";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag, "BasicPay": BasicPay, "TDS": TDS, "ESI": ESI, "EPF": EPF, "staff_Id": staff_Id }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "success") {
+                            $('#myModal').modal('hide');
+                        }
+
+                    }
+                }
+            });
+
+
+        });
+
+        $('#Download_Payslipgrid').on("click", "td .tbl_row_download", function () {
+
+            var Name = $('#DownloadSalary_username').text();
+            var Department = $('#text_department').val();
+            var Email = $('#text_email').val();
+
+            var currentRow = $(this).closest("tr");
+            var data = $('#Download_Payslipgrid').DataTable().row(currentRow).data();
+            var SalaryDate = data['SalaryDate'];
+            var EarnTotal = data['EarnTotal'];
+            var TotalDeduction = data['Total Deduction'];
+            var NetSalary = data['Net Salary'];
+            var BasicPay = data['BasicPay'];
+            var TDS = data['TDS'];
+            var ESI = data['ESI'];
+            var EPF = data['EPF'];
+            var Incentive = data['Incentive'];
+            var OverTime = data['OverTime'];
+            var Hike = data['Hike'];
+            var LossofPay = data['LossofPay'];
+            var Loan = data['Loan'];
+            var FestivalBonus = data['FestivalBonus'];
+
+
+            $('#pdf_name').text(Name);
+            $('#pdf_date').text(SalaryDate);
+            $('#pdf_email').text(Email);
+            $('#pdf_department').text(Department);
+            $('#pdf_basicpay').text(BasicPay);
+            $('#pdf_incentive').text(Incentive);
+            $('#pdf_Overtime').text(OverTime);
+            $('#pdf_Hike').text(Hike);
+            $('#pdf_EarnTotal').text(EarnTotal);
+            $('#pdf_TDS').text(TDS);
+            $('#pdf_Lop').text(LossofPay);
+            $('#pdf_Loan').text(Loan);
+            $('#pdf_Bonus').text(FestivalBonus);
+            $('#pdf_ESI').text(ESI);
+            $('#pdf_EPF').text(EPF);
+            $('#pdf_DeductionTotal').text(TotalDeduction);
+            $('#pdf_NetSalary').text(NetSalary);
+
+            var doc = new jsPDF();
+            var specialElementHandlers = {
+                '#editor': function (element, renderer) {
+                    return true;
+                }
+            };
+
+            doc.fromHTML($('#print-area').html(), 10, 10, {
+                'width': 100,
+                'elementHandlers': specialElementHandlers
+            });
+            doc.save('sample-file.pdf');
+
+
+
+        });
+
+
+
+        $('#Generate_Payslipgrid').on("click", "td .tbl_row_book", function () {
+
+
+            var currentRow = $(this).closest("tr");
+            var data = $('#Generate_Payslipgrid').DataTable().row(currentRow).data();
+            var Empno = data['TeacherNumber'];
+            var Name = data['Name'];
+            var Email = data['Email'];
+            var DepartmentId = data['DepartmentId'];
+
+            var BasicPay = null;
+            var TDS = null;
+            var ESI = null;
+            var EPF = null;
+            $('#DownloadSalary_username').text(Name);
+
+            $('#text_department').val(DepartmentId);
+            $('#text_email').val(Email);
+
+            var serviceUrl = '/HRModule/UpdateSalary_Details'
+            var flag = "GetPaySlipDetails";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag, "BasicPay": BasicPay, "TDS": TDS, "ESI": ESI, "EPF": EPF, "staff_Id": Empno }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data != null) {
+                        var j = 1;
+
+                        $('#Download_Payslipgrid').DataTable().destroy();
+
+                        for (i = 0; i < data.length; i++) {
+                            data[i]["Action"] = "<i class='fa fa-download tbl_row_download' style='cursor:pointer;color:green;margin-left: 30px;'></i>";
+                            data[i]["Rownumber"] = j++;
+
+                        }
+
+                        $('#Download_Payslipgrid').DataTable({
+                            data: data,
+                            columns: [
+                                { 'data': 'Rownumber' },
+                                { 'data': 'SalaryDate' },
+                                { 'data': 'EarnTotal' },
+                                { 'data': 'Total Deduction' },
+                                { 'data': 'Net Salary' },
+                                { 'data': 'Action' },
+                                { 'data': 'BasicPay', 'visible': false },
+                                { 'data': 'TDS', 'visible': false },
+                                { 'data': 'ESI', 'visible': false },
+                                { 'data': 'EPF', 'visible': false },
+                                { 'data': 'Incentive', 'visible': false },
+                                { 'data': 'OverTime', 'visible': false },
+                                { 'data': 'Hike', 'visible': false },
+                                { 'data': 'LossofPay', 'visible': false },
+                                { 'data': 'Loan', 'visible': false },
+                                { 'data': 'FestivalBonus', 'visible': false },
+                                { 'data': 'Note', 'visible': false }
+
+                            ],
+
+                            fixedHeader: true,
+                            "aaSorting": [[1, "asc"]],
+                            scrollY: 200,
+                            scrollX: false,
+                            iDisplayLength: 50,
+                            bPaginate: true
+
+                        });
+
+                    }
+                }
+            });
+
+            $('#DownloadpayslipModal').modal('show');
+
+        });
+
+        $('#Generate_Payslipgrid').on("click", "td .tbl_row_refresh", function () {
+
+            var currentRow = $(this).closest("tr");
+            var data = $('#Generate_Payslipgrid').DataTable().row(currentRow).data();
+            var Name = data['Name'];
+            var BasicPay = data['BasicPay'];
+            var TDS = data['TDS'];
+            var ESI = data['ESI'];
+            var EPF = data['EPF'];
+            var staff_Id = data['TeacherNumber'];
+            var Email = data['Email'];
+            var DepartmentId = data['DepartmentId'];
+
+            $('#Generate_name').text(Name);
+            $('#Generate_empno').text(staff_Id);
+            $('#Generate_dept').text(DepartmentId);
+            $('#Generate_email').text(Email);
+
+
+
+            $('#SalaryDetails_basic_pay').val(BasicPay);
+            $('#SalaryDetails_tds').val(TDS);
+            $('#SalaryDetails_esi').val(ESI);
+            $('#SalaryDetails_epf').val(EPF);
+            $('#SalaryDetails_salary_date').val("");
+
+            $('#GeneratePayslipModal').modal('show');
+
+        });
+
+
+        $('#Generate_PaySlip').click(function () {
+
+            var Empno = $('#Generate_empno').text();
+            var SalaryDate = $('#SalaryDetails_salary_date').val();
+            var BasicPay = $('#SalaryDetails_basic_pay').val();
+            var Incentive = $('#SalaryDetails_incentive').val();
+            var overtime = $('#SalaryDetails_over_time').val();
+            var hike = $('#SalaryDetails_hike').val();
+            var TotalEarn = $('#SalaryDetails_earn_total').val();
+            var TDS = $('#SalaryDetails_tds').val();
+            var Lop = $('#SalaryDetails_lop').val();
+            var Loan = $('#SalaryDetails_loan').val();
+            var Bonus = $('#SalaryDetails_festival_bonus').val();
+            var ESI = $('#SalaryDetails_esi').val();
+            var EPF = $('#SalaryDetails_epf').val();
+            var TotalDeduction = $('#SalaryDetails_deduction_total').val();
+            var NetSalary = $('#SalaryDetails_net_salary').val();
+            var Notes = $('#SalaryDetails_note').val();
+
+
+            var serviceUrl = '/HRModule/PaySlipInsert'
+            var flag = "PaySlipInsert";
+
+
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag, "BasicPay": BasicPay, "TDS": TDS, "ESI": ESI, "EPF": EPF, "Empno": Empno, "SalaryDate": SalaryDate, "Incentive": Incentive, "overtime": overtime, "hike": hike, "TotalEarn": TotalEarn, "Lop": Lop, "Loan": Loan, "Bonus": Bonus, "TotalDeduction": TotalDeduction, "NetSalary": NetSalary, "Notes": Notes }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+
+                        if (data[0].Result == "success") {
+                            $('#GeneratePayslipModal').modal('hide');
+                        }
+
+                    }
+                }
+            });
+
+        });
+
+
+
+        function GetPayslip_grid() {
+
+            var serviceUrl = '/HRModule/GetSalary_Details'
+            var flag = "GetSalaryDetails";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+                        var j = 1;
+
+                        $('#Generate_Payslipgrid').DataTable().destroy();
+
+                        for (i = 0; i < data.length; i++) {
+                            data[i]["Action"] = "<i class='fa fa-refresh tbl_row_refresh' style='cursor:pointer;color:black;margin-left: 30px;'></i>&nbsp;&nbsp; <i class='fa fa-book tbl_row_book' style='cursor:pointer;color:black;margin-left: 30px;'></i>";
+                            data[i]["Rownumber"] = j++;
+
+                        }
+
+                        $('#Generate_Payslipgrid').DataTable({
+                            data: data,
+                            columns: [
+                                { 'data': 'Rownumber' },
+                                { 'data': 'Name' },
+                                { 'data': 'TeacherNumber' },
+                                { 'data': 'DepartmentId' },
+                                { 'data': 'Gender' },
+                                { 'data': 'Action' },
+                                { 'data': 'BasicPay', 'visible': false },
+                                { 'data': 'TDS', 'visible': false },
+                                { 'data': 'ESI', 'visible': false },
+                                { 'data': 'EPF', 'visible': false },
+                                { 'data': 'Email', 'visible': false }
+
+                            ],
+
+                            fixedHeader: true,
+                            "aaSorting": [[1, "asc"]],
+                            scrollY: 400,
+                            scrollX: true,
+                            iDisplayLength: 50,
+                            bPaginate: true
+
+                        });
+
+                    }
+                }
+            });
+        }
+
+
+        function GetSalary_Detailsgrid() {
+
+            var serviceUrl = '/HRModule/GetSalary_Details'
+            var flag = "GetSalaryDetails";
+
+
+            $.ajax({
+
+                type: "POST",
+                url: serviceUrl,
+                data: JSON.stringify({ "flag": flag }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != null) {
+                        var j = 1;
+
+                        $('#Salary_Detailsgrid').DataTable().destroy();
+
+                        for (i = 0; i < data.length; i++) {
+                            data[i]["Action"] = "<i class='fa fa-edit tbl_row_Edit' style='cursor:pointer;color:orange;margin-left: 30px;'></i>";
+                            data[i]["Rownumber"] = j++;
+
+                        }
+
+                        $('#Salary_Detailsgrid').DataTable({
+                            data: data,
+                            columns: [
+                                { 'data': 'Rownumber' },
+                                { 'data': 'Name' },
+                                { 'data': 'TeacherNumber' },
+                                { 'data': 'DepartmentId' },
+                                { 'data': 'Gender' },
+                                { 'data': 'Action' },
+                                { 'data': 'BasicPay', 'visible': false },
+                                { 'data': 'TDS', 'visible': false },
+                                { 'data': 'ESI', 'visible': false },
+                                { 'data': 'EPF', 'visible': false }
+
+                            ],
+
+                            fixedHeader: true,
+                            "aaSorting": [[1, "asc"]],
+                            scrollY: 400,
+                            scrollX: true,
+                            iDisplayLength: 50,
+                            bPaginate: true
+
+                        });
+
+                    }
+                }
+            });
+        }
+
+
+
+
+
+
+
+    });
+
+
+    function calc_earn_total() {
+        var arrears, basic_salary, incentivearrears, incentivecurrent, earntotal, tds, leave, loan, esi, epf, festival, deductiontotal, earntotal = 0;
+        var hike_arrears = hike_current = ot_arrears = ot_current = earntotal = 0;
+        //calc_earn_total.earntotal=0;
+        if (!isNaN($("#SalaryDetails_basic_pay").val())) {
+            basic_salary = parseInt($("#SalaryDetails_basic_pay").val());
+        }
+
+        if ($("#SalaryDetails_incentive").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_incentive").val())) {
+                incentivecurrent = parseInt($("#SalaryDetails_incentive").val());
+            }
+        } else {
+            incentivecurrent = 0;
+        }
+
+        if ($("#SalaryDetails_over_time").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_over_time").val())) {
+                ot_current = parseInt($("#SalaryDetails_over_time").val());
+            }
+        } else {
+            ot_current = 0;
+        }
+
+        if ($("#SalaryDetails_hike").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_hike").val())) {
+                hike_current = parseInt($("#SalaryDetails_hike").val());
+            }
+        } else {
+            hike_current = 0;
+        }
+
+        earntotal = basic_salary + incentivecurrent + ot_current + hike_current;
+
+        if (!isNaN(earntotal)) {
+            $("#SalaryDetails_earn_total").val(earntotal.toFixed(2));
+        }
+
+        if ($("#SalaryDetails_tds").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_tds").val())) {
+                tds = parseFloat($("#SalaryDetails_tds").val());
+            }
+        } else {
+            tds = 0;
+        }
+
+        if ($("#SalaryDetails_lop").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_lop").val())) {
+                leave = parseFloat($("#SalaryDetails_lop").val());
+            }
+        } else {
+            leave = 0;
+        }
+
+        if ($("#SalaryDetails_loan").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_loan").val())) {
+                loan = parseFloat($("#SalaryDetails_loan").val());
+            }
+        } else {
+            loan = 0;
+        }
+
+        if ($("#SalaryDetails_esi").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_esi").val())) {
+                esi = parseFloat($("#SalaryDetails_esi").val());
+            }
+        } else {
+            esi = 0;
+        }
+
+        if ($("#SalaryDetails_epf").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_epf").val())) {
+                epf = parseFloat($("#SalaryDetails_epf").val());
+            }
+        } else {
+            epf = 0;
+        }
+
+        if ($("#SalaryDetails_festival_bonus").val().trim() != "") {
+            if (!isNaN($("#SalaryDetails_festival_bonus").val())) {
+                festival = parseFloat($("#SalaryDetails_festival_bonus").val());
+            }
+        } else {
+            festival = 0;
+        }
+        var deductiontotal = tds + leave + esi + epf + festival + loan;
+
+        if (!isNaN(deductiontotal)) {
+            $("#SalaryDetails_deduction_total").val(deductiontotal.toFixed(2));
+        }
+
+        var earntotal = parseInt($("#SalaryDetails_earn_total").val());
+        var netsalary = earntotal - deductiontotal;
+
+        if (!isNaN(netsalary)) {
+            $("#SalaryDetails_net_salary").val(netsalary.toFixed(2));
+        }
+
+    }
+    $(function () {
+        $("#SalaryDetails_salary_date").datepicker();
+    });
+
+
+</script>
+
+
+<div class="span-19">
+    <div id="content">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>               
+                <td valign="top">
+                    <div class="cont_right formWrapper">
+                        <div id="div_salaryDetails">
+                            <h1>Salary Details</h1>
+                            <div id="semester-grid" class="grid-view">
+                                <table id="Salary_Detailsgrid" class="table table-striped table-bordered nowrap dataTable no-footer dtr-inline" style="width:100%">
+                                    <thead style="background: #EAF5FD;color: #3E719B;">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Employee Number</th>
+                                            <th>Department</th>
+                                            <th>Gender</th>
+                                            <th>Action</th>
+                                            <th style="display:none;">BasicPay</th>
+                                            <th style="display:none;">TDS</th>
+                                            <th style="display:none;">ESI</th>
+                                            <th style="display:none;">EPF</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div id="div_GeneratesPayslip" style="display:none">
+                            <h1>Manage Semester</h1>
+
+                            <div id="semester-grid" class="grid-view">
+                                <table id="Generate_Payslipgrid" class="table table-striped table-bordered nowrap dataTable no-footer dtr-inline" style="width:100%">
+                                    <thead style="background: #EAF5FD;color: #3E719B;">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Employee Number</th>
+                                            <th>Department</th>
+                                            <th>Gender</th>
+                                            <th>Action</th>
+                                            <th style="display:none;">BasicPay</th>
+                                            <th style="display:none;">TDS</th>
+                                            <th style="display:none;">ESI</th>
+                                            <th style="display:none;">EPF</th>
+                                            <th style="display:none;">Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="box box-default" style="display:none;">
+                                <div class="box-body">
+
+                                    <div id="print-area">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <table>
+                                                    <tr>
+                                                        <th colspan=3 style="background-color: #fff !important; border: 1px solid #dddddd;text-align: left;"><h2 style='color:blue;'>Pay Slip</h2></th>
+                                                    </tr>
+                                                </table>
+
+                                                <h4> EARNINGS</h4>
+                                                <table>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Name</td>
+                                                        <td id="pdf_name"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Salary Date</td>
+                                                        <td id="pdf_date"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Email </td>
+                                                        <td id="pdf_email"> </td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Department</td>
+                                                        <td id="pdf_department"></td>
+                                                    </tr>
+                                                </table>
+
+                                                <h4>DEDUCTIONS</h4>
+                                                <table>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Basic Pay</td>
+                                                        <td id="pdf_basicpay"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Incentive</td>
+                                                        <td id="pdf_incentive"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Over Time</td>
+                                                        <td id="pdf_Overtime"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Hike</td>
+                                                        <td id="pdf_Hike"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Earn Total</td>
+                                                        <td id="pdf_EarnTotal"></td>
+                                                    </tr>
+                                                </table>
+
+                                                <br>
+                                                <table>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>TDS</td>
+                                                        <td id="pdf_TDS"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Loss Of Pay</td>
+                                                        <td id="pdf_Lop"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Loan or Advance</td>
+                                                        <td id="pdf_Loan"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Festival Bonus</td>
+                                                        <td id="pdf_Bonus"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>ESI</td>
+                                                        <td id="pdf_ESI"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>EPF</td>
+                                                        <td id="pdf_EPF"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Deduction Total</td>
+                                                        <td id="pdf_DeductionTotal"></td>
+                                                    </tr>
+                                                    <tr style="background-color: #fff !important;border: 1px solid #dddddd;text-align: left;">
+                                                        <td colspan=2>Net Salary</td>
+                                                        <td id="pdf_NetSalary"></td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="span-5 last">
+    <div id="sidebar">
+    </div><!-- sidebar -->
+</div>
+    
+<div class="clear"></div>
+
+<!-- Modal content-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="background: #f1f1f9; border: 1px #d1e0ea solid;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Salary Details :<span id="Salary_username"></span></h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="staff_Id" style="display:none;" />
+                <div class="text-fild-block inputstyle">
+                    <label for="Staff_basic_pay" class="required">Basic Pay <span class="required">*</span></label>
+                    <input size="10" maxlength="6" name="Staff[basic_pay]" id="Staff_basic_pay" type="text">
+                </div>
+                <div class="text-fild-block inputstyle">
+                    <label for="Staff_TDS" class="required">TDS <span class="required">*</span></label>
+                    <input size="10" maxlength="5" name="Staff[TDS]" id="Staff_TDS" type="text">
+                </div>
+                <br />
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="Staff_ESI">ESI</label>
+                        <input size="10" maxlength="5" name="Staff[ESI]" id="Staff_ESI" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="Staff_EPF">EPF</label>
+                        <input size="10" maxlength="5" name="Staff[EPF]" id="Staff_EPF" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: left !important;">
+                <button type="button" class="btn btn-default" id="Update_staffsalary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal content-->
+<!-- Modal content-->
+<div id="DownloadpayslipModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="background: #f1f1f9; border: 1px #d1e0ea solid;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View Payslips of <span id="DownloadSalary_username"></span></h4>
+            </div>
+            <div class="modal-body">
+                <div id="semester-grid" class="grid-view">
+                    <input type="text" id="text_department" style="display:none" />
+                    <input type="text" id="text_email" style="display:none" />
+
+                    <table id="Download_Payslipgrid" class="table table-striped table-bordered nowrap dataTable no-footer dtr-inline" style="width:100%;overflow: hidden;">
+                        <thead style="background: #EAF5FD;color: #3E719B;">
+                            <tr>
+                                <th>#</th>
+                                <th>Salary Date</th>
+                                <th>Earn Total</th>
+                                <th>Deduction Total</th>
+                                <th>Net Salary</th>
+                                <th>Action</th>
+                                <th style="display:none;">BasicPay</th>
+                                <th style="display:none;">TDS</th>
+                                <th style="display:none;">ESI</th>
+                                <th style="display:none;">EPF</th>
+                                <th style="display:none;">OverTime</th>
+                                <th style="display:none;">Hike</th>
+                                <th style="display:none;">LossofPay</th>
+                                <th style="display:none;">Loan</th>
+                                <th style="display:none;">FestivalBonus</th>
+                                <th style="display:none;">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: left !important;">
+                <button type="button" class="btn btn-default" id="Update_staffsalary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal content-->
+<!-- Modal content-->
+<div id="GeneratePayslipModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="background: #f1f1f9; border: 1px #d1e0ea solid;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Generate Payslip</h4>
+            </div>
+            <div class="modal-body">
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td valign="bottom" style="padding-bottom:3px;">Name</td>
+                            <td valign="bottom" style="padding-bottom:3px;"><span id="Generate_name"></span></td>
+                            <td valign="bottom" style="padding-bottom:3px;">Employee Number</td>
+                            <td valign="bottom" style="padding-bottom:3px;"><span id="Generate_empno"></span></td>
+                        </tr>
+                        <tr>
+                            <td valign="bottom" style="padding-bottom:3px;">Department</td>
+                            <td valign="bottom" style="padding-bottom:3px;"><span id="Generate_dept"></span></td>
+                            <td valign="bottom" style="padding-bottom:3px;">Staff Type</td>
+                            <td valign="bottom" style="padding-bottom:3px;">-</td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="padding-bottom:3px;">Email</td>
+                            <td valign="top" style="padding-bottom:3px;"><span id="Generate_email"></span></td>
+                            <td valign="middle" style="padding-bottom:3px;"></td>
+                            <td valign="middle" style="padding-bottom:3px;"></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" style="padding-bottom:3px;"><label for="SalaryDetails_salary_date" class="required">Salary Date <span class="required">*</span></label></td>
+                            <td valign="middle" style="padding-bottom:3px;">
+                                <input readonly="readonly" onfocus="calc_earn_total()" id="SalaryDetails_salary_date" name="SalaryDetails[salary_date]" type="text">                                                                  <input value="1" name="SalaryDetails[employee_id]" id="SalaryDetails_employee_id" type="hidden">
+                            </td>
+                            <td valign="top" style="padding-bottom:3px;"></td>
+                            <td valign="top" style="padding-bottom:3px;"></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Earnings</h3>
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_basic_pay" class="required">Basic Pay <span class="required">*</span></label>
+                        <input size="10" maxlength="255" onblur="calc_earn_total()" name="SalaryDetails[basic_pay]" id="SalaryDetails_basic_pay" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_incentive">Incentive</label>
+                        <input size="10" maxlength="5" onblur="calc_earn_total()" name="SalaryDetails[incentive]" id="SalaryDetails_incentive" type="text">
+                    </div>
+                </div>
+
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_over_time">Over Time</label>
+                        <input size="10" maxlength="5" onblur="calc_earn_total()" name="SalaryDetails[over_time]" id="SalaryDetails_over_time" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_hike">Hike</label>
+                        <input size="10" maxlength="6" onblur="calc_earn_total()" name="SalaryDetails[hike]" id="SalaryDetails_hike" type="text">
+                    </div>
+                </div>
+
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_earn_total">Earn Total</label>
+                        <input size="10" maxlength="255" readonly="readonly" name="SalaryDetails[earn_total]" id="SalaryDetails_earn_total" type="text">
+                    </div>
+                </div>
+
+                <h3>Deductions</h3>
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_tds">TDS</label>
+                        <input size="10" maxlength="5" onblur="calc_earn_total()" name="SalaryDetails[tds]" id="SalaryDetails_tds" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_lop">Loss Of Pay</label>
+                        <input size="10" maxlength="5" onblur="calc_earn_total()" name="SalaryDetails[lop]" id="SalaryDetails_lop" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_loan">Loan or Advance</label>
+                        <input size="10" maxlength="5" onblur="calc_earn_total()" name="SalaryDetails[loan]" id="SalaryDetails_loan" type="text">
+                    </div>
+                </div>
+
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_festival_bonus">Festival Bonus</label>
+                        <input size="10" maxlength="5" onblur="calc_earn_total()" name="SalaryDetails[festival_bonus]" id="SalaryDetails_festival_bonus" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_esi">ESI</label>
+                        <input size="10" maxlength="10" onblur="calc_earn_total()" name="SalaryDetails[esi]" id="SalaryDetails_esi" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_epf">EPF</label>
+                        <input size="10" maxlength="10" onblur="calc_earn_total()" name="SalaryDetails[epf]" id="SalaryDetails_epf" type="text">
+                    </div>
+                </div>
+
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_deduction_total">Deduction Total</label>
+                        <input size="10" maxlength="100" readonly="readonly" name="SalaryDetails[deduction_total]" id="SalaryDetails_deduction_total" type="text">
+                    </div>
+                    <div class="text-fild-block inputstyle">
+                        <label for="SalaryDetails_net_salary">Net Salary</label>
+                        <input size="10" maxlength="255" readonly="readonly" onblur="calc_earn_total()" name="SalaryDetails[net_salary]" id="SalaryDetails_net_salary" type="text">
+                    </div>
+                </div>
+
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle" style="width:98% !important">
+                        <label for="SalaryDetails_note">Notes</label>
+                        <textarea cols="50" rows="5" name="SalaryDetails[note]" id="SalaryDetails_note"></textarea>
+                    </div>
+                </div>
+
+                <div class="text-fild-bg-block">
+                    <div class="text-fild-block inputstyle" style="width:98% !important">
+                        Note: After payslip generation hike amount will be added to basic salary
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer" style="text-align: left !important;">
+                <button type="button" class="btn btn-default" id="Generate_PaySlip">Generate</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal content-->
+
+
+

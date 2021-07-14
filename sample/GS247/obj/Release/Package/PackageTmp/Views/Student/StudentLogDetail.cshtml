@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+<div class="cont_right formWrapper">
+    <h1>Student Log </h1>
+    <div class="grid-view clear" id="log-category-grid">
+        @foreach (var item in ViewBag.StudentList1)
+        {
+            <div class="log_comment_box" id="@item.StudentLogID">
+                <h1>
+                    Administrator Admin<span>
+                        AdminSuperAdmin
+                    </span>
+                </h1>
+
+                <h2>@item.SchoolCO.Name</h2>
+                <div class="clear"></div>
+                <p>@item.Description</p>
+                <span class="log_cmnt_date">@item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</span>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/bf0b18e0/gridview/jquery.yiigridview.js"></script>
+<script type="text/javascript">
+</script>
+

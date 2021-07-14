@@ -1,0 +1,122 @@
+﻿@model GS247.Models.Import.ImportClass
+@{
+    ViewBag.Title = "Import Data";
+    Layout = "~/Views/Shared/_ImportLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+</style>
+
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="col-md-2"></div>
+    <div class=" form col-md-8">
+        <div class="formCon">
+            <div class="formConInner">
+                <button class="btn btn-link" title="Help" type="button" data-toggle="modal" data-target=#Help style="float:right;color:red;"><strong>Help?</strong></button>
+
+                <p>Fields with<span class="required"> * </span> are required.</p>
+                <form asp-controller="Import" asp-action="Import" method="post" enctype="multipart/form-data">
+
+                    <table class="table">
+                        <tr>
+                            <th>Model<span class="required">*</span></th>
+                            <td>
+                                @Html.DropDownList("modelName", new List<SelectListItem> { new SelectListItem { Text="Student",Value="Student"},
+                           new SelectListItem { Text="Teacher",Value="Teacher"},
+                           new SelectListItem { Text="Guardian",Value="Guardian"}
+                           }, "-Select Model-")
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>File<span class="required">*</span></th>
+                            <td>
+                                <input type="file" name="FileUpload" required />
+                                (Maximum file size is 10 MB. Only files with these extensions are allowed:xls,xlsx)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Action<span class="required">*</span></th>
+                            <td>@Html.RadioButtonFor(m => m.Action, "Add", true)Add @Html.RadioButtonFor(m => m.Action, "Edit", false)Edit </td>
+                        </tr>
+                        <tr>
+                            <td height="10px">&nbsp;</td>
+                            <td><input class="formbut" type="submit" value="Add" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <br />
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    @if (TempData["Import"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("Import").ToString()");
+        </script>
+    }
+</div>
+<div class="modal fade" id="Help" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Instruction for Importing Bulk data into your Application</h4>
+            </div>
+            <div class="modal-body">
+                <ol style="font-size:large;">
+                    <li>
+                        Prepare "Excel" file with required data. Mandatory columns highlighted with Yellow colour. Download <a href="/Import/SampleFile?ExcelFormat=Student">Student Excel</a>
+                        Download <a href="/Import/SampleFile?ExcelFormat=Teacher">Teacher Excel</a>
+                        Download <a href="/Import/SampleFile?ExcelFormat=Guardian">Guardian Excel</a>
+                    </li>
+                    <li>To update previous data, unique column must be filled. Unique column highlighted with Red colour.</li>
+                    <li>Now browse to the just saved document</li>
+                    <li>Select "Model" and "Action"(Add/Edit)</li>
+                    <li>Now, match the fields on the right(from the Excel file) to the fields on the left(from the database). Do not rush. Ensure no mismatches are made</li>
+                    <li>Finally click "Import"</li>
+                </ol>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<script>
+    $(".field").on("change", function () {
+        var row = $(this).closest("tr");
+        var heading = row.find("#heading").val();
+        var field = row.find("#field").val();
+        var searchWith = false;
+        if (row.find("#search").is(":checked")) searchWith = true;
+        $.ajax({
+            url: '/Import/SaveField?heading=' + heading + '&&field=' + field + '&&primaryField=' + searchWith,
+            type: 'get',
+            success: function (data) {
+                if (data == 'Exist') {
+                    alert('Field already Matched to another Heading');
+                }
+            }
+        });
+    });
+    $(".search").on("change", function () {
+        var row = $(this).closest("tr");
+        var heading = row.find("#heading").val();
+        var field = row.find("#field").val();
+        var searchWith = false;
+        if (row.find("#search").is(":checked")) searchWith = true;
+        $.ajax({
+            url: '/Import/SaveField?heading=' + heading + '&&field=' + field + '&&primaryField=' + searchWith,
+            type: 'get',
+            success: function (data) {
+                if (data == 'Exist') {
+                    alert('Field already Matched to another Heading');
+                }
+            }
+        });
+    });
+</script>

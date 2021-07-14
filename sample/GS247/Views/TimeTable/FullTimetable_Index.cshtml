@@ -1,0 +1,215 @@
+﻿@model GS247.Models.TimeTable.FullTime_Context
+
+@{
+    ViewBag.Title = "Full Time Table";
+    Layout = "~/Views/Shared/_TimeTableLayout.cshtml";
+}
+<style>
+    .a_tag-btn {
+        background: #50d8af;
+    }
+
+    .grid-view table.items th {
+        color: #0c2e8a;
+    }
+
+    .sem-view-block th, td {
+        border: none;
+    }
+</style>
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 2; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+    function Search() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 2; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="form">
+        <div class="formCon">
+            <div class="formConInner">
+
+                @using (Html.BeginForm())
+                {
+                    <p>Fields with<span class="required"> * </span> are required.</p>
+                    <table style=" font-weight:normal;">
+                        <tr>
+                            <th>Acadamic Year<span class="required">*</span></th>
+                            <td>@Html.DropDownListFor(m => m.FullTimeTable.AcadamicYear, (IEnumerable<SelectListItem>)ViewBag.AcadamicYears, "-Select Acadamic Year-", new { @class = "form-control", required = "required", id = "AcadamicYr" })</td>
+                        </tr>
+                        <tr>
+                            <th>Course</th>
+                            <td>@Html.DropDownListFor(m => m.FullTimeTable.Course, (IEnumerable<SelectListItem>)ViewBag.Course, "All", new { @class = "form-control", @id = "Course" })</td>
+                        </tr>
+                        <tr style="display:none;" id="trBatch">
+                            <th>Batch</th>
+                            <td>@Html.DropDownListFor(m => m.FullTimeTable.Batch, (IEnumerable<SelectListItem>)ViewBag.Batch, "All", new { @class = "form-control", @id = "Batch" })</td>
+                        </tr>
+                        <tr>
+                            <th>Mode<span class="required">*</span></th>
+                            <td>
+                                @Html.DropDownListFor(m => m.FullTimeTable.Mode, new List<SelectListItem> { new SelectListItem() { Text = "Day", Value = "Day" },
+                           new SelectListItem { Text = "Week", Value = "Week" } }, "-Select Mode-", new { @class = "form-control", @id = "Mode", required = "required" })
+                        </td>
+                    </tr>
+                    <tr style="display:none;" id="trDay">
+                        <th>Day</th>
+                        <td>@Html.DropDownListFor(m => m.FullTimeTable.Day, (IEnumerable<SelectListItem>)ViewBag.Day, "-Select Day-", new { @class = "form-control", @id = "Day" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Filter" class="formbut" /></td>
+                    </tr>
+                </table>
+            }
+            </div>
+        </div>
+        </div>
+        <div id="semester-grid" class="grid-view">
+            @foreach (var item in Model.FullTimeTable_Contexts)
+            {
+                <br />
+                @Html.Partial("_FullTimeTable", item)
+                <br />
+            }
+        </div>
+
+        @if (TempData["FullTimeTable_Index"] != null)
+        {
+            <script type="text/javascript">
+            alert("@TempData.Peek("FullTimeTable_Index").ToString()");
+            </script>
+        }
+    </div>
+    <script>
+        $('#Course').change(function () {
+            var course = $(this).val();
+            if (course != 0) {
+                $.ajax
+                    ({
+                        url: '/TimeTable/GetBatches',
+                        type: 'Get',
+                        data: { 'course': course },
+                        success: function (data) {
+
+                            $("#Batch").html("");
+                            $("#Batch").append('<option value="0">All</option>');
+                            $.each(data, function (i, result) {
+                                $("#Batch").append('<option value="' + result.Value + '">' +
+                                    result.Text + '</option>');
+                            });
+                            $("#trBatch").show();
+                        }
+                    });
+            }
+            else if (course == 0)
+                $("#trBatch").hide();
+        });
+        $('#AcadamicYr').change(function () {
+            var AcadamicYrId = $(this).val();
+            $.ajax
+                ({
+                    url: '/TimeTable/GetCourses',
+                    type: 'Get',
+                    data: { 'AcadamicYrId': AcadamicYrId },
+                    success: function (data) {
+                        $("#Course").html("");
+                        $("#Course").append('<option value="0">All</option>');
+                        $.each(data, function (i, result) {
+                            $("#Course").append('<option value="' + result.Value + '">' +
+                                result.Text + '</option>');
+                        });
+                    }
+                });
+        });
+        $('#Mode').change(function () {
+            if ($('#Mode').val() == "Day")
+                $("#trDay").show();
+            else if ($('#Mode').val() == "All")
+                $("#trDay").hide();
+        });
+
+        $(document).ready(function () {
+            debugger
+            if ($("#Course").val() != 0)
+                $("#trBatch").show();
+            else
+                $("#trBatch").hide();
+            if ($("#Mode").val() == 'Day')
+                $("#trDay").show();
+            else
+                $("#trDay").hide();
+        });
+    </script>

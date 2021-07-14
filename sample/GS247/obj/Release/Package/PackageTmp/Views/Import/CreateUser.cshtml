@@ -1,0 +1,97 @@
+﻿@model List<GS247.Models.Import.UserCreation>
+@{
+    ViewBag.Title = "Create Users";
+    Layout = "~/Views/Shared/_ImportLayout.cshtml";
+}
+
+<style>
+    .formbut {
+        background: #50d8af;
+    }
+    #myTable > thead > tr > th, #myTable > tbody > tr > td {
+        text-align: center;
+    }
+</style>
+
+<div>
+    <h1>@ViewBag.Title</h1>
+
+    <div class="col-md-2"></div>
+    <div class=" form col-md-8">
+        <div class="formCon">
+            <div class="formConInner">
+                @using (Html.BeginForm("GetUsers", "Import", FormMethod.Post))
+                {
+                    <table class="table">
+                        <tr>
+                            <th>User Role</th>
+                            <td>
+                                @Html.DropDownList("UserRole", new List<SelectListItem> { new SelectListItem { Text="Student",Value="Student"},
+                       new SelectListItem { Text="Teacher",Value="Teacher"},
+                       new SelectListItem { Text="Guardian",Value="Guardian"}
+                       }, "-Select User-", new { @onchange = "this.form.submit()" })
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    @if (Model.Count > 0)
+    {
+        <div id="semester-grid" class="grid-view">
+            @using (Html.BeginForm("CreateUser", "Import", FormMethod.Post))
+            {
+                <table class="items" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>@Html.CheckBox("SelectAll")</th>
+                            <th>User Name-Id</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0, j = 1; i < Model.Count; i++, j++)
+                        {
+                            <tr>
+                                <td>
+                                    @j
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(m => Model[i].MobileNumber)
+                                    @Html.HiddenFor(m => Model[i].RoleId)
+                                    @Html.HiddenFor(m => Model[i].UserId)
+                                    @Html.HiddenFor(m => Model[i].FirstName)
+                                    @Html.HiddenFor(m => Model[i].LastName)
+                                    @Html.HiddenFor(m => Model[i].Email)
+                                    @Html.CheckBoxFor(m => Model[i].IsSelected)
+                                </td>
+                                <td>@Model[i].FirstName @Model[i].LastName-@Model[i].UserId</td>
+                                <td>@Model[i].Email</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <br />
+                <input class="formbut" type="submit" value="Add" />
+            }
+        </div>
+    }
+
+    @if (TempData["CreateUser"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData.Peek("CreateUser").ToString()");
+        </script>
+    }
+</div>
+
+<script>
+    $('#SelectAll').click(function (e) {
+        debugger
+        var table = $(e.target).closest('table');
+        $('td input:checkbox', table).attr('checked', this.checked);
+    });
+</script>

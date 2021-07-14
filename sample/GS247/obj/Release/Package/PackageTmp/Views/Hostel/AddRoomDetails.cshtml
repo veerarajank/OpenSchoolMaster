@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "_HostelLayout";
+    Layout = "~/Views/Shared/_HostelLayout.cshtml";
+}
+<div class="cont_right">
+    <h1>Create Floor</h1>
+    <div class="form">
+        <p class="note">Fields with <span class="required">*</span> are required.</p>
+            <div class="formCon">
+                <div class="formConInner">
+
+                    <div class="text-fild-bg-block">
+                        <div class="text-fild-block inputstyle">
+                            <label for="HostelDetailsId" class="required">Hostel Name <span class="required">*</span></label>
+                            <select name="HostelDetailsId" id="HostelDetailsId" required>
+                                <option value="">Select Hostel</option>
+                                @foreach (var item in ViewBag.HostelList)
+                                {
+                                    <option value="@item.HostelDetailsId">@item.Name </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="text-fild-block inputstyle">
+                            <label for="FloorNo" class="required">
+                                Floor No <span class="required">*</span>
+                            </label><input size="20" name="FloorNo" id="FloorNo" type="text" maxlength="120" required />
+                            <br />
+                            <label style="display:none" id="lbl"><span class="required" id="span"></span></label>
+                        </div>
+                        <div class="text-fild-block inputstyle">
+                            <label for="NumberOfRooms" class="required">No Of Rooms <span class="required">*</span></label>
+                            <input size="20" name="NumberOfRooms" id="NumberOfRooms" type="text" maxlength="120" required />
+                        </div>
+                    </div>
+
+                    <div style="padding-top:20px;">
+                        <input class="formbut-n" type="submit" name="yt0" value="Create" onclick="addRoomDetails();"/>
+                    </div>
+                </div>
+            </div>
+    </div><!-- form -->
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $('#span').html('@ViewBag.Message');
+        $('#lbl').css('display', 'block');
+    </script>
+}
+else
+{
+    <script type="text/javascript">
+        $('#span').html('');
+        $('#lbl').css('display', 'none');
+    </script>
+}
+
+<script type="text/javascript">
+
+    function addRoomDetails() {
+        var myObject = new Object();
+        myObject.HostelDetailsId = $("#HostelDetailsId").val();
+        myObject.FloorNo = $("#FloorNo").val();
+        myObject.NumberOfRooms = $("#NumberOfRooms").val();
+
+        if ($('#HostelDetailsId').val() == "" || $('#HostelDetailsId').val() == null) {
+            $('#HostelDetailsId').css("border", "1px solid red");
+            return false;
+        }
+        else
+            $('#HostelDetailsId').css("border", "1px solid blue");
+
+
+        if ($('#FloorNo').val() == "" || $('#FloorNo').val() == null) {
+            $('#FloorNo').css("border", "1px solid red");
+            return false;
+        }
+        else
+            $('#FloorNo').css("border", "1px solid blue");
+
+
+        if ($('#NumberOfRooms').val() == "" || $('#NumberOfRooms').val() == null) {
+            $('#NumberOfRooms').css("border", "1px solid red");
+            return false;
+        }
+        else
+            $('#NumberOfRooms').css("border", "1px solid blue");
+
+        var d = { collection: myObject };
+
+        $.ajax({
+            url: "/Hostel/AddRoomDetails",
+            type: 'POST',
+            data: JSON.stringify(d),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                if (response.Message == "") {
+                    $('#span').html('');
+                    $('#lbl').css('display', 'none');
+                    window.location.href = '/Hostel/CreateRoom?HostelFloorId=' + response.HostelFloorId;
+                }
+                else {
+                    $('#span').html(response.Message);
+                    $('#lbl').css('display', 'block');
+                }
+            },
+            error: function () {
+            }
+        });
+    };
+
+</script>

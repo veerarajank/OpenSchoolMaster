@@ -1,0 +1,259 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyAccountLayout.cshtml";
+}
+
+
+
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+
+    .search_but {
+        border-radius: 5% !important;
+        top: 7px !important;
+    }
+
+        .search_but i {
+            color: #ff6633 !important;
+        }
+</style>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@*<script src="~/Scripts/MyAccounts/datepicker/jquery-1.11.1.min.js"></script>*@
+
+<script src="~/Scripts/MyAccounts/datepicker/bootstrap-datepicker.js"></script>
+<link href="~/Scripts/MyAccounts/datepicker/datepicker3.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery-ui.css" rel="stylesheet" />
+<link href="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/MyAccounts/datepicker/jquery.dataTables.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+
+    function GetActivityFeed() {
+
+        var serviceUrl = '/MyAccount/GetNewsFeed'
+        var flag = "GetActivityFeed";
+
+
+        $.ajax({
+
+            type: "POST",
+            url: serviceUrl,
+            data: JSON.stringify({ "flag": flag }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data != null) {
+
+                    var tbody = "";
+                    for (var i = 0; i < data.length; i++) {
+
+                        tbody += "<div class='individual_feed'><div class='a_feed_innerbx'><div class='a_feed_login a_feed'></div><div class='a_feed_innercntnt'>";
+                        tbody += "<div class='a_feed_inner_arrow'></div><h3><strong><a href='#'>" + data[i].CreatedBy + "</a>" + " " + " </strong><strong>" + data[i].TableName + "  Table logged " + data[i].OperationType + " into the system</strong></h3>";
+                        tbody += "<p>at <strong>" + data[i].CreatedDate + "</strong>.</p><p><strong>User Role       : </strong> " + data[i].UserId + "</p><p><strong> User IP address : </strong>" + data[i].IPAddress + "</p>";
+                        tbody += "<div class='clear'></div></div> </div></div>";
+                    }
+                    $('#feed_content_box').append(tbody);
+
+                }
+            }
+        });
+    }
+
+
+
+    $(document).ready(function () {
+
+        GetActivityFeed();
+
+        $('#div_search').click(function () {
+
+            if ($('#act_search_con').css('display') == 'none') {
+                $('#act_search_con').css('display', 'block');
+            }
+            else {
+                $('#act_search_con').css('display', 'none');
+            }
+
+        });
+
+        $(function () {
+            $("#start_date").datepicker({ dateFormat: 'yy-mm-dd' });
+            $("#end_date").datepicker({ dateFormat: 'yy-mm-dd' });
+
+
+        });
+
+
+        $('#btn_find').click(function () {
+
+            //var startdate = $("#start_date").val();
+            var value1 = $("#start_date").val();
+            var split_date = value1.split("-");
+            var startdate = split_date[2] + "/" + split_date[1] + "/" + split_date[0];
+            //var Enddate = $("#end_date").val();
+            var value2 = $("#end_date").val();
+            var split_date1 = value2.split("-");
+            var Enddate = split_date1[2] + "/" + split_date1[1] + "/" + split_date1[0];
+            var feedtype = $("#activity_type").val();
+            var Feedtext = $("#activity_type option:selected").text();
+
+            var split_val = Feedtext.split(" ");
+            var tablename = split_val[0];
+            var OperationType = split_val[1];
+
+            if (feedtype == 0 || startdate == "" || Enddate == "") {
+                $('#feed_content_box').html("");
+                $('#feed_content_box').append("<div><div class='a_feed_innercntnt' style='width:625px;'><div></div><h3 align='center'><strong>The activity feed is empty</strong></h3></div></div>");
+            }
+            else {
+
+                var serviceUrl = '/MyAccount/ActivityFeedDetails'
+                var flag = "ActivityDetails";
+
+
+
+                $.ajax({
+
+                    type: "POST",
+                    url: serviceUrl,
+                    data: JSON.stringify({ "flag": flag, "TableName": tablename, "OperationType": OperationType, "StartDate": startdate, "EndDate": Enddate }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data != null) {
+
+                            $('#feed_content_box').html("");
+                            var tbody = "";
+                            if (data.length != 0) {
+
+                                for (var i = 0; i < data.length; i++) {
+
+                                    tbody += "<div class='individual_feed'><div class='a_feed_innerbx'><div class='a_feed_login a_feed'></div><div class='a_feed_innercntnt'>";
+                                    tbody += "<div class='a_feed_inner_arrow'></div><h3><strong><a href='#'>" + data[i].CreatedBy + "</a>" + " " + " </strong><strong>" + data[i].TableName + "  Table logged " + data[i].OperationType + " into the system</strong></h3>";
+                                    tbody += "<p>at <strong>" + data[i].CreatedDate + "</strong>.</p><p><strong>User Role       : </strong> " + data[i].UserId + "</p><p><strong> User IP address : </strong>" + data[i].IPAddress + "</p>";
+                                    tbody += "<div class='clear'></div></div> </div></div>";
+                                }
+                            }
+                            else {
+                                tbody += "<div><div class='a_feed_innercntnt' style='width:625px;'><div></div><h3 align='center'><strong>The activity feed is empty</strong></h3></div></div>";
+                            }
+                            $('#feed_content_box').append(tbody);
+
+                        }
+                    }
+                });
+
+            }
+
+
+        });
+
+
+
+
+
+
+    });
+</script>
+
+
+
+
+<div class="cont_right formWrapper">
+    <div class="cont_right formWrapper" style="display:block">
+        <h1><b>Activity Feed</b></h1>
+        <div class="search_but" id="div_search"> <i class="fa fa-search"></i></div>
+        <!-- Activity Feed Search -->
+        <div id="act_search_con" class="formCon" style="border: none; padding: 0px; display: none;">
+
+            <div class="formCon">
+                <div class="formConInner opnsl_form_label">
+                    <form id="activity-feed-form" action="/index.php?r=activityFeed/index" method="GET">
+                        <div style="display:none"><input type="hidden" value="activityFeed/index" name="r"></div>
+                        <div class="txtfld-col-bg">
+                            <div class="txtfld-col">
+                                <label>Feed Type</label>    <select name="activity_type" id="activity_type">
+                                    <option value="0">Select</option>
+                                    <option value="1">Staff Insert</option>
+                                    <option value="2">Staff Update</option>
+                                    <option value="3">Staff Delete</option>
+                                    <option value="4">Examination Insert</option>
+                                    <option value="5">Examination Update</option>
+                                    <option value="6">Examination Delete</option>
+                                    <option value="7">Guardian Insert</option>
+                                    <option value="8">Guardian Update</option>
+                                    <option value="9">Guaridan Delete</option>
+                                    <option value="10">Users LogIn</option>
+                                    <option value="11">Users LogOut</option>
+                                    <option value="12">StudentAttendance Insert</option>
+                                    <option value="13">StudentAttendance Update</option>
+                                    <option value="14">StudentAttendance Delete</option>
+                                    <option value="15">Student Insert</option>
+                                    <option value="16">Student Update</option>
+                                    <option value="17">Student Delete</option>
+                                    <option value="12">StaffAttendance Insert</option>
+                                    <option value="13">StaffAttendance Update</option>
+                                    <option value="14">StaffAttendance Delete</option>
+                                </select>
+                            </div>
+                            <div class="txtfld-col">
+                                <label>Start date</label><input id="start_date" name="start_date" type="text" class="hasDatepicker" autocomplete="off">
+                            </div>
+                            <div class="txtfld-col">
+                                <label>End Date</label> <input id="end_date" name="end_date" type="text" class="hasDatepicker" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="txtfld-col-bg">
+                            <div class="os_btn">
+                                <div class="div_1"></div>
+                                <div class="div_1" style="text-align: end;">
+                                    <input name="find" type="button" id="btn_find" value="Find" style="background-color: #d47510 !important; transition-duration: 0.2s; padding: 7px 17px !important; border: none !important;color: white;">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- END Activity Feed Search -->
+
+
+
+        <div class="a_feed_cntnr" style="overflow: scroll;overflow-x: hidden;overflow-y: scroll;height: 500px !important;">
+            <!-- <div class="a_feed_seprtr"><h1>9 Sep 2013</h1></div>-->
+            <div class="a_feed_bx" id="feed_content_box">
+
+
+
+
+
+            </div> <!-- END div class="a_feed_bx" -->
+        </div> <!-- END div class="a_feed_cntnr" -->
+        @*<div class="infinite_navigation"><a href="/index.php?r=activityFeed/index&amp;page=2">next</a></div>*@
+    </div>
+
+
+
+</div>
+
+
+

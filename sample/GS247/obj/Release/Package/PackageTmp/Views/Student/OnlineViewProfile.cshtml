@@ -1,0 +1,947 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        margin-top: 0px;
+        border: 1px solid #888;
+        width: 400px;
+        height: 470px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s;
+    }
+
+    /* The Close Button */
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #FDC93E !important;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+    }
+
+    .vtip:hover {
+        background-color: #F60;
+    }
+</style>
+
+<div class="cont_right formWrapper">
+
+    @foreach (var item in ViewBag.StudentList)
+    {
+        <h1>Registered Student Profile : @item.FirstName @item.LastName</h1>
+
+        <table style="width:100%">
+            <tr>
+                <td style="width:200px">
+                    <div class="button-bg">
+                        <div class="top-hed-btn-left">
+                            <div class="empimgbx-profile">
+                                <img src="/UploadedFiles/@item.Data" />
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="width:120px">
+                    <div class="online_time onln-adm-stus">
+                        <div class="tt-wrapper">
+                            @if (@item.Status == 1)
+                            {
+                                <div class='tag_approved'>Approved</div>
+                            }
+                            else if (@item.Status == 0)
+                            {
+                                <div class='tag_pending'>Pending</div>
+                            }
+                            else if (@item.Status == 2)
+                            {
+                                <div class='tag_waiting'>Waiting</div>
+                            }
+                            else if (@item.Status == 3)
+                            {
+                                <div class='tag_disapproved'>Disapproved</div>
+                            }
+
+                        </div>
+                    </div>
+
+                </td>
+                <td style="width:750px" align="right">
+                    <div class="">                        
+                        <div class="online_but onln-adm-stus">
+                            @if (@item.Status == 1)
+                            {
+                                <ul class="tt-wrapper">
+                                    <li>
+                                        <a class="tt-approved-disabled"></a>
+                                    </li>
+                                </ul>
+                            }
+                            else if (@item.Status == 2)
+                            {
+                                <ul class="tt-wrapper">
+                                    <li>
+                                        <a class="tt-approved" href="javascript:approvalChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Approve</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-edit" href="javascript:editWaitingStudent(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Edit</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-delete" href="javascript:deleteStudent(@item.StudentDetailsId)"><span>Delete</span></a>
+                                    </li>                                    
+                                </ul>
+                            }
+                            else if (@item.Status == 3)
+                            {
+                                <ul class="tt-wrapper">
+                                    <li>
+                                        <a class="tt-approved" href="javascript:approvalChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Approve</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-delete" href="javascript:deleteStudent(@item.StudentDetailsId)"><span>Delete</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-edit" href="@Url.Action("OnlineUpdateStudent", "Student", new { StudentDetailsId = item.StudentDetailsId })"><span>Edit</span></a>
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="tt-wrapper">
+                                    <li>
+
+                                        <a class="tt-approved" href="javascript:approvalChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Approve</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-disapproved" href="javascript:statusChanged(@item.StudentDetailsId,3)"><span>Disapprove</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-delete" href="javascript:deleteStudent(@item.StudentDetailsId)"><span>Delete</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-waiting" href="javascript:waitingListChanged(@item.StudentDetailsId,'@item.FirstName','@item.LastName','@item.AdmissionNo','@item.DOB.ToString("dd MMM yyyy")',@item.Batch)"><span>Waiting List</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-edit" href="@Url.Action("OnlineUpdateStudent", "Student", new { StudentDetailsId = item.StudentDetailsId })"><span>Edit</span></a>
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    }
+
+    <div class="emp_right_contner">
+        <div class="emp_tabwrapper">
+            <div class="emp_cntntbx">
+                <div class="cordn-h3">
+                    <h3> STUDENT DETAILS </h3>
+                    <div class="accordion">
+                        <h1>Personal details</h1>
+
+                        <div>
+                            @foreach (var item in ViewBag.StudentList)
+                            {
+                            <div class="tabl">
+                                <div class="fist-sections">Registration Id</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.AdmissionNo
+                                </div>
+                            </div>
+
+                            <div class="tabl">
+                                <div class="fist-sections">Registration Date</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.AdmissionDate.ToString("dd MMM yyyy")
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Student ID</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.StudentId
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Date Of Birth</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.DOB.ToString("dd MMM yyyy")
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Gender</div>
+                                <div class="midl-sections">:</div>
+
+                                @if (@item.Gender == 1)
+                                    {
+                                    <div class="last-sections">
+                                        Male
+                                    </div>
+                                    }
+                                    else if (@item.Gender == 2)
+                                    {
+                                    <div class="last-sections">
+                                        Female
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <div class="last-sections">
+                                        Unknown
+                                    </div>
+                                    }
+
+                            </div>
+
+                            <div class="tabl">
+                                <div class="fist-sections">Blood </div>
+                                <div class="midl-sections">:</div>
+                                @if (@item.Blood == 1)
+                                    {
+                                    <div class="last-sections">
+                                        A+
+                                    </div>
+                                    }
+                                    else if (@item.Blood == 2)
+                                    {
+                                    <div class="last-sections">
+                                        A-
+                                    </div>
+                                    }
+                                    else if (@item.Blood == 3)
+                                    {
+                                    <div class="last-sections">
+                                        B+
+                                    </div>
+                                    }
+                                    else if (@item.Blood == 4)
+                                    {
+                                    <div class="last-sections">
+                                        B-
+                                    </div>
+                                    }
+                                    else if (@item.Blood == 5)
+                                    {
+                                    <div class="last-sections">
+                                        O+
+                                    </div>
+                                    }
+                                    else if (@item.Blood == 6)
+                                    {
+                                    <div class="last-sections">
+                                        O-
+                                    </div>
+                                    }
+                                    else if (@item.Blood == 7)
+                                    {
+                                    <div class="last-sections">
+                                        AB+
+                                    </div>
+                                    }
+                                    else if (@item.Blood == 8)
+                                    {
+                                    <div class="last-sections">
+                                        AB-
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <div class="last-sections">
+
+                                    </div>
+                                    }
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Birth Place</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.BirthPlace
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Nationality</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.SchoolCO.CountryName
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Language</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Language
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Religion</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Religion
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Student Category</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.SchoolCO.StudentCategoryName
+                                </div>
+                            </div>                        
+
+                            <h1>Contact details</h1>
+                            <div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">Address Line 1</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.AddressLine1
+                                    </div>
+                                </div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">Address Line 2</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.AddressLine2
+                                    </div>
+                                </div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">City</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.City
+                                    </div>
+                                </div>
+
+
+                                <div class="tabl">
+                                    <div class="fist-sections">State</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.State
+                                    </div>
+                                </div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">Pin Code</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.PinCode
+                                    </div>
+                                </div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">Country</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.SchoolCO.CountryName1
+                                    </div>
+                                </div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">Phone Number</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.PhoneNumber1
+                                    </div>
+                                </div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">Phone 2</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.PhoneNumber2
+                                    </div>
+                                </div>
+
+                                <div class="tabl">
+                                    <div class="fist-sections">Email</div>
+                                    <div class="midl-sections">:</div>
+                                    <div class="last-sections">
+                                        @item.Email
+                                    </div>
+                                </div>
+                                <!-- DYNAMIC FIELDS START -->
+                                <!-- DYNAMIC FIELDS END -->
+                            </div>
+                            <div class="section_div"></div>
+                            }
+                        </div>
+                        <div class="box-div">
+                            <h3>
+                                GUARDIAN DETAILS
+                            </h3>
+                        </div>
+
+                        @foreach (var item in ViewBag.GuardianList)
+                        {
+
+                        <h1>@item.SchoolCO.RelationName</h1>
+
+                        <div>
+                            <div class="prnt-head"><h4>Personal Details</h4></div>                               							                                        <div class="tabl parnt-bottm">
+                                <div class="fist-sections">First Name</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">@item.FirstName</div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Last Name</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">@item.LastName</div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Relation</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.SchoolCO.RelationName
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Date Of Birth</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.DOB
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Education</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Education
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Occupation</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Occupation
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Income</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Income
+                                </div>
+                            </div>
+
+                            <div class="prnt-head"><h4>Contact Details</h4></div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Email</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Email
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Mobile Phone</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.MobilePhone
+                                </div>
+                            </div>
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Office Phone 1</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.OfficePhone1
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Office Phone 2</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.OfficePhone2
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Office Address Line 1</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.AddressLine1
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Office Address Line 2</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.AddressLine2
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">City </div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.City
+                                </div>
+                            </div>
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">State</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.State
+                                </div>
+                            </div>
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">Country</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.SchoolCO.CountryName
+                                </div>
+                            </div>
+
+                            <!-- DYNAMIC FIELDS START -->
+
+                            <div class="tabl parnt-bottm">
+                                <div class="fist-sections">ZIP Code</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.PinCode
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section_div"></div>
+                        }
+
+                        <div class="box-div">
+                            <h3>PREVIOUS DETAILS</h3>
+                        </div>
+                        @{ int rowNo = 0; }
+                        @foreach (var item in ViewBag.InstitutionList)
+                        {
+                        <h1>Previous Detail #@(rowNo += 1)</h1>
+                        <div>
+
+                            <div class="tabl">
+                                <div class="fist-sections">Institution</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Instution
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Year</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Year
+                                </div>
+                            </div>
+
+
+                            <div class="tabl">
+                                <div class="fist-sections">Course</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.Course
+                                </div>
+                            </div>
+
+                            <div class="tabl">
+                                <div class="fist-sections">Total Mark</div>
+                                <div class="midl-sections">:</div>
+                                <div class="last-sections">
+                                    @item.TotalMark
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section_div"></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Student Approval</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">                  
+                        <input id="StudentDetailsId" type="hidden" name="StudentDetailsId">
+                        <input id="Status" type="hidden" name="Status" value="1">
+                        <div>
+                            <br />
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label style="color:#444444;" for="Name">Full Name</label> <br>
+                                        <span>
+                                            <input maxlength="255" style="width:200px;height:30px" name="Name" id="Name" type="text" disabled />
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="color:#444444;" for="Name" class="required">Registration Id</label> <br>
+                                        <span>
+                                            <input maxlength="255" style="width:200px;height:30px" name="rId" id="rId" type="text" disabled>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="color:#444444;" for="Name" class="required">Date Of Birth</label> <br>
+                                        <span>
+                                            <input maxlength="255" style="width:200px;height:30px" name="dob" id="dob" type="text" disabled>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="color:#444444;" for="Name" class="required">Course/Batch</label> <br>
+                                        <span>
+                                            <select id="Batch" name="Batch">
+                                                @foreach (var item in ViewBag.BatchList)
+                                                {
+                                                    <option value="@item.Id">@item.Name </option>
+                                                }
+                                            </select>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+                            <br />
+                            <div class="row" align="center">
+                                <input id="closeJobDialog" name="Submit" class="formbut-n" style="width:200px" type="submit" value="Approve" onclick="statusApproveChanged(1);" />
+                            </div>
+                        </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="formConInner">
+    <!-- The Modal -->
+    <div id="myModal1" class="modal">
+        ----
+
+
+        <!-- Modal content -->
+        <div class="modal-content" style="border-color:black;border:solid;">
+            <div class="modal-header">
+                <span class="close" id="close1" onclick="onClose();">&times;</span>
+                <h5>
+                    <span id="Span_id" style="color: black">Student Waiting List</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="popup-input">
+                    <input id="StudentDetailsId" type="hidden" name="StudentDetailsId">
+                    <input id="Status" type="hidden" name="Status" value="1">
+                    <div>
+                        <br />
+                        <table>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name">Full Name</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="Name1" id="Name1" type="text" disabled />
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Registration Id</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="rId1" id="rId1" type="text" disabled>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Date Of Birth</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="dob1" id="dob1" type="text" disabled>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Course/Batch</label> <br>
+                                    <span>
+                                        <select id="Batch1" name="Batch1">
+                                            @foreach (var item in ViewBag.BatchList)
+                                            {
+                                                <option value="@item.Id">@item.Name </option>
+                                            }
+                                        </select>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="color:#444444;" for="Name" class="required">Priority</label> <br>
+                                    <span>
+                                        <input maxlength="255" style="width:200px;height:30px" name="Priority" id="Priority" type="text" required>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <div class="row" align="center">
+                            <input id="closeJobDialog" name="Submit" class="formbut-n" style="width:200px" type="submit" value="Waiting List" onclick="waitingStatusChanged();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function approvalChanged(StudentDetailsId, FirstName, LastName, AdmissionNo, DOB, Batch) {
+        var name = FirstName + " " + LastName;
+        $('#Name').val(name);
+        $('#rId').val(AdmissionNo);
+        $('#dob').val(DOB);
+        $('#Batch').val(Batch);
+        $('#StudentDetailsId').val(StudentDetailsId);
+        $('#myModal').css('display', 'block');
+    };
+
+    function onClose() {
+        $('#myModal').css('display', 'none');
+    };
+
+    function statusChanged(status) {
+        $.ajax({
+            type: "POST",
+            url: "/Student/OnlineUpdateStudentStatus",
+            data: '{StudentDetailsId: ' + $('#StudentDetailsId').val() + ',status : ' + status + ',BatchId:' + $('#Batch').val() + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    function deleteStudent(StudentDetailsId) {
+        if (confirm("Are you sure you want to delete this student?")) {
+            $('#loading').show();
+            $.ajax({
+                type: "POST",
+                url: "/Student/DeleteStudent",
+                data: '{StudentDetailsId: ' + StudentDetailsId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = '/Student/OnlineApplicant';
+                }
+            });            
+        }
+    }
+
+    function waitingListChanged(StudentDetailsId, FirstName, LastName, AdmissionNo, DOB, Batch) {
+        var name = FirstName + " " + LastName;
+        $('#Name1').val(name);
+        $('#rId1').val(AdmissionNo);
+        $('#dob1').val(DOB);
+        $('#Batch1').val(Batch);
+        $('#StudentDetailsId').val(StudentDetailsId);
+        $('#myModal1').css('display', 'block');
+    };
+
+    function onClose() {
+        $('#myModal').css('display', 'none');
+        $('#myModal1').css('display', 'none');
+    };
+
+    function statusApproveChanged(status) {
+        $.ajax({
+            type: "POST",
+            url: "/Student/OnlineUpdateStudentStatus",
+            data: '{StudentDetailsId: ' + $('#StudentDetailsId').val() + ',status : ' + status + ',BatchId:' + $('#Batch').val() + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    function waitingStatusChanged() {
+
+        var myObject = new Object();
+        myObject.StudentDetailsId = $('#StudentDetailsId').val()
+        myObject.StarusFlag = 0;
+        myObject.Priority = $('#Priority').val()
+        myObject.BatchId = $('#Batch1').val()
+
+        var d = { collection: myObject };
+
+        $.ajax({
+            type: "POST",
+            url: "/Student/OnlineCreateStudentWaiting",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            }
+        });
+    };
+
+    function editWaitingStudent(StudentDetailsId, FirstName, LastName, AdmissionNo, DOB, Batch) {
+
+        var d = { StudentDetailsId: StudentDetailsId };
+
+        $.ajax({
+            type: "POST",
+            url: "/Student/EditStudentWaiting",
+            data: JSON.stringify(d),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.WaitingData != null) {
+                    var name = FirstName + " " + LastName;
+                    $('#Name1').val(name);
+                    $('#rId1').val(AdmissionNo);
+                    $('#dob1').val(DOB);
+                    $('#Batch1').val(Batch);
+                    $('#Priority').val(result.WaitingData.Priority);
+                    $('#StudentDetailsId').val(StudentDetailsId);
+                    $('#myModal1').css('display', 'block');
+                }
+            },
+            error: function (response) {
+                alert('eror');
+            }
+        });
+    };
+
+</script>

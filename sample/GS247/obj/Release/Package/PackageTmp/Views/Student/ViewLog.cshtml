@@ -1,0 +1,396 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<body>
+    <div class="container">
+        <div class="container">
+            <div class="span-19">
+                <div id="content">
+                    <style>
+                        .loading_app {
+                            background-image: url(images/loading_app.gif);
+                            height: 30px;
+                            float: left;
+                            width: 30px;
+                            margin-left: 10px;
+                            display: none;
+                        }
+                    </style>
+                    <style>
+                        .formbut-n {
+                            background-color: #50d8af;
+                        }
+
+                        .formbut {
+                            background-color: #50d8af;
+                        }
+
+                        .a_tag-btn {
+                            background-color: #50d8af;
+                        }
+                    </style>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="247" valign="top">
+                                <style>
+                                    a.add {
+                                        display: block;
+                                        margin: 10px 0 0;
+                                        padding: 2px 5px;
+                                        width: 60px;
+                                        height: 30px;
+                                        background-color: #379bc9;
+                                        border-radius: 3px;
+                                        color: #fff;
+                                    }
+
+                                        a.add:hover {
+                                            background-color: #318db7;
+                                        }
+
+                                    .add img {
+                                        color: #98adb5;
+                                        display: inline;
+                                        font-size: 14px;
+                                        margin-right: 5px;
+                                        width: 19px;
+                                        height: 20px;
+                                        float: left;
+                                        margin-left: 0px;
+                                        background: none;
+                                    }
+
+                                    .add span.fcount {
+                                        display: inline-block;
+                                        padding-top: 8px;
+                                        padding-left: 4px;
+                                        color: #FFF;
+                                        font-weight: bold;
+                                        font-size: 16px;
+                                    }
+                                </style>
+
+                                @foreach (var item in ViewBag.StudentList)
+                                {
+                                    <div class="empleftbx-profile">
+                                        <div class="empimgbx-profile">
+                                            <img src="/UploadedFiles/@item.Data" />
+                                        </div>
+
+                                        <div class="left-profile-name-sctn">
+                                            <div class="left-profile-blk">
+                                                <p>
+                                                    @item.FirstName @item.LastName
+                                                </p>
+                                                <a href="#">@item.Email</a>
+                                            </div>
+
+                                            <div id="jobDialog"></div>
+                                            <div class="clear"></div>
+                                            <div class="prof_detail-blk">
+                                                <ul>
+                                                    <li>
+                                                        <span><strong>Admission No&nbsp;:</strong>&nbsp;@item.AdmissionNo</span>
+                                                    </li>
+                                                </ul>
+                                            </div> <!-- END div class="prof_detail" -->
+                                        </div>
+
+                                    </div>
+                                }
+
+                            </td>
+                            <td valign="top">
+                                <div class="cont_right formWrapper">
+                                    <h1>Student Profile</h1>
+
+                                    <!-- END div class="edit_bttns last" -->
+
+                                    <div class="clear"></div>
+                                    <div class="emp_right_contner">
+                                        <div class="emp_tabwrapper">
+
+
+                                            <div class="button-bg">
+                                                <div class="top-hed-btn-left">
+                                                    <a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Back</span></a>
+                                                </div>
+                                                <div class="top-hed-btn-right">
+                                                    <ul>
+                                                        <li><a class="a_tag-btn" href="javascript:editStudent(@ViewBag.StudentDetailsId);" "><span>Edit</span></a> </li>
+                                                        <li><a class="a_tag-btn" href="@Url.Action("ManageStudentList", "Student")"><span>Students</span></a> </li>
+                                                    </ul>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="clear"></div>
+                                            <div class="pagetab-bg-tag-a">
+                                                <ul>
+
+                                                    <li class="active"><a href="@Url.Action("ViewProfile", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Profile</a></li>
+                                                    <li><a href="@Url.Action("ViewCourses", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Courses</a></li>
+                                                    <li><a href="@Url.Action("ViewAssessments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Assessments</a></li>
+                                                    <li><a href="@Url.Action("ViewAttendance", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Attendance</a></li>
+                                                    <li><a href="@Url.Action("ViewDocuments", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Documents</a></li>
+                                                    <li><a href="@Url.Action("ViewElectives", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Electives</a></li>
+                                                    <li><a href="@Url.Action("ViewAchievements", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Achievements</a></li>
+                                                    <li class="active"><a href="@Url.Action("ViewLog", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Log</a></li>
+                                                    @*<li><a href="@Url.Action("ViewAppraisal", "Student", new { StudentDetailsId = @ViewBag.StudentDetailsId })">Appraisal</a></li>*@
+                                                </ul>
+                                            </div>                        <div class="clear"></div>
+                                            <div class="emp_cntntbx">
+                                                <div class="formCon">
+                                                    <div class="formConInner">
+
+                                                        <form id="log-form" action="SaveStudentsLog" method="post">
+                                                            <input name="StudentDetailsId" id="StudentDetailsId" type="hidden" value="@ViewBag.StudentDetailsId" />
+                                                            <input name="StudentLogID" id="StudentLogID" type="hidden" />
+                                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td>
+                                                                        <table width="50%" border="0" cellspacing="0" cellpadding="0">
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <select id="StudentLogCategoryID" name="StudentLogCategoryID">
+                                                                                        <option value="">Select Category</option>
+                                                                                        @foreach (var item1 in ViewBag.StudentLogList)
+                                                                                        {
+                                                                                            <option value="@item1.StudentLogCategoryID">@item1.Name </option>
+                                                                                        }
+                                                                                    </select>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr><td>&nbsp;</td></tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="os_textarea_block"><textarea style="" id="Description" name="Description"></textarea></div>
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr><td>&nbsp;</td></tr>
+                                                                <tr>
+                                                                    <td>
+
+
+                                                                        <div class="ckbox ckbox-default">
+                                                                            <input style="" id="NotificationToStudent" name="NotificationToStudent" value="1" type="checkbox" />
+                                                                            <label for="NotificationToStudent">Notification to Student</label>
+                                                                        </div>
+                                                                        <div class="ckbox ckbox-default">
+                                                                            <input style="" id="NotificationToParent" name="NotificationToParent" value="1" type="checkbox" />
+                                                                            <label for="notifyparent">Notification to Parent</label>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="ckbox ckbox-default">
+                                                                            <input style="" id="visibletoparents" name="visibletoparents" value="1" type="checkbox" />
+                                                                            <label for="VisibleToStudents">Visible to Parents</label>
+                                                                        </div>
+                                                                        <div class="ckbox ckbox-default">
+                                                                            <input style="" id="VisibleToTeachers" name="VisibleToTeachers" value="1" type="checkbox" />
+                                                                            <label for="VisibleTeachers">Visible to Teachers</label>
+                                                                        </div>
+                                                                        <div class="ckbox ckbox-default">
+                                                                            <input style="" id="VisibleToStudents" name="VisibleToStudents" value="1" type="checkbox" />
+                                                                            <label for="VisibleToParents">Visible to Students</label>
+
+                                                                        </div>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr><td>&nbsp;</td></tr>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        <input value="42" name="LogComment[user_id]" id="LogComment_user_id" type="hidden" />
+                                                                        <input id="submit_button_form" name="" class="formbut-n" style="" type="submit" value="Submit" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div id="outer_div">
+                                                </div>
+
+                                            </div>
+
+                                            @foreach (var item in ViewBag.StudentList1)
+                                            {
+                                                <div class="log_comment_box" id="@item.StudentLogID">
+                                                    <h1>
+                                                        Administrator Admin<span>
+                                                            AdminSuperAdmin
+                                                        </span>
+                                                    </h1>
+
+
+                                                    <h2>@item.SchoolCO.Name</h2>
+                                                    <div class="clear"></div>
+                                                    <p>@item.Description</p>
+                                                    <span class="log_cmnt_date">@item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</span>
+                                                    <div class="log_cmnt_but">
+                                                        <ul>
+                                                            <li class="logdelete">
+                                                                <div class="side_icons">
+                                                                    <a class="fa fa-trash" onclick="onClickDelete(@item.StudentLogID);"></a>
+                                                                </div>
+                                                            </li>
+                                                            <li class="logedit">
+                                                                <div class="side_icons">
+                                                                    <a class="fa fa-pencil" onclick="onClickEdit(@item.StudentLogID,@item.StudentLogCategoryID,'@item.Description',@item.NotificationToStudent,@item.NotificationToParent,@item.VisibleToStudents,@item.VisibleToParents,@item.VisibleToTeachers);"></a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <script type="text/javascript">
+
+                        $(':checkbox#NotificationToStudent').change(function (e) {
+                            if ($(this).is(':checked')) {
+                                $(':checkbox#NotificationToStudent').attr('value', '1');
+                            }
+                            else {
+                                $(':checkbox#NotificationToStudent').attr('value', '0');
+                            }
+                        });
+
+                        $(':checkbox#NotificationToParent').change(function (e) {
+                            if ($(this).is(':checked')) {
+                                $(':checkbox#NotificationToParent').attr('value', '1');
+                            }
+                            else {
+                                $(':checkbox#NotificationToParent').attr('value', '0');
+                            }
+                        });
+
+                        $(':checkbox#VisibleToStudents').change(function (e) {
+                            if ($(this).is(':checked')) {
+                                $(':checkbox#VisibleToStudents').attr('value', '1');
+                            }
+                            else {
+                                $(':checkbox#VisibleToStudents').attr('value', '0');
+                            }
+                        });
+
+                        $(':checkbox#VisibleToParents').change(function (e) {
+                            if ($(this).is(':checked')) {
+                                $(':checkbox#VisibleToParents').attr('value', '1');
+                            }
+                            else {
+                                $(':checkbox#VisibleToParents').attr('value', '0');
+                            }
+                        });
+
+                        $(':checkbox#VisibleToTeachers').change(function (e) {
+                            if ($(this).is(':checked')) {
+                                $(':checkbox#VisibleToTeachers').attr('value', '1');
+                            }
+                            else {
+                                $(':checkbox#VisibleToTeachers').attr('value', '0');
+                            }
+                        });
+
+                        $('#submit_button_form').click(function (ev) {
+
+                            if ($('#StudentLogCategoryID').val() == null || $('#StudentLogCategoryID').val() == "") {
+                                $('#StudentLogCategoryID').css("border", "1px solid red");
+                                return false;
+                            }
+                            if ($('#Description').val() == null || $('#Description').val() == "") {
+                                $('#Description').css("border", "1px solid red");
+                                return false;
+                            }
+                        });
+
+                        function onClickDelete(StudentLogID) {
+                            if (confirm("Are you sure you want to delete?")) {
+                                $('#loading').show();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Student/DeleteStudentsLog",
+                                    data: '{StudentLogID: ' + StudentLogID + '}',
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (response) {
+                                        location.reload(true);
+                                    }
+                                });
+                            }
+                        }
+
+                        function onClickEdit(StudentLogID, StudentLogCategoryID, Description, NotificationToStudent, NotificationToParent, VisibleToStudents, VisibleToParents, VisibleToTeachers) {
+                            $('#StudentLogCategoryID').val(StudentLogCategoryID);
+                            $('#Description').val(Description);
+                            $(':checkbox#NotificationToStudent').attr('value', NotificationToStudent);
+                            $(':checkbox#NotificationToParent').attr('value', NotificationToParent);
+                            $(':checkbox#VisibleToStudents').attr('value', VisibleToStudents);
+                            $(':checkbox#VisibleToParents').attr('value', VisibleToParents);
+                            $(':checkbox#VisibleToTeachers').attr('value', VisibleToTeachers);
+                            if (NotificationToStudent == 1)
+                                $(':checkbox#NotificationToStudent').attr("checked", true);
+                            else
+                                $(':checkbox#NotificationToStudent').attr("checked", false);
+
+                            if (NotificationToParent == 1)
+                                $(':checkbox#NotificationToParent').attr("checked", true);
+                            else
+                                $(':checkbox#NotificationToParent').attr("checked", false);
+
+                            if (VisibleToTeachers == 1)
+                                $(':checkbox#VisibleToTeachers').attr("checked", true);
+                            else
+                                $(':checkbox#VisibleToTeachers').attr("checked", false);
+
+                            if (VisibleToStudents == 1)
+                                $(':checkbox#VisibleToStudents').attr("checked", true);
+                            else
+                                $(':checkbox#VisibleToStudents').attr("checked", false);
+
+                            if (VisibleToParents == 1)
+                                $(':checkbox#VisibleToParents').attr("checked", true);
+                            else
+                                $(':checkbox#VisibleToParents').attr("checked", false);
+                            
+                            $('#StudentLogID').val(StudentLogID);
+                        }
+
+                        $(document).ready(function () {
+                            $('#StudentLogID').val('');
+                        });
+
+                        function editStudent(StudentDetailsId) {
+                            window.location.href = '/Student/UpdateStudent?StudentDetailsId=' + StudentDetailsId;
+                        };
+
+                    </script>
+
+                </div><!-- content -->
+            </div>
+            <div class="span-5 last">
+                <div id="sidebar">
+                </div><!-- sidebar -->
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+
+</body>
+</html>

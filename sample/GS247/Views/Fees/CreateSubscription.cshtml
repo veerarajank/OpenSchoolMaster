@@ -1,0 +1,650 @@
+﻿@model GS247.Models.FeeSubscription
+@{
+    ViewBag.Title = "Subscription";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+
+
+<style>
+    .container {
+        width: 1000px;
+        min-height: 800px;
+        margin: 0px auto 20px auto;
+        padding: 0px;
+        background: #FFF url(../images/cont_left_bg.png) left repeat-y;
+    }
+</style>
+
+<script type="text/javascript" src="~/Scripts/jquery-ui.min.js"></script>
+
+<div class="cont_right formWrapper">
+    @if (Model == null)
+    {<h1>Create Subscription</h1>}
+    else
+    {<h1>Update Subscription</h1> }
+    <div class="edit_bttns" style="width:175px; top:15px;"></div>
+    <div class="formCon">
+        <div class="formConInner">
+            <div><strong>Fee Category</strong> : @ViewBag.Name </div>
+            <br />
+            <div><strong>Date Created</strong> : @ViewBag.CreatedDate.ToString("dd MMM yyyy")</div>
+            <br />
+            <div><strong>Description</strong> : @ViewBag.Description </div>
+        </div>
+    </div>
+
+    <style>
+        .sub_type {
+        }
+
+            .sub_type label {
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+        .white_bx {
+            border: 1px solid #c5ced9;
+            padding: 15px;
+            background-color: #fff;
+            margin-bottom: 20px;
+            width: 91%;
+            position: relative;
+        }
+
+            .white_bx input[type="text"] {
+                width: 146px;
+            }
+
+        .triangle-up {
+            position: absolute;
+            top: -11px;
+            left: 29px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #c5ced9;
+        }
+
+        .cust_duedate {
+            float: left;
+            position: relative;
+            width: 190px;
+            margin-bottom: 10px;
+        }
+
+        .fees-trash {
+            position: absolute;
+            top: 5px;
+            right: 13px;
+            width: 15px;
+            height: 19px;
+            background: url(/images/fees-trash.png) no-repeat;
+        }
+
+        .error-brd {
+            border-color: #F30 !important;
+        }
+    </style>
+    @if (Model != null)
+    {
+
+        <div class="formCon">
+            <div class="formConInner">
+
+                <form id="fee-subscription-form" action="UpdateSubscription" method="post">
+                    <input type="hidden" value="@ViewBag.FeeID" name="FeeID" id="FeeID" />
+                    <h3>Setup a Subscription Method</h3>
+                    <table width="90%">
+                        <tr>
+                            <td><label for="StartDate" class="required">Start Date <span class="required">*</span></label></td>
+                            <td>
+                                <input id="StartDate" name="StartDate" type="text" value="@Model.StartDate.ToString("dd MMM yyyy")" class="datepicker" />
+                            </td>
+                            <td><label for="EndDate" class="required">End Date <span class="required">*</span></label></td>
+                            <td>
+                                <input id="EndDate" name="EndDate" type="text" value="@Model.EndDate.ToString("dd MMM yyyy")" class="datepicker" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <input name="NumberOfSubscription" id="NumberOfSubscription" @(Convert.ToBoolean(Model.NumberOfSubscription) == true ? "checked='checked'" : string.Empty) value="@Model.NumberOfSubscription" type="checkbox">&nbsp;&nbsp;
+                                <label for="FeeCategories_amount_divided">Divide the fee amount by number of subscriptions</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><h3><label for="FeeCategories_subscription_type">Subscription Type</label></h3></td>
+                        </tr>
+                        <tr>
+
+                            <td colspan="1" class="sub_type">
+                                <select name="SubscriptionType" id="SubscriptionType" onchange="onChangeType(this);">
+                                    @if (Model.SubscriptionType == 1)
+                                    {
+                                        <option value="1" selected="selected">One Time</option>
+                                        <option value="2"> Repeat Every</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="1">One Time</option>
+                                        <option value="2" selected="selected"> Repeat Every</option>
+                                    }
+
+                                </select>
+                            </td>
+                            <td colspan="3"></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                    <div id="payment_types">
+                        <div class="white_bx">
+                            <div class="triangle-up"></div>
+                            <table width="45%" id="oneTimeTable">
+                                <tr>
+                                    <td><label>Due Date <span class="required">*</span></label></td>
+                                    <td>
+                                        <input id="DueDate1" value="@Model.DueDate1.GetValueOrDefault().ToString("dd MMM yyyy")" name="DueDate1" type="text" class="datepicker" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table width="45%" id="RecurringIntervaltr" style="display:none">
+                                <tr>
+                                    <td><label>Recurring Interval</label>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <select id="RecurringInterval" name="RecurringInterval" onchange="onChangeRecurring(this);">
+
+                                            @foreach (var item in ViewBag.RecurringList)
+                                            {
+                                                if (@Model.RecurringInterval == Convert.ToInt16(@item.Value))
+                                                {
+                                                    <option value="@item.Value" selected="selected">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+
+                                            @*<option value="1" selected="selected">Half Yearly</option>
+                                                <option value="2">Quarterly</option>
+                                                <option value="3">Monthly</option>
+                                                <option value="4">Weekly</option>
+                                                <option value="5">Custom</option>*@
+                                        </select>
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </table>
+
+                            <table width="100%" id="RecurringIntervalTable" style="display:none">
+                                <tr id="tr1">
+                                    <td colspan="2"><label>Due Dates <span class="required">*</span></label></td>
+                                </tr>
+                                <tr id="tr2">
+                                    <td>
+                                        <input id="DueDate2" value="@Model.DueDate2.GetValueOrDefault().ToString("dd MMM yyyy")" name="DueDate2" type="text" class="datepicker" />
+                                    </td>
+                                    <td>
+                                        <input id="DueDate3" value="@Model.DueDate3.GetValueOrDefault().ToString("dd MMM yyyy")" name="DueDate3" type="text" class="datepicker" />
+                                    </td>
+                                </tr>
+
+                                <tr><td colspan="2"><br /></td></tr>
+                                <tr id="tr3" style="display:none">
+                                    <td>
+                                        <input id="DueDate4" value="@Model.DueDate4.GetValueOrDefault().ToString("dd MMM yyyy")" name="DueDate4" type="text" class="datepicker" />
+                                    </td>
+                                    <td>
+                                        <input id="DueDate5" value="@Model.DueDate5.GetValueOrDefault().ToString("dd MMM yyyy")" name="DueDate5" type="text" class="datepicker" />
+                                    </td>
+                                </tr>
+                                <tr id="trmonth" style="display:none">
+                                    <td style="width:112px"><label>Day of month <span class="required">*</span></label></td>
+                                    <td style="width:100px">
+                                        <select name="DayOfMonth" id="DayOfMonth">
+
+                                            @foreach (var item in ViewBag.DayofMonth)
+                                            {
+                                                if (@Model.DayOfMonth == Convert.ToInt16(@item.Value))
+                                                {
+                                                    <option value="@item.Value" selected="selected">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+
+                                            @*<option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="17">17</option>
+                                                <option value="18">18</option>
+                                                <option value="19">19</option>
+                                                <option value="20">20</option>
+                                                <option value="21">21</option>
+                                                <option value="22">22</option>
+                                                <option value="23">23</option>
+                                                <option value="24">24</option>
+                                                <option value="25">25</option>
+                                                <option value="26">26</option>
+                                                <option value="27">27</option>
+                                                <option value="28">28</option>*@
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="trweek" style="display:none">
+                                    <td style="width:112px"><label>Day of week <span class="required">*</span></label></td>
+
+                                    <td style="width:100px">
+                                        <select name="DayOfWeek" id="DayOfWeek">
+
+                                            @foreach (var item in ViewBag.DayofWeek)
+                                            {
+                                                if (@Model.DayOfWeek == Convert.ToInt16(@item.Value))
+                                                {
+                                                    <option value="@item.Value" selected="selected">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+
+                                            @*<option value="1">Sunday</option>
+                                                <option value="2">Monday</option>
+                                                <option value="3">Tuesday</option>
+                                                <option value="4">Wednesday</option>
+                                                <option value="5">Thursday</option>
+                                                <option value="6">Friday</option>
+                                                <option value="7">Saturday</option>*@
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+                    <div>
+                        <input name="" class="formbut" type="submit" value="Submit" style="height:30px" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <div class="formCon">
+            <div class="formConInner">
+                <form id="fee-subscription-form" action="CreateSubscription" method="post">
+                    <input type="hidden" value="@ViewBag.FeeID" name="FeeID" id="FeeID" />
+
+                    <h3>Setup a Subscription Method</h3>
+                    <table width="90%">
+                        <tr>
+                            <td><label for="StartDate" class="required">Start Date <span class="required">*</span></label></td>
+                            <td>
+                                <input id="StartDate" name="StartDate" type="text" class="datepicker" />
+                            </td>
+                            <td><label for="EndDate" class="required">End Date <span class="required">*</span></label></td>
+                            <td>
+                                <input id="EndDate" name="EndDate" type="text" class="datepicker" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <input name="NumberOfSubscription" id="NumberOfSubscription" value="1" type="checkbox" />&nbsp;
+                                <label for="FeeCategories_amount_divided">Divide the fee amount by number of subscriptions</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><h3><label for="FeeCategories_subscription_type">Subscription Type</label></h3></td>
+                        </tr>
+                        <tr>
+
+                            <td colspan="1" class="sub_type">
+                                <select name="SubscriptionType" id="SubscriptionType" onchange="onChangeType(this);">
+                                    <option value="1" selected="selected">One Time</option>
+                                    <option value="2"> Repeat Every</option>
+                                </select>
+                            </td>
+                            <td colspan="3"></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                    <div id="payment_types">
+                        <div class="white_bx">
+                            <div class="triangle-up"></div>
+                            <table width="45%" id="oneTimeTable">
+                                <tr>
+                                    <td><label>Due Date <span class="required">*</span></label></td>
+                                    <td>
+                                        <input id="DueDate1" name="DueDate1" type="text" class="datepicker" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table width="45%" id="RecurringIntervaltr" style="display:none">
+                                <tr>
+                                    <td><label>Recurring Interval</label>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <select id="RecurringInterval" name="RecurringInterval" onchange="onChangeRecurring(this);">
+                                            <option value="1" selected="selected">Half Yearly</option>
+                                            <option value="2">Quarterly</option>
+                                            <option value="3">Monthly</option>
+                                            @*<option value="4">Weekly</option>*@
+                                            @*<option value="5">Custom</option>*@
+                                        </select>
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </table>
+
+                            <table width="100%" id="RecurringIntervalTable" style="display:none">
+                                <tr id="tr1">
+                                    <td colspan="2"><label>Due Dates <span class="required">*</span></label></td>
+                                </tr>
+                                <tr id="tr2">
+                                    <td>
+                                        <input id="DueDate2" name="DueDate2" type="text" class="datepicker" />
+                                    </td>
+                                    <td>
+                                        <input id="DueDate3" name="DueDate3" type="text" class="datepicker" />
+                                    </td>
+
+                                </tr>
+                                <tr><td colspan="2"><br /></td></tr>
+                                <tr id="tr3" style="display:none">
+                                    <td>
+                                        <input id="DueDate4" name="DueDate4" type="text" class="datepicker" />
+                                    </td>
+                                    <td>
+                                        <input id="DueDate5" name="DueDate5" type="text" class="datepicker" />
+                                    </td>
+                                </tr>
+                                <tr id="trmonth" style="display:none">
+                                    <td style="width:112px"><label>Day of month <span class="required">*</span></label></td>
+                                    <td style="width:100px">
+                                        <select name="DayOfMonth" id="DayOfMonth">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="trweek" style="display:none">
+                                    <td style="width:112px"><label>Day of week <span class="required">*</span></label></td>
+
+                                    <td style="width:100px">
+                                        <select name="DayOfWeek" id="DayOfWeek">
+                                            <option value="1">Sunday</option>
+                                            <option value="2">Monday</option>
+                                            <option value="3">Tuesday</option>
+                                            <option value="4">Wednesday</option>
+                                            <option value="5">Thursday</option>
+                                            <option value="6">Friday</option>
+                                            <option value="7">Saturday</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <input name="" class="formbut" type="submit" value="Submit" style="height:30px" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript" src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/CommonScripts/jquery-ui.css">
+    <script type="text/javascript">
+
+        var j = jQuery.noConflict();
+
+        j(function () {
+            j("#StartDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+            j("#EndDate").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+            j("#DueDate1").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+            j("#DueDate2").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+            j("#DueDate3").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+            j("#DueDate4").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+
+            j("#DueDate5").datepicker({ 'showAnim': 'fold', 'dateFormat': 'd M yy', 'changeMonth': true, 'changeYear': true, 'yearRange': '1900:2025' });
+        });
+
+        $(':checkbox#NumberOfSubscription').change(function (e) {
+            if ($(this).is(':checked')) {
+                $(':checkbox#NumberOfSubscription').attr('value', '1');
+            }
+            else {
+                $(':checkbox#NumberOfSubscription').attr('value', '0');
+            }
+        });
+
+        function onChangeType(type) {
+            var selectedValue = type.value;
+            $("#DueDate1").removeAttr("required");
+            $("#DueDate2").removeAttr("required");
+            $("#DueDate3").removeAttr("required");
+            $("#DueDate4").removeAttr("required");
+            $("#DueDate5").removeAttr("required");
+
+            $("#DueDate1").val('');$("#DueDate2").val('');$("#DueDate3").val('');
+            $("#DueDate4").val('');$("#DueDate5").val('');
+
+            if (selectedValue == 1) {
+                $("#oneTimeTable").css("display", "block");
+                $("#DueDate1").attr("required", 'true');
+                $("#RecurringIntervaltr").css("display", "none");
+                $("#RecurringIntervalTable").css("display", "none");                
+            }
+            else {                                
+                $("#oneTimeTable").css("display", "none");
+                $("#RecurringIntervaltr").css("display", "block");
+                $("#RecurringIntervalTable").css("display", "block");
+                $("#DueDate2").attr("required", 'true');
+                $("#DueDate3").attr("required", 'true');
+            }
+        };
+
+        function onChangeRecurring(recurring) {
+
+            $("#DueDate1").removeAttr("required");
+            $("#DueDate2").removeAttr("required");
+            $("#DueDate3").removeAttr("required");
+            $("#DueDate4").removeAttr("required");
+            $("#DueDate5").removeAttr("required");
+
+            var selectedValue = recurring.value;
+            if (selectedValue == 2) {
+                $("#tr1").css("display", "block");
+                $("#tr2").css("display", "block");
+                $("#tr3").css("display", "block");
+                $("#trweek").css("display", "none");
+                $("#trmonth").css("display", "none");
+                $("#DueDate2").attr("required", 'true');
+                $("#DueDate3").attr("required", 'true');
+                $("#DueDate4").attr("required", 'true');
+                $("#DueDate5").attr("required", 'true');
+            }
+            else if (selectedValue == 3) {
+                $("#tr1").css("display", "none");
+                $("#tr2").css("display", "none");
+                $("#tr3").css("display", "none");
+                $("#trweek").css("display", "none");
+                $("#trmonth").css("display", "block");
+            }
+            else if (selectedValue == 4) {
+                $("#tr1").css("display", "none");
+                $("#tr2").css("display", "none");
+                $("#tr3").css("display", "none");
+                $("#trweek").css("display", "block");
+                $("#trmonth").css("display", "none");
+            }
+            else {
+                $("#tr1").css("display", "block");
+                $("#tr2").css("display", "block");
+                $("#tr3").css("display", "none");
+                $("#trweek").css("display", "none");
+                $("#trmonth").css("display", "none");
+                $("#DueDate2").attr("required", 'true');
+                $("#DueDate3").attr("required", 'true');
+            }
+        };
+
+        $(document).ready(function () {
+
+            var model = @Html.Raw(Json.Encode(Model));
+            var flag = model != null ? true :false;
+            if(flag)
+            {
+                $("#DueDate1").removeAttr("required");
+                $("#DueDate2").removeAttr("required");
+                $("#DueDate3").removeAttr("required");
+                $("#DueDate4").removeAttr("required");
+                $("#DueDate5").removeAttr("required");
+
+                var type = model.SubscriptionType;
+                if(type != null)
+                {
+                    if (type == 1) {
+                        $("#oneTimeTable").css("display", "block");
+                        $("#RecurringIntervaltr").css("display", "none");
+                        $("#RecurringIntervalTable").css("display", "none");
+                        $("#DueDate1").attr("required", 'true');
+                    }
+                    else {
+                        $("#oneTimeTable").css("display", "none");
+                        $("#RecurringIntervaltr").css("display", "block");
+                        $("#RecurringIntervalTable").css("display", "block");
+                        $("#DueDate2").attr("required", 'true');
+                        $("#DueDate3").attr("required", 'true');
+                    }
+                }
+
+                if(type == 2)
+                {
+                    var selectedValue = model.RecurringInterval;
+                    if (selectedValue == 2) {
+                        $("#tr1").css("display", "block");
+                        $("#tr2").css("display", "block");
+                        $("#tr3").css("display", "block");
+                        $("#trweek").css("display", "none");
+                        $("#trmonth").css("display", "none");
+                        $("#DueDate2").attr("required", 'true');
+                        $("#DueDate3").attr("required", 'true');
+                        $("#DueDate4").attr("required", 'true');
+                        $("#DueDate5").attr("required", 'true');
+                    }
+                    else if (selectedValue == 3) {
+                        $("#tr1").css("display", "none");
+                        $("#tr2").css("display", "none");
+                        $("#tr3").css("display", "none");
+                        $("#trweek").css("display", "none");
+                        $("#trmonth").css("display", "block");
+                    }
+                    else if (selectedValue == 4) {
+                        $("#tr1").css("display", "none");
+                        $("#tr2").css("display", "none");
+                        $("#tr3").css("display", "none");
+                        $("#trweek").css("display", "block");
+                        $("#trmonth").css("display", "none");
+                    }
+                    else {
+                        $("#tr1").css("display", "block");
+                        $("#tr2").css("display", "block");
+                        $("#tr3").css("display", "none");
+                        $("#trweek").css("display", "none");
+                        $("#trmonth").css("display", "none");
+                        $("#DueDate2").attr("required", 'true');
+                        $("#DueDate3").attr("required", 'true');
+                    }
+                };
+            }
+        });
+
+    </script>
+

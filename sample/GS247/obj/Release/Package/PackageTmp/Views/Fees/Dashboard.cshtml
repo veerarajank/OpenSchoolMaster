@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td valign="top" width="75%">
+            <div class="cont_right formWrapper">
+                <h1>Fees Dashboard</h1>
+                <div class="overview" style="padding-top:0px;">
+                    <div class="overviewbox ovbox1" style="margin-left:0px;">
+                        <h1><strong>Total Fee Categories</strong></h1>
+                        <div class="ovrBtm">
+                            @{
+                                <span>@ViewBag.feesCount</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="overviewbox ovbox2">
+                        <h1><strong>Invoices Generated For</strong></h1>
+                        <div class="ovrBtm">
+                           @ViewBag.InvoiceGenerateCount
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <br />
+
+                <!-- categories -->
+                <div class="pdtab_Con">
+                    <div style="font-size:13px; padding:5px 0px">
+                        <strong>Fee Categories</strong>
+                    </div>
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                            <tr class="pdtab-h">
+                                <td height="18" align="center">Category Name</td>
+                                <td align="center">Date Created</td>
+                                <td align="center">Created By</td>
+                                <td align="center">Invoice Generated</td>
+                                <td align="center">Actions</td>
+                            </tr>
+                            @foreach (var item in ViewBag.feesDetails)
+                            {
+                                <tr>
+                                    <td><a target="_blank" href="@Url.Action("FeesParticular", "Fees", new { FeeID = item.FeeID })" style="color:darkorange">@item.Name</a></td>
+                                    <td>@item.CreatedDate.ToString("dd MMM yyyy")</td>
+                                    <td>@item.CreatedBy</td>
+                                    @if (@item.InvoiceStatusFlag == 0 || @item.InvoiceStatusFlag == null)
+                                    {
+                                        <td>No</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Yes</td>
+                                    }
+
+                                    <td align="center">
+                                        @if (@item.SchoolCO.SubscriptionFlag == 0)
+                                        {
+                                            <a title="Click to create subscriptions" style="color:#ff6600" href="@Url.Action("CreateSubscription", "Fees", new { FeeID = item.FeeID })">Create Subscriptions</a> <span> | </span>
+                                            <a title="Click to Edit fees" style="color:darkorange" href="@Url.Action("EditFees", "Fees", new { FeeID = item.FeeID })">Edit</a>    <span> | </span>
+                                            <a title="Remove this fee category" style="color:darkorange" href="javascript:deleteFees(@item.FeeID);" id="yt0">Remove</a>
+                                        }
+                                        else if (@item.InvoiceStatusFlag == 0 || @item.InvoiceStatusFlag == null)
+                                        {
+                                            <a style="color:darkorange" title="Click to Edit fees" href="javascript:generateFees(@item.FeeID);">Generate Invoice</a><span> | </span>
+                                            <a style="color:darkorange" title="Click to Edit fees" href="@Url.Action("EditFees", "Fees", new { FeeID = item.FeeID })">Edit</a><span> | </span>
+                                            <a style="color:darkorange" title="Remove this fee category" href="javascript:deleteFees(@item.FeeID);" id="yt0">Remove</a>
+                                        }
+                                        else
+                                        {
+                                            <a style="color:darkorange" title="View this fee category" href="javascript:ViewFees(@item.FeeID);" id="yt0">View</a>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //$('#loading').hide();
+    });
+
+    function deleteFees(FeeID) {
+        if (confirm("Do you want to delete this row?")) {
+            $.ajax({
+                type: "POST",
+                url: "/Fees/DeleteFees",
+                data: '{FeeID: ' + FeeID + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    }
+
+    function generateFees(FeeID) {
+        $.ajax({
+            type: "POST",
+            url: "/Fees/GenerateInvoice",
+            data: '{FeeID: ' + FeeID + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = '/Fees/ManageInvoices';
+            }
+        });
+    }
+
+    function ViewFees(FeeID) {
+        window.location.href = '/Fees/ManageInvoices?FeeID=' + FeeID;
+    };
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

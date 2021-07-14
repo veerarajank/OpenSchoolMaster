@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "_TeachersLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+</head>
+<div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+    <div class="wrap_container_admin wrap_container_flex">
+        <div class="midnav" style="background-color: ; color: ">
+            <div class="breadcrumbs">
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="container">
+                <div class="span-19">
+                    <div id="content">
+
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="247" valign="top">
+                                    <div id="othleft-sidebar">
+                                        <!--<div class="lsearch_bar">
+                                                  <input type="text" value="Search" class="lsearch_bar_left" name="">
+                                                  <input type="button" class="sbut" name="">
+                                                  <div class="clear"></div>
+                                    </div>-->
+                                        <h1>Manage Teacher</h1>
+                                        <ul id="yw0">
+                                            <li><a class="teacher-list_ico" href="@Url.Action("ListTeachers","Teachers")?useSession=0&OrderByColumn=FirstName&Desc=0&pageSize=2&pageNo=0">List Teachers<span>All Teacher Details</span></a></li>
+                                            <li id="menu_1"><a class="creatnew-teacher_ico" href="@Url.Action("AddStaff","Teachers")">Create Teacher<span>Add New Teacher Details</span></a></li>
+                                            <li id="menu_1"><a class="managelog-catgry_ico" href="@Url.Action("ManageLogCategory","Teachers")">Manage Log Category<span>Manage Teacher Log Category</span></a></li>
+                                            <li><h1><span></span><span>Attendance Management<span class="leftside_premicon"></span></span></h1></li>
+                                            <li><a class="attendance-register_ico" href="/open-school-CE-master/index.php?r=employees/employeeCategories/#">Attendance Register<span>Manage Teacher Attendance</span></a></li>
+                                            <li><h1><span>Teacher Settings</span></h1></li>
+                                            <li><a class="subject-association_ico" href="@Url.Action("SubjectAssociation","Teachers")">Subject Association<span>Associate All Subjects</span></a></li>
+                                            <li class="list_active"><a class="managestudent-catgry_ico" href="@Url.Action("ManageCategory","Teachers")">Manage Category<span>All Teacher Categories</span></a></li>
+                                            <li><a class="manage-departnent_ico" href="@Url.Action("ManageDepartment","Teachers")">Manage Department<span>All Teacher Departments</span></a></li>
+                                            <li><a class="manage-positions_ico" href="@Url.Action("ManagePosition","Teachers")">Manage Positions<span>Teacher Positions</span></a></li>
+                                            <li><a class="manage-grade_ico" href="@Url.Action("ManageGrade","Teachers")">Manage Grades<span>All Teacher Grades</span></a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                   @RenderBody()
+                                        <!-- Content Header (Page header) -->
+                                        <!-- /.content -->
+                                </td>
+                             </tr>
+                            <tr>
+                                <td>
+                                    <br /><br /><br /><br /><br /><br />
+                                    <br /><br /><br /><br /><br /><br />
+                                    <br /><br /><br /><br /><br /><br />
+                                    <br /><br /><br /><br /><br /><br />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/GS247.master" AutoEventWireup="true" CodeFile="ServerConfiguration.master.cs" Inherits="ServerConfiguration" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <div class="midnav">
+        <span onclick="Goto('Settings.aspx')">Configurations</span>
+    </div>
+
+
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-md-3" style="vertical-align: top; border: 1px solid #b9c7d0">
+
+                    <div id="othleft-sidebar">
+                        <h1>SMTP SETTINGS</h1>
+                        <ul id="yw0">
+                            <li class=""><a class="export_ico" href="SMTPConfiguration.aspx">Server Configuration<span>Configure the SMTP Server</span></a></li>
+                             <li><a class="export_ico" href="SMTPTestMail.aspx">Test Email<span>Send a sample email</span></a></li>
+                            
+                            </ul>
+                        <div id="Div1"></div>
+
+                    </div>
+                    <div id="subject-name-ajax-grid"></div>
+
+                </td>
+                <td class="col-md-9" style="vertical-align: top; border: 1px solid #b9c7d0">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</asp:Content>
+

@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "_TransportLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+
+    <style>
+        #othleft-sidebar ul li a:hover {
+            color: #50d8af;
+        }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    
+   
+</head>
+<body style="background-color:">
+
+    <div class="wrap_container_bg navbar-fixed-custom navbar-custom" id="navbarMain">
+        <div class="wrap_container_admin wrap_container_flex">
+            <script>
+                $(document).ready(function () {
+                    window.history.pushState(null, "", window.location.href);
+                    window.onpopstate = function () {
+                        window.history.pushState(null, "", window.location.href);
+                    };
+                });
+                function setDefault(Id) {
+                    var tag = document.getElementById(Id);
+                    tag.setAttribute("class", "list_active");
+                }
+            </script>
+
+            <div class="midnav" style="background-color: ; color: ">
+                <div class="breadcrumbs">
+
+                </div>
+            </div>
+            <div class="container">
+                <div class="container">
+                    <div class="span-19">
+                        <div id="content">
+
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="247" valign="top">
+                                        <div id="othleft-sidebar">
+                                            <h1>View Timetable</h1>
+                                            <ul>
+                                                <li class="list_active">
+                                                    <a class="view-timetable_ico " href="/TimeTable/Timetable_Index">Set Timetable<span>Set And View Batch Batch wise Timetable</span></a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="viewfull-timetable_ico" href="/TimeTable/FullTimetable_Index">View Full Timetable<span>View Full Timetable</span></a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="view-teacher-timetable_ico" href="/TimeTable/TeachersTimetable_Index">View Teachers Timetable<span>View Teacher Wise Timetable</span></a>
+                                                </li>
+
+                                                <h1>Manage Timetable</h1>
+                                                <li class="list_active">
+                                                </li>
+                                                <li>
+                                                    <a class="set-weekdays_ico" href="/TimeTable/WeekDaysSetup">Set Weekdays<span>Weekdays For The Batch</span></a>
+                                                </li>
+                                                <li>
+                                                    <a class="timtable-classtiming_ico" href="/TimeTable/ManageClassTimings">Set Class Timing<span>Class Timing For The Batch</span></a>
+                                                </li>
+                                            </ul>
+                                            <div id="subject-name-ajax-grid"></div>
+
+
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        
+                                        <div class="content" style="        background-color: white">
+                                            @RenderBody()
+                                            <!-- Content Header (Page header) -->
+                                            <!-- /.content -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

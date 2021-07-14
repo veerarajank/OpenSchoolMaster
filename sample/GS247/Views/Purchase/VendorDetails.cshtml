@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_PurchaseLayout.cshtml";
+}
+
+<div class="cont_right formWrapper">
+    <h1>Vendor List</h1>
+
+    <div class="button-bg">
+        <div class="top-hed-btn-left"> </div>
+        <div class="top-hed-btn-right">
+            <ul>
+                <li><a class="a_tag-btn" href="@Url.Action("CreateVendorDetails", "Purchase")"><span>New Vendor</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <form id="myform" action="SearchStudentArchiveList" method="get">
+        <input type="hidden" value="@ViewBag.CurrentPageIndex" name="CurrentPage" id="CurrentPage" />
+
+        <div class="pdtab_Con" style="width:100%">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr class="pdtab-h">
+                        <td align="center" height="18">#</td>
+                        <td align="center" height="18">Name</td>
+                        <td align="center" height="18">Phone</td>
+                        <td align="center" height="18">Email</td>
+                        <td align="center" height="18">Action</td>
+                    </tr>
+                    @{ int rowNo = 0; }
+                    @foreach (var item in ViewBag.PurchaseVendorList)
+                    {
+                        <tr>
+                            <td>@(rowNo += 1)</td>
+                            <td align="center"><a style="color:orangered" href="@Url.Action("ViewVendorDetails", "Purchase", new { VendorDetailId = @item.VendorDetailId })">@item.FirstName @item.LastName</a></td>
+                            <td align="center"><a href="#">@item.PhoneNumber</a></td>
+                            <td align="center">@item.Email</td>
+                        <td align="center">
+                            <div class="tt-wrapper-new">
+                                <a class="makeedit" href="@Url.Action("UpdateVendorDetails", "Purchase", new { VendorDetailId = @item.VendorDetailId })"><img src="~/gridview/update.png" /><span>Edit</span></a>
+                                <a class="makedelete" href="javascript:DeleteVendorDetails(@item.VendorDetailId);" id="yt0"><img src="~/gridview/delete.png" /><span>Delete</span></a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagecon">
+            </div>
+        </div>
+        <br />
+        @{var pageCutLow = ViewBag.CurrentPageIndex - 1;}
+        @{var pageCutHigh = ViewBag.CurrentPageIndex + 1;}
+
+        @if (ViewBag.PageCount > 0)
+        {
+            <div class="">
+                <div align="center">
+                    <div class="">
+
+                        @if (ViewBag.CurrentPageIndex > 1)
+                        {
+                            <input type="submit" class="pageclickPrevious" value="Previous" style="border:none;width:50px;height:20px;font-size:10px;background-color:white;" />
+                        }
+
+                        @if (ViewBag.PageCount < 6)
+                        {
+                            for (int i = 1; i <= ViewBag.PageCount; i++)
+                            {
+                                if (i != ViewBag.CurrentPageIndex)
+                                {
+                                    <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                                else
+                                {
+                                    <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ViewBag.CurrentPageIndex > 2)
+                            {
+                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="1" />
+
+                                if (ViewBag.CurrentPageIndex > 3)
+                                {
+                                    <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex == 1)
+                            {
+                                pageCutHigh += 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == 2)
+                            {
+                                pageCutHigh += 1;
+                            }
+
+                            if (ViewBag.CurrentPageIndex == ViewBag.PageCount)
+                            {
+                                pageCutLow -= 2;
+                            }
+                            else if (ViewBag.CurrentPageIndex == ViewBag.PageCount - 1)
+                            {
+                                pageCutLow -= 1;
+                            }
+
+                            for (int i = (int)pageCutLow; i <= pageCutHigh; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    i += 1;
+                                }
+                                if (i > ViewBag.PageCount)
+                                {
+                                    continue;
+                                }
+
+                                if (ViewBag.CurrentPageIndex == i)
+                                {
+                                    <input disabled="disabled" type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:orangered;color:white" value="@i" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@i" />
+                                }
+                            }
+
+                            if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 1)
+                            {
+                                if (ViewBag.CurrentPageIndex < ViewBag.PageCount - 2)
+                                {
+                                    <input type="submit" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="..." />
+                                }
+
+                                <input type="submit" class="pageclicktest" style="border:none;width:20px;height:20px;font-size:10px;background-color:white" value="@ViewBag.PageCount" />
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPageIndex < ViewBag.PageCount)
+                        {
+                            <input type="submit" class="pageclickNext" value="Next" style="border:none;width:30px;height:20px;font-size:10px;background-color:white" />
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    $(".purcs_ico").attr('active', '1').closest('li').addClass('list_active');
+
+    function DeleteVendorDetails(VendorDetailId) {
+        if (confirm("Are you sure you want to delete this vendor?")) {
+            $.ajax({
+                type: "POST",
+                url: "/Purchase/DeleteVendorDetails",
+                data: '{VendorDetailId: ' + VendorDetailId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    location.reload(true);
+                }
+            });
+        }
+    }
+
+</script>

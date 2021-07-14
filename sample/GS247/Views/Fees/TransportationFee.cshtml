@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Transport Fee";
+    Layout = "~/Views/Shared/_FeesLayout.cshtml";
+}
+
+                                <div class="cont_right">
+                                    <h1>Transportation Fee</h1>
+                                    <div class="a_feed_cntnr1" id="a_feed_cntnr">
+                                        <div class="pdf-box">
+                                            <div class="box-one"></div>
+                                            <div class="box-two">
+                                                <div class="add-new-cours">
+                                                    <a class=" formbut-n" href="@Url.Action("GenerateInvoiceAll","Fees")">Generate Invoice For All Students</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="pdtab_Con" style="padding-top:0px;">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr class="pdtab-h">
+
+                                                    <td align="center">
+                                                        Student Name
+                                                    </td>
+
+                                                    <td align="center">
+                                                        Route
+                                                    </td>
+                                                    <td align="center">
+                                                        Stop
+                                                    </td>
+                                                    <td align="center">
+                                                        Fare
+                                                    </td>
+                                                    <td align="center">
+                                                        Action
+                                                    </td>
+                                                </tr>
+
+                                                @foreach (var item in ViewBag.StudentList)
+                                                {
+                                                    <tr>
+                                                        <td align="center">
+                                                            @item.SchoolCO.StudentName
+                                                        </td>
+                                                        <td align="center">
+                                                            @item.SchoolCO.RouteName
+                                                        </td>
+                                                        <td align="center">
+                                                            @item.SchoolCO.StopName
+                                                        </td>
+                                                        <td align="center">
+                                                            @item.SchoolCO.FareAmount
+                                                        </td>
+                                                        <td align="center"> <a style="color:orangered" title="Click to generate Invoice" href="@Url.Action("GenerateTransportInvoice", "Fees", new { StudentDetailsId = @item.StudentId })" id="yt0">Generate Invoice</a></td>
+                                                    </tr>
+                                                }
+
+
+
+
+                                            </table>
+                                            <div class="pagecon">
+                                            </div>
+                                        </div> <!-- END div class="pdtab_Con" -->
+                                    </div> <!-- END div class="cont_right" -->
+                                </div>
+                          
