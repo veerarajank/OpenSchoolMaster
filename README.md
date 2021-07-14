@@ -25,6 +25,7 @@ Key points :
 Technical languages used :
 * .NET MVC
 * SQL
+* Javascript
 
 Tools used :
 * Visual studio
